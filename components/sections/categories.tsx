@@ -1,57 +1,81 @@
-import Link from 'next/link';
-import { LayoutGrid } from 'lucide-react';
+'use client';
 
-import { categories } from '@/lib/data';
+import Link from 'next/link';
+import { ArrowUpRight } from 'lucide-react';
+
+import { categories, getToolsByCategory } from '@/lib/data';
+import { cn } from '@/lib/utils';
 
 export function Categories() {
   return (
     <section id="categories" className="relative py-20 sm:py-28">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-1/2 -z-10 h-64 -translate-y-1/2 bg-gradient-brand opacity-[0.04] blur-3xl"
-      />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <p className="inline-flex items-center gap-2 text-sm font-medium text-brand-blue">
-            <LayoutGrid className="h-4 w-4" />
-            Popular Categories
-          </p>
-          <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
-            Find the right tool for the job
-          </h2>
-          <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
-            Ten curated collections covering every kind of free online tool —
-            from PDF and image to developer and calculators.
-          </p>
+        <div className="flex flex-col items-end justify-between gap-4 sm:flex-row">
+          <div>
+            <p className="inline-flex items-center gap-2 text-sm font-medium text-brand-blue">
+              <ArrowUpRight className="h-4 w-4" />
+              Categories
+            </p>
+            <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+              Find tools by category
+            </h2>
+            <p className="mt-3 max-w-xl text-muted-foreground">
+              Each category groups focused tools so you can find exactly what
+              you need without scrolling through hundreds of options.
+            </p>
+          </div>
+          <Link
+            href="/categories"
+            className="group inline-flex items-center gap-1 text-sm font-medium text-foreground transition-colors hover:text-brand-purple"
+          >
+            View all categories
+            <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </Link>
         </div>
 
-        <div className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-          {categories.map((cat) => (
-            <Link
-              key={cat.slug}
-              href={`/categories/${cat.slug}`}
-              className="group relative overflow-hidden rounded-2xl glass-card p-5 transition-all duration-300 hover:-translate-y-1 hover:glow"
-            >
-              <div
-                aria-hidden
-                className={`absolute -right-8 -top-8 h-24 w-24 rounded-full bg-gradient-to-br ${cat.gradient} opacity-15 blur-2xl transition-opacity duration-300 group-hover:opacity-30`}
-              />
-              <div
-                className={`grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br ${cat.gradient} text-white shadow-lg`}
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {categories.map((cat) => {
+            const catTools = getToolsByCategory(cat.name);
+            const CatIcon = cat.icon;
+            return (
+              <Link
+                key={cat.slug}
+                href={`/categories/${cat.slug}`}
+                className="group relative block overflow-hidden rounded-2xl glass-card p-6 transition-all duration-300 hover:-translate-y-1 hover:glow"
               >
-                <cat.icon className="h-5 w-5" />
-              </div>
-              <h3 className="mt-4 text-sm font-semibold tracking-tight">
-                {cat.name}
-              </h3>
-              <p className="mt-1 text-xs text-muted-foreground">
-                {cat.count} tools
-              </p>
-              <p className="mt-2 text-xs text-muted-foreground/80 line-clamp-2">
-                {cat.description}
-              </p>
-            </Link>
-          ))}
+                <div
+                  aria-hidden
+                  className={cn(
+                    'absolute -right-12 -top-12 h-32 w-32 rounded-full bg-gradient-to-br opacity-20 blur-2xl transition-opacity duration-300 group-hover:opacity-40',
+                    cat.gradient
+                  )}
+                />
+                <div
+                  className={cn(
+                    'grid h-12 w-12 place-items-center rounded-xl bg-gradient-to-br text-white shadow-lg transition-transform duration-300 group-hover:scale-110',
+                    cat.gradient
+                  )}
+                >
+                  <CatIcon className="h-6 w-6" />
+                </div>
+                <h3 className="mt-5 text-base font-semibold tracking-tight">
+                  {cat.name}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground line-clamp-2">
+                  {cat.description}
+                </p>
+                <div className="mt-5 flex items-center justify-between">
+                  <span className="rounded-full bg-muted px-3 py-1 text-xs font-medium text-muted-foreground">
+                    {catTools.length} {catTools.length === 1 ? 'tool' : 'tools'}
+                  </span>
+                  <span className="inline-flex items-center gap-1 text-sm font-medium text-foreground transition-colors group-hover:text-brand-purple">
+                    Explore
+                    <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </span>
+                </div>
+              </Link>
+            );
+          })}
         </div>
       </div>
     </section>

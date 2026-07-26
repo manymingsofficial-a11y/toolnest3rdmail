@@ -14,7 +14,10 @@ type ToolCardProps = {
   className?: string;
 };
 
-export function ToolCard({ tool, className }: ToolCardProps) {
+export const ToolCard = React.memo(function ToolCard({
+  tool,
+  className,
+}: ToolCardProps) {
   const { isFav, toggle, hydrated } = useFavorites();
   const [isFavState, setIsFavState] = React.useState(false);
 
@@ -36,18 +39,19 @@ export function ToolCard({ tool, className }: ToolCardProps) {
         'group relative block overflow-hidden rounded-2xl glass-card p-6 transition-all duration-300 hover:-translate-y-1 hover:glow',
         className
       )}
+      aria-label={`Open ${tool.name}`}
     >
       <div
         aria-hidden
         className={cn(
-          'absolute -right-12 -top-12 h-32 w-32 rounded-full bg-gradient-to-br opacity-20 blur-2xl transition-opacity duration-300 group-hover:opacity-40',
+          'absolute -right-12 -top-12 h-32 w-32 rounded-full bg-gradient-to-br opacity-20 blur-2xl transition-opacity duration-500 group-hover:opacity-40',
           tool.gradient
         )}
       />
       <div className="flex items-start justify-between">
         <div
           className={cn(
-            'grid h-12 w-12 place-items-center rounded-xl bg-gradient-to-br text-white shadow-lg',
+            'grid h-12 w-12 place-items-center rounded-xl bg-gradient-to-br text-white shadow-lg transition-transform duration-300 group-hover:scale-110',
             tool.gradient
           )}
         >
@@ -93,4 +97,4 @@ export function ToolCard({ tool, className }: ToolCardProps) {
       </div>
     </Link>
   );
-}
+});

@@ -6,6 +6,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
+import { generateWebsiteJsonLd } from '@/lib/seo';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const spaceGrotesk = Space_Grotesk({
@@ -15,20 +16,66 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://toolnest.com'),
-  title: 'ToolNest — 500+ Free Online Tools in One Place',
+  title: {
+    default: 'ToolNest — 500+ Free Online Tools in One Place',
+    template: '%s — ToolNest',
+  },
   description:
     'A complete multi-tools platform with 500+ free online tools — PDF, image, QR & barcode, SEO, AI, text, developer, calculators, converters and more. Fast, secure, no registration required.',
+  keywords: [
+    'free online tools',
+    'PDF tools',
+    'image tools',
+    'QR code generator',
+    'barcode generator',
+    'SEO tools',
+    'developer tools',
+    'calculators',
+    'converters',
+    'text tools',
+    'password generator',
+    'ToolNest',
+  ],
+  authors: [{ name: 'ToolNest' }],
+  creator: 'ToolNest',
+  publisher: 'ToolNest',
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
     title: 'ToolNest — 500+ Free Online Tools in One Place',
     description:
       'PDF, image, QR, developer, calculators and more — 500+ free online tools in one place. Fast, secure, no sign-up.',
     type: 'website',
+    locale: 'en_US',
+    siteName: 'ToolNest',
+    url: 'https://toolnest.com',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'ToolNest',
+    title: 'ToolNest — 500+ Free Online Tools',
     description:
       '500+ free online tools in one place. Fast, secure, no registration required.',
+    creator: '@toolnest',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  category: 'technology',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#0a0e1a' },
+  ],
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
   },
 };
 
@@ -37,8 +84,18 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const websiteJsonLd = generateWebsiteJsonLd();
+
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteJsonLd),
+          }}
+        />
+      </head>
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased`}
       >
@@ -48,8 +105,16 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[200] focus:rounded-lg focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:shadow-lg"
+          >
+            Skip to content
+          </a>
           <Navbar />
-          <main className="min-h-screen page-fade">{children}</main>
+          <main id="main-content" className="min-h-screen page-fade">
+            {children}
+          </main>
           <Footer />
         </ThemeProvider>
         <SpeedInsights />

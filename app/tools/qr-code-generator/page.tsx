@@ -6,11 +6,13 @@ import { QrCodeGenerator } from '@/components/qr-code-generator';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolJsonLd, generateBreadcrumbJsonLd } from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: 'QR Code Generator — Free Online Tool | ToolNest',
   description:
     'Generate QR codes for URLs, text, email, phone, WhatsApp, WiFi and Google Maps. Customize colors, add a logo, and download as PNG, JPG or SVG. Free, no sign-up.',
+  alternates: { canonical: '/tools/qr-code-generator' },
   openGraph: {
     title: 'QR Code Generator — Free Online Tool | ToolNest',
     description:
@@ -23,8 +25,25 @@ const relatedTools = getRelatedTools('qr-code-generator', 3).filter((t) =>
 );
 
 export default function QrCodeGeneratorPage() {
+  const toolJsonLd = generateToolJsonLd('qr-code-generator');
+  const breadcrumbJsonLd = generateBreadcrumbJsonLd([
+    { name: 'Home', url: '/' },
+    { name: 'Tools', url: '/tools' },
+    { name: 'QR Code Generator', url: '/tools/qr-code-generator' },
+  ]);
+
   return (
     <>
+      {toolJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(toolJsonLd) }}
+        />
+      )}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <section className="relative overflow-hidden pt-28 pb-10 sm:pt-32">
         <div aria-hidden className="absolute inset-0 -z-10">
           <div className="absolute inset-0 grid-bg opacity-30 [mask-image:radial-gradient(ellipse_at_top,black,transparent_70%)]" />

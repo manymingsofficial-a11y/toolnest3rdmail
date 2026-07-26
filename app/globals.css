@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 210 40% 99%;
     --foreground: 222 47% 11%;
     --card: 0 0% 100%;
     --card-foreground: 222 47% 11%;
@@ -26,30 +26,32 @@
     --brand-blue: 217 91% 60%;
     --brand-purple: 252 95% 70%;
     --radius: 0.75rem;
+    --shadow-color: 222 47% 11%;
   }
 
   .dark {
-    --background: 222 47% 7%;
+    --background: 222 47% 5%;
     --foreground: 210 40% 98%;
-    --card: 222 44% 11%;
+    --card: 222 44% 9%;
     --card-foreground: 210 40% 98%;
-    --popover: 222 44% 11%;
+    --popover: 222 44% 9%;
     --popover-foreground: 210 40% 98%;
     --primary: 239 84% 67%;
     --primary-foreground: 0 0% 98%;
-    --secondary: 217 33% 17%;
+    --secondary: 217 33% 15%;
     --secondary-foreground: 210 40% 98%;
-    --muted: 217 33% 17%;
+    --muted: 217 33% 15%;
     --muted-foreground: 215 20% 65%;
     --accent: 252 95% 75%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 63% 31%;
     --destructive-foreground: 210 40% 98%;
-    --border: 217 33% 20%;
-    --input: 217 33% 20%;
+    --border: 217 33% 18%;
+    --input: 217 33% 18%;
     --ring: 239 84% 67%;
     --brand-blue: 217 91% 60%;
     --brand-purple: 252 95% 70%;
+    --shadow-color: 222 47% 1%;
   }
 }
 
@@ -60,12 +62,22 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: 'rlig' 1, 'calt' 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
   h1,
   h2,
   h3,
   h4 {
     @apply font-display;
+    letter-spacing: -0.02em;
+  }
+  ::selection {
+    background: hsl(var(--brand-purple) / 0.25);
+  }
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
   }
 }
 
@@ -88,15 +100,31 @@
   }
 
   .glass {
-    @apply border border-white/20 bg-white/60 backdrop-blur-xl;
+    @apply border border-white/20 bg-white/70 backdrop-blur-xl;
+  box-shadow: 0 1px 3px hsl(var(--shadow-color) / 0.04), 0 8px 32px -12px hsl(var(--shadow-color) / 0.08);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  will-change: box-shadow, border-color;
+  }
+  .glass:hover {
+    box-shadow: 0 1px 3px hsl(var(--shadow-color) / 0.06), 0 12px 40px -12px hsl(var(--shadow-color) / 0.12);
   }
 
   .dark .glass {
     @apply border-white/10 bg-white/5;
+    box-shadow: 0 1px 3px hsl(var(--shadow-color) / 0.2), 0 8px 32px -12px hsl(var(--shadow-color) / 0.3);
+  }
+  .dark .glass:hover {
+    box-shadow: 0 1px 3px hsl(var(--shadow-color) / 0.3), 0 12px 40px -12px hsl(var(--shadow-color) / 0.4);
   }
 
   .glass-card {
     @apply rounded-2xl border border-border/60 bg-card/70 backdrop-blur-xl;
+    box-shadow: 0 1px 3px hsl(var(--shadow-color) / 0.04), 0 8px 32px -16px hsl(var(--shadow-color) / 0.08);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+    will-change: transform;
+  }
+  .glass-card:hover {
+    box-shadow: 0 4px 12px hsl(var(--shadow-color) / 0.08), 0 16px 48px -16px hsl(var(--shadow-color) / 0.16);
   }
 
   .gradient-border {
@@ -149,5 +177,49 @@
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+  .shimmer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background-image: linear-gradient(
+      90deg,
+      transparent,
+      hsl(var(--muted-foreground) / 0.08),
+      transparent
+    );
+    animation: shimmer 2.5s infinite;
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 3px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
