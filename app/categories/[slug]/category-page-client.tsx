@@ -2,26 +2,21 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { Search, ChevronRight, Wrench } from 'lucide-react';
+import { Search, ChevronRight, Wrench, ArrowRight } from 'lucide-react';
 
-import { getToolsByCategory } from '@/lib/data';
+import { categories, getToolsByCategory } from '@/lib/data';
 import { ToolCard } from '@/components/tool-card';
 import { cn } from '@/lib/utils';
 
-type CatProp = {
-  slug: string;
-  name: string;
-  description: string;
-  gradient: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  icon: React.ComponentType<any>;
-  count: number;
-};
-
-export function CategoryPageClient({ cat }: { cat: CatProp }) {
-  const allTools = getToolsByCategory(cat.name);
+export function CategoryPageClient({ slug }: { slug: string }) {
+  const cat = React.useMemo(() => categories.find((c) => c.slug === slug), [slug]);
+  const allTools = React.useMemo(() => (cat ? getToolsByCategory(cat.name) : []), [cat]);
   const [query, setQuery] = React.useState('');
-  const Icon = cat.icon;
+
+  const relatedCategories = React.useMemo(
+    () => categories.filter((c) => c.slug !== slug).slice(0, 4),
+    [slug]
+  );
 
   const filtered = React.useMemo(() => {
     if (!query) return allTools;
@@ -32,6 +27,9 @@ export function CategoryPageClient({ cat }: { cat: CatProp }) {
         t.description.toLowerCase().includes(q)
     );
   }, [query, allTools]);
+
+  if (!cat) return null;
+  const Icon = cat.icon;
 
   return (
     <>
@@ -132,6 +130,49 @@ export function CategoryPageClient({ cat }: { cat: CatProp }) {
             </div>
           </>
         )}
+      </section>
+
+      {/* Related categories */}
+      <section className="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8">
+        <h2 className="text-2xl font-bold tracking-tight">Related categories</h2>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {relatedCategories.map((rc) => {
+            const RcIcon = rc.icon;
+            return (
+              <Link
+                key={rc.slug}
+                href={`/categories/${rc.slug}`}
+                className="group relative block overflow-hidden rounded-2xl glass-card p-5 transition-all duration-300 hover:-translate-y-1 hover:glow"
+              >
+                <div
+                  aria-hidden
+                  className={cn(
+                    'absolute -right-8 -top-8 h-24 w-24 rounded-full bg-gradient-to-br opacity-15 blur-2xl transition-opacity duration-300 group-hover:opacity-30',
+                    rc.gradient
+                  )}
+                />
+                <div
+                  className={cn(
+                    'grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br text-white shadow-lg',
+                    rc.gradient
+                  )}
+                >
+                  <RcIcon className="h-5 w-5" />
+                </div>
+                <h3 className="mt-4 text-sm font-semibold tracking-tight">
+                  {rc.name}
+                </h3>
+                <p className="mt-1 text-xs text-muted-foreground line-clamp-2">
+                  {rc.description}
+                </p>
+                <span className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-foreground transition-colors group-hover:text-brand-purple">
+                  Explore
+                  <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+                </span>
+              </Link>
+            );
+          })}
+        </div>
       </section>
     </>
   );

@@ -3,10 +3,15 @@
 import Link from 'next/link';
 import { ArrowUpRight, Star } from 'lucide-react';
 
-import { tools } from '@/lib/data';
+import { categories, tools } from '@/lib/data';
 import { ToolCard } from '@/components/tool-card';
+import { cn } from '@/lib/utils';
 
 export function FeaturedTools() {
+  const featuredCategorySlugs = ['pdf-tools', 'image-tools', 'qr-tools', 'developer-tools'];
+  const featuredCategories = categories.filter((c) => featuredCategorySlugs.includes(c.slug));
+  const featuredTools = tools.filter((t) => t.badge === 'Popular').slice(0, 4);
+
   return (
     <section id="featured" className="relative py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -33,8 +38,49 @@ export function FeaturedTools() {
           </Link>
         </div>
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {tools.map((tool) => (
+        {/* Featured categories */}
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {featuredCategories.map((cat) => {
+            const CatIcon = cat.icon;
+            return (
+              <Link
+                key={cat.slug}
+                href={`/categories/${cat.slug}`}
+                className="group relative block overflow-hidden rounded-2xl glass-card p-6 transition-all duration-300 hover:-translate-y-1 hover:glow"
+              >
+                <div
+                  aria-hidden
+                  className={cn(
+                    'absolute -right-12 -top-12 h-32 w-32 rounded-full bg-gradient-to-br opacity-20 blur-2xl transition-opacity duration-300 group-hover:opacity-40',
+                    cat.gradient
+                  )}
+                />
+                <div
+                  className={cn(
+                    'grid h-12 w-12 place-items-center rounded-xl bg-gradient-to-br text-white shadow-lg',
+                    cat.gradient
+                  )}
+                >
+                  <CatIcon className="h-6 w-6" />
+                </div>
+                <h3 className="mt-5 text-base font-semibold tracking-tight">
+                  {cat.name}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {cat.description}
+                </p>
+                <span className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-foreground transition-colors group-hover:text-brand-purple">
+                  Browse {cat.name.replace(' Tools', '')}
+                  <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </span>
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* Popular tools */}
+        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {featuredTools.map((tool) => (
             <ToolCard key={tool.slug} tool={tool} />
           ))}
         </div>

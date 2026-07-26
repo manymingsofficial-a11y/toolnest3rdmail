@@ -30,7 +30,7 @@ export default function CategoriesPage() {
             return (
               <Link
                 key={cat.slug}
-                href={`/category/${cat.slug}`}
+                href={`/categories/${cat.slug}`}
                 className="group relative overflow-hidden rounded-2xl glass-card p-6 transition-all duration-300 hover:-translate-y-1 hover:glow"
               >
                 <div

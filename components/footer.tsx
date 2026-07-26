@@ -86,7 +86,7 @@ export function Footer() {
               {categories.slice(0, 6).map((cat) => (
                 <li key={cat.slug}>
                   <Link
-                    href="/categories"
+                    href={`/categories/${cat.slug}`}
                     className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                   >
                     {cat.name}

@@ -4,10 +4,8 @@ import * as React from 'react';
 import Link from 'next/link';
 import { ArrowUpRight, Clock, Trash2 } from 'lucide-react';
 
-import { tools } from '@/lib/data';
-import type { Tool } from '@/lib/data';
 import { ToolCard } from '@/components/tool-card';
-import { useRecentlyUsed } from '@/hooks/use-tools-storage';
+import { useRecentlyUsed, usePopularTools } from '@/hooks/use-tools-storage';
 
 export function RecentlyUsedTools() {
   const { recentTools, clear, hydrated } = useRecentlyUsed();
@@ -49,46 +47,8 @@ export function RecentlyUsedTools() {
   );
 }
 
-function usePopularToolsLocal() {
-  const [mostUsed, setMostUsed] = React.useState<Tool[]>([]);
-  const [hydrated, setHydrated] = React.useState(false);
-
-  React.useEffect(() => {
-    try {
-      const raw = localStorage.getItem('toolnest:popular');
-      const counts: Record<string, number> = raw ? JSON.parse(raw) : {};
-      const sorted = Object.entries(counts)
-        .sort(([, a], [, b]) => b - a)
-        .map(([slug]) => tools.find((t) => t.slug === slug))
-        .filter(Boolean) as Tool[];
-      setMostUsed(sorted.slice(0, 8));
-    } catch {
-      /* ignore */
-    }
-    setHydrated(true);
-
-    const handler = () => {
-      try {
-        const raw = localStorage.getItem('toolnest:popular');
-        const counts: Record<string, number> = raw ? JSON.parse(raw) : {};
-        const sorted = Object.entries(counts)
-          .sort(([, a], [, b]) => b - a)
-          .map(([slug]) => tools.find((t) => t.slug === slug))
-          .filter(Boolean) as Tool[];
-        setMostUsed(sorted.slice(0, 8));
-      } catch {
-        /* ignore */
-      }
-    };
-    window.addEventListener('toolnest:popular-changed', handler);
-    return () => window.removeEventListener('toolnest:popular-changed', handler);
-  }, []);
-
-  return { mostUsed, hydrated };
-}
-
 export function PopularToolsSection() {
-  const { mostUsed, hydrated } = usePopularToolsLocal();
+  const { mostUsed, hydrated } = usePopularTools();
 
   return (
     <section id="popular" className="relative py-20 sm:py-28">

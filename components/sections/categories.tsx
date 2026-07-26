@@ -29,7 +29,7 @@ export function Categories() {
           {categories.map((cat) => (
             <Link
               key={cat.slug}
-              href="/categories"
+              href={`/categories/${cat.slug}`}
               className="group relative overflow-hidden rounded-2xl glass-card p-5 transition-all duration-300 hover:-translate-y-1 hover:glow"
             >
               <div
