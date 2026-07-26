@@ -31,7 +31,7 @@ export function generateCategoryJsonLd(slug: string) {
     '@type': 'CollectionPage',
     name: cat.name,
     description: cat.description,
-    url: `${SITE_URL}/categories/${cat.slug}`,
+    url: `${SITE_URL}/categories`,
     mainEntity: catTools.map((t) => ({
       '@type': 'SoftwareApplication',
       name: t.name,

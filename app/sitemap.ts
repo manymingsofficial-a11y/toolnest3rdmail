@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { categories, tools } from '@/lib/data';
+import { tools } from '@/lib/data';
 
 const SITE_URL = 'https://toolnest.com';
 
@@ -20,13 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: 'monthly' as const,
   }));
 
-  const categoryPages = categories.map((c) => ({
-    url: `/categories/${c.slug}`,
-    priority: 0.7,
-    changeFrequency: 'weekly' as const,
-  }));
-
-  return [...staticPages, ...toolPages, ...categoryPages].map((p) => ({
+  return [...staticPages, ...toolPages].map((p) => ({
     url: `${SITE_URL}${p.url}`,
     lastModified: new Date(),
     changeFrequency: p.changeFrequency,

@@ -164,7 +164,7 @@ export function SearchCommandPalette() {
     if (result.type === 'tool' && result.tool) {
       router.push(`/tools/${result.tool.slug}`);
     } else if (result.type === 'category' && result.categorySlug) {
-      router.push(`/categories/${result.categorySlug}`);
+      router.push(`/categories?cat=${result.categorySlug}`);
     }
     setOpen(false);
   }
