@@ -220,7 +220,7 @@ export function SearchCommandPalette() {
           aria-label="Search tools"
         >
           <div
-            className="w-full max-w-xl overflow-hidden rounded-2xl border border-border/60 bg-popover shadow-2xl animate-fade-in-scale"
+            className="w-full max-w-xl overflow-hidden rounded-2xl border border-border/60 bg-popover shadow-2xl animate-scale-in"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center gap-3 border-b border-border/60 px-4 py-3">
@@ -339,7 +339,7 @@ export function SearchCommandPalette() {
                               {highlight(cat.name, query)}
                             </p>
                             <p className="text-xs text-muted-foreground">
-                              {cat.count} tools
+                              {tools.filter((t) => t.category === cat.name).length} tools
                             </p>
                           </div>
                           <Hash className="h-3 w-3 text-muted-foreground" />

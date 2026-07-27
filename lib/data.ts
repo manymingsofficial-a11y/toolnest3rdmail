@@ -170,6 +170,14 @@ export const categories: Category[] = [
     gradient: 'from-pink-400 to-rose-600',
     description: 'Optimize posts and grow your presence.',
   },
+  {
+    slug: 'security-tools',
+    name: 'Security Tools',
+    count: 4,
+    icon: ShieldCheck,
+    gradient: 'from-cyan-400 to-blue-500',
+    description: 'Generate passwords, UUIDs and check password strength.',
+  },
 ];
 
 export const tools: Tool[] = [
@@ -693,6 +701,10 @@ export const tools: Tool[] = [
   },
 ];
 
+categories.forEach((c) => {
+  c.count = tools.filter((t) => t.category === c.name).length;
+});
+
 export const latestTools: Tool[] = [
   {
     slug: 'color-picker',
@@ -715,28 +727,6 @@ export const latestTools: Tool[] = [
     isNew: true,
     popularity: 58,
     addedDaysAgo: 3,
-  },
-  {
-    slug: 'case-converter',
-    name: 'Case Converter',
-    description: 'Switch text between upper, lower, title and more.',
-    category: 'Text Tools',
-    icon: CaseSensitive,
-    gradient: 'from-sky-400 to-indigo-500',
-    isNew: true,
-    popularity: 52,
-    addedDaysAgo: 5,
-  },
-  {
-    slug: 'regex-tester',
-    name: 'Regex Tester',
-    description: 'Test regular expressions with live match highlighting.',
-    category: 'Developer Tools',
-    icon: Regex,
-    gradient: 'from-violet-400 to-purple-600',
-    isNew: true,
-    popularity: 60,
-    addedDaysAgo: 7,
   },
 ];
 
@@ -804,10 +794,10 @@ export type Stat = {
 };
 
 export const stats: Stat[] = [
-  { value: '500+', label: 'Free Tools', icon: Zap },
-  { value: '1M+', label: 'Monthly Users', icon: Users },
-  { value: 'Fast', label: '& Secure', icon: Shield },
-  { value: 'No Sign-up', label: 'Required', icon: Gauge },
+  { value: String(tools.length), label: 'Free Tools', icon: Zap },
+  { value: String(categories.length), label: 'Categories', icon: Shield },
+  { value: '100%', label: 'Free Forever', icon: Gauge },
+  { value: '0', label: 'Sign-ups Needed', icon: ShieldCheck },
 ];
 
 export function getToolsByCategory(categoryName: string): Tool[] {

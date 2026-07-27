@@ -1,41 +1,28 @@
-import { CheckCircle2, Bolt, Lock, Smartphone, Infinity as InfinityIcon } from 'lucide-react';
+import { ArrowUpRight, CheckCircle2 } from 'lucide-react';
 
-const features = [
-  {
-    icon: Bolt,
-    title: 'Lightning fast',
-    description:
-      'Most tools run entirely in your browser, so results are instant — no uploads, no waiting, no servers to slow you down.',
-    gradient: 'from-sky-400 to-blue-600',
-  },
-  {
-    icon: Lock,
-    title: 'Private & secure',
-    description:
-      'Your data stays on your device for the majority of tools. When files are processed, they are deleted automatically right after.',
-    gradient: 'from-fuchsia-400 to-purple-600',
-  },
-  {
-    icon: InfinityIcon,
-    title: 'Free, forever',
-    description:
-      'No paywalls, no premium tiers, no trial limits. Every tool is completely free with unlimited usage, always.',
-    gradient: 'from-cyan-400 to-blue-500',
-  },
-  {
-    icon: Smartphone,
-    title: 'Works everywhere',
-    description:
-      'Fully responsive on mobile, tablet and desktop. No app to install — just open a tool and go, on any device.',
-    gradient: 'from-violet-400 to-indigo-600',
-  },
-];
+import { tools, categories } from '@/lib/data';
 
-const stats = [
-  { value: '500+', label: 'Free tools' },
-  { value: '10', label: 'Categories' },
-  { value: '1M+', label: 'Monthly users' },
-  { value: '0', label: 'Sign-ups needed' },
+const points = [
+  {
+    title: 'Everything in one place',
+    description:
+      'Stop hunting across a dozen sites. PDF, image, QR, SEO, text, developer and calculator tools all live under one roof.',
+  },
+  {
+    title: 'No learning curve',
+    description:
+      'Each tool opens ready to use. No setup, no configuration, no manuals — paste, click, copy, done.',
+  },
+  {
+    title: 'Respects your privacy',
+    description:
+      'Most tools process data locally in your browser. Nothing is uploaded, tracked, or stored on a server.',
+  },
+  {
+    title: 'Always improving',
+    description:
+      'New tools are added regularly based on what you actually need — not what looks good on a feature list.',
+  },
 ];
 
 export function WhyChooseUs() {
@@ -52,45 +39,50 @@ export function WhyChooseUs() {
               The fastest way to get work done
             </h2>
             <p className="mt-3 max-w-lg text-muted-foreground">
-              Hundreds of free tools, one clean platform. No clutter, no
-              paywalls, no registration — just the tools you need, ready when
-              you are.
+              {tools.length} tools across {categories.length} categories. No
+              clutter, no paywalls, no registration — just the tools you need,
+              ready when you are.
             </p>
 
             <dl className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border/60 bg-border/60">
-              {stats.map((stat) => (
-                <div
-                  key={stat.label}
-                  className="bg-card/70 p-6 backdrop-blur-xl"
-                >
-                  <dt className="text-3xl font-bold tracking-tight text-gradient">
-                    {stat.value}
-                  </dt>
-                  <dd className="mt-1 text-sm text-muted-foreground">
-                    {stat.label}
-                  </dd>
-                </div>
-              ))}
+              <div className="bg-card/70 p-6 backdrop-blur-xl">
+                <dt className="text-3xl font-bold tracking-tight text-gradient">
+                  {tools.length}
+                </dt>
+                <dd className="mt-1 text-sm text-muted-foreground">
+                  Free tools
+                </dd>
+              </div>
+              <div className="bg-card/70 p-6 backdrop-blur-xl">
+                <dt className="text-3xl font-bold tracking-tight text-gradient">
+                  {categories.length}
+                </dt>
+                <dd className="mt-1 text-sm text-muted-foreground">
+                  Categories
+                </dd>
+              </div>
             </dl>
           </div>
 
-          <div className="grid gap-5 sm:grid-cols-2">
-            {features.map((feature) => (
+          <div className="grid gap-4 sm:grid-cols-2">
+            {points.map((point) => (
               <div
-                key={feature.title}
+                key={point.title}
                 className="group rounded-2xl glass-card p-6 transition-all duration-300 hover:-translate-y-1 hover:glow"
               >
-                <div
-                  className={`grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br ${feature.gradient} text-white shadow-lg`}
-                >
-                  <feature.icon className="h-5 w-5" />
+                <div className="flex items-start gap-3">
+                  <span className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-gradient-brand text-white shadow-md transition-transform duration-300 group-hover:scale-110">
+                    <ArrowUpRight className="h-4 w-4" />
+                  </span>
+                  <div>
+                    <h3 className="text-base font-semibold tracking-tight">
+                      {point.title}
+                    </h3>
+                    <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                      {point.description}
+                    </p>
+                  </div>
                 </div>
-                <h3 className="mt-4 text-base font-semibold tracking-tight">
-                  {feature.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {feature.description}
-                </p>
               </div>
             ))}
           </div>
