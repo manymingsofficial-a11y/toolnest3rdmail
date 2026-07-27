@@ -179,34 +179,6 @@
     }
   }
 
-  .animate-fade-in {
-    animation: fade-in 0.18s ease-out forwards;
-  }
-
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  .animate-scale-in {
-    animation: scale-in 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-
-  @keyframes scale-in {
-    from {
-      opacity: 0;
-      transform: scale(0.96) translateY(-6px);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1) translateY(0);
-    }
-  }
-
   .shimmer {
     position: relative;
     overflow: hidden;

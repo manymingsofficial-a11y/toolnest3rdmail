@@ -14,7 +14,7 @@ import {
 
 import { cn } from '@/lib/utils';
 import { tools, categories } from '@/lib/data';
-import type { Tool, Category } from '@/lib/data';
+import type { Tool } from '@/lib/data';
 import { useRecentSearches } from '@/hooks/use-tools-storage';
 
 const POPULAR_QUERIES = [
@@ -75,19 +75,13 @@ function highlight(text: string, query: string) {
   return <>{parts}</>;
 }
 
-type ToolResult = {
-  type: 'tool';
-  tool: Tool;
+type SearchResult = {
+  type: 'tool' | 'category';
+  tool?: Tool;
+  categorySlug?: string;
+  categoryName?: string;
   score: number;
 };
-
-type CategoryResult = {
-  type: 'category';
-  category: Category;
-  score: number;
-};
-
-type SearchResult = ToolResult | CategoryResult;
 
 export function SearchCommandPalette() {
   const [open, setOpen] = React.useState(false);
@@ -121,9 +115,11 @@ export function SearchCommandPalette() {
     if (!query.trim()) return [];
     const q = query.toLowerCase();
     const syns = getSynonyms(query);
+    const seen = new Set<string>();
     const out: SearchResult[] = [];
 
     for (const t of tools) {
+      if (seen.has(t.slug)) continue;
       const name = t.name.toLowerCase();
       const desc = t.description.toLowerCase();
       const cat = t.category.toLowerCase();
@@ -134,35 +130,49 @@ export function SearchCommandPalette() {
       else if (desc.includes(q)) score = 40;
       else if (cat.includes(q)) score = 30;
       else if (syns.some((s) => name.includes(s) || desc.includes(s))) score = 20;
-      if (score > 0) out.push({ type: 'tool', tool: t, score });
+      if (score > 0) {
+        seen.add(t.slug);
+        out.push({ type: 'tool', tool: t, score });
+      }
     }
 
     for (const c of categories) {
+      if (seen.has(`cat-${c.slug}`)) continue;
       const name = c.name.toLowerCase();
       const desc = c.description.toLowerCase();
       let score = 0;
       if (name.includes(q)) score = 50;
       else if (desc.includes(q)) score = 25;
       else if (syns.some((s) => name.includes(s))) score = 15;
-      if (score > 0) out.push({ type: 'category', category: c, score });
+      if (score > 0) {
+        seen.add(`cat-${c.slug}`);
+        out.push({
+          type: 'category',
+          categorySlug: c.slug,
+          categoryName: c.name,
+          score,
+        });
+      }
     }
 
     out.sort((a, b) => b.score - a.score);
     return out.slice(0, 10);
   }, [query]);
 
-  React.useEffect(() => {
-    setActiveIdx(0);
-  }, [query]);
-
   function navigateTo(result: SearchResult) {
-    addSearch(query || (result.type === 'tool' ? result.tool.name : result.category.name));
-    if (result.type === 'tool') {
+    addSearch(query || (result.tool?.name ?? result.categoryName ?? ''));
+    if (result.type === 'tool' && result.tool) {
       router.push(`/tools/${result.tool.slug}`);
-    } else {
-      router.push(`/categories?cat=${result.category.slug}`);
+    } else if (result.type === 'category' && result.categorySlug) {
+      router.push(`/categories?cat=${result.categorySlug}`);
     }
     setOpen(false);
+  }
+
+  function handleEnter() {
+    if (results.length > 0) {
+      navigateTo(results[activeIdx]);
+    }
   }
 
   function onKeyDown(e: React.KeyboardEvent) {
@@ -174,7 +184,7 @@ export function SearchCommandPalette() {
       setActiveIdx((i) => Math.max(i - 1, 0));
     } else if (e.key === 'Enter') {
       e.preventDefault();
-      if (results.length > 0) navigateTo(results[activeIdx]);
+      handleEnter();
     }
   }
 
@@ -203,22 +213,25 @@ export function SearchCommandPalette() {
 
       {open && (
         <div
-          className="fixed inset-0 z-[100] flex items-start justify-center bg-background/60 p-4 pt-[8vh] backdrop-blur-sm animate-fade-in"
+          className="fixed inset-0 z-[100] flex items-start justify-center bg-background/60 p-4 pt-[10vh] backdrop-blur-sm"
           onClick={() => setOpen(false)}
           role="dialog"
           aria-modal="true"
           aria-label="Search tools"
         >
           <div
-            className="w-full max-w-xl overflow-hidden rounded-2xl border border-border/60 bg-popover shadow-2xl animate-scale-in"
+            className="w-full max-w-xl overflow-hidden rounded-2xl border border-border/60 bg-popover shadow-2xl animate-fade-in-scale"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center gap-3 border-b border-border/60 px-4 py-3.5">
+            <div className="flex items-center gap-3 border-b border-border/60 px-4 py-3">
               <Search className="h-5 w-5 shrink-0 text-muted-foreground" />
               <input
                 ref={inputRef}
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                  setActiveIdx(0);
+                }}
                 onKeyDown={onKeyDown}
                 placeholder="Search tools, categories…"
                 className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
@@ -228,54 +241,41 @@ export function SearchCommandPalette() {
                 role="combobox"
                 aria-autocomplete="list"
               />
-              {query ? (
-                <button
-                  onClick={() => {
-                    setQuery('');
-                    inputRef.current?.focus();
-                  }}
-                  className="rounded-lg p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-                  aria-label="Clear search"
-                >
-                  <X className="h-4 w-4" />
-                </button>
-              ) : (
-                <button
-                  onClick={() => setOpen(false)}
-                  className="rounded-lg p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-                  aria-label="Close search"
-                >
-                  <X className="h-4 w-4" />
-                </button>
-              )}
+              <button
+                onClick={() => setOpen(false)}
+                className="rounded-lg p-1 text-muted-foreground transition-colors hover:text-foreground"
+                aria-label="Close search"
+              >
+                <X className="h-4 w-4" />
+              </button>
             </div>
 
             <div
               id="search-results"
-              className="max-h-[55vh] overflow-y-auto p-2 scrollbar-thin"
+              className="max-h-[50vh] overflow-y-auto p-2 scrollbar-thin"
               role="listbox"
             >
               {showSuggestions ? (
-                <div className="space-y-5 p-3">
+                <div className="space-y-4 p-2">
                   {searches.length > 0 && (
                     <div>
-                      <div className="mb-2.5 flex items-center justify-between">
-                        <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                      <div className="mb-2 flex items-center justify-between">
+                        <span className="flex items-center gap-1.5 text-xs font-semibold uppercase text-muted-foreground">
                           <Clock className="h-3 w-3" /> Recent
                         </span>
                         <button
                           onClick={clearSearches}
-                          className="text-xs text-muted-foreground transition-colors hover:text-foreground"
+                          className="text-xs text-muted-foreground hover:text-foreground"
                         >
                           Clear
                         </button>
                       </div>
-                      <div className="flex flex-wrap gap-2">
+                      <div className="flex flex-wrap gap-1.5">
                         {searches.map((s) => (
                           <button
                             key={s}
                             onClick={() => setQuery(s)}
-                            className="rounded-full border border-border/60 bg-background/40 px-3 py-1.5 text-xs transition-all hover:scale-105 hover:border-brand-purple/40 hover:text-foreground"
+                            className="rounded-lg border border-border/60 bg-background/40 px-2.5 py-1.5 text-xs transition-colors hover:text-foreground"
                           >
                             {s}
                           </button>
@@ -284,15 +284,15 @@ export function SearchCommandPalette() {
                     </div>
                   )}
                   <div>
-                    <span className="mb-2.5 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    <span className="mb-2 flex items-center gap-1.5 text-xs font-semibold uppercase text-muted-foreground">
                       <TrendingUp className="h-3 w-3" /> Popular searches
                     </span>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-1.5">
                       {POPULAR_QUERIES.map((s) => (
                         <button
                           key={s}
                           onClick={() => setQuery(s)}
-                          className="rounded-full border border-border/60 bg-background/40 px-3 py-1.5 text-xs transition-all hover:scale-105 hover:border-brand-purple/40 hover:text-foreground"
+                          className="rounded-lg border border-border/60 bg-background/40 px-2.5 py-1.5 text-xs transition-colors hover:text-foreground"
                         >
                           {s}
                         </button>
@@ -301,8 +301,7 @@ export function SearchCommandPalette() {
                   </div>
                 </div>
               ) : results.length === 0 ? (
-                <div className="px-4 py-12 text-center animate-fade-in">
-                  <Search className="mx-auto mb-3 h-8 w-8 text-muted-foreground/50" />
+                <div className="px-4 py-10 text-center">
                   <p className="text-sm text-muted-foreground">
                     No tools found for &ldquo;{query}&rdquo;
                   </p>
@@ -310,31 +309,32 @@ export function SearchCommandPalette() {
               ) : (
                 <div className="space-y-1">
                   {results.map((result, i) => {
-                    const isActive = activeIdx === i;
-                    if (result.type === 'category') {
-                      const cat = result.category;
+                    if (result.type === 'category' && result.categorySlug) {
+                      const cat = categories.find(
+                        (c) => c.slug === result.categorySlug
+                      )!;
                       const CatIcon = cat.icon;
                       return (
                         <button
                           key={`cat-${cat.slug}`}
                           role="option"
-                          aria-selected={isActive}
+                          aria-selected={activeIdx === i}
                           onClick={() => navigateTo(result)}
                           onMouseEnter={() => setActiveIdx(i)}
                           className={cn(
-                            'flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-all duration-200',
-                            isActive ? 'bg-muted scale-[1.01]' : 'hover:bg-muted/50'
+                            'flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-colors',
+                            activeIdx === i ? 'bg-muted' : 'hover:bg-muted/50'
                           )}
                         >
                           <div
                             className={cn(
-                              'grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-gradient-to-br text-white shadow-sm',
+                              'grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br text-white',
                               cat.gradient
                             )}
                           >
                             <CatIcon className="h-4 w-4" />
                           </div>
-                          <div className="min-w-0 flex-1">
+                          <div className="flex-1">
                             <p className="text-sm font-medium">
                               {highlight(cat.name, query)}
                             </p>
@@ -342,27 +342,27 @@ export function SearchCommandPalette() {
                               {cat.count} tools
                             </p>
                           </div>
-                          <Hash className="h-3 w-3 shrink-0 text-muted-foreground" />
+                          <Hash className="h-3 w-3 text-muted-foreground" />
                         </button>
                       );
                     }
-                    const tool = result.tool;
+                    const tool = result.tool!;
                     const ToolIcon = tool.icon;
                     return (
                       <button
                         key={tool.slug}
                         role="option"
-                        aria-selected={isActive}
+                        aria-selected={activeIdx === i}
                         onClick={() => navigateTo(result)}
                         onMouseEnter={() => setActiveIdx(i)}
                         className={cn(
-                          'flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-all duration-200',
-                          isActive ? 'bg-muted scale-[1.01]' : 'hover:bg-muted/50'
+                          'flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-colors',
+                          activeIdx === i ? 'bg-muted' : 'hover:bg-muted/50'
                         )}
                       >
                         <div
                           className={cn(
-                            'grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-gradient-to-br text-white shadow-sm',
+                            'grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br text-white',
                             tool.gradient
                           )}
                         >
@@ -376,11 +376,11 @@ export function SearchCommandPalette() {
                             {highlight(tool.description, query)}
                           </p>
                         </div>
-                        <span className="hidden shrink-0 rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground sm:inline">
+                        <span className="rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">
                           {tool.category}
                         </span>
-                        {isActive && (
-                          <CornerDownLeft className="h-3.5 w-3.5 shrink-0 text-muted-foreground animate-fade-in" />
+                        {activeIdx === i && (
+                          <CornerDownLeft className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
                         )}
                       </button>
                     );
@@ -389,7 +389,7 @@ export function SearchCommandPalette() {
               )}
             </div>
 
-            <div className="flex items-center justify-between border-t border-border/60 px-4 py-2.5 text-xs text-muted-foreground">
+            <div className="flex items-center justify-between border-t border-border/60 px-4 py-2 text-xs text-muted-foreground">
               <span className="flex items-center gap-2">
                 <Heart className="h-3 w-3" />
                 ToolNest Search
