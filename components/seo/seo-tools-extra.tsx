@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Copy, Check, Globe, Braces, FileText, ListTree, Package, Bot, FileSearch, Search } from 'lucide-react';
+import { Copy, Check, Search} from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -579,6 +579,7 @@ export function SerpPixelChecker() {
   const [description, setDescription] = React.useState('');
 
   const titlePx = React.useMemo(() => {
+    if (typeof document === 'undefined') return 0;
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     if (!ctx) return 0;
@@ -587,6 +588,7 @@ export function SerpPixelChecker() {
   }, [title]);
 
   const descPx = React.useMemo(() => {
+    if (typeof document === 'undefined') return 0;
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     if (!ctx) return 0;

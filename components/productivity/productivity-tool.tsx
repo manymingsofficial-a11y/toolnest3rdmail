@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Play, Pause, RotateCcw, Trash2, Plus, Check, Clock, Calendar, MapPin, Timer } from 'lucide-react';
+import { Play, Pause, RotateCcw, Trash2, Plus, Check, Clock, Calendar, MapPin} from 'lucide-react';
 import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';

@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Copy, Check, Boxes, FileJson, Database, FileCode, FileSpreadsheet, Braces, Palette, Timer } from 'lucide-react';
+import { Copy, Check, Boxes, FileJson, Database, FileCode, FileSpreadsheet, Braces, Timer} from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';

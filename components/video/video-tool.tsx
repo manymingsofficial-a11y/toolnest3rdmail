@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Upload, Download, Copy, Check, Trash2, Loader2, FileVideo, AlertCircle } from 'lucide-react';
+import { Upload, Download, Copy, Check, Trash2, Loader2, FileVideo} from 'lucide-react';
 import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';

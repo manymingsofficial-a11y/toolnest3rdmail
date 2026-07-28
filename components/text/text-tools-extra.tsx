@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Copy, Check, Download, ArrowRight, Repeat2, ArrowDownUp, Shuffle, Eraser, Replace, FileDiff, Wand2, FileCode } from 'lucide-react';
+import { Copy, Check, Shuffle, Replace} from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';

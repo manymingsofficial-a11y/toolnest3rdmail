@@ -8,7 +8,6 @@ import {
   Loader2,
   UploadCloud,
   X,
-  Eye,
   Lock,
   Unlock,
   RotateCw,

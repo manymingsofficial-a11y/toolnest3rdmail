@@ -118,6 +118,8 @@ import {
   Search,
   Server,
   Share2,
+  Shield,
+  Image as ImageLucide,
   ShieldAlert,
   ShieldCheck,
   ShoppingBag,
