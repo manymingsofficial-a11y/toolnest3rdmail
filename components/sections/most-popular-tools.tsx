@@ -5,7 +5,6 @@ import { ArrowUpRight, Flame } from 'lucide-react';
 
 import { mostPopularTools } from '@/lib/data';
 import { ToolCard } from '@/components/tool-card';
-import { cn } from '@/lib/utils';
 
 export function MostPopularTools() {
   return (
@@ -25,7 +24,7 @@ export function MostPopularTools() {
               The tools everyone&apos;s using
             </h2>
             <p className="mt-3 max-w-xl text-muted-foreground">
-              Our most-used tools this month, ranked by popularity. Trusted by
+              Our most-used tools this month. Trusted by
               millions of users every day.
             </p>
           </div>
@@ -39,16 +38,8 @@ export function MostPopularTools() {
         </div>
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {mostPopularTools.map((tool, i) => (
+          {mostPopularTools.map((tool) => (
             <div key={tool.slug} className="relative">
-              <span
-                className={cn(
-                  'absolute -left-2 -top-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-gradient-brand text-xs font-bold text-white shadow-lg shadow-brand-purple/30',
-                  'ring-4 ring-background'
-                )}
-              >
-                {i + 1}
-              </span>
               <ToolCard tool={tool} className="h-full" />
             </div>
           ))}

@@ -60,7 +60,7 @@ export function generateWebsiteJsonLd() {
     name: 'ToolNest',
     url: SITE_URL,
     description:
-      '500+ free online tools — PDF, image, QR, SEO, AI, text, developer, calculators and more.',
+      `${tools.length} free online tools — PDF, image, QR, SEO, AI, text, developer, calculators and more.`,
     potentialAction: {
       '@type': 'SearchAction',
       target: `${SITE_URL}/tools?q={search_term_string}`,

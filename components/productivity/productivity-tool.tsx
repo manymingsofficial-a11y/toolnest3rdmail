@@ -386,7 +386,7 @@ export function ProductivityTool({ config }: { config: ProductivityToolConfig })
   if (config.isTimezoneConverter) {
     const commonTimezones = ['UTC', 'America/New_York', 'America/Los_Angeles', 'America/Chicago', 'Europe/London', 'Europe/Paris', 'Europe/Berlin', 'Asia/Tokyo', 'Asia/Shanghai', 'Asia/Kolkata', 'Australia/Sydney', 'Pacific/Auckland'];
 
-    function convert(): string {
+    const convert = (): string => {
       try {
         const [h, m] = tzTime.split(':').map(Number);
         const date = new Date();
@@ -397,7 +397,7 @@ export function ProductivityTool({ config }: { config: ProductivityToolConfig })
       } catch {
         return 'Invalid input';
       }
-    }
+    };
 
     return (
       <div className="mx-auto max-w-3xl">

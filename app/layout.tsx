@@ -7,6 +7,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import { generateWebsiteJsonLd } from '@/lib/seo';
+import { tools } from '@/lib/data';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const spaceGrotesk = Space_Grotesk({
@@ -17,11 +18,11 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   metadataBase: new URL('https://toolnest.com'),
   title: {
-    default: 'ToolNest — 500+ Free Online Tools in One Place',
+    default: `ToolNest — ${tools.length} Free Online Tools in One Place`,
     template: '%s — ToolNest',
   },
   description:
-    'A complete multi-tools platform with 500+ free online tools — PDF, image, QR & barcode, SEO, AI, text, developer, calculators, converters and more. Fast, secure, no registration required.',
+    `A complete multi-tools platform with ${tools.length} free online tools — PDF, image, QR & barcode, SEO, AI, text, developer, calculators, converters and more. Fast, secure, no registration required.`,
   keywords: [
     'free online tools',
     'PDF tools',
@@ -43,9 +44,9 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'ToolNest — 500+ Free Online Tools in One Place',
+    title: `ToolNest — ${tools.length} Free Online Tools in One Place`,
     description:
-      'PDF, image, QR, developer, calculators and more — 500+ free online tools in one place. Fast, secure, no sign-up.',
+      `PDF, image, QR, developer, calculators and more — ${tools.length} free online tools in one place. Fast, secure, no sign-up.`,
     type: 'website',
     locale: 'en_US',
     siteName: 'ToolNest',
@@ -53,9 +54,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'ToolNest — 500+ Free Online Tools',
+    title: `ToolNest — ${tools.length} Free Online Tools`,
     description:
-      '500+ free online tools in one place. Fast, secure, no registration required.',
+      `${tools.length} free online tools in one place. Fast, secure, no registration required.`,
     creator: '@toolnest',
   },
   robots: {

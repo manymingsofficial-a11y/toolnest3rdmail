@@ -280,7 +280,7 @@ export default function CategoriesPage() {
 
 function CategoryToolCard({ tool }: { tool: Tool }) {
   const ToolIcon = tool.icon;
-  const isPopular = tool.popularity >= 88;
+  const isPopular = tool.badge === 'Popular';
   return (
     <Link
       href={`/tools/${tool.slug}`}

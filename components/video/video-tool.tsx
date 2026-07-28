@@ -154,7 +154,7 @@ export function VideoTool({ config }: { config: VideoToolConfig }) {
           const totalFrames = Math.min(30, Math.floor(duration * fps));
           let frameIdx = 0;
 
-          function captureFrame() {
+          const captureFrame = () => {
             if (frameIdx >= totalFrames) {
               setResult(`${frames.length} frames captured`);
               setProcessing(false);
@@ -168,7 +168,7 @@ export function VideoTool({ config }: { config: VideoToolConfig }) {
               frameIdx++;
               setTimeout(captureFrame, 50);
             };
-          }
+          };
           captureFrame();
           return;
         }

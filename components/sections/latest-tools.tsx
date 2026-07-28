@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { ArrowUpRight, Clock, Sparkles } from 'lucide-react';
 
-import { latestTools } from '@/lib/data';
+import { latestTools, tools } from '@/lib/data';
 import { ToolCard } from '@/components/tool-card';
 
 export function LatestTools() {
@@ -45,7 +45,7 @@ export function LatestTools() {
             className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-5 py-2.5 text-sm font-medium backdrop-blur-md transition-colors hover:text-brand-blue"
           >
             <Sparkles className="h-4 w-4 text-brand-blue" />
-            Discover all 500+ tools
+            Discover all {tools.length} tools
           </Link>
         </div>
       </div>

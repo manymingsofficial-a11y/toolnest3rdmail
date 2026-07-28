@@ -3,7 +3,7 @@ import { Github, Linkedin, Twitter, Wrench } from 'lucide-react';
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { categories } from '@/lib/data';
+import { categories, tools } from '@/lib/data';
 
 const usefulLinks = [
   { label: 'All Tools', href: '/tools' },
@@ -47,7 +47,7 @@ export function Footer() {
               </span>
             </Link>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-              500+ free online tools in one place — PDF, image, QR, developer,
+              {tools.length} free online tools in one place — PDF, image, QR, developer,
               calculators and more. Fast, secure, and no registration required.
             </p>
             <form className="mt-6 flex gap-2" id="newsletter">

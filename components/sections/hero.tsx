@@ -4,12 +4,12 @@ import { ArrowRight, Sparkles, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { tools, categories } from '@/lib/data';
 
-const quickAccess = [
-  'QR Code',
-  'Image Compressor',
-  'PDF Merge',
-  'Password Generator',
-  'Loan EMI',
+const quickAccessSlugs = [
+  'qr-code-generator',
+  'image-compressor',
+  'pdf-merge',
+  'password-generator',
+  'loan-emi-calculator',
 ];
 
 export function Hero() {
@@ -26,7 +26,7 @@ export function Hero() {
         <div className="mx-auto inline-flex animate-fade-in items-center gap-2 rounded-full border border-border/60 bg-background/40 px-4 py-1.5 text-sm text-muted-foreground backdrop-blur-md">
           <Sparkles className="h-3.5 w-3.5 text-brand-purple" />
           <span>
-            {tools.length}+ free online tools — no registration required
+            {tools.length} free online tools — no registration required
           </span>
         </div>
 
@@ -47,14 +47,19 @@ export function Hero() {
             <Zap className="h-4 w-4 text-brand-blue" />
             Quick access:
           </span>
-          {quickAccess.map((tag) => (
-            <span
-              key={tag}
-              className="rounded-full border border-border/60 bg-background/40 px-3 py-1 backdrop-blur-md transition-colors hover:text-foreground"
-            >
-              {tag}
-            </span>
-          ))}
+          {quickAccessSlugs.map((slug) => {
+            const tool = tools.find((t) => t.slug === slug);
+            if (!tool) return null;
+            return (
+              <Link
+                key={slug}
+                href={`/tools/${slug}`}
+                className="rounded-full border border-border/60 bg-background/40 px-3 py-1 backdrop-blur-md transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple focus-visible:ring-offset-2"
+              >
+                {tool.name}
+              </Link>
+            );
+          })}
         </div>
 
         <div className="mt-10 flex animate-fade-in flex-wrap items-center justify-center gap-3">

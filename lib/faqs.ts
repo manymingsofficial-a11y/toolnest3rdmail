@@ -1,3 +1,5 @@
+import { tools, categories } from '@/lib/data';
+
 export const faqs = [
   {
     q: 'Is ToolNest really free to use?',
@@ -13,7 +15,7 @@ export const faqs = [
   },
   {
     q: 'How many tools does ToolNest have?',
-    a: 'We currently offer 500+ free tools across 10 categories including PDF, image, QR & barcode, SEO, AI, text, developer, calculators, converters, and social media — with new tools added every week.',
+    a: `We currently offer ${tools.length} free tools across ${categories.length} categories including PDF, image, QR & barcode, SEO, AI, text, developer, calculators, converters, and more — with new tools added every week.`,
   },
   {
     q: 'Can I request a new tool?',

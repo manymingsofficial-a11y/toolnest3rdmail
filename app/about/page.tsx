@@ -1,6 +1,7 @@
 import { Wrench } from 'lucide-react';
 
 import { PageHeader } from '@/components/page-header';
+import { tools } from '@/lib/data';
 
 export default function AboutPage() {
   return (
@@ -8,7 +9,7 @@ export default function AboutPage() {
       <PageHeader
         eyebrow="Our story"
         title="Free tools for everyone, forever"
-        description="ToolNest exists to put 500+ useful online tools in one clean, fast, secure place — with no paywalls and no registration."
+        description={`ToolNest exists to put ${tools.length} useful online tools in one clean, fast, secure place — with no paywalls and no registration.`}
       />
       <section className="mx-auto max-w-3xl px-4 pb-24 sm:px-6">
         <div className="rounded-2xl glass-card p-10 text-center">
