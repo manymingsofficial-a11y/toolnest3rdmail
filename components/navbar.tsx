@@ -3,7 +3,7 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Heart, Menu, Wrench, X} from 'lucide-react';
+import { Clock, Heart, Menu, Wrench, X} from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -88,6 +88,18 @@ export function Navbar() {
         <div className="flex items-center gap-2">
           <SearchCommandPalette />
           <Link
+            href="/recent"
+            className={cn(
+              'grid h-9 w-9 place-items-center rounded-xl transition-colors',
+              pathname === '/recent'
+                ? 'text-foreground'
+                : 'text-muted-foreground hover:text-foreground'
+            )}
+            aria-label="Recently used tools"
+          >
+            <Clock className="h-5 w-5" />
+          </Link>
+          <Link
             href="/favorites"
             className={cn(
               'grid h-9 w-9 place-items-center rounded-xl transition-colors',
@@ -147,6 +159,18 @@ export function Navbar() {
               </Link>
             );
           })}
+          <Link
+            href="/recent"
+            className={cn(
+              'flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-colors',
+              pathname === '/recent'
+                ? 'bg-gradient-brand text-white'
+                : 'text-foreground/80 hover:bg-muted'
+            )}
+          >
+            <Clock className="h-4 w-4" />
+            Recent
+          </Link>
           <Link
             href="/favorites"
             className={cn(

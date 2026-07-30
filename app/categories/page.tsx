@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { ArrowUpRight, Search, SlidersHorizontal, Wrench, X } from 'lucide-react';
+import { ArrowDownAZ, ArrowUpRight, Calendar, Search, SlidersHorizontal, TrendingUp, Wrench, X } from 'lucide-react';
 
 import { categories, getToolsByCategory } from '@/lib/data';
 import type { Tool } from '@/lib/data';
@@ -17,6 +17,7 @@ export default function CategoriesPage() {
   const [query, setQuery] = React.useState('');
   const [hydrated, setHydrated] = React.useState(false);
   const [mobileCatOpen, setMobileCatOpen] = React.useState(false);
+  const [sortBy, setSortBy] = React.useState<'az' | 'newest' | 'popular'>('az');
 
   React.useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -52,14 +53,25 @@ export default function CategoriesPage() {
   );
 
   const filtered = React.useMemo(() => {
-    if (!query.trim()) return allTools;
-    const q = query.toLowerCase();
-    return allTools.filter(
-      (t) =>
-        t.name.toLowerCase().includes(q) ||
-        t.description.toLowerCase().includes(q)
-    );
-  }, [query, allTools]);
+    let result = allTools;
+    if (query.trim()) {
+      const q = query.toLowerCase();
+      result = result.filter(
+        (t) =>
+          t.name.toLowerCase().includes(q) ||
+          t.description.toLowerCase().includes(q)
+      );
+    }
+    const sorted = [...result];
+    if (sortBy === 'az') {
+      sorted.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sortBy === 'newest') {
+      sorted.sort((a, b) => (b.addedDaysAgo ?? 999) - (a.addedDaysAgo ?? 999));
+    } else if (sortBy === 'popular') {
+      sorted.sort((a, b) => (b.popularity ?? 0) - (a.popularity ?? 0));
+    }
+    return sorted;
+  }, [query, allTools, sortBy]);
 
   function selectCategory(slug: string) {
     setActiveSlug(slug);
@@ -234,6 +246,33 @@ export default function CategoriesPage() {
                     </button>
                   )}
                 </div>
+              </div>
+
+              {/* Sort buttons */}
+              <div className="mt-4 flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground">
+                  <SlidersHorizontal className="h-3.5 w-3.5" />
+                  Sort:
+                </span>
+                {[
+                  { key: 'az' as const, label: 'A–Z', icon: ArrowDownAZ },
+                  { key: 'newest' as const, label: 'Newest', icon: Calendar },
+                  { key: 'popular' as const, label: 'Most Used', icon: TrendingUp },
+                ].map(({ key, label, icon: Icon }) => (
+                  <button
+                    key={key}
+                    onClick={() => setSortBy(key)}
+                    className={cn(
+                      'inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-all',
+                      sortBy === key
+                        ? 'bg-gradient-brand text-white shadow-md shadow-brand-purple/20'
+                        : 'border border-border/60 bg-background/40 text-muted-foreground hover:text-foreground'
+                    )}
+                  >
+                    <Icon className="h-3 w-3" />
+                    {label}
+                  </button>
+                ))}
               </div>
             </div>
 

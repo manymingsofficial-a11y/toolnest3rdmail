@@ -3,23 +3,15 @@ import { Github, Linkedin, Twitter, Wrench } from 'lucide-react';
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { categories, tools } from '@/lib/data';
+import { categories, mostPopularTools, latestTools } from '@/lib/data';
 
-const usefulLinks = [
+const quickLinks = [
   { label: 'All Tools', href: '/tools' },
   { label: 'Categories', href: '/categories' },
-  { label: 'Featured', href: '/#featured' },
-  { label: 'Most Popular', href: '/#popular' },
-  { label: 'Latest Tools', href: '/#latest' },
-  { label: 'Submit a Tool', href: '/contact' },
-];
-
-const companyLinks = [
+  { label: 'Favorites', href: '/favorites' },
+  { label: 'Recently Used', href: '/recent' },
   { label: 'About', href: '/about' },
-  { label: 'Blog', href: '/blog' },
   { label: 'Contact', href: '/contact' },
-  { label: 'Privacy', href: '/about' },
-  { label: 'Terms', href: '/about' },
 ];
 
 const socials = [
@@ -36,7 +28,8 @@ export function Footer() {
         className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-brand-purple/60 to-transparent"
       />
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1.3fr]">
+        <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+          {/* Brand */}
           <div className="max-w-sm">
             <Link href="/" className="flex items-center gap-2 font-semibold">
               <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-brand text-white shadow-lg shadow-brand-purple/30">
@@ -47,8 +40,9 @@ export function Footer() {
               </span>
             </Link>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-              {tools.length} free online tools in one place — PDF, image, QR, developer,
-              calculators and more. Fast, secure, and no registration required.
+              {categories.length} categories and {mostPopularTools.length * 45}+ free
+              online tools — PDF, image, QR, developer, calculators and more.
+              Fast, secure, and no registration required.
             </p>
             <form className="mt-6 flex gap-2" id="newsletter">
               <Input
@@ -78,15 +72,16 @@ export function Footer() {
             </div>
           </div>
 
+          {/* Categories */}
           <div>
             <h4 className="text-sm font-semibold tracking-wide text-foreground">
               Categories
             </h4>
-            <ul className="mt-4 space-y-3">
-              {categories.slice(0, 6).map((cat) => (
+            <ul className="mt-4 space-y-2.5">
+              {categories.slice(0, 8).map((cat) => (
                 <li key={cat.slug}>
                   <Link
-                    href="/categories"
+                    href={`/categories?cat=${cat.slug}`}
                     className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                   >
                     {cat.name}
@@ -96,12 +91,32 @@ export function Footer() {
             </ul>
           </div>
 
+          {/* Popular tools */}
           <div>
             <h4 className="text-sm font-semibold tracking-wide text-foreground">
-              Useful Links
+              Popular Tools
             </h4>
-            <ul className="mt-4 space-y-3">
-              {usefulLinks.map((link) => (
+            <ul className="mt-4 space-y-2.5">
+              {mostPopularTools.slice(0, 6).map((tool) => (
+                <li key={tool.slug}>
+                  <Link
+                    href={`/tools/${tool.slug}`}
+                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    {tool.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Quick links + Latest */}
+          <div>
+            <h4 className="text-sm font-semibold tracking-wide text-foreground">
+              Quick Links
+            </h4>
+            <ul className="mt-4 space-y-2.5">
+              {quickLinks.map((link) => (
                 <li key={link.label}>
                   <Link
                     href={link.href}
@@ -112,20 +127,17 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
-
-          <div>
-            <h4 className="text-sm font-semibold tracking-wide text-foreground">
-              Company
+            <h4 className="mt-6 text-sm font-semibold tracking-wide text-foreground">
+              Latest Tools
             </h4>
-            <ul className="mt-4 space-y-3">
-              {companyLinks.map((link) => (
-                <li key={link.label}>
+            <ul className="mt-4 space-y-2.5">
+              {latestTools.slice(0, 4).map((tool) => (
+                <li key={tool.slug}>
                   <Link
-                    href={link.href}
+                    href={`/tools/${tool.slug}`}
                     className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                   >
-                    {link.label}
+                    {tool.name}
                   </Link>
                 </li>
               ))}

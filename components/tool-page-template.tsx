@@ -5,6 +5,7 @@ import type { LucideIcon } from 'lucide-react';
 
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
+import { ToolActions } from '@/components/tool-actions';
 import { getRelatedTools, tools } from '@/lib/data';
 import { generateToolJsonLd, generateBreadcrumbJsonLd } from '@/lib/seo';
 
@@ -129,6 +130,7 @@ export function ToolPageTemplate({
         <SeoContent {...seo} />
       </section>
 
+      <ToolActions slug={slug} />
       <RelatedTools slug={slug} tools={relatedTools} />
     </>
   );
