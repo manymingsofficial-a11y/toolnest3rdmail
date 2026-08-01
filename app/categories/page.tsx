@@ -9,6 +9,7 @@ import type { Tool } from '@/lib/data';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { PageHeader } from '@/components/page-header';
+import { AdPlaceholder } from '@/components/ads/ad-placeholder';
 
 const STORAGE_KEY = 'toolnest:active-category';
 
@@ -95,6 +96,7 @@ export default function CategoriesPage() {
       />
 
       <section className="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8">
+        <AdPlaceholder slot="category-top" className="mb-6" />
         {/* Mobile category selector trigger */}
         <div className="mb-6 lg:hidden">
           <button
@@ -309,6 +311,7 @@ export default function CategoriesPage() {
                   ))}
                 </div>
               )}
+              <AdPlaceholder slot="category-middle" className="mt-6" />
             </div>
           </div>
         </div>

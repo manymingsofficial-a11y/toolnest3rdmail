@@ -1,9 +1,8 @@
 import Link from 'next/link';
 import { Github, Linkedin, Twitter, Wrench } from 'lucide-react';
 
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import { categories, mostPopularTools, latestTools } from '@/lib/data';
+import { Newsletter } from '@/components/ads/newsletter';
 
 const quickLinks = [
   { label: 'All Tools', href: '/tools' },
@@ -45,18 +44,7 @@ export function Footer() {
               Fast, secure, and no registration required.
             </p>
             <form className="mt-6 flex gap-2" id="newsletter">
-              <Input
-                type="email"
-                placeholder="you@company.com"
-                aria-label="Email"
-                className="rounded-xl"
-              />
-              <Button
-                type="submit"
-                className="shrink-0 rounded-xl bg-gradient-brand text-white"
-              >
-                Subscribe
-              </Button>
+              <Newsletter variant="inline" title="Newsletter" description="New tools and updates." />
             </form>
             <div className="mt-6 flex gap-2">
               {socials.map(({ icon: Icon, label, href }) => (

@@ -11,6 +11,8 @@ import {
   generateBreadcrumbJsonLd,
   blogPosts,
 } from '@/lib/seo';
+import { AdPlaceholder } from '@/components/ads/ad-placeholder';
+import { Newsletter } from '@/components/ads/newsletter';
 
 export async function generateStaticParams() {
   return blogPosts.map((post) => ({ slug: post.slug }));
@@ -148,6 +150,11 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           </Link>
         </div>
       </article>
+
+      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+        <AdPlaceholder slot="blog-middle" className="my-8" />
+        <Newsletter variant="compact" className="mb-8" />
+      </div>
 
       {/* Related articles */}
       {relatedPosts.length > 0 && (

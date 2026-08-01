@@ -6,6 +6,8 @@ import type { LucideIcon } from 'lucide-react';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { ToolActions } from '@/components/tool-actions';
+import { AdPlaceholder } from '@/components/ads/ad-placeholder';
+import { Newsletter } from '@/components/ads/newsletter';
 import { getRelatedTools, tools } from '@/lib/data';
 import {
   generateToolJsonLd,
@@ -143,8 +145,21 @@ export function ToolPageTemplate({
       </section>
 
       <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
-        {children}
+        <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
+          <div className="min-w-0">
+            {children}
+          </div>
+          <aside className="hidden lg:block">
+            <div className="sticky top-24 space-y-6">
+              <AdPlaceholder slot="tool-sidebar" minHeight={250} />
+            </div>
+          </aside>
+        </div>
       </section>
+
+      <div className="mx-auto max-w-3xl px-4 sm:px-6">
+        <AdPlaceholder slot="tool-after" className="my-8" />
+      </div>
 
       <section className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
         <SeoContent {...seo} />

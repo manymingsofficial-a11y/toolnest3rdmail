@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { Calendar, Clock, ArrowUpRight } from 'lucide-react';
 
 import { PageHeader } from '@/components/page-header';
+import { AdPlaceholder } from '@/components/ads/ad-placeholder';
+import { Newsletter } from '@/components/ads/newsletter';
 import {
   generateBlogMetadata,
   generateItemListJsonLd,
@@ -43,6 +45,8 @@ export default function BlogPage() {
       />
 
       <section className="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8">
+        <AdPlaceholder slot="blog-top" className="mb-10" />
+
         {/* Categories */}
         {categories.length > 0 && (
           <div className="mb-10">
@@ -100,6 +104,8 @@ export default function BlogPage() {
           ))}
         </div>
 
+        <AdPlaceholder slot="blog-middle" className="mt-10" />
+
         {/* Tags */}
         {tags.length > 0 && (
           <div className="mt-12">
@@ -119,6 +125,9 @@ export default function BlogPage() {
             </div>
           </div>
         )}
+
+        <AdPlaceholder slot="blog-bottom" className="mt-12" />
+        <Newsletter className="mt-12" />
       </section>
     </>
   );
