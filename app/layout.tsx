@@ -6,7 +6,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
-import { generateWebsiteJsonLd } from '@/lib/seo';
+import { generateWebsiteJsonLd, generateOrganizationJsonLd } from '@/lib/seo';
 import { tools } from '@/lib/data';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
@@ -86,14 +86,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const websiteJsonLd = generateWebsiteJsonLd();
+  const organizationJsonLd = generateOrganizationJsonLd();
 
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(websiteJsonLd),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationJsonLd),
           }}
         />
       </head>

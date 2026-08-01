@@ -5,20 +5,22 @@ import { ChevronRight, QrCode } from 'lucide-react';
 import { QrCodeGenerator } from '@/components/qr-code-generator';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
+import { ToolActions } from '@/components/tool-actions';
 import { getRelatedTools } from '@/lib/data';
-import { generateToolJsonLd, generateBreadcrumbJsonLd } from '@/lib/seo';
+import {
+  generateToolJsonLd,
+  generateWebApplicationJsonLd,
+  generateBreadcrumbJsonLd,
+  generateHowToJsonLd,
+  generateFaqJsonLd,
+  generateToolMetadata,
+} from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'QR Code Generator — Free Online Tool | ToolNest',
-  description:
-    'Generate QR codes for URLs, text, email, phone, WhatsApp, WiFi and Google Maps. Customize colors, add a logo, and download as PNG, JPG or SVG. Free, no sign-up.',
-  alternates: { canonical: '/tools/qr-code-generator' },
-  openGraph: {
-    title: 'QR Code Generator — Free Online Tool | ToolNest',
-    description:
-      'Create custom QR codes for any purpose. Free, fast, and no registration required.',
-  },
-};
+export const metadata: Metadata = generateToolMetadata(
+  'qr-code-generator',
+  'QR Code Generator — Free Online Tool | ToolNest',
+  'Generate QR codes for URLs, text, email, phone, WhatsApp, WiFi and Google Maps. Customize colors, add a logo, and download as PNG, JPG or SVG. Free, no sign-up.'
+);
 
 const relatedTools = getRelatedTools('qr-code-generator', 3).filter((t) =>
   ['barcode-generator', 'url-encoder', 'password-generator'].includes(t.slug)
@@ -26,10 +28,27 @@ const relatedTools = getRelatedTools('qr-code-generator', 3).filter((t) =>
 
 export default function QrCodeGeneratorPage() {
   const toolJsonLd = generateToolJsonLd('qr-code-generator');
+  const webAppJsonLd = generateWebApplicationJsonLd('qr-code-generator');
   const breadcrumbJsonLd = generateBreadcrumbJsonLd([
     { name: 'Home', url: '/' },
     { name: 'Tools', url: '/tools' },
     { name: 'QR Code Generator', url: '/tools/qr-code-generator' },
+  ]);
+  const howtoJsonLd = generateHowToJsonLd('QR Code Generator', [
+    'Pick a content type at the top — URL, text, email, phone, WhatsApp, WiFi or Maps.',
+    'Enter the details for that type (for example, paste a website link for a URL code).',
+    'Watch the live preview update instantly on the right as you type.',
+    'Customize the QR color, background, transparency, size and quiet zone to match your brand.',
+    'Optionally upload a square logo to place in the center of the code.',
+    'Click PNG, JPG or SVG to download your finished QR code.',
+  ]);
+  const faqJsonLd = generateFaqJsonLd([
+    { q: 'Are the QR codes free to use commercially?', a: 'Yes. Every QR code you generate is 100% free to use for personal and commercial purposes, with no watermarks or attribution required.' },
+    { q: 'Do the QR codes expire?', a: 'No. Static QR codes like the ones generated here never expire — they will keep working as long as the content they point to (such as a URL) stays online.' },
+    { q: 'Can I add my logo to the QR code?', a: 'Yes. Upload a square image in the customization panel and it will be placed in the center of the code. The error correction level automatically increases to "High" so the code still scans reliably.' },
+    { q: 'What size should I use for printing?', a: 'For printing, download the SVG version — it scales to any size without losing quality. As a rule of thumb, a printed QR code should be at least 2x2 cm so phone cameras can scan it easily.' },
+    { q: 'Is my data sent to a server?', a: 'No. The QR code is generated entirely in your browser. Nothing you type is uploaded, so it is safe to encode sensitive information like WiFi passwords.' },
+    { q: 'Why is my QR code not scanning?', a: 'Make sure there is enough contrast between the QR color and background, the size is large enough, and the quiet zone (margin) is at least 2. If you added a logo, keep it under about 20% of the code area.' },
   ]);
 
   return (
@@ -40,9 +59,23 @@ export default function QrCodeGeneratorPage() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(toolJsonLd) }}
         />
       )}
+      {webAppJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppJsonLd) }}
+        />
+      )}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howtoJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
       <section className="relative overflow-hidden pt-28 pb-10 sm:pt-32">
         <div aria-hidden className="absolute inset-0 -z-10">
@@ -145,6 +178,7 @@ export default function QrCodeGeneratorPage() {
         />
       </section>
 
+      <ToolActions slug="qr-code-generator" />
       <RelatedTools slug="qr-code-generator" tools={relatedTools} />
     </>
   );

@@ -7,7 +7,14 @@ import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { ToolActions } from '@/components/tool-actions';
 import { getRelatedTools, tools } from '@/lib/data';
-import { generateToolJsonLd, generateBreadcrumbJsonLd } from '@/lib/seo';
+import {
+  generateToolJsonLd,
+  generateWebApplicationJsonLd,
+  generateBreadcrumbJsonLd,
+  generateHowToJsonLd,
+  generateFaqJsonLd,
+  generateToolMetadata,
+} from '@/lib/seo';
 
 export type ToolSeoContent = {
   whatIs: string;
@@ -31,18 +38,10 @@ function getTool(slug: string) {
 
 export function buildToolMetadata(
   slug: string,
-  title: string,
-  description: string
+  title?: string,
+  description?: string
 ): Metadata {
-  return {
-    title: `${title} — Free Online Tool | ToolNest`,
-    description,
-    alternates: { canonical: `/tools/${slug}` },
-    openGraph: {
-      title: `${title} — Free Online Tool | ToolNest`,
-      description,
-    },
-  };
+  return generateToolMetadata(slug, title, description);
 }
 
 export function ToolPageTemplate({
@@ -65,11 +64,14 @@ export function ToolPageTemplate({
     : getRelatedTools(slug, 3);
 
   const toolJsonLd = generateToolJsonLd(slug);
+  const webAppJsonLd = generateWebApplicationJsonLd(slug);
   const breadcrumbJsonLd = generateBreadcrumbJsonLd([
     { name: 'Home', url: '/' },
     { name: 'Tools', url: '/tools' },
     { name: tool.name, url: `/tools/${tool.slug}` },
   ]);
+  const howtoJsonLd = seo.howTo.length > 0 ? generateHowToJsonLd(tool.name, seo.howTo) : null;
+  const faqJsonLd = seo.faqs.length > 0 ? generateFaqJsonLd(seo.faqs) : null;
 
   return (
     <>
@@ -79,10 +81,28 @@ export function ToolPageTemplate({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(toolJsonLd) }}
         />
       )}
+      {webAppJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppJsonLd) }}
+        />
+      )}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
+      {howtoJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(howtoJsonLd) }}
+        />
+      )}
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
       <section className="relative overflow-hidden pt-28 pb-10 sm:pt-32">
         <div aria-hidden className="absolute inset-0 -z-10">
           <div className="absolute inset-0 grid-bg opacity-30 [mask-image:radial-gradient(ellipse_at_top,black,transparent_70%)]" />
@@ -91,7 +111,7 @@ export function ToolPageTemplate({
           />
         </div>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <nav className="flex items-center gap-1.5 text-sm text-muted-foreground">
+          <nav className="flex items-center gap-1.5 text-sm text-muted-foreground" aria-label="Breadcrumb">
             <Link href="/" className="transition-colors hover:text-foreground">
               Home
             </Link>
