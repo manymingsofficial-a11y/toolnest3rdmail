@@ -41,6 +41,16 @@ async function withRetry<T>(fn: () => Promise<T>, retries = 2): Promise<T> {
   throw lastError;
 }
 
+function cleanTimestamp(value: unknown): string | null {
+  if (value === null || value === undefined) return null;
+  if (typeof value === 'string') {
+    if (value === 'null' || value === 'undefined' || value === '') return null;
+    return value;
+  }
+  if (value instanceof Date) return value.toISOString();
+  return null;
+}
+
 async function logAction(level: 'info' | 'warning' | 'error', message: string, source: string) {
   try {
     await supabase.from('admin_logs').insert({ level, message, source });
@@ -96,7 +106,7 @@ function mapBlog(r: BlogRow): AdminBlogPost {
 export class SupabaseDataProvider implements DataProvider {
   async getDashboardStats(): Promise<AdminDashboardStats> {
     const [toolsRes, catsRes, blogRes] = await Promise.all([
-      supabase.from('admin_tools').select('name, popularity, category').eq('deleted_at', null),
+      supabase.from('admin_tools').select('name, popularity, category').is('deleted_at', null),
       supabase.from('admin_categories').select('name'),
       supabase.from('admin_blog_posts').select('slug', { count: 'exact', head: true }),
     ]);
@@ -154,7 +164,7 @@ export class SupabaseDataProvider implements DataProvider {
       const { data, error } = await supabase
         .from('admin_tools')
         .select('*')
-        .eq('deleted_at', null)
+        .is('deleted_at', null)
         .order('created_at', { ascending: false });
       if (error) throw new Error(friendlyError(error, 'Failed to load tools'));
       return (data as ToolRow[]).map(mapTool);
@@ -166,7 +176,7 @@ export class SupabaseDataProvider implements DataProvider {
       .from('admin_tools')
       .select('*')
       .eq('slug', slug)
-      .eq('deleted_at', null)
+      .is('deleted_at', null)
       .maybeSingle();
     if (error) throw new Error(friendlyError(error, 'Failed to load tool'));
     return data ? mapTool(data as ToolRow) : null;
@@ -201,7 +211,7 @@ export class SupabaseDataProvider implements DataProvider {
       .from('admin_tools')
       .update(row)
       .eq('slug', slug)
-      .eq('deleted_at', null)
+      .is('deleted_at', null)
       .select()
       .single();
     if (error) throw new Error(friendlyError(error, 'Failed to update tool'));
@@ -353,7 +363,7 @@ export class SupabaseDataProvider implements DataProvider {
     const { data, error } = await supabase.from('admin_blog_posts').insert({
       slug: post.slug, title: post.title, description: post.description,
       category: post.category, tags: post.tags, author: post.author,
-      published_at: post.publishedAt, updated_at_text: post.updatedAt ?? null,
+      published_at: post.publishedAt, updated_at_text: cleanTimestamp(post.updatedAt),
       reading_time: post.readingTime, status: post.status,
       featured_image: post.featuredImage ?? null, content: post.content,
       seo_title: post.seoTitle ?? null, seo_description: post.seoDescription ?? null,
@@ -370,8 +380,8 @@ export class SupabaseDataProvider implements DataProvider {
     if (updates.category !== undefined) row.category = updates.category;
     if (updates.tags !== undefined) row.tags = updates.tags;
     if (updates.author !== undefined) row.author = updates.author;
-    if (updates.publishedAt !== undefined) row.published_at = updates.publishedAt;
-    if (updates.updatedAt !== undefined) row.updated_at_text = updates.updatedAt;
+    if (updates.publishedAt !== undefined) row.published_at = cleanTimestamp(updates.publishedAt) ?? '';
+    if (updates.updatedAt !== undefined) row.updated_at_text = cleanTimestamp(updates.updatedAt);
     if (updates.readingTime !== undefined) row.reading_time = updates.readingTime;
     if (updates.status !== undefined) row.status = updates.status;
     if (updates.featuredImage !== undefined) row.featured_image = updates.featuredImage || null;
@@ -654,11 +664,11 @@ export class SupabaseDataProvider implements DataProvider {
       for (const sub of updates.subscribers) {
         if (existingIds.has(sub.id)) {
           await supabase.from('admin_newsletter_subscribers').update({
-            email: sub.email, subscribed_at: sub.subscribedAt, status: sub.status,
+            email: sub.email, subscribed_at: cleanTimestamp(sub.subscribedAt), status: sub.status,
           }).eq('id', sub.id);
         } else {
           await supabase.from('admin_newsletter_subscribers').insert({
-            id: sub.id, email: sub.email, subscribed_at: sub.subscribedAt, status: sub.status,
+            id: sub.id, email: sub.email, subscribed_at: cleanTimestamp(sub.subscribedAt), status: sub.status,
           });
         }
       }
