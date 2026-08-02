@@ -43,9 +43,9 @@ export function Footer() {
               online tools — PDF, image, QR, developer, calculators and more.
               Fast, secure, and no registration required.
             </p>
-            <div className="mt-6">
+            <form className="mt-6 flex gap-2" id="newsletter">
               <Newsletter variant="inline" title="Newsletter" description="New tools and updates." />
-            </div>
+            </form>
             <div className="mt-6 flex gap-2">
               {socials.map(({ icon: Icon, label, href }) => (
                 <a
