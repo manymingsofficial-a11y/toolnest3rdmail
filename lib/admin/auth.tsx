@@ -1,10 +1,8 @@
 'use client';
 
 import * as React from 'react';
-
-const STORAGE_KEY = 'toolnest_admin_session';
-const ADMIN_EMAIL = 'admin@toolnest.com';
-const ADMIN_PASSWORD = 'admin123';
+import type { Session, User } from '@supabase/supabase-js';
+import { supabase } from '@/lib/supabase-client';
 
 export type AdminSession = {
   email: string;
@@ -16,7 +14,7 @@ type AuthContextValue = {
   session: AdminSession | null;
   isLoading: boolean;
   login: (email: string, password: string, remember: boolean) => Promise<{ ok: boolean; error?: string }>;
-  logout: () => void;
+  logout: () => Promise<void>;
 };
 
 const AuthContext = React.createContext<AuthContextValue | null>(null);
@@ -26,48 +24,61 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
-    try {
-      const raw = sessionStorage.getItem(STORAGE_KEY) ?? localStorage.getItem(STORAGE_KEY);
-      if (raw) {
-        setSession(JSON.parse(raw));
+    let mounted = true;
+
+    supabase.auth.getSession().then(({ data }: { data: { session: Session | null } }) => {
+      if (!mounted) return;
+      if (data.session) {
+        const user = data.session.user as User;
+        setSession({
+          email: user.email ?? '',
+          loginAt: new Date().toISOString(),
+          remember: true,
+        });
       }
-    } catch {
-      // ignore parse errors
-    }
-    setIsLoading(false);
+      setIsLoading(false);
+    });
+
+    const { data: authListener } = supabase.auth.onAuthStateChange((event: string, newSession: Session | null) => {
+      (async () => {
+        if (!mounted) return;
+        if (event === 'SIGNED_OUT' || !newSession) {
+          setSession(null);
+        } else if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+          const user = newSession.user as User;
+          setSession({
+            email: user.email ?? '',
+            loginAt: new Date().toISOString(),
+            remember: true,
+          });
+        }
+      })();
+    });
+
+    return () => {
+      mounted = false;
+      authListener.subscription.unsubscribe();
+    };
   }, []);
 
   const login = React.useCallback(
-    async (email: string, password: string, remember: boolean): Promise<{ ok: boolean; error?: string }> => {
-      await new Promise((r) => setTimeout(r, 400));
-      if (email.trim().toLowerCase() !== ADMIN_EMAIL || password !== ADMIN_PASSWORD) {
-        return { ok: false, error: 'Invalid email or password.' };
-      }
-      const newSession: AdminSession = {
-        email: ADMIN_EMAIL,
-        loginAt: new Date().toISOString(),
-        remember,
-      };
-      setSession(newSession);
-      try {
-        const storage = remember ? localStorage : sessionStorage;
-        storage.setItem(STORAGE_KEY, JSON.stringify(newSession));
-      } catch {
-        // ignore storage errors
+    async (email: string, password: string, _remember: boolean): Promise<{ ok: boolean; error?: string }> => {
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) {
+        const msg = error.message;
+        if (msg.includes('Invalid login')) return { ok: false, error: 'Invalid email or password.' };
+        if (msg.includes('Email not confirmed')) return { ok: false, error: 'Please confirm your email first.' };
+        if (msg.includes('rate limit')) return { ok: false, error: 'Too many attempts. Please wait a moment.' };
+        return { ok: false, error: msg };
       }
       return { ok: true };
     },
     []
   );
 
-  const logout = React.useCallback(() => {
+  const logout = React.useCallback(async () => {
+    await supabase.auth.signOut();
     setSession(null);
-    try {
-      sessionStorage.removeItem(STORAGE_KEY);
-      localStorage.removeItem(STORAGE_KEY);
-    } catch {
-      // ignore
-    }
   }, []);
 
   const value = React.useMemo(

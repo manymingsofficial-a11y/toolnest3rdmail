@@ -62,8 +62,8 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
     return <>{children}</>;
   }
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     router.replace('/admin/login');
   };
 

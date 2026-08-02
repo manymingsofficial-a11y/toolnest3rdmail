@@ -497,11 +497,7 @@ export class StaticDataProvider implements DataProvider {
   }
 }
 
-let _provider: DataProvider | null = null;
-
-export function getDataProvider(): DataProvider {
-  if (!_provider) {
-    _provider = new StaticDataProvider();
-  }
-  return _provider;
-}
+// Re-export getDataProvider from the Supabase provider.
+// The static provider is kept for reference/testing only.
+// The production admin dashboard uses the Supabase provider.
+export { getDataProvider } from './supabase-provider';

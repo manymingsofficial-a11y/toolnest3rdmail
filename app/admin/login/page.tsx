@@ -105,7 +105,7 @@ export default function AdminLoginPage() {
         </form>
 
         <p className="mt-6 text-center text-xs text-muted-foreground">
-          Demo credentials: admin@toolnest.com / admin123
+          Sign in with your ToolNest admin account
         </p>
       </Card>
     </div>
