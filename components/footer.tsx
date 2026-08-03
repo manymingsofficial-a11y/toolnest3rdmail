@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { Github, Linkedin, Twitter, Wrench } from 'lucide-react';
 
-import { categories, mostPopularTools, latestTools } from '@/lib/data';
 import { Newsletter } from '@/components/ads/newsletter';
+import type { Category, Tool } from '@/lib/data';
 
 const quickLinks = [
   { label: 'All Tools', href: '/tools' },
@@ -13,13 +13,45 @@ const quickLinks = [
   { label: 'Contact', href: '/contact' },
 ];
 
-const socials = [
-  { icon: Twitter, label: 'Twitter', href: '#' },
-  { icon: Github, label: 'GitHub', href: '#' },
-  { icon: Linkedin, label: 'LinkedIn', href: '#' },
+const defaultSocials = [
+  { icon: Twitter, label: 'Twitter', href: 'https://twitter.com/toolnest' },
+  { icon: Github, label: 'GitHub', href: 'https://github.com/toolnest' },
+  { icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/company/toolnest' },
 ];
 
-export function Footer() {
+export function Footer({
+  categories = [],
+  popularTools = [],
+  latestTools = [],
+  siteName = 'ToolNest',
+  footerText = 'Built for everyone — free forever.',
+  socialLinks,
+}: {
+  categories?: Category[];
+  popularTools?: Tool[];
+  latestTools?: Tool[];
+  siteName?: string;
+  footerText?: string;
+  socialLinks?: {
+    twitter: string;
+    github: string;
+    linkedin: string;
+    instagram: string;
+  };
+}) {
+  const socials = socialLinks
+    ? [
+        { icon: Twitter, label: 'Twitter', href: socialLinks.twitter || '#' },
+        { icon: Github, label: 'GitHub', href: socialLinks.github || '#' },
+        { icon: Linkedin, label: 'LinkedIn', href: socialLinks.linkedin || '#' },
+      ].filter((s) => s.href !== '#')
+    : defaultSocials;
+
+  const displayName = siteName;
+  const brandParts = displayName.includes('Nest')
+    ? { before: displayName.split('Nest')[0], after: 'Nest' }
+    : { before: displayName, after: '' };
+
   return (
     <footer className="relative mt-24 border-t border-border/60">
       <div
@@ -35,11 +67,12 @@ export function Footer() {
                 <Wrench className="h-5 w-5" />
               </span>
               <span className="text-base tracking-tight">
-                Tool<span className="text-gradient">Nest</span>
+                {brandParts.before}
+                {brandParts.after && <span className="text-gradient">{brandParts.after}</span>}
               </span>
             </Link>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-              {categories.length} categories and {mostPopularTools.length * 45}+ free
+              {categories.length} categories and {popularTools.length * 45}+ free
               online tools — PDF, image, QR, developer, calculators and more.
               Fast, secure, and no registration required.
             </p>
@@ -85,7 +118,7 @@ export function Footer() {
               Popular Tools
             </h4>
             <ul className="mt-4 space-y-2.5">
-              {mostPopularTools.slice(0, 6).map((tool) => (
+              {popularTools.slice(0, 6).map((tool) => (
                 <li key={tool.slug}>
                   <Link
                     href={`/tools/${tool.slug}`}
@@ -115,28 +148,32 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-            <h4 className="mt-6 text-sm font-semibold tracking-wide text-foreground">
-              Latest Tools
-            </h4>
-            <ul className="mt-4 space-y-2.5">
-              {latestTools.slice(0, 4).map((tool) => (
-                <li key={tool.slug}>
-                  <Link
-                    href={`/tools/${tool.slug}`}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    {tool.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            {latestTools.length > 0 && (
+              <>
+                <h4 className="mt-6 text-sm font-semibold tracking-wide text-foreground">
+                  Latest Tools
+                </h4>
+                <ul className="mt-4 space-y-2.5">
+                  {latestTools.slice(0, 4).map((tool) => (
+                    <li key={tool.slug}>
+                      <Link
+                        href={`/tools/${tool.slug}`}
+                        className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                      >
+                        {tool.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
           </div>
         </div>
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border/60 pt-8 text-sm text-muted-foreground sm:flex-row">
-          <p>© {new Date().getFullYear()} ToolNest. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} {siteName}. All rights reserved.</p>
           <p className="text-center sm:text-right">
-            Built for everyone — free forever.
+            {footerText}
           </p>
         </div>
       </div>

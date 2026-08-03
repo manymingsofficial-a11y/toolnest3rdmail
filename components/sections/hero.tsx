@@ -2,7 +2,8 @@ import Link from 'next/link';
 import { ArrowRight, Sparkles, Zap } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { tools, categories } from '@/lib/data';
+import { tools as allTools, categories as allCategories } from '@/lib/data';
+import type { Tool } from '@/lib/data';
 
 const quickAccessSlugs = [
   'qr-code-generator',
@@ -12,7 +13,27 @@ const quickAccessSlugs = [
   'loan-emi-calculator',
 ];
 
-export function Hero() {
+export function Hero({
+  toolCount,
+  categoryCount,
+  heroTitle,
+  heroSubtitle,
+  heroBadge,
+  siteName = 'ToolNest',
+}: {
+  toolCount?: number;
+  categoryCount?: number;
+  heroTitle?: string;
+  heroSubtitle?: string;
+  heroBadge?: string;
+  siteName?: string;
+}) {
+  const toolCountVal = toolCount ?? allTools.length;
+  const categoryCountVal = categoryCount ?? allCategories.length;
+  const title = heroTitle ?? 'Every free tool you need, in one nest';
+  const subtitle = heroSubtitle ?? `${siteName} brings together PDF, image, QR & barcode, SEO, AI, text, developer, calculators and converters — fast, secure, and completely free. Use the search in the header to launch any tool in seconds.`;
+  const badge = heroBadge ?? `${toolCountVal} free online tools — no registration required`;
+
   return (
     <section className="relative overflow-hidden pt-36 pb-20 sm:pt-44 sm:pb-28">
       <div aria-hidden className="absolute inset-0 -z-10">
@@ -25,21 +46,25 @@ export function Hero() {
       <div className="mx-auto max-w-4xl px-4 text-center sm:px-6">
         <div className="mx-auto inline-flex animate-fade-in items-center gap-2 rounded-full border border-border/60 bg-background/40 px-4 py-1.5 text-sm text-muted-foreground backdrop-blur-md">
           <Sparkles className="h-3.5 w-3.5 text-brand-purple" />
-          <span>
-            {tools.length} free online tools — no registration required
-          </span>
+          <span>{badge}</span>
         </div>
 
         <h1 className="mt-8 animate-fade-in text-4xl font-bold leading-[1.05] tracking-tight sm:text-6xl sm:leading-[1.02]">
-          Every free tool you need,
-          <br className="hidden sm:block" />{' '}
-          <span className="text-gradient">in one nest</span>
+          {title.includes(',') ? (
+            <>
+              {title.split(',')[0]},
+              <br className="hidden sm:block" />{' '}
+              <span className="text-gradient">{title.split(',').slice(1).join(',').trim()}</span>
+            </>
+          ) : (
+            <>
+              {title}
+            </>
+          )}
         </h1>
 
         <p className="mx-auto mt-6 max-w-2xl animate-fade-in text-base leading-relaxed text-muted-foreground sm:text-lg">
-          ToolNest brings together PDF, image, QR &amp; barcode, SEO, AI, text,
-          developer, calculators and converters — fast, secure, and completely
-          free. Use the search in the header to launch any tool in seconds.
+          {subtitle}
         </p>
 
         <div className="mt-6 flex animate-fade-in flex-wrap items-center justify-center gap-2 text-sm text-muted-foreground">
@@ -48,7 +73,7 @@ export function Hero() {
             Quick access:
           </span>
           {quickAccessSlugs.map((slug) => {
-            const tool = tools.find((t) => t.slug === slug);
+            const tool = allTools.find((t) => t.slug === slug);
             if (!tool) return null;
             return (
               <Link
@@ -79,7 +104,7 @@ export function Hero() {
             variant="outline"
             className="rounded-xl border-border/60 bg-background/40 backdrop-blur-md"
           >
-            <Link href="/categories">Explore {categories.length} categories</Link>
+            <Link href="/categories">Explore {categoryCountVal} categories</Link>
           </Button>
         </div>
       </div>

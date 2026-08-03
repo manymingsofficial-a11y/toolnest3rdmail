@@ -1,12 +1,21 @@
-'use client';
-
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 
-import { categories, getToolsByCategory } from '@/lib/data';
 import { cn } from '@/lib/utils';
+import type { Category, Tool } from '@/lib/data';
 
-export function Categories() {
+export function Categories({
+  categories,
+  tools,
+}: {
+  categories: Category[];
+  tools?: Tool[];
+}) {
+  const getCatToolCount = (catName: string): number => {
+    if (tools) return tools.filter((t) => t.category === catName).length;
+    return 0;
+  };
+
   return (
     <section id="categories" className="relative py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -35,8 +44,8 @@ export function Categories() {
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {categories.map((cat) => {
-            const catTools = getToolsByCategory(cat.name);
             const CatIcon = cat.icon;
+            const count = getCatToolCount(cat.name) || cat.count;
             return (
               <Link
                 key={cat.slug}
@@ -66,7 +75,7 @@ export function Categories() {
                 </p>
                 <div className="mt-5 flex items-center justify-between">
                   <span className="rounded-full bg-muted px-3 py-1 text-xs font-medium text-muted-foreground">
-                    {catTools.length} {catTools.length === 1 ? 'tool' : 'tools'}
+                    {count} {count === 1 ? 'tool' : 'tools'}
                   </span>
                   <span className="inline-flex items-center gap-1 text-sm font-medium text-foreground transition-colors group-hover:text-brand-purple">
                     Explore

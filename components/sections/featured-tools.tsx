@@ -1,16 +1,22 @@
-'use client';
-
 import Link from 'next/link';
 import { ArrowUpRight, Star } from 'lucide-react';
 
-import { categories, tools } from '@/lib/data';
 import { ToolCard } from '@/components/tool-card';
 import { cn } from '@/lib/utils';
+import type { Tool, Category } from '@/lib/data';
 
-export function FeaturedTools() {
+export function FeaturedTools({
+  categories,
+  featuredTools,
+}: {
+  categories: Category[];
+  featuredTools: Tool[];
+}) {
   const featuredCategorySlugs = ['pdf-tools', 'image-tools', 'qr-tools', 'developer-tools'];
   const featuredCategories = categories.filter((c) => featuredCategorySlugs.includes(c.slug));
-  const featuredTools = tools.filter((t) => t.badge === 'Popular').slice(0, 4);
+  const tools = featuredTools.length > 0
+    ? featuredTools
+    : [];
 
   return (
     <section id="featured" className="relative py-20 sm:py-28">
@@ -79,11 +85,13 @@ export function FeaturedTools() {
         </div>
 
         {/* Popular tools */}
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {featuredTools.map((tool) => (
-            <ToolCard key={tool.slug} tool={tool} />
-          ))}
-        </div>
+        {tools.length > 0 && (
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {tools.map((tool) => (
+              <ToolCard key={tool.slug} tool={tool} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

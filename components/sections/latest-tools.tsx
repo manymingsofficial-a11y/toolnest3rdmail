@@ -1,12 +1,16 @@
-'use client';
-
 import Link from 'next/link';
 import { ArrowUpRight, Clock, Sparkles } from 'lucide-react';
 
-import { latestTools, tools } from '@/lib/data';
 import { ToolCard } from '@/components/tool-card';
+import type { Tool } from '@/lib/data';
 
-export function LatestTools() {
+export function LatestTools({
+  latestTools,
+  totalTools,
+}: {
+  latestTools: Tool[];
+  totalTools: number;
+}) {
   return (
     <section id="latest" className="relative py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -45,7 +49,7 @@ export function LatestTools() {
             className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-5 py-2.5 text-sm font-medium backdrop-blur-md transition-colors hover:text-brand-blue"
           >
             <Sparkles className="h-4 w-4 text-brand-blue" />
-            Discover all {tools.length} tools
+            Discover all {totalTools} tools
           </Link>
         </div>
       </div>

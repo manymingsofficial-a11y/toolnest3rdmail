@@ -4,15 +4,13 @@ import { notFound } from 'next/navigation';
 import { Calendar, Clock, ArrowUpRight } from 'lucide-react';
 
 import { PageHeader } from '@/components/page-header';
-import {
-  getBlogPostsByTag,
-  getBlogTags,
-  generateBreadcrumbJsonLd,
-  SITE_URL,
-} from '@/lib/seo';
+import { generateBreadcrumbJsonLd, SITE_URL } from '@/lib/seo';
+import { fetchBlogPosts } from '@/lib/public-data';
 
 export async function generateStaticParams() {
-  return getBlogTags().map((tag) => ({
+  const posts = await fetchBlogPosts();
+  const tags = Array.from(new Set(posts.flatMap((p) => p.tags)));
+  return tags.map((tag) => ({
     slug: tag.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
   }));
 }
@@ -22,7 +20,8 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const tags = getBlogTags();
+  const posts = await fetchBlogPosts();
+  const tags = Array.from(new Set(posts.flatMap((p) => p.tags)));
   const tag = tags.find(
     (t) => t.toLowerCase().replace(/[^a-z0-9]+/g, '-') === params.slug
   );
@@ -43,14 +42,21 @@ export async function generateMetadata({
   };
 }
 
-export default function BlogTagPage({ params }: { params: { slug: string } }) {
-  const tags = getBlogTags();
+export default async function BlogTagPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const allPosts = await fetchBlogPosts();
+  const tags = Array.from(new Set(allPosts.flatMap((p) => p.tags)));
   const tag = tags.find(
     (t) => t.toLowerCase().replace(/[^a-z0-9]+/g, '-') === params.slug
   );
   if (!tag) notFound();
 
-  const posts = getBlogPostsByTag(tag);
+  const posts = allPosts.filter((p) =>
+    p.tags.some((t) => t.toLowerCase() === tag.toLowerCase())
+  );
   const breadcrumbJsonLd = generateBreadcrumbJsonLd([
     { name: 'Home', url: '/' },
     { name: 'Blog', url: '/blog' },

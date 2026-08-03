@@ -5,18 +5,22 @@ import { ArrowUpRight, Flame, Sparkles, TrendingUp } from 'lucide-react';
 
 import { ToolCard } from '@/components/tool-card';
 import { usePopularTools, useRecentlyUsed } from '@/hooks/use-tools-storage';
-import { latestTools, mostPopularTools, tools } from '@/lib/data';
+import type { Tool } from '@/lib/data';
 
-export function TrendingTools() {
+export function TrendingTools({
+  trendingTools,
+  newestTools,
+  allTools,
+}: {
+  trendingTools: Tool[];
+  newestTools: Tool[];
+  allTools: Tool[];
+}) {
   const { mostUsed, hydrated } = usePopularTools();
   const { recentTools } = useRecentlyUsed();
 
-  const trending = hydrated && mostUsed.length >= 3 ? mostUsed : mostPopularTools;
-
-  const newest = tools
-    .filter((t) => t.isNew)
-    .slice(0, 4);
-
+  const trending = hydrated && mostUsed.length >= 3 ? mostUsed : (trendingTools.length > 0 ? trendingTools : []);
+  const newest = newestTools.filter((t) => t.isNew).slice(0, 4);
   const continueTools = recentTools.slice(0, 4);
 
   return (

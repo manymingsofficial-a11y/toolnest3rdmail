@@ -3,19 +3,14 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Calendar, Clock, ArrowUpRight, ArrowLeft, PenLine } from 'lucide-react';
 
-import {
-  getBlogPost,
-  getRelatedBlogPosts,
-  generateBlogPostMetadata,
-  generateBlogPostJsonLd,
-  generateBreadcrumbJsonLd,
-  blogPosts,
-} from '@/lib/seo';
+import { generateBreadcrumbJsonLd, generateBlogPostJsonLd, SITE_URL } from '@/lib/seo';
 import { AdPlaceholder } from '@/components/ads/ad-placeholder';
 import { Newsletter } from '@/components/ads/newsletter';
+import { fetchBlogPost, fetchBlogPosts } from '@/lib/public-data';
 
 export async function generateStaticParams() {
-  return blogPosts.map((post) => ({ slug: post.slug }));
+  const posts = await fetchBlogPosts();
+  return posts.map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({
@@ -23,14 +18,49 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  return generateBlogPostMetadata(params.slug);
+  const post = await fetchBlogPost(params.slug);
+  if (!post) return {};
+
+  return {
+    title: post.title,
+    description: post.description,
+    keywords: post.tags,
+    alternates: { canonical: `/blog/${params.slug}` },
+    openGraph: {
+      title: `${post.title} | ToolNest Blog`,
+      description: post.description,
+      type: 'article',
+      url: `${SITE_URL}/blog/${params.slug}`,
+      siteName: 'ToolNest',
+      locale: 'en_US',
+      publishedTime: post.publishedAt,
+      modifiedTime: post.updatedAt ?? post.publishedAt,
+      authors: [post.author],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.description,
+      creator: '@toolnest',
+    },
+    robots: { index: true, follow: true },
+  };
 }
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = getBlogPost(params.slug);
+export default async function BlogPostPage({ params }: { params: { slug: string } }) {
+  const post = await fetchBlogPost(params.slug);
   if (!post) notFound();
 
-  const relatedPosts = getRelatedBlogPosts(params.slug, 3);
+  const allPosts = await fetchBlogPosts();
+  const relatedPosts = allPosts
+    .filter((p) => p.slug !== params.slug)
+    .filter(
+      (p) =>
+        p.category === post.category ||
+        p.tags.some((t) => post.tags.includes(t))
+    )
+    .slice(0, 3);
+
   const blogPostJsonLd = generateBlogPostJsonLd(post);
   const breadcrumbJsonLd = generateBreadcrumbJsonLd([
     { name: 'Home', url: '/' },
@@ -50,7 +80,6 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
       />
 
       <article className="mx-auto max-w-3xl px-4 pt-28 pb-16 sm:px-6 lg:px-8">
-        {/* Breadcrumb */}
         <nav className="flex items-center gap-1.5 text-sm text-muted-foreground" aria-label="Breadcrumb">
           <Link href="/" className="transition-colors hover:text-foreground">Home</Link>
           <span className="text-muted-foreground/50">/</span>
@@ -59,7 +88,6 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           <span className="text-foreground truncate">{post.title}</span>
         </nav>
 
-        {/* Header */}
         <header className="mt-6">
           <div className="flex items-center gap-2">
             <span className="rounded-md bg-gradient-brand/10 px-2.5 py-1 text-xs font-medium text-brand-purple">
@@ -91,7 +119,6 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           </div>
         </header>
 
-        {/* Table of contents */}
         <nav className="mt-8 rounded-2xl glass-card p-6" aria-label="Table of contents">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">
             Table of Contents
@@ -110,7 +137,6 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           </ol>
         </nav>
 
-        {/* Content */}
         <div className="mt-10 space-y-10">
           {post.content.map((section, i) => (
             <section key={i} id={`section-${i}`}>
@@ -126,7 +152,6 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           ))}
         </div>
 
-        {/* Tags */}
         <div className="mt-12 flex flex-wrap gap-2">
           {post.tags.map((tag) => (
             <Link
@@ -139,7 +164,6 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           ))}
         </div>
 
-        {/* Back to blog */}
         <div className="mt-10">
           <Link
             href="/blog"
@@ -156,7 +180,6 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         <Newsletter variant="compact" className="mb-8" />
       </div>
 
-      {/* Related articles */}
       {relatedPosts.length > 0 && (
         <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold tracking-tight">Related articles</h2>

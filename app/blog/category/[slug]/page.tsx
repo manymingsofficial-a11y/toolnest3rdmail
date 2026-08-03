@@ -4,15 +4,13 @@ import { notFound } from 'next/navigation';
 import { Calendar, Clock, ArrowUpRight } from 'lucide-react';
 
 import { PageHeader } from '@/components/page-header';
-import {
-  getBlogPostsByCategory,
-  getBlogCategories,
-  generateBreadcrumbJsonLd,
-  SITE_URL,
-} from '@/lib/seo';
+import { generateBreadcrumbJsonLd, SITE_URL } from '@/lib/seo';
+import { fetchBlogPosts } from '@/lib/public-data';
 
 export async function generateStaticParams() {
-  return getBlogCategories().map((cat) => ({
+  const posts = await fetchBlogPosts();
+  const categories = Array.from(new Set(posts.map((p) => p.category)));
+  return categories.map((cat) => ({
     slug: cat.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
   }));
 }
@@ -22,7 +20,8 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const categories = getBlogCategories();
+  const posts = await fetchBlogPosts();
+  const categories = Array.from(new Set(posts.map((p) => p.category)));
   const cat = categories.find(
     (c) => c.toLowerCase().replace(/[^a-z0-9]+/g, '-') === params.slug
   );
@@ -43,18 +42,19 @@ export async function generateMetadata({
   };
 }
 
-export default function BlogCategoryPage({
+export default async function BlogCategoryPage({
   params,
 }: {
   params: { slug: string };
 }) {
-  const categories = getBlogCategories();
+  const allPosts = await fetchBlogPosts();
+  const categories = Array.from(new Set(allPosts.map((p) => p.category)));
   const cat = categories.find(
     (c) => c.toLowerCase().replace(/[^a-z0-9]+/g, '-') === params.slug
   );
   if (!cat) notFound();
 
-  const posts = getBlogPostsByCategory(cat);
+  const posts = allPosts.filter((p) => p.category === cat);
   const breadcrumbJsonLd = generateBreadcrumbJsonLd([
     { name: 'Home', url: '/' },
     { name: 'Blog', url: '/blog' },

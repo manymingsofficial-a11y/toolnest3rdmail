@@ -7,7 +7,7 @@ import {
   Zap,
 } from 'lucide-react';
 
-import { tools, categories } from '@/lib/data';
+import { tools as allTools, categories as allCategories } from '@/lib/data';
 
 const features = [
   {
@@ -54,7 +54,16 @@ const features = [
   },
 ];
 
-export function StatsBanner() {
+export function StatsBanner({
+  toolCount,
+  categoryCount,
+}: {
+  toolCount?: number;
+  categoryCount?: number;
+}) {
+  const tools = toolCount ?? allTools.length;
+  const categories = categoryCount ?? allCategories.length;
+
   return (
     <section className="relative py-16 sm:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -67,7 +76,7 @@ export function StatsBanner() {
             Built for speed, privacy and simplicity
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
-            {tools.length} free tools across {categories.length} categories —
+            {tools} free tools across {categories} categories —
             all running in your browser, with no registration required.
           </p>
         </div>

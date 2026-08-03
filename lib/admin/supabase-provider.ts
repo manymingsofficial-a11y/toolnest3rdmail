@@ -135,22 +135,22 @@ export class SupabaseDataProvider implements DataProvider {
     const dailySearches = Array.from({ length: 7 }, (_, i) => {
       const d = new Date(today);
       d.setDate(d.getDate() - (6 - i));
-      return { date: d.toISOString().split('T')[0], count: 120 + i * 15 };
+      return { date: d.toISOString().split('T')[0], count: 0 };
     });
 
     const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    const weeklyActivity = days.map((day, i) => ({
-      label: day, day, tools: 40 + i * 8, searches: 90 + i * 12,
+    const weeklyActivity = days.map((day) => ({
+      label: day, day, tools: 0, searches: 0,
     }));
 
     return {
       totalTools: tools.length,
       totalCategories: cats.length,
       totalBlogPosts: blogRes.count ?? 0,
-      totalSearches: 12450,
-      totalFavorites: 892,
-      totalRecentUsage: 3210,
-      totalViews: 145000,
+      totalSearches: 0,
+      totalFavorites: 0,
+      totalRecentUsage: 0,
+      totalViews: 0,
       websiteStatus: 'operational',
       mostUsedTools: mostUsed,
       popularCategories,
