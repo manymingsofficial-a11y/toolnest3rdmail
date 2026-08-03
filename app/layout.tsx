@@ -6,7 +6,8 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { ThemeProvider } from '@/components/theme-provider';
 import { PublicChrome } from '@/components/public-chrome';
 import { generateWebsiteJsonLd, generateOrganizationJsonLd } from '@/lib/seo';
-import { fetchSiteSettings, fetchSeoSettings, fetchTools } from '@/lib/public-data';
+import { fetchSiteSettings, fetchSeoSettings, fetchTools, fetchSearchIndex } from '@/lib/public-data';
+import { tools as staticTools, categories as staticCategories } from '@/lib/data';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const spaceGrotesk = Space_Grotesk({
@@ -79,13 +80,23 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const websiteJsonLd = generateWebsiteJsonLd();
   const organizationJsonLd = generateOrganizationJsonLd();
+
+  let searchIndex;
+  try {
+    searchIndex = await fetchSearchIndex();
+    if (searchIndex.tools.length === 0 && searchIndex.categories.length === 0) {
+      searchIndex = { tools: staticTools, categories: staticCategories };
+    }
+  } catch {
+    searchIndex = { tools: staticTools, categories: staticCategories };
+  }
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -121,7 +132,7 @@ export default function RootLayout({
           >
             Skip to content
           </a>
-          <PublicChrome>{children}</PublicChrome>
+          <PublicChrome searchIndex={searchIndex}>{children}</PublicChrome>
         </ThemeProvider>
         <SpeedInsights />
       </body>

@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { SearchCommandPalette } from '@/components/search-command-palette';
+import type { SearchIndex } from '@/lib/public-data';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -19,7 +20,7 @@ const navLinks = [
   { href: '/contact', label: 'Contact' },
 ];
 
-export function Navbar() {
+export function Navbar({ searchIndex }: { searchIndex: SearchIndex }) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = React.useState(false);
   const [open, setOpen] = React.useState(false);
@@ -86,7 +87,7 @@ export function Navbar() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <SearchCommandPalette />
+          <SearchCommandPalette tools={searchIndex.tools} categories={searchIndex.categories} />
           <Link
             href="/recent"
             className={cn(

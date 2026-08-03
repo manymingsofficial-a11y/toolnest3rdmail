@@ -64,7 +64,7 @@ export type PublicSeoSettings = {
 type ToolRow = {
   slug: string; name: string; description: string; category: string;
   icon_name: string; gradient: string; badge: string | null; is_new: boolean;
-  popularity: number; added_days_ago: number | null;
+  popularity: number; added_days_ago: number | null; keywords: string[] | null;
 };
 
 type CategoryRow = {
@@ -91,6 +91,7 @@ function mapTool(r: ToolRow): PublicTool {
     isNew: r.is_new,
     popularity: r.popularity,
     addedDaysAgo: r.added_days_ago ?? undefined,
+    keywords: r.keywords ?? undefined,
   };
 }
 
@@ -124,7 +125,7 @@ function mapBlogPost(r: BlogRow): PublicBlogPost {
 export async function fetchTools(): Promise<PublicTool[]> {
   const { data, error } = await supabaseServer
     .from('admin_tools')
-    .select('slug, name, description, category, icon_name, gradient, badge, is_new, popularity, added_days_ago')
+    .select('slug, name, description, category, icon_name, gradient, badge, is_new, popularity, added_days_ago, keywords')
     .eq('status', 'published')
     .is('deleted_at', null)
     .order('popularity', { ascending: false });
@@ -213,6 +214,41 @@ export async function fetchHomepageSettings(): Promise<PublicHomepageSettings | 
     popularToolSlugs: r.popular_tool_slugs,
     footerText: r.footer_text,
   };
+}
+
+// ---------------------------------------------------------------------------
+// Search index — cached fetch of tools + categories for search
+// ---------------------------------------------------------------------------
+
+export type SearchIndex = {
+  tools: PublicTool[];
+  categories: PublicCategory[];
+};
+
+let _searchCache: SearchIndex | null = null;
+let _searchCacheTs = 0;
+const SEARCH_CACHE_TTL = 60_000; // 60 seconds
+
+export async function fetchSearchIndex(): Promise<SearchIndex> {
+  const now = Date.now();
+  if (_searchCache && now - _searchCacheTs < SEARCH_CACHE_TTL) {
+    return _searchCache;
+  }
+
+  const [tools, categories] = await Promise.all([fetchTools(), fetchCategories()]);
+
+  if (tools.length === 0 && categories.length === 0) {
+    return { tools: [], categories: [] };
+  }
+
+  _searchCache = { tools, categories };
+  _searchCacheTs = now;
+  return _searchCache;
+}
+
+export function invalidateSearchCache() {
+  _searchCache = null;
+  _searchCacheTs = 0;
 }
 
 export async function fetchSeoSettings(): Promise<PublicSeoSettings | null> {

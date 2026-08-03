@@ -5,7 +5,7 @@ import { Compass, Home, Search } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { SearchCommandPalette } from '@/components/search-command-palette';
-import { mostPopularTools } from '@/lib/data';
+import { mostPopularTools, tools as staticTools, categories as staticCategories } from '@/lib/data';
 import { ToolCard } from '@/components/tool-card';
 
 export default function NotFound() {
@@ -45,7 +45,7 @@ export default function NotFound() {
               Browse tools
             </Link>
           </Button>
-          <SearchCommandPalette />
+          <SearchCommandPalette tools={staticTools} categories={staticCategories} />
         </div>
 
         {/* Popular tools */}

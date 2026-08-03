@@ -14,8 +14,7 @@ import {
 
 import { cn } from '@/lib/utils';
 import { getIcon } from '@/lib/icon-map';
-import { tools, categories } from '@/lib/data';
-import type { Tool } from '@/lib/data';
+import type { Tool, Category } from '@/lib/data';
 import { useRecentSearches } from '@/hooks/use-tools-storage';
 
 const POPULAR_QUERIES = [
@@ -84,7 +83,12 @@ type SearchResult = {
   score: number;
 };
 
-export function SearchCommandPalette() {
+type SearchCommandPaletteProps = {
+  tools: Tool[];
+  categories: Category[];
+};
+
+export function SearchCommandPalette({ tools, categories }: SearchCommandPaletteProps) {
   const [open, setOpen] = React.useState(false);
   const [query, setQuery] = React.useState('');
   const [activeIdx, setActiveIdx] = React.useState(0);
@@ -124,13 +128,15 @@ export function SearchCommandPalette() {
       const name = t.name.toLowerCase();
       const desc = t.description.toLowerCase();
       const cat = t.category.toLowerCase();
+      const kws = t.keywords?.map((k) => k.toLowerCase()) ?? [];
       let score = 0;
       if (name === q) score = 100;
       else if (name.startsWith(q)) score = 80;
       else if (name.includes(q)) score = 60;
       else if (desc.includes(q)) score = 40;
       else if (cat.includes(q)) score = 30;
-      else if (syns.some((s) => name.includes(s) || desc.includes(s))) score = 20;
+      else if (kws.some((k) => k.includes(q))) score = 35;
+      else if (syns.some((s) => name.includes(s) || desc.includes(s) || kws.some((k) => k.includes(s)))) score = 20;
       if (score > 0) {
         seen.add(t.slug);
         out.push({ type: 'tool', tool: t, score });
@@ -158,7 +164,7 @@ export function SearchCommandPalette() {
 
     out.sort((a, b) => b.score - a.score);
     return out.slice(0, 10);
-  }, [query]);
+  }, [query, tools, categories]);
 
   function navigateTo(result: SearchResult) {
     addSearch(query || (result.tool?.name ?? result.categoryName ?? ''));

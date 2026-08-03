@@ -178,6 +178,7 @@ export type Tool = {
   isNew?: boolean;
   popularity: number;
   addedDaysAgo?: number;
+  keywords?: string[];
 };
 
 export const categories: Category[] = [
