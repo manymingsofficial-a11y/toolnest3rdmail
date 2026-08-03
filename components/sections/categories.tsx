@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
+import { getIcon } from '@/lib/icon-map';
 import type { Category, Tool } from '@/lib/data';
 
 export function Categories({
@@ -44,7 +45,7 @@ export function Categories({
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {categories.map((cat) => {
-            const CatIcon = cat.icon;
+            const CatIcon = getIcon(cat.icon);
             const count = getCatToolCount(cat.name) || cat.count;
             return (
               <Link

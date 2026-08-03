@@ -64,7 +64,7 @@ import {
   Hash,
   HeartPulse,
   HelpCircle,
-  History as HistoryIcon,
+  History as History,
   ImageIcon,
   Info,
   Instagram,
@@ -119,7 +119,7 @@ import {
   Server,
   Share2,
   Shield,
-  Image as ImageLucide,
+  Image as Image,
   ShieldAlert,
   ShieldCheck,
   ShoppingBag,
@@ -153,9 +153,14 @@ import {
   VolumeX,
   Wand2,
   Wind,
+  Wrench,
   Youtube,
   Zap,
 } from 'lucide-react';
+
+export function getIcon(name: string): LucideIcon {
+  return iconMap[name] ?? iconMap.Wrench;
+}
 
 export const iconMap: Record<string, LucideIcon> = {
   AlignLeft,
@@ -222,7 +227,7 @@ export const iconMap: Record<string, LucideIcon> = {
   Hash,
   HeartPulse,
   HelpCircle,
-  HistoryIcon,
+  History,
   ImageIcon,
   Info,
   Instagram,
@@ -277,7 +282,7 @@ export const iconMap: Record<string, LucideIcon> = {
   Server,
   Share2,
   Shield,
-  ImageLucide,
+  Image,
   ShieldAlert,
   ShieldCheck,
   ShoppingBag,
@@ -311,6 +316,7 @@ export const iconMap: Record<string, LucideIcon> = {
   VolumeX,
   Wand2,
   Wind,
+  Wrench,
   Youtube,
   Zap,
 };

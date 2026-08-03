@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
+import { getIcon } from '@/lib/icon-map';
 import { PageHeader } from '@/components/page-header';
 import { AdPlaceholder } from '@/components/ads/ad-placeholder';
 import type { Tool, Category } from '@/lib/data';
@@ -70,7 +71,7 @@ export function CategoriesPageClient({
         {activeSlug === 'all' ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {categories.map((cat) => {
-              const CatIcon = cat.icon;
+              const CatIcon = getIcon(cat.icon);
               const count = tools.filter((t) => t.category === cat.name).length;
               return (
                 <button
@@ -122,7 +123,7 @@ export function CategoriesPageClient({
                 )}
               >
                 {(() => {
-                  const Icon = activeCategory?.icon;
+                  const Icon = activeCategory ? getIcon(activeCategory.icon) : null;
                   return Icon ? <Icon className="h-5 w-5" /> : null;
                 })()}
               </div>
@@ -137,7 +138,7 @@ export function CategoriesPageClient({
             </div>
             <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
               {filteredTools.map((tool) => {
-                const ToolIcon = tool.icon;
+                const ToolIcon = getIcon(tool.icon);
                 return (
                   <Link
                     key={tool.slug}

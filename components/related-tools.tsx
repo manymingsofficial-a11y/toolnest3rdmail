@@ -3,6 +3,7 @@ import { ArrowUpRight } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
+import { getIcon } from '@/lib/icon-map';
 import { getRelatedTools, type Tool } from '@/lib/data';
 
 export function RelatedTools({ slug, tools: explicit }: { slug: string; tools?: Tool[] }) {
@@ -36,7 +37,10 @@ export function RelatedTools({ slug, tools: explicit }: { slug: string; tools?: 
                   tool.gradient
                 )}
               >
-                <tool.icon className="h-6 w-6" />
+                {(() => {
+                  const Icon = getIcon(tool.icon);
+                  return <Icon className="h-6 w-6" />;
+                })()}
               </div>
             </div>
             <h3 className="mt-5 text-base font-semibold tracking-tight">

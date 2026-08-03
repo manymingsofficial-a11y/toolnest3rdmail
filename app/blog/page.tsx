@@ -42,7 +42,7 @@ export default async function BlogPage() {
       name: p.title,
       description: p.description,
       category: p.category,
-      icon: (() => {}) as never,
+      icon: '',
       gradient: '',
       popularity: 0,
     })),

@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
-import type { LucideIcon } from 'lucide-react';
 
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { ToolActions } from '@/components/tool-actions';
 import { AdPlaceholder } from '@/components/ads/ad-placeholder';
 import { Newsletter } from '@/components/ads/newsletter';
+import { getIcon } from '@/lib/icon-map';
 import { getRelatedTools, tools } from '@/lib/data';
 import {
   generateToolJsonLd,
@@ -56,7 +56,7 @@ export function ToolPageTemplate({
   const tool = getTool(slug);
   if (!tool) return null;
 
-  const ToolIcon = tool.icon as LucideIcon;
+  const ToolIcon = getIcon(tool.icon);
   const gradient = tool.gradient;
 
   const relatedTools = relatedSlugs

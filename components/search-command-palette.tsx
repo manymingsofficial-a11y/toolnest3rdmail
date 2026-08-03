@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
+import { getIcon } from '@/lib/icon-map';
 import { tools, categories } from '@/lib/data';
 import type { Tool } from '@/lib/data';
 import { useRecentSearches } from '@/hooks/use-tools-storage';
@@ -313,7 +314,7 @@ export function SearchCommandPalette() {
                       const cat = categories.find(
                         (c) => c.slug === result.categorySlug
                       )!;
-                      const CatIcon = cat.icon;
+                      const CatIcon = getIcon(cat.icon);
                       return (
                         <button
                           key={`cat-${cat.slug}`}
@@ -347,7 +348,7 @@ export function SearchCommandPalette() {
                       );
                     }
                     const tool = result.tool!;
-                    const ToolIcon = tool.icon;
+                    const ToolIcon = getIcon(tool.icon);
                     return (
                       <button
                         key={tool.slug}

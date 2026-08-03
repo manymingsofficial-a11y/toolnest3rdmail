@@ -3,6 +3,7 @@ import { ArrowUpRight, Star } from 'lucide-react';
 
 import { ToolCard } from '@/components/tool-card';
 import { cn } from '@/lib/utils';
+import { getIcon } from '@/lib/icon-map';
 import type { Tool, Category } from '@/lib/data';
 
 export function FeaturedTools({
@@ -47,7 +48,7 @@ export function FeaturedTools({
         {/* Featured categories */}
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {featuredCategories.map((cat) => {
-            const CatIcon = cat.icon;
+            const CatIcon = getIcon(cat.icon);
             return (
               <Link
                 key={cat.slug}

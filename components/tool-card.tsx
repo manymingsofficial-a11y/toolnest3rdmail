@@ -6,6 +6,7 @@ import { ArrowUpRight, Heart } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
+import { getIcon } from '@/lib/icon-map';
 import { useFavorites } from '@/hooks/use-tools-storage';
 import type { Tool } from '@/lib/data';
 
@@ -55,7 +56,10 @@ export const ToolCard = React.memo(function ToolCard({
             tool.gradient
           )}
         >
-          <tool.icon className="h-6 w-6" />
+          {(() => {
+            const Icon = getIcon(tool.icon);
+            return <Icon className="h-6 w-6" />;
+          })()}
         </div>
         <div className="flex items-center gap-1.5">
           <button

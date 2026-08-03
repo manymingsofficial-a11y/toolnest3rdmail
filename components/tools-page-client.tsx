@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowUpRight, Search, SlidersHorizontal, X } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
+import { getIcon } from '@/lib/icon-map';
 import { Badge } from '@/components/ui/badge';
 import { PageHeader } from '@/components/page-header';
 import { AdPlaceholder } from '@/components/ads/ad-placeholder';
@@ -168,7 +169,7 @@ export function ToolsPageClient({
 }
 
 function ToolListCard({ tool }: { tool: Tool }) {
-  const ToolIcon = tool.icon;
+  const ToolIcon = getIcon(tool.icon);
   return (
     <Link
       href={`/tools/${tool.slug}`}

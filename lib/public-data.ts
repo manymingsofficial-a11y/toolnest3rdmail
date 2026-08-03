@@ -1,6 +1,5 @@
 import { supabaseServer } from '@/lib/supabase-server';
 import type { Tool, Category } from '@/lib/data';
-import { iconMap } from '@/lib/icon-map';
 
 export type PublicTool = Tool;
 export type PublicCategory = Category;
@@ -86,7 +85,7 @@ function mapTool(r: ToolRow): PublicTool {
     name: r.name,
     description: r.description,
     category: r.category,
-    icon: iconMap[r.icon_name] ?? iconMap.Wrench,
+    icon: r.icon_name,
     gradient: r.gradient,
     badge: r.badge ?? undefined,
     isNew: r.is_new,
@@ -100,7 +99,7 @@ function mapCategory(r: CategoryRow): PublicCategory {
     slug: r.slug,
     name: r.name,
     count: r.count,
-    icon: iconMap[r.icon_name] ?? iconMap.Wrench,
+    icon: r.icon_name,
     gradient: r.gradient,
     description: r.description,
   };
