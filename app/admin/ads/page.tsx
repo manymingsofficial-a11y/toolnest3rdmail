@@ -15,13 +15,18 @@ const slotLabels: Record<string, string> = {
   'homepage-top': 'Homepage Top',
   'homepage-middle': 'Homepage Middle',
   'homepage-bottom': 'Homepage Bottom',
+  'category-top': 'Category Top',
+  'category-bottom': 'Category Bottom',
+  'tool-top': 'Tool Top',
+  'tool-bottom': 'Tool Bottom',
   'tool-after': 'After Tool',
   'tool-sidebar': 'Tool Sidebar',
   'blog-top': 'Blog Top',
   'blog-middle': 'Blog Middle',
   'blog-bottom': 'Blog Bottom',
-  'category-top': 'Category Top',
   'category-middle': 'Category Middle',
+  'sidebar': 'Sidebar',
+  'footer': 'Footer',
 };
 
 export default function AdminAdsPage() {

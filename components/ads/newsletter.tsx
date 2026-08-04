@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import { CheckCircle2, Mail, Loader2 } from 'lucide-react';
-import { isNewsletterEnabled } from '@/lib/monetization';
 import { cn } from '@/lib/utils';
 
 type NewsletterProps = {
@@ -22,8 +21,6 @@ export function Newsletter({
   const [status, setStatus] = React.useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [message, setMessage] = React.useState('');
 
-  if (!isNewsletterEnabled()) return null;
-
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const trimmed = email.trim();
@@ -38,13 +35,25 @@ export function Newsletter({
     setMessage('');
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 800));
+      const res = await fetch('/api/newsletter/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: trimmed }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        setStatus('error');
+        setMessage(data.error ?? 'Something went wrong. Please try again.');
+        return;
+      }
+
       setStatus('success');
-      setMessage("You're subscribed! Watch your inbox for updates.");
+      setMessage(data.message ?? "You're subscribed! Watch your inbox for updates.");
       setEmail('');
     } catch {
       setStatus('error');
-      setMessage('Something went wrong. Please try again.');
+      setMessage('Network error. Please try again.');
     }
   }
 

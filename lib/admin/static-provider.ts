@@ -353,7 +353,7 @@ export class StaticDataProvider implements DataProvider {
         publisherId: monetizationConfig.ads.publisherId,
         slots: Object.entries(slots).reduce<Record<string, { enabled: boolean; slotId: string }>>(
           (acc, [key, val]) => {
-            acc[key] = { enabled: true, slotId: val };
+            acc[key] = { enabled: val.enabled, slotId: val.slotId };
             return acc;
           },
           {}
