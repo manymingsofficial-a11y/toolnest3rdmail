@@ -22,10 +22,13 @@ import {
   LogOut,
   Menu,
   X,
+  BarChart3,
+  ChevronDown,
 } from 'lucide-react';
 
 const navItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/admin/analytics', label: 'Analytics', icon: BarChart3 },
   { href: '/admin/tools', label: 'Tools', icon: Wrench },
   { href: '/admin/categories', label: 'Categories', icon: FolderTree },
   { href: '/admin/blog', label: 'Blog', icon: FileText },
@@ -36,6 +39,16 @@ const navItems = [
   { href: '/admin/newsletter', label: 'Newsletter', icon: Mail },
   { href: '/admin/settings', label: 'Settings', icon: Settings },
   { href: '/admin/system', label: 'System', icon: Server },
+];
+
+const analyticsSubItems = [
+  { href: '/admin/analytics', label: 'Overview' },
+  { href: '/admin/analytics/tools', label: 'Tools' },
+  { href: '/admin/analytics/search', label: 'Search' },
+  { href: '/admin/analytics/blog', label: 'Blog' },
+  { href: '/admin/analytics/ads', label: 'Ads' },
+  { href: '/admin/analytics/affiliate', label: 'Affiliate' },
+  { href: '/admin/analytics/newsletter', label: 'Newsletter' },
 ];
 
 export function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -104,22 +117,47 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
             <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4">
               {navItems.map((item) => {
                 const active = pathname === item.href;
+                const isAnalytics = item.href === '/admin/analytics';
+                const isAnalyticsActive = isAnalytics && pathname.startsWith('/admin/analytics');
                 const Icon = item.icon;
                 return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setMobileOpen(false)}
-                    className={cn(
-                      'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors',
-                      active
-                        ? 'bg-gradient-brand text-white shadow-lg shadow-brand-purple/20'
-                        : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'
+                  <div key={item.href}>
+                    <Link
+                      href={item.href}
+                      onClick={() => setMobileOpen(false)}
+                      className={cn(
+                        'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors',
+                        active || isAnalyticsActive
+                          ? 'bg-gradient-brand text-white shadow-lg shadow-brand-purple/20'
+                          : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'
+                      )}
+                    >
+                      <Icon className="h-4 w-4 shrink-0" />
+                      {item.label}
+                    </Link>
+                    {isAnalyticsActive && (
+                      <div className="ml-9 mt-1 space-y-0.5 border-l border-border/40 pl-3">
+                        {analyticsSubItems.map((sub) => {
+                          const subActive = pathname === sub.href;
+                          return (
+                            <Link
+                              key={sub.href}
+                              href={sub.href}
+                              onClick={() => setMobileOpen(false)}
+                              className={cn(
+                                'block rounded-lg px-3 py-1.5 text-xs font-medium transition-colors',
+                                subActive
+                                  ? 'bg-brand-purple/10 text-brand-purple'
+                                  : 'text-muted-foreground hover:text-foreground'
+                              )}
+                            >
+                              {sub.label}
+                            </Link>
+                          );
+                        })}
+                      </div>
                     )}
-                  >
-                    <Icon className="h-4 w-4 shrink-0" />
-                    {item.label}
-                  </Link>
+                  </div>
                 );
               })}
             </nav>

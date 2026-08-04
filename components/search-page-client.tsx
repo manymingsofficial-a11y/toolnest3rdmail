@@ -9,6 +9,7 @@ import type { Tool, Category } from '@/lib/data';
 import { ToolCard } from '@/components/tool-card';
 import { PageHeader } from '@/components/page-header';
 import { useRecentSearches } from '@/hooks/use-tools-storage';
+import { trackSearch } from '@/lib/analytics-tracker';
 
 type SearchPageClientProps = {
   tools: Tool[];
@@ -53,7 +54,19 @@ export function SearchPageClient({ tools, categories }: SearchPageClientProps) {
     e.preventDefault();
     const trimmed = query.trim();
     setSubmitted(trimmed);
-    if (trimmed) addSearch(trimmed);
+    if (trimmed) {
+      addSearch(trimmed);
+      const totalResults = tools.filter(
+        (t) =>
+          t.name.toLowerCase().includes(trimmed.toLowerCase()) ||
+          t.description.toLowerCase().includes(trimmed.toLowerCase()) ||
+          t.category.toLowerCase().includes(trimmed.toLowerCase()) ||
+          (t.keywords?.some((k) => k.toLowerCase().includes(trimmed.toLowerCase())) ?? false)
+      ).length + categories.filter(
+        (c) => c.name.toLowerCase().includes(trimmed.toLowerCase()) || c.description.toLowerCase().includes(trimmed.toLowerCase())
+      ).length;
+      trackSearch(trimmed, totalResults, 'page');
+    }
     const url = trimmed ? `/search?q=${encodeURIComponent(trimmed)}` : '/search';
     window.history.replaceState(null, '', url);
   }

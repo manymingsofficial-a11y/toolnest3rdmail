@@ -16,6 +16,7 @@ import { cn } from '@/lib/utils';
 import { getIcon } from '@/lib/icon-map';
 import type { Tool, Category } from '@/lib/data';
 import { useRecentSearches } from '@/hooks/use-tools-storage';
+import { trackSearch } from '@/lib/analytics-tracker';
 
 const POPULAR_QUERIES = [
   'QR Code',
@@ -167,7 +168,9 @@ export function SearchCommandPalette({ tools, categories }: SearchCommandPalette
   }, [query, tools, categories]);
 
   function navigateTo(result: SearchResult) {
-    addSearch(query || (result.tool?.name ?? result.categoryName ?? ''));
+    const q = query || (result.tool?.name ?? result.categoryName ?? '');
+    addSearch(q);
+    if (q) trackSearch(q, results.length, 'command_palette');
     if (result.type === 'tool' && result.tool) {
       router.push(`/tools/${result.tool.slug}`);
     } else if (result.type === 'category' && result.categorySlug) {

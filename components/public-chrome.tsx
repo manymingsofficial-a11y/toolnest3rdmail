@@ -4,6 +4,7 @@ import * as React from 'react';
 import { usePathname } from 'next/navigation';
 import { Navbar } from '@/components/navbar';
 import { FooterWrapper } from '@/components/footer-wrapper';
+import { trackPageView, flushAnalytics } from '@/lib/analytics-tracker';
 import type { SearchIndex } from '@/lib/public-data';
 
 export function PublicChrome({
@@ -15,6 +16,22 @@ export function PublicChrome({
 }) {
   const pathname = usePathname();
   const isAdmin = pathname.startsWith('/admin');
+
+  React.useEffect(() => {
+    if (!isAdmin) {
+      trackPageView(pathname);
+    }
+  }, [pathname, isAdmin]);
+
+  React.useEffect(() => {
+    const handleVisibility = () => {
+      if (document.visibilityState === 'hidden') {
+        flushAnalytics();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+    return () => document.removeEventListener('visibilitychange', handleVisibility);
+  }, []);
 
   if (isAdmin) {
     return <>{children}</>;

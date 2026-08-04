@@ -4,6 +4,7 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 import type { AdSlot, AdSettings } from '@/lib/monetization';
 import { isProduction, isAdSlotEnabled, slotLabels, slotMinHeights } from '@/lib/monetization';
+import { trackAdImpression } from '@/lib/analytics-tracker';
 
 type AdSlotProps = {
   slot: AdSlot;
@@ -40,6 +41,7 @@ export function AdSlot({ slot, settings, className, minHeight }: AdSlotProps) {
       (entries) => {
         if (entries[0]?.isIntersecting) {
           setInView(true);
+          trackAdImpression(slot);
           observer.disconnect();
         }
       },
