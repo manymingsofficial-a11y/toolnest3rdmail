@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { categories, tools } from '@/lib/data';
 import type { Tool } from '@/lib/data';
 
-export const SITE_URL = 'https://toolnest.com';
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://toolnest.com';
 export const SITE_NAME = 'ToolNest';
 export const SITE_LOGO = `${SITE_URL}/logo.png`;
 export const SITE_DESCRIPTION = `${tools.length} free online tools — PDF, image, QR & barcode, SEO, AI, text, developer, calculators, converters and more. Fast, secure, no registration required.`;

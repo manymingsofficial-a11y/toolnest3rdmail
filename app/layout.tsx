@@ -5,6 +5,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 
 import { ThemeProvider } from '@/components/theme-provider';
 import { PublicChrome } from '@/components/public-chrome';
+import { AnalyticsHead, AnalyticsBody } from '@/components/analytics';
 import { generateWebsiteJsonLd, generateOrganizationJsonLd } from '@/lib/seo';
 import { fetchSiteSettings, fetchSeoSettings, fetchTools, fetchSearchIndex } from '@/lib/public-data';
 import { tools as staticTools, categories as staticCategories } from '@/lib/data';
@@ -104,6 +105,7 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        <AnalyticsHead />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -134,6 +136,7 @@ export default async function RootLayout({
           </a>
           <PublicChrome searchIndex={searchIndex}>{children}</PublicChrome>
         </ThemeProvider>
+        <AnalyticsBody />
         <SpeedInsights />
       </body>
     </html>
