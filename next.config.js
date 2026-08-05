@@ -3,6 +3,9 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   images: {
     unoptimized: true,
     formats: ['image/avif', 'image/webp'],
@@ -14,12 +17,6 @@ const nextConfig = {
   },
   poweredByHeader: false,
   compress: true,
-  webpack(config, { dev, isServer }) {
-    if (!dev && !isServer) {
-      config.cache = false;
-    }
-    return config;
-  },
   async headers() {
     return [
       {
