@@ -80,6 +80,9 @@ export async function generateMetadata(): Promise<Metadata> {
       width: 'device-width',
       initialScale: 1,
     },
+    verification: {
+      google: 'oiIIufhM955EapUquJhv6nTGmAS0HMn4cQkAi6P93QM',
+    },
   };
 }
 
