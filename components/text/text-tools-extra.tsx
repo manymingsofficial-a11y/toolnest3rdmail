@@ -556,7 +556,10 @@ export function MarkdownPreview() {
     html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
     html = html.replace(/`(.+?)`/g, '<code>$1</code>');
-    html = html.replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+    html = html.replace(/\[(.+?)\]\((.+?)\)/g, (_, label, href) => {
+      const safe = /^https?:\/\//i.test(href) ? href : '#';
+      return `<a href="${safe}" target="_blank" rel="noopener">${label}</a>`;
+    });
     html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
     html = html.replace(/(<li>[\s\S]*?<\/li>)/g, '<ul>$1</ul>');
     html = html.replace(/\n\n/g, '</p><p>');

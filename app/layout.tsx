@@ -52,12 +52,14 @@ export async function generateMetadata(): Promise<Metadata> {
       locale: ogLocale,
       siteName: ogSiteName,
       url: canonicalBaseUrl,
+      images: [{ url: '/logo.png', width: 1200, height: 630, alt: siteName }],
     },
     twitter: {
       card: 'summary_large_image',
       title: defaultTitle,
       description: defaultDescription,
       creator: twitterHandle,
+      images: ['/logo.png'],
     },
     robots: {
       index: true,

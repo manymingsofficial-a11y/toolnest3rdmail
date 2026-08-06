@@ -15,6 +15,14 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'No events' }, { status: 400 });
     }
 
+    if (events.length > 100) {
+      return NextResponse.json({ error: 'Too many events' }, { status: 413 });
+    }
+
+    const MAX_LEN = 500;
+    const clamp = (v: unknown): string =>
+      typeof v === 'string' ? v.slice(0, MAX_LEN) : '';
+
     const pageViewInserts: Record<string, unknown>[] = [];
     const searchInserts: Record<string, unknown>[] = [];
     const adImpressionInserts: Record<string, unknown>[] = [];
@@ -25,31 +33,31 @@ export async function POST(req: NextRequest) {
         const d = event.data;
         const now = new Date().toISOString();
         pageViewInserts.push({
-          visitor_id: d.visitorId ?? '',
-          session_id: d.sessionId ?? '',
-          path: d.path ?? '',
-          page_type: d.pageType ?? 'other',
-          tool_slug: d.toolSlug ?? '',
-          category_slug: d.categorySlug ?? '',
-          blog_slug: d.blogSlug ?? '',
-          referrer: d.referrer ?? '',
-          device_type: d.deviceType ?? '',
-          browser: d.browser ?? '',
-          os: d.os ?? '',
+          visitor_id: clamp(d.visitorId),
+          session_id: clamp(d.sessionId),
+          path: clamp(d.path),
+          page_type: clamp(d.pageType) || 'other',
+          tool_slug: clamp(d.toolSlug),
+          category_slug: clamp(d.categorySlug),
+          blog_slug: clamp(d.blogSlug),
+          referrer: clamp(d.referrer),
+          device_type: clamp(d.deviceType),
+          browser: clamp(d.browser),
+          os: clamp(d.os),
           country: '',
           created_at: now,
         });
         sessionUpserts.push({
-          visitor_id: d.visitorId ?? '',
-          session_id: d.sessionId ?? '',
+          visitor_id: clamp(d.visitorId),
+          session_id: clamp(d.sessionId),
           is_returning: d.isReturning ?? false,
-          device_type: d.deviceType ?? '',
-          browser: d.browser ?? '',
-          os: d.os ?? '',
+          device_type: clamp(d.deviceType),
+          browser: clamp(d.browser),
+          os: clamp(d.os),
           country: '',
-          referrer: d.referrer ?? '',
-          landing_page: d.path ?? '',
-          exit_page: d.path ?? '',
+          referrer: clamp(d.referrer),
+          landing_page: clamp(d.path),
+          exit_page: clamp(d.path),
           page_count: 1,
           started_at: now,
           last_activity: now,
@@ -57,19 +65,19 @@ export async function POST(req: NextRequest) {
       } else if (event.type === 'search') {
         const d = event.data;
         searchInserts.push({
-          visitor_id: d.visitorId ?? '',
-          session_id: d.sessionId ?? '',
-          query: d.query ?? '',
-          result_count: d.resultCount ?? 0,
-          source: d.source ?? 'page',
+          visitor_id: clamp(d.visitorId),
+          session_id: clamp(d.sessionId),
+          query: clamp(d.query),
+          result_count: typeof d.resultCount === 'number' ? d.resultCount : 0,
+          source: clamp(d.source) || 'page',
           created_at: new Date().toISOString(),
         });
       } else if (event.type === 'ad_impression') {
         const d = event.data;
         adImpressionInserts.push({
-          slot: d.slot ?? '',
-          visitor_id: d.visitorId ?? '',
-          session_id: d.sessionId ?? '',
+          slot: clamp(d.slot),
+          visitor_id: clamp(d.visitorId),
+          session_id: clamp(d.sessionId),
           created_at: new Date().toISOString(),
         });
       }

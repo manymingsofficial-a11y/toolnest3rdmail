@@ -243,12 +243,14 @@ export function generateToolMetadata(slug: string, customTitle?: string, customD
       url,
       siteName: SITE_NAME,
       locale: 'en_US',
+      images: [{ url: SITE_LOGO, width: 1200, height: 630, alt: `${title} — ${SITE_NAME}` }],
     },
     twitter: {
       card: 'summary_large_image',
       title: `${title} — Free Online Tool | ${SITE_NAME}`,
       description,
       creator: '@toolnest',
+      images: [SITE_LOGO],
     },
     robots: {
       index: true,
@@ -292,7 +294,7 @@ export function generateCategoryMetadata(slug: string): Metadata {
     title,
     description,
     keywords: [cat.name, cat.name.toLowerCase(), 'free online tools', 'toolnest', ...catTools.slice(0, 10).map((t) => t.name)],
-    alternates: { canonical: `/categories` },
+    alternates: { canonical: `/categories?cat=${slug}` },
     openGraph: {
       title: `${title} | ${SITE_NAME}`,
       description,
@@ -300,12 +302,14 @@ export function generateCategoryMetadata(slug: string): Metadata {
       url: `${SITE_URL}/categories`,
       siteName: SITE_NAME,
       locale: 'en_US',
+      images: [{ url: SITE_LOGO, width: 1200, height: 630, alt: `${title} — ${SITE_NAME}` }],
     },
     twitter: {
       card: 'summary_large_image',
       title: `${title} | ${SITE_NAME}`,
       description,
       creator: '@toolnest',
+      images: [SITE_LOGO],
     },
     robots: {
       index: true,
@@ -333,12 +337,14 @@ export function generateSearchMetadata(query: string): Metadata {
       url: `${SITE_URL}/search`,
       siteName: SITE_NAME,
       locale: 'en_US',
+      images: [{ url: SITE_LOGO, width: 1200, height: 630, alt: `${SITE_NAME} Search` }],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
       creator: '@toolnest',
+      images: [SITE_LOGO],
     },
     robots: {
       index: query ? false : true,
@@ -360,12 +366,14 @@ export function generateBlogMetadata(): Metadata {
       url: `${SITE_URL}/blog`,
       siteName: SITE_NAME,
       locale: 'en_US',
+      images: [{ url: SITE_LOGO, width: 1200, height: 630, alt: `${SITE_NAME} Blog` }],
     },
     twitter: {
       card: 'summary_large_image',
       title: `Blog — ${SITE_NAME}`,
       description: 'How-to guides, tutorials, and tips for free online tools.',
       creator: '@toolnest',
+      images: [SITE_LOGO],
     },
     robots: {
       index: true,
@@ -393,12 +401,14 @@ export function generateBlogPostMetadata(slug: string): Metadata {
       publishedTime: post.publishedAt,
       modifiedTime: post.updatedAt ?? post.publishedAt,
       authors: [post.author],
+      images: [{ url: SITE_LOGO, width: 1200, height: 630, alt: post.title }],
     },
     twitter: {
       card: 'summary_large_image',
       title: post.title,
       description: post.description,
       creator: '@toolnest',
+      images: [SITE_LOGO],
     },
     robots: {
       index: true,
