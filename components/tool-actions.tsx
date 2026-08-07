@@ -16,7 +16,7 @@ export function ToolActions({ slug }: { slug: string }) {
   const next = idx < tools.length - 1 ? tools[idx + 1] : null;
 
   function handleCopyUrl() {
-    const url = typeof window !== 'undefined' ? window.location.href : `https://toolnest.com/tools/${slug}`;
+    const url = typeof window !== 'undefined' ? window.location.href : `https://freetoolnest.vercel.app/tools/${slug}`;
     if (typeof navigator !== 'undefined' && navigator.clipboard) {
       navigator.clipboard.writeText(url).then(() => {
         setCopied(true);
@@ -26,7 +26,7 @@ export function ToolActions({ slug }: { slug: string }) {
   }
 
   function handleShare() {
-    const url = typeof window !== 'undefined' ? window.location.href : `https://toolnest.com/tools/${slug}`;
+    const url = typeof window !== 'undefined' ? window.location.href : `https://freetoolnest.vercel.app/tools/${slug}`;
     const tool = tools[idx];
     if (typeof navigator !== 'undefined' && (navigator as any).share) {
       (navigator as any).share({
