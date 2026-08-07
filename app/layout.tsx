@@ -6,6 +6,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { ThemeProvider } from '@/components/theme-provider';
 import { PublicChrome } from '@/components/public-chrome';
 import { AnalyticsHead, AnalyticsBody } from '@/components/analytics';
+import { GoogleAnalytics } from '@/components/google-analytics';
 import { generateWebsiteJsonLd, generateOrganizationJsonLd } from '@/lib/seo';
 import { fetchSiteSettings, fetchSeoSettings, fetchTools, fetchSearchIndex } from '@/lib/public-data';
 import { tools as staticTools, categories as staticCategories } from '@/lib/data';
@@ -142,6 +143,7 @@ export default async function RootLayout({
           <PublicChrome searchIndex={searchIndex}>{children}</PublicChrome>
         </ThemeProvider>
         <AnalyticsBody />
+        <GoogleAnalytics />
         <SpeedInsights />
       </body>
     </html>
