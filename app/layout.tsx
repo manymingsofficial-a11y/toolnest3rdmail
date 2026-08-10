@@ -25,8 +25,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
   const siteName = siteSettings?.websiteName ?? 'ToolNest';
   const toolCount = tools.length;
-  const defaultTitle = seoSettings?.defaultTitle ?? `${siteName} — ${toolCount} Free Online Tools in One Place`;
-  const defaultDescription = seoSettings?.defaultDescription ?? `A complete multi-tools platform with ${toolCount} free online tools — PDF, image, QR & barcode, SEO, AI, text, developer, calculators, converters and more. Fast, secure, no registration required.`;
+  const defaultTitle = seoSettings?.defaultTitle ?? `${siteName} — Free Online Tools`;
+  const defaultDescription = seoSettings?.defaultDescription ?? `${siteName} provides ${toolCount} free online tools across ${staticCategories.length} categories — PDF, image, QR & barcode, SEO, AI, text, developer, calculators, converters and more. Fast, secure, no registration required.`;
   const keywords = seoSettings?.defaultKeywords ?? ['free online tools', 'PDF tools', 'image tools', 'QR code generator', 'ToolNest'];
   const canonicalBaseUrl = seoSettings?.canonicalBaseUrl ?? 'https://freetoolnest.vercel.app';
   const ogSiteName = seoSettings?.openGraphDefaults.siteName ?? siteName;
