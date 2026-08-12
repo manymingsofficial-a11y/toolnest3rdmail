@@ -111,6 +111,7 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        <meta name="google-adsense-account" content="ca-pub-4962794944464816" />
         <AnalyticsHead />
         <Script
           id="adsbygoogle"
