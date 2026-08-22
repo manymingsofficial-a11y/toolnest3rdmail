@@ -1,6 +1,7 @@
 import { Mail, MessageSquare, Lightbulb, Bug } from 'lucide-react';
 
 import { PageHeader } from '@/components/page-header';
+import { ContactForm } from '@/components/contact-form';
 import { fetchSiteSettings } from '@/lib/public-data';
 
 export const metadata = {
@@ -99,6 +100,13 @@ export default async function ContactPage() {
               </p>
             </div>
           )}
+
+          <div>
+            <h2 className="mb-4 text-xl font-semibold tracking-tight">
+              Send us a message
+            </h2>
+            <ContactForm />
+          </div>
         </div>
       </section>
     </>
