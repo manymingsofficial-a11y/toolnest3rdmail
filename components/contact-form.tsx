@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { CheckCircle2, Loader2, Send, AlertCircle } from 'lucide-react';
+import { CircleCheck as CheckCircle2, Loader as Loader2, Send, CircleAlert as AlertCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
