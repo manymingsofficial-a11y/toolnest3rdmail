@@ -672,6 +672,179 @@ export const blogPosts: BlogPost[] = [
       },
     ],
   },
+  {
+    slug: 'compress-images-for-web-without-losing-quality',
+    title: 'How to Compress Images for Web Without Losing Quality',
+    description: 'Practical techniques to shrink image file sizes by up to 80% while keeping them looking sharp. Covers format selection, quality settings, and the best free tools.',
+    category: 'Image Tools',
+    tags: ['image compression', 'web performance', 'image optimization', 'WebP', 'SEO'],
+    author: 'ToolNest Team',
+    publishedAt: '2025-07-18',
+    readingTime: 8,
+    content: [
+      {
+        heading: 'Why Image Compression Is Critical for Web Performance',
+        body: [
+          'Images account for more than half of the average web page\'s total weight. Every extra kilobyte adds to load time, which directly impacts bounce rate, conversion rate, and search rankings. Google has confirmed that page speed is a ranking factor, and Core Web Vitals like Largest Contentful Paint are heavily influenced by how fast your hero image loads.',
+          'The good news: most images can be reduced by 60-80% with no perceptible quality loss. The key is choosing the right format, the right compression level, and the right dimensions for the job.',
+        ],
+      },
+      {
+        heading: 'Step 1: Choose the Right Format',
+        body: [
+          'JPEG is the classic choice for photographs and images with many colors and gradients. It supports lossy compression that can dramatically reduce file size, but it does not support transparency.',
+          'PNG is ideal for graphics with sharp edges, text, or transparency. It uses lossless compression, so file sizes tend to be larger than JPEG for photographic content.',
+          'WebP is the modern best-of-both-worlds format. It supports both lossy and lossless compression, transparency, and produces files 25-35% smaller than JPEG at equivalent quality. All modern browsers support it. Use the Image Converter to convert your images to WebP before uploading.',
+        ],
+      },
+      {
+        heading: 'Step 2: Resize to Display Dimensions',
+        body: [
+          'A common mistake is uploading a 4000x3000 photo that will only be displayed at 800x600. The browser still downloads the full-resolution file, then scales it down. This wastes bandwidth and slows the page.',
+          'Before compressing, resize the image to the largest dimensions it will actually be displayed at (or 2x for retina screens). The Image Resizer lets you set exact pixel dimensions and maintain aspect ratio automatically.',
+        ],
+      },
+      {
+        heading: 'Step 3: Apply the Right Compression Level',
+        body: [
+          'For JPEG and WebP, a quality setting of 75-85 is the sweet spot for most web images. At 80 quality, the difference from the original is virtually invisible to the human eye, but the file size drops by 60-70%.',
+          'For images where every detail matters (product photos, medical images), use 90-95 quality. For decorative images, backgrounds, or social media graphics, you can go as low as 65 without noticeable degradation.',
+          'The Image Compressor lets you adjust quality in real time and compare the result side-by-side with the original, so you can find the lowest acceptable quality for each image.',
+        ],
+      },
+      {
+        heading: 'Step 4: Strip Unnecessary Metadata',
+        body: [
+          'Cameras and editing software embed EXIF data — camera model, GPS coordinates, timestamps, color profiles — inside image files. This metadata can add 10-50 KB per image and is rarely needed on the web.',
+          'The Image Metadata Remover strips all EXIF, IPTC, and XMP data from your images, reducing file size and protecting privacy. This is especially important for photos taken on phones that may embed location data.',
+        ],
+      },
+      {
+        heading: 'Recommended Workflow Summary',
+        body: [
+          '1. Start with the highest-quality source image available.',
+          '2. Resize to 2x the display dimensions using the Image Resizer.',
+          '3. Convert to WebP using the Image Converter.',
+          '4. Compress at 80% quality using the Image Compressor.',
+          '5. Strip metadata using the Image Metadata Remover.',
+          '6. Verify visually — if it looks good, ship it.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'converting-pdf-to-word-step-by-step-guide',
+    title: 'Converting PDF to Word: A Step-by-Step Guide',
+    description: 'Learn how to convert PDF documents into editable Word files for free, what to expect from the conversion, and how to fix common formatting issues.',
+    category: 'PDF Tools',
+    tags: ['PDF', 'Word', 'document conversion', 'office productivity', 'free tools'],
+    author: 'ToolNest Team',
+    publishedAt: '2025-08-02',
+    readingTime: 7,
+    content: [
+      {
+        heading: 'Why Convert PDF to Word?',
+        body: [
+          'PDF is a fixed-layout format designed for sharing and printing — not for editing. When you receive a contract, report, or form as a PDF and need to make changes, converting it to Word lets you edit the text, adjust formatting, and reuse the content.',
+          'Common scenarios: updating an old proposal that only exists as PDF, extracting text from a scanned document, or repurposing content from a PDF report into a new document.',
+        ],
+      },
+      {
+        heading: 'Step 1: Prepare Your PDF',
+        body: [
+          'Before converting, check that your PDF is text-based, not a scanned image. You can verify by trying to select text in a PDF viewer — if you can highlight individual words, it\'s text-based. If the entire page selects as one block, it\'s likely a scanned image.',
+          'For scanned PDFs, optical character recognition (OCR) is needed first. For text-based PDFs, conversion will be fast and accurate.',
+        ],
+      },
+      {
+        heading: 'Step 2: Convert with the PDF to Word Tool',
+        body: [
+          'The PDF to Word converter processes your file entirely in your browser — no upload to a server, no privacy concerns. Simply open the tool, select your PDF file, and the converter extracts the text and layout into an editable Word document.',
+          'The conversion preserves headings, paragraphs, lists, and basic formatting. Complex layouts with multiple columns, text boxes, or embedded images may not convert perfectly, but the text content will be fully editable.',
+        ],
+      },
+      {
+        heading: 'Step 3: Review and Fix Formatting',
+        body: [
+          'After conversion, open the Word file and review the formatting. Most common issues and their fixes:',
+          'Fonts: If the original PDF used a non-standard font, Word may substitute a similar font. You can reapply the correct font manually.',
+          'Tables: Simple tables usually convert well. Complex merged-cell tables may need manual adjustment.',
+          'Images: Embedded images are extracted and placed in approximately the right position. You may need to resize or reposition them.',
+          'Headers and footers: These may appear as regular text at the top and bottom of pages rather than as true Word headers/footers. Copy them into the header/footer area manually.',
+        ],
+      },
+      {
+        heading: 'Alternative: Extract Just the Text',
+        body: [
+          'If you only need the text content without any formatting, using the PDF to Word converter and then selecting "Paste Special > Unformatted Text" in Word can give you clean text without any layout artifacts.',
+          'For extracting specific pages, use PDF Extract Pages first to isolate the pages you need, then convert just those pages.',
+        ],
+      },
+      {
+        heading: 'Tips for Best Results',
+        body: [
+          'Start with a clean, text-based PDF for the most accurate conversion. If the PDF has annotations, form fields, or comments, remove them first with PDF Metadata Editor. For large PDFs, split the document with PDF Split and convert sections individually for faster processing.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'csv-vs-json-which-data-format-should-you-use',
+    title: 'CSV vs JSON: Which Data Format Should You Use?',
+    description: 'A practical comparison of CSV and JSON — when to use each, their pros and cons, and how to convert between them with free online tools.',
+    category: 'Developer Tools',
+    tags: ['CSV', 'JSON', 'data formats', 'developer tools', 'API'],
+    author: 'ToolNest Team',
+    publishedAt: '2025-08-25',
+    readingTime: 8,
+    content: [
+      {
+        heading: 'What Are CSV and JSON?',
+        body: [
+          'CSV (Comma-Separated Values) is a plain-text format that stores tabular data — rows and columns — with each field separated by a comma. It is the simplest possible format for spreadsheet data and has been used since the early days of computing.',
+          'JSON (JavaScript Object Notation) is a text format that stores structured data as nested objects and arrays. It supports hierarchies, mixed data types, and key-value pairs, making it far more expressive than CSV.',
+        ],
+      },
+      {
+        heading: 'When to Use CSV',
+        body: [
+          'CSV shines when your data is flat and tabular — think of a spreadsheet where every row has the same columns. It is ideal for: exporting data from databases, importing contacts or product lists into spreadsheets, sharing simple datasets, and log files.',
+          'Advantages: extremely small file size, universal support (every spreadsheet app reads it), human-readable, and easy to generate programmatically. Disadvantages: no support for nested data, no data types (everything is a string), and escaping commas and newlines in fields is error-prone.',
+        ],
+      },
+      {
+        heading: 'When to Use JSON',
+        body: [
+          'JSON is the right choice when your data has structure — nested objects, arrays within arrays, or mixed types. It is the standard format for REST API responses, configuration files, and NoSQL databases.',
+          'Advantages: supports nested structures, explicit data types (strings, numbers, booleans, null), self-documenting with key names, and native parsing in every programming language. Disadvantages: larger file size than CSV (due to repeated key names), harder to read in spreadsheet apps, and trailing commas cause errors.',
+        ],
+      },
+      {
+        heading: 'Performance and File Size Comparison',
+        body: [
+          'For a dataset with 10,000 rows and 5 columns, CSV is typically 40-60% smaller than JSON because it does not repeat field names on every row. If bandwidth is critical (e.g., serving data to mobile apps), CSV may be the better choice for flat data.',
+          'However, for structured data with nesting, JSON eliminates the need for multiple files or complex join logic, which can actually reduce total data transferred compared to representing the same information in multiple CSV files.',
+        ],
+      },
+      {
+        heading: 'Converting Between CSV and JSON',
+        body: [
+          'ToolNest provides free tools to convert between formats instantly, all processed in your browser:',
+          'CSV to JSON: The CSV to JSON converter takes your CSV data and generates a JSON array of objects, with the CSV header row as keys. It handles quoted fields, commas inside quotes, and various delimiters.',
+          'JSON to CSV: The JSON to CSV converter flattens a JSON array of objects into CSV format. Note that deeply nested JSON structures will be flattened, which may lose some hierarchy.',
+          'For validation before converting, use the JSON Validator to ensure your JSON is well-formed, or the CSV Viewer to inspect your CSV data visually.',
+        ],
+      },
+      {
+        heading: 'Quick Decision Guide',
+        body: [
+          'Use CSV when: data is flat and tabular, file size matters, the consumer is a spreadsheet, or you are exporting from a database.',
+          'Use JSON when: data is nested or hierarchical, the consumer is an API or application, you need data types, or the structure is complex.',
+          'Still unsure? Start with JSON for flexibility — you can always convert to CSV later if needed. Going from JSON to CSV is straightforward; the reverse is harder if your CSV has inconsistent columns.',
+        ],
+      },
+    ],
+  },
 ];
 
 export function getBlogPost(slug: string): BlogPost | undefined {

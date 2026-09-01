@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { Calendar, Clock, ArrowUpRight, ArrowLeft, PenLine } from 'lucide-react';
 
 import { generateBreadcrumbJsonLd, generateBlogPostJsonLd, SITE_URL } from '@/lib/seo';
-import { AdPlaceholder } from '@/components/ads/ad-placeholder';
+import { AdSlot } from '@/components/ads/ad-slot';
 import { Newsletter } from '@/components/ads/newsletter';
 import { RelatedTools } from '@/components/related-tools';
 import { fetchBlogPost, fetchBlogPosts, fetchTools } from '@/lib/public-data';
@@ -85,7 +85,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
       />
 
       <div className="mx-auto max-w-3xl px-4 pt-28 sm:px-6 lg:px-8">
-        <AdPlaceholder slot="blog-top" className="mb-8" />
+        <AdSlot slot="blog-top" className="mb-8" />
       </div>
 
       <article className="mx-auto max-w-3xl px-4 pt-4 pb-16 sm:px-6 lg:px-8">
@@ -185,9 +185,9 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
       </article>
 
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-        <AdPlaceholder slot="blog-middle" className="my-8" />
+        <AdSlot slot="blog-middle" className="my-8" />
         <Newsletter variant="compact" className="mb-8" />
-        <AdPlaceholder slot="blog-bottom" className="mb-8" />
+        <AdSlot slot="blog-bottom" className="mb-8" />
       </div>
 
       <RelatedToolsSection postTitle={post.title} dbTools={dbTools} />

@@ -48,24 +48,32 @@ export function FAQ() {
           </Accordion>
         </div>
 
-        <div className="mt-8 flex flex-col items-center gap-4 rounded-2xl glass-card p-6 text-center sm:flex-row sm:justify-between sm:text-left">
-          <div className="flex items-center gap-4">
-            <div className="hidden sm:grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-gradient-brand text-white shadow-lg shadow-brand-purple/25">
-              <HelpCircle className="h-6 w-6" />
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold">Still have questions?</h3>
-              <p className="text-sm text-muted-foreground">
-                Our team usually replies within one business day.
-              </p>
-            </div>
+        <div className="relative mt-8 overflow-hidden rounded-2xl glass-card p-8 sm:p-10">
+          <div aria-hidden className="absolute inset-0 -z-10">
+            <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-brand-purple/20 blur-[100px]" />
+            <div className="absolute -bottom-20 -left-20 h-48 w-48 rounded-full bg-brand-blue/15 blur-[80px]" />
           </div>
-          <Button
-            asChild
-            className="rounded-xl bg-gradient-brand text-white hover:opacity-90"
-          >
-            <a href="/contact">Contact us</a>
-          </Button>
+          <div className="flex flex-col items-center gap-6 text-center sm:flex-row sm:justify-between sm:text-left">
+            <div className="flex items-center gap-5">
+              <div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-gradient-brand text-white shadow-lg shadow-brand-purple/25">
+                <HelpCircle className="h-7 w-7" />
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold tracking-tight">
+                  Still have questions?
+                </h3>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Our team usually replies within one business day.
+                </p>
+              </div>
+            </div>
+            <Button
+              asChild
+              className="rounded-xl bg-gradient-brand px-6 py-2.5 text-white shadow-lg shadow-brand-purple/20 transition-transform hover:scale-105 hover:opacity-90"
+            >
+              <a href="/contact">Contact us</a>
+            </Button>
+          </div>
         </div>
       </div>
     </section>

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Calendar, Clock, ArrowUpRight } from 'lucide-react';
 
 import { PageHeader } from '@/components/page-header';
-import { AdPlaceholder } from '@/components/ads/ad-placeholder';
+import { AdSlot } from '@/components/ads/ad-slot';
 import { Newsletter } from '@/components/ads/newsletter';
 import { generateItemListJsonLd, SITE_URL } from '@/lib/seo';
 import { fetchBlogPosts } from '@/lib/public-data';
@@ -62,7 +62,7 @@ export default async function BlogPage() {
       />
 
       <section className="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8">
-        <AdPlaceholder slot="blog-top" className="mb-10" />
+        <AdSlot slot="blog-top" className="mb-10" />
 
         {categories.length > 0 && (
           <div className="mb-10">
@@ -125,7 +125,7 @@ export default async function BlogPage() {
           </div>
         )}
 
-        <AdPlaceholder slot="blog-middle" className="mt-10" />
+        <AdSlot slot="blog-middle" className="mt-10" />
 
         {tags.length > 0 && (
           <div className="mt-12">
@@ -146,7 +146,7 @@ export default async function BlogPage() {
           </div>
         )}
 
-        <AdPlaceholder slot="blog-bottom" className="mt-12" />
+        <AdSlot slot="blog-bottom" className="mt-12" />
         <Newsletter className="mt-12" />
       </section>
     </>

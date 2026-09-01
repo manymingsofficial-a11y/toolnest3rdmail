@@ -5,7 +5,7 @@ import { ChevronRight } from 'lucide-react';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { ToolActions } from '@/components/tool-actions';
-import { AdPlaceholder } from '@/components/ads/ad-placeholder';
+import { AdSlot } from '@/components/ads/ad-slot';
 import { Newsletter } from '@/components/ads/newsletter';
 import { getIcon } from '@/lib/icon-map';
 import { getRelatedTools, tools, categories } from '@/lib/data';
@@ -159,7 +159,7 @@ export function ToolPageTemplate({
       </section>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <AdPlaceholder slot="tool-top" className="my-6" />
+        <AdSlot slot="tool-top" className="my-6" />
       </div>
 
       <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
@@ -169,14 +169,14 @@ export function ToolPageTemplate({
           </div>
           <aside className="hidden lg:block">
             <div className="sticky top-24 space-y-6">
-              <AdPlaceholder slot="tool-sidebar" minHeight={250} />
+              <AdSlot slot="tool-sidebar" minHeight={250} />
             </div>
           </aside>
         </div>
       </section>
 
       <div className="mx-auto max-w-3xl px-4 sm:px-6">
-        <AdPlaceholder slot="tool-after" className="my-8" />
+        <AdSlot slot="tool-after" className="my-8" />
       </div>
 
       <section className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
@@ -184,7 +184,7 @@ export function ToolPageTemplate({
       </section>
 
       <div className="mx-auto max-w-3xl px-4 sm:px-6">
-        <AdPlaceholder slot="tool-bottom" className="my-8" />
+        <AdSlot slot="tool-bottom" className="my-8" />
       </div>
 
       <ToolActions slug={slug} />
