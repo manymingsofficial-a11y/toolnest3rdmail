@@ -6,7 +6,9 @@ import { Calendar, Clock, ArrowUpRight, ArrowLeft, PenLine } from 'lucide-react'
 import { generateBreadcrumbJsonLd, generateBlogPostJsonLd, SITE_URL } from '@/lib/seo';
 import { AdPlaceholder } from '@/components/ads/ad-placeholder';
 import { Newsletter } from '@/components/ads/newsletter';
-import { fetchBlogPost, fetchBlogPosts } from '@/lib/public-data';
+import { RelatedTools } from '@/components/related-tools';
+import { fetchBlogPost, fetchBlogPosts, fetchTools } from '@/lib/public-data';
+import { tools as allStaticTools, getRelatedTools } from '@/lib/data';
 
 export async function generateStaticParams() {
   const posts = await fetchBlogPosts();
@@ -51,7 +53,10 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   const post = await fetchBlogPost(params.slug);
   if (!post) notFound();
 
-  const allPosts = await fetchBlogPosts();
+  const [allPosts, dbTools] = await Promise.all([
+    fetchBlogPosts(),
+    fetchTools(),
+  ]);
   const relatedPosts = allPosts
     .filter((p) => p.slug !== params.slug)
     .filter(
@@ -79,7 +84,11 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
 
-      <article className="mx-auto max-w-3xl px-4 pt-28 pb-16 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-3xl px-4 pt-28 sm:px-6 lg:px-8">
+        <AdPlaceholder slot="blog-top" className="mb-8" />
+      </div>
+
+      <article className="mx-auto max-w-3xl px-4 pt-4 pb-16 sm:px-6 lg:px-8">
         <nav className="flex items-center gap-1.5 text-sm text-muted-foreground" aria-label="Breadcrumb">
           <Link href="/" className="transition-colors hover:text-foreground">Home</Link>
           <span className="text-muted-foreground/50">/</span>
@@ -178,7 +187,10 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <AdPlaceholder slot="blog-middle" className="my-8" />
         <Newsletter variant="compact" className="mb-8" />
+        <AdPlaceholder slot="blog-bottom" className="mb-8" />
       </div>
+
+      <RelatedToolsSection postTitle={post.title} dbTools={dbTools} />
 
       {relatedPosts.length > 0 && (
         <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
@@ -220,4 +232,47 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
       )}
     </>
   );
+}
+
+function RelatedToolsSection({
+  postTitle,
+  dbTools,
+}: {
+  postTitle: string;
+  dbTools: { slug: string; name: string; description: string; category: string; icon: string; gradient: string }[];
+}) {
+  const titleLower = postTitle.toLowerCase();
+  const toolList = dbTools.length > 0 ? dbTools : allStaticTools;
+
+  const matched = toolList
+    .filter((t) => {
+      const nameLower = t.name.toLowerCase();
+      const catLower = t.category.toLowerCase();
+      return (
+        titleLower.includes(nameLower) ||
+        nameLower.includes('image') && titleLower.includes('image') ||
+        nameLower.includes('pdf') && titleLower.includes('pdf') ||
+        nameLower.includes('compress') && titleLower.includes('compress') ||
+        nameLower.includes('csv') && titleLower.includes('csv') ||
+        nameLower.includes('json') && titleLower.includes('json') ||
+        catLower.includes('image') && titleLower.includes('image') ||
+        catLower.includes('pdf') && titleLower.includes('pdf') ||
+        catLower.includes('developer') && (titleLower.includes('csv') || titleLower.includes('json'))
+      );
+    })
+    .slice(0, 3);
+
+  if (matched.length === 0) return null;
+
+  const related = matched.map((t) => ({
+    slug: t.slug,
+    name: t.name,
+    description: t.description,
+    category: t.category,
+    icon: t.icon,
+    gradient: t.gradient,
+    popularity: 0,
+  }));
+
+  return <RelatedTools slug="" tools={related} />;
 }

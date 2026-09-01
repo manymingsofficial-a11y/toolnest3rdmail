@@ -8,7 +8,7 @@ import { ToolActions } from '@/components/tool-actions';
 import { AdPlaceholder } from '@/components/ads/ad-placeholder';
 import { Newsletter } from '@/components/ads/newsletter';
 import { getIcon } from '@/lib/icon-map';
-import { getRelatedTools, tools } from '@/lib/data';
+import { getRelatedTools, tools, categories } from '@/lib/data';
 import {
   generateToolJsonLd,
   generateWebApplicationJsonLd,
@@ -67,9 +67,12 @@ export function ToolPageTemplate({
 
   const toolJsonLd = generateToolJsonLd(slug);
   const webAppJsonLd = generateWebApplicationJsonLd(slug);
+  const toolCategory = categories.find((c) => c.name === tool.category);
+
   const breadcrumbJsonLd = generateBreadcrumbJsonLd([
     { name: 'Home', url: '/' },
     { name: 'Tools', url: '/tools' },
+    ...(toolCategory ? [{ name: toolCategory.name, url: `/categories?cat=${toolCategory.slug}` }] : []),
     { name: tool.name, url: `/tools/${tool.slug}` },
   ]);
   const howtoJsonLd = seo.howTo.length > 0 ? generateHowToJsonLd(tool.name, seo.howTo) : null;
@@ -125,6 +128,17 @@ export function ToolPageTemplate({
               Tools
             </Link>
             <ChevronRight className="h-3.5 w-3.5" />
+            {toolCategory && (
+              <>
+                <Link
+                  href={`/categories?cat=${toolCategory.slug}`}
+                  className="transition-colors hover:text-foreground"
+                >
+                  {toolCategory.name}
+                </Link>
+                <ChevronRight className="h-3.5 w-3.5" />
+              </>
+            )}
             <span className="text-foreground">{tool.name}</span>
           </nav>
 
@@ -143,6 +157,10 @@ export function ToolPageTemplate({
           </div>
         </div>
       </section>
+
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <AdPlaceholder slot="tool-top" className="my-6" />
+      </div>
 
       <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
@@ -164,6 +182,10 @@ export function ToolPageTemplate({
       <section className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
         <SeoContent {...seo} />
       </section>
+
+      <div className="mx-auto max-w-3xl px-4 sm:px-6">
+        <AdPlaceholder slot="tool-bottom" className="my-8" />
+      </div>
 
       <ToolActions slug={slug} />
       <RelatedTools slug={slug} tools={relatedTools} />

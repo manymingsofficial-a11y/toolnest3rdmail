@@ -1,6 +1,6 @@
 'use client';
 
-import { HelpCircle } from 'lucide-react';
+import { CircleHelp as HelpCircle } from 'lucide-react';
 
 import {
   Accordion,
@@ -48,17 +48,21 @@ export function FAQ() {
           </Accordion>
         </div>
 
-        <div className="mt-8 flex flex-col items-center gap-3 rounded-2xl bg-gradient-brand p-6 text-center text-white sm:flex-row sm:justify-between sm:text-left">
-          <div>
-            <h3 className="text-lg font-semibold">Still have questions?</h3>
-            <p className="text-sm text-white/80">
-              Our team usually replies within one business day.
-            </p>
+        <div className="mt-8 flex flex-col items-center gap-4 rounded-2xl glass-card p-6 text-center sm:flex-row sm:justify-between sm:text-left">
+          <div className="flex items-center gap-4">
+            <div className="hidden sm:grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-gradient-brand text-white shadow-lg shadow-brand-purple/25">
+              <HelpCircle className="h-6 w-6" />
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold">Still have questions?</h3>
+              <p className="text-sm text-muted-foreground">
+                Our team usually replies within one business day.
+              </p>
+            </div>
           </div>
           <Button
             asChild
-            variant="secondary"
-            className="rounded-xl bg-white text-foreground hover:bg-white/90"
+            className="rounded-xl bg-gradient-brand text-white hover:opacity-90"
           >
             <a href="/contact">Contact us</a>
           </Button>
