@@ -9,6 +9,7 @@ import { AdSlot } from '@/components/ads/ad-slot';
 import { Newsletter } from '@/components/ads/newsletter';
 import { getIcon } from '@/lib/icon-map';
 import { getRelatedTools, tools, categories } from '@/lib/data';
+import { generateToolSeoContent, isBoilerplateSeo } from '@/lib/tool-seo-content';
 import {
   generateToolJsonLd,
   generateWebApplicationJsonLd,
@@ -75,8 +76,11 @@ export function ToolPageTemplate({
     ...(toolCategory ? [{ name: toolCategory.name, url: `/categories?cat=${toolCategory.slug}` }] : []),
     { name: tool.name, url: `/tools/${tool.slug}` },
   ]);
-  const howtoJsonLd = seo.howTo.length > 0 ? generateHowToJsonLd(tool.name, seo.howTo) : null;
-  const faqJsonLd = seo.faqs.length > 0 ? generateFaqJsonLd(seo.faqs) : null;
+  // Detect boilerplate content and replace with generated tool-specific content
+  const effectiveSeo = isBoilerplateSeo(seo) ? generateToolSeoContent(slug) : seo;
+
+  const howtoJsonLd = effectiveSeo.howTo.length > 0 ? generateHowToJsonLd(tool.name, effectiveSeo.howTo) : null;
+  const faqJsonLd = effectiveSeo.faqs.length > 0 ? generateFaqJsonLd(effectiveSeo.faqs) : null;
 
   return (
     <>
@@ -180,7 +184,7 @@ export function ToolPageTemplate({
       </div>
 
       <section className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
-        <SeoContent {...seo} />
+        <SeoContent {...effectiveSeo} />
       </section>
 
       <div className="mx-auto max-w-3xl px-4 sm:px-6">
