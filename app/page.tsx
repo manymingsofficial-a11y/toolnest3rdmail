@@ -7,7 +7,7 @@ import { LatestTools } from '@/components/sections/latest-tools';
 import { FAQ } from '@/components/sections/faq';
 import { TrendingTools } from '@/components/sections/trending-tools';
 import { BlogTeaser } from '@/components/sections/blog-teaser';
-import { AdPlaceholder } from '@/components/ads/ad-placeholder';
+import { AdSlot } from '@/components/ads/ad-slot';
 import { Newsletter } from '@/components/ads/newsletter';
 import { generateFaqJsonLd } from '@/lib/seo';
 import { faqs } from '@/lib/faqs';
@@ -61,14 +61,14 @@ export default async function Home() {
       />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <AdPlaceholder slot="homepage-top" className="my-8" />
+        <AdSlot slot="homepage-top" className="my-8" />
       </div>
 
       <Categories categories={categories} />
       <FeaturedTools categories={categories} featuredTools={featuredTools} />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <AdPlaceholder slot="homepage-middle" className="my-8" />
+        <AdSlot slot="homepage-middle" className="my-8" />
       </div>
 
       <WhyChooseUs />
@@ -81,7 +81,7 @@ export default async function Home() {
       </div>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <AdPlaceholder slot="homepage-bottom" className="my-8" />
+        <AdSlot slot="homepage-bottom" className="my-8" />
       </div>
 
       <FAQ />

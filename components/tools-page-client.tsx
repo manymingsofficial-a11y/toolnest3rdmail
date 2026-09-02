@@ -9,6 +9,7 @@ import { getIcon } from '@/lib/icon-map';
 import { Badge } from '@/components/ui/badge';
 import { PageHeader } from '@/components/page-header';
 import { AdPlaceholder } from '@/components/ads/ad-placeholder';
+import { DEFAULT_AD_SETTINGS } from '@/lib/monetization';
 import type { Tool, Category } from '@/lib/data';
 
 export function ToolsPageClient({

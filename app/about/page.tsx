@@ -1,4 +1,4 @@
-import { Wrench, Shield, Zap, FolderOpen, Globe } from 'lucide-react';
+import { Globe, FileText, Zap, Shield } from 'lucide-react';
 
 import { PageHeader } from '@/components/page-header';
 import { AdSlot } from '@/components/ads/ad-slot';
@@ -28,11 +28,6 @@ const features = [
     description:
       'Every tool is available instantly — no account, no sign-up, no paywall. Open a tool and start using it right away.',
   },
-  {
-    icon: FolderOpen,
-    title: 'Organized into categories',
-    description: `Tools are grouped into ${categories.length} clear categories so you can find what you need without scrolling through an endless list.`,
-  },
 ];
 
 export default function AboutPage() {
@@ -44,11 +39,12 @@ export default function AboutPage() {
         description={`ToolNest brings ${tools.length} practical online tools together in one clean, fast, secure place — across ${categories.length} categories including PDF, image, QR & barcode, SEO, AI, text, developer, calculators, and converters.`}
       />
       <section className="mx-auto max-w-3xl px-4 pb-24 sm:px-6">
-        <AdSlot slot="homepage-bottom" className="mb-8" />
+        <AdSlot slot="homepage-top" className="mb-8" />
+
         <div className="space-y-8">
           <div className="rounded-2xl glass-card p-8">
             <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-gradient-brand text-white shadow-lg shadow-brand-purple/25">
-              <Wrench className="h-7 w-7" />
+              <FileText className="h-7 w-7" />
             </div>
             <h2 className="mt-5 text-center text-xl font-semibold tracking-tight">
               Our mission
@@ -94,6 +90,8 @@ export default function AboutPage() {
             </p>
           </div>
         </div>
+
+        <AdSlot slot="homepage-bottom" className="mt-8" />
       </section>
     </>
   );

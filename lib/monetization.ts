@@ -121,7 +121,7 @@ const DEFAULT_SLOTS: Record<AdSlot, AdSlotConfig> = ALL_SLOTS.reduce(
   {} as Record<AdSlot, AdSlotConfig>
 );
 
-const DEFAULT_AD_SETTINGS: AdSettings = {
+export const DEFAULT_AD_SETTINGS: AdSettings = {
   enabled: true,
   network: 'placeholder',
   publisherId: '',
