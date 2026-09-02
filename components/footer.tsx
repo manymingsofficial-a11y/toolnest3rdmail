@@ -7,11 +7,14 @@ import type { Category, Tool } from '@/lib/data';
 const quickLinks = [
   { label: 'All Tools', href: '/tools' },
   { label: 'Categories', href: '/categories' },
-  { label: 'Favorites', href: '/favorites' },
-  { label: 'Recently Used', href: '/recent' },
+  { label: 'Blog', href: '/blog' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
+];
+
+const legalLinks = [
   { label: 'Privacy Policy', href: '/privacy-policy' },
+  { label: 'Terms of Service', href: '/terms' },
 ];
 
 const defaultSocials = [
@@ -24,6 +27,7 @@ export function Footer({
   categories = [],
   popularTools = [],
   latestTools = [],
+  allTools = [],
   siteName = 'ToolNest',
   footerText = 'Built for everyone — free forever.',
   socialLinks,
@@ -31,6 +35,7 @@ export function Footer({
   categories?: Category[];
   popularTools?: Tool[];
   latestTools?: Tool[];
+  allTools?: Tool[];
   siteName?: string;
   footerText?: string;
   socialLinks?: {
@@ -48,6 +53,7 @@ export function Footer({
       ].filter((s) => s.href !== '#')
     : defaultSocials;
 
+  const toolCount = allTools.length > 0 ? allTools.length : popularTools.length > 0 ? popularTools.length : 269;
   const displayName = siteName;
   const brandParts = displayName.includes('Nest')
     ? { before: displayName.split('Nest')[0], after: 'Nest' }
@@ -60,7 +66,7 @@ export function Footer({
         className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-brand-purple/60 to-transparent"
       />
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+        <div className="grid gap-10 lg:grid-cols-[1.5fr_1fr_1fr_1fr_1fr]">
           {/* Brand */}
           <div className="max-w-sm">
             <Link href="/" className="flex items-center gap-2 font-semibold">
@@ -73,9 +79,7 @@ export function Footer({
               </span>
             </Link>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-              {categories.length} categories and {popularTools.length * 45}+ free
-              online tools — PDF, image, QR, developer, calculators and more.
-              Fast, secure, and no registration required.
+              {categories.length} categories and {toolCount}+ free online tools — PDF, image, QR, developer, calculators and more. Fast, secure, and no registration required.
             </p>
             <div className="mt-6">
               <Newsletter variant="inline" title="Newsletter" description="New tools and updates." />
@@ -129,10 +133,20 @@ export function Footer({
                   </Link>
                 </li>
               ))}
+              {popularTools.length === 0 && (
+                <li>
+                  <Link
+                    href="/tools"
+                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    Browse all tools
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
 
-          {/* Quick links + Latest */}
+          {/* Quick links */}
           <div>
             <h4 className="text-sm font-semibold tracking-wide text-foreground">
               Quick Links
@@ -149,30 +163,30 @@ export function Footer({
                 </li>
               ))}
             </ul>
-            {latestTools.length > 0 && (
-              <>
-                <h4 className="mt-6 text-sm font-semibold tracking-wide text-foreground">
-                  Latest Tools
-                </h4>
-                <ul className="mt-4 space-y-2.5">
-                  {latestTools.slice(0, 4).map((tool) => (
-                    <li key={tool.slug}>
-                      <Link
-                        href={`/tools/${tool.slug}`}
-                        className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                      >
-                        {tool.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </>
-            )}
+          </div>
+
+          {/* Legal */}
+          <div>
+            <h4 className="text-sm font-semibold tracking-wide text-foreground">
+              Legal
+            </h4>
+            <ul className="mt-4 space-y-2.5">
+              {legalLinks.map((link) => (
+                <li key={link.label}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border/60 pt-8 text-sm text-muted-foreground sm:flex-row">
-          <p>© {new Date().getFullYear()} {siteName}. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} {siteName}. All rights reserved.</p>
           <p className="text-center sm:text-right">
             {footerText}
           </p>

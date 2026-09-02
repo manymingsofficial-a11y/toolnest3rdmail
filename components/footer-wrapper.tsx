@@ -10,6 +10,7 @@ export function FooterWrapper() {
     categories: Category[];
     popularTools: Tool[];
     latestTools: Tool[];
+    allTools: Tool[];
     siteName?: string;
     footerText?: string;
     socialLinks?: { twitter: string; github: string; linkedin: string; instagram: string };
@@ -40,12 +41,13 @@ export function FooterWrapper() {
           categories,
           popularTools,
           latestTools,
+          allTools: tools,
           siteName: site?.website_name,
           footerText: home?.footer_text,
           socialLinks: site?.social_links,
         });
       } catch {
-        setData({ categories: [], popularTools: [], latestTools: [] });
+        setData({ categories: [], popularTools: [], latestTools: [], allTools: [] });
       }
     }
     load();
@@ -58,6 +60,7 @@ export function FooterWrapper() {
       categories={data.categories}
       popularTools={data.popularTools}
       latestTools={data.latestTools}
+      allTools={data.allTools}
       siteName={data.siteName}
       footerText={data.footerText}
       socialLinks={data.socialLinks}

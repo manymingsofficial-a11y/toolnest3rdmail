@@ -6,24 +6,24 @@ import { WhyChooseUs } from '@/components/sections/why-choose-us';
 import { LatestTools } from '@/components/sections/latest-tools';
 import { FAQ } from '@/components/sections/faq';
 import { TrendingTools } from '@/components/sections/trending-tools';
+import { BlogTeaser } from '@/components/sections/blog-teaser';
 import { AdPlaceholder } from '@/components/ads/ad-placeholder';
 import { Newsletter } from '@/components/ads/newsletter';
 import { generateFaqJsonLd } from '@/lib/seo';
 import { faqs } from '@/lib/faqs';
-import { fetchTools, fetchCategories, fetchHomepageSettings, fetchSiteSettings } from '@/lib/public-data';
+import { fetchTools, fetchCategories, fetchHomepageSettings, fetchSiteSettings, fetchBlogPosts } from '@/lib/public-data';
 import type { Tool, Category } from '@/lib/data';
 
 export default async function Home() {
   const faqJsonLd = generateFaqJsonLd(faqs);
 
-  const [tools, categories, homepageSettings, siteSettings] = await Promise.all([
+  const [tools, categories, homepageSettings, siteSettings, blogPosts] = await Promise.all([
     fetchTools(),
     fetchCategories(),
     fetchHomepageSettings(),
     fetchSiteSettings(),
+    fetchBlogPosts(),
   ]);
-
-  const siteName = siteSettings?.websiteName ?? 'ToolNest';
 
   const getToolsBySlugs = (slugs: string[]): Tool[] =>
     slugs.map((slug) => tools.find((t) => t.slug === slug)).filter(Boolean) as Tool[];
@@ -33,8 +33,11 @@ export default async function Home() {
   const recentTools = getToolsBySlugs(homepageSettings?.recentToolSlugs ?? []);
   const popularTools = getToolsBySlugs(homepageSettings?.popularToolSlugs ?? []);
 
+  const siteName = siteSettings?.websiteName ?? 'ToolNest';
+
   const newestTools = tools.filter((t) => t.isNew).slice(0, 8);
   const latestTools = newestTools.length > 0 ? newestTools : tools.slice(0, 8);
+  const latestBlogPosts = blogPosts.slice(0, 3);
 
   return (
     <>
@@ -70,6 +73,8 @@ export default async function Home() {
 
       <WhyChooseUs />
       <LatestTools latestTools={latestTools} totalTools={tools.length} />
+
+      <BlogTeaser posts={latestBlogPosts} />
 
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <Newsletter className="my-16" />

@@ -1,6 +1,7 @@
 import { Wrench, Shield, Zap, FolderOpen, Globe } from 'lucide-react';
 
 import { PageHeader } from '@/components/page-header';
+import { AdSlot } from '@/components/ads/ad-slot';
 import { tools, categories } from '@/lib/data';
 
 export const metadata = {
@@ -43,6 +44,7 @@ export default function AboutPage() {
         description={`ToolNest brings ${tools.length} practical online tools together in one clean, fast, secure place — across ${categories.length} categories including PDF, image, QR & barcode, SEO, AI, text, developer, calculators, and converters.`}
       />
       <section className="mx-auto max-w-3xl px-4 pb-24 sm:px-6">
+        <AdSlot slot="homepage-bottom" className="mb-8" />
         <div className="space-y-8">
           <div className="rounded-2xl glass-card p-8">
             <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-gradient-brand text-white shadow-lg shadow-brand-purple/25">

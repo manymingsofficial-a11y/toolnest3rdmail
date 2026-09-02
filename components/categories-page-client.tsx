@@ -173,6 +173,7 @@ export function CategoriesPageClient({
         )}
 
         <AdPlaceholder slot="category-middle" className="mt-6" />
+        <AdPlaceholder slot="category-bottom" className="mt-6" />
       </section>
     </>
   );
