@@ -38,7 +38,7 @@ export async function generateMetadata({
       siteName: 'ToolNest',
       locale: 'en_US',
     },
-    robots: { index: true, follow: true },
+    robots: { index: false, follow: true },
   };
 }
 

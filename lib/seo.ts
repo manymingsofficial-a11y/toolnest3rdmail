@@ -349,7 +349,7 @@ export function generateSearchMetadata(query: string): Metadata {
       images: [SITE_LOGO],
     },
     robots: {
-      index: query ? false : true,
+      index: false,
       follow: true,
     },
   };
