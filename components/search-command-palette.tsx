@@ -120,9 +120,18 @@ export function SearchCommandPalette({ tools, categories }: SearchCommandPalette
   const results = React.useMemo<SearchResult[]>(() => {
     if (!query.trim()) return [];
     const q = query.toLowerCase();
+    const queryTokens = q.split(/\s+/).filter((t) => t.length > 0);
     const syns = getSynonyms(query);
     const seen = new Set<string>();
     const out: SearchResult[] = [];
+
+    function tokenScore(haystack: string, tokens: string[]): number {
+      let matched = 0;
+      for (const tok of tokens) {
+        if (haystack.includes(tok)) matched++;
+      }
+      return matched;
+    }
 
     for (const t of tools) {
       if (seen.has(t.slug)) continue;
@@ -134,10 +143,20 @@ export function SearchCommandPalette({ tools, categories }: SearchCommandPalette
       if (name === q) score = 100;
       else if (name.startsWith(q)) score = 80;
       else if (name.includes(q)) score = 60;
+      else if (queryTokens.length > 1 && tokenScore(name, queryTokens) === queryTokens.length) score = 55;
       else if (desc.includes(q)) score = 40;
+      else if (queryTokens.length > 1 && tokenScore(desc, queryTokens) === queryTokens.length) score = 38;
       else if (cat.includes(q)) score = 30;
       else if (kws.some((k) => k.includes(q))) score = 35;
+      else if (queryTokens.length > 1 && kws.some((k) => queryTokens.every((tok) => k.includes(tok)))) score = 32;
       else if (syns.some((s) => name.includes(s) || desc.includes(s) || kws.some((k) => k.includes(s)))) score = 20;
+      else if (queryTokens.length > 1) {
+        const nameHits = tokenScore(name, queryTokens);
+        const descHits = tokenScore(desc, queryTokens);
+        const totalHits = nameHits + descHits;
+        if (totalHits >= queryTokens.length) score = 25;
+        else if (totalHits > 0) score = 10;
+      }
       if (score > 0) {
         seen.add(t.slug);
         out.push({ type: 'tool', tool: t, score });
@@ -151,6 +170,7 @@ export function SearchCommandPalette({ tools, categories }: SearchCommandPalette
       let score = 0;
       if (name.includes(q)) score = 50;
       else if (desc.includes(q)) score = 25;
+      else if (queryTokens.length > 1 && tokenScore(name, queryTokens) > 0) score = 20;
       else if (syns.some((s) => name.includes(s))) score = 15;
       if (score > 0) {
         seen.add(`cat-${c.slug}`);
@@ -251,6 +271,15 @@ export function SearchCommandPalette({ tools, categories }: SearchCommandPalette
                 role="combobox"
                 aria-autocomplete="list"
               />
+              {query && (
+                <button
+                  onClick={() => { setQuery(''); setActiveIdx(0); inputRef.current?.focus(); }}
+                  className="rounded-lg p-1 text-muted-foreground transition-colors hover:text-foreground"
+                  aria-label="Clear search"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
               <button
                 onClick={() => setOpen(false)}
                 className="rounded-lg p-1 text-muted-foreground transition-colors hover:text-foreground"

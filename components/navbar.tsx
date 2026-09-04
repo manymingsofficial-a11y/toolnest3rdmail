@@ -114,12 +114,6 @@ export function Navbar({ searchIndex }: { searchIndex: SearchIndex }) {
           </Link>
           <ThemeToggle />
           <Button
-            asChild
-            className="hidden bg-gradient-brand text-white shadow-lg shadow-brand-purple/25 transition-transform duration-300 hover:scale-105 sm:inline-flex"
-          >
-            <Link href="/tools">All Tools</Link>
-          </Button>
-          <Button
             variant="ghost"
             size="icon"
             className="md:hidden"
@@ -184,9 +178,6 @@ export function Navbar({ searchIndex }: { searchIndex: SearchIndex }) {
             <Heart className="h-4 w-4" />
             Favorites
           </Link>
-          <Button asChild className="mt-1 bg-gradient-brand text-white">
-            <Link href="/tools">All Tools</Link>
-          </Button>
         </nav>
       </div>
     </header>
