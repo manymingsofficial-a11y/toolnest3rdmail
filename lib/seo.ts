@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { categories, tools } from '@/lib/data';
 import type { Tool } from '@/lib/data';
+import { getToolEnhancement } from '@/lib/tool-metadata-enhancements';
 
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://freetoolnest.vercel.app';
 export const SITE_NAME = 'ToolNest';
@@ -226,28 +227,29 @@ export function generateToolMetadata(slug: string, customTitle?: string, customD
   const tool = tools.find((t) => t.slug === slug);
   if (!tool) return {};
 
-  const title = customTitle ?? tool.name;
-  const description = customDescription ?? tool.description;
+  const enh = getToolEnhancement(slug);
+  const title = customTitle ?? enh?.titleSuffix ? `${tool.name} — ${enh!.titleSuffix}` : tool.name;
+  const description = customDescription ?? enh?.description ?? tool.description;
   const url = `${SITE_URL}/tools/${slug}`;
   const keywords = generateToolKeywords(tool);
 
   return {
-    title,
+    title: { absolute: `${title} | ${SITE_NAME}` },
     description,
     keywords,
     alternates: { canonical: `/tools/${slug}` },
     openGraph: {
-      title: `${title} — Free Online Tool | ${SITE_NAME}`,
+      title: `${title} | ${SITE_NAME}`,
       description,
       type: 'website',
       url,
       siteName: SITE_NAME,
       locale: 'en_US',
-      images: [{ url: SITE_LOGO, width: 1200, height: 630, alt: `${title} — ${SITE_NAME}` }],
+      images: [{ url: SITE_LOGO, width: 1200, height: 630, alt: `${tool.name} — ${SITE_NAME}` }],
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${title} — Free Online Tool | ${SITE_NAME}`,
+      title: `${title} | ${SITE_NAME}`,
       description,
       creator: '@toolnest',
       images: [SITE_LOGO],

@@ -1,0 +1,214 @@
+qr-code-generator	QR Code Generator	Create custom QR codes for links, text and more in seconds.	QR & Barcode Tools
+background-remover	Background Remover	Remove image backgrounds automatically in your browser.	Image Tools
+image-watermark	Image Watermark	Add text or logo watermarks to protect your images.	Image Tools
+image-rotator	Image Rotator	Rotate images by any angle with live preview.	Image Tools
+image-flipper	Image Flipper	Flip images horizontally or vertically instantly.	Image Tools
+image-color-picker	Image Color Picker	Pick exact colors from any point in an image.	Image Tools
+image-blur	Image Blur	Apply adjustable blur effects to your images.	Image Tools
+image-sharpen	Image Sharpen	Sharpen blurry images with adjustable intensity.	Image Tools
+image-brightness-adjuster	Image Brightness Adjuster	Adjust the brightness of any image with a slider.	Image Tools
+image-contrast-adjuster	Image Contrast Adjuster	Fine-tune image contrast with live preview.	Image Tools
+image-grayscale	Image Grayscale	Convert images to grayscale instantly.	Image Tools
+image-sepia-filter	Image Sepia Filter	Apply a vintage sepia tone to your images.	Image Tools
+image-border-creator	Image Border Creator	Add custom borders with adjustable width and color.	Image Tools
+image-rounded-corners	Image Rounded Corners	Round the corners of any image with radius control.	Image Tools
+image-metadata-viewer	Image Metadata Viewer	View EXIF and metadata embedded in your images.	Image Tools
+image-metadata-remover	Image Metadata Remover	Strip EXIF and metadata from images for privacy.	Image Tools
+pdf-rotate	PDF Rotate	Rotate PDF pages 90, 180 or 270 degrees.	PDF Tools
+pdf-unlock	PDF Unlock	Remove password protection from PDF files.	PDF Tools
+pdf-protect	PDF Protect	Add password protection to your PDF documents.	PDF Tools
+pdf-page-number	PDF Page Number	Add page numbers to PDF documents automatically.	PDF Tools
+pdf-delete-pages	PDF Delete Pages	Remove unwanted pages from PDF files.	PDF Tools
+pdf-extract-pages	PDF Extract Pages	Extract specific pages from a PDF into a new file.	PDF Tools
+pdf-reorder-pages	PDF Reorder Pages	Rearrange PDF pages in any order with drag and drop.	PDF Tools
+pdf-watermark	PDF Watermark	Add text watermarks to PDF documents.	PDF Tools
+pdf-metadata-editor	PDF Metadata Editor	Edit title, author, subject and keywords in PDFs.	PDF Tools
+pdf-viewer	PDF Viewer	View and read PDF files directly in your browser.	PDF Tools
+text-repeater	Text Repeater	Repeat any text multiple times with custom separators.	Text Tools
+text-reverser	Text Reverser	Reverse text character by character or line by line.	Text Tools
+random-text-generator	Random Text Generator	Generate random words, sentences and paragraphs.	Text Tools
+line-counter	Line Counter	Count lines, words and characters in your text.	Text Tools
+remove-extra-spaces	Remove Extra Spaces	Clean up multiple spaces, tabs and blank lines.	Text Tools
+text-compare	Text Compare	Compare two text blocks and highlight differences.	Text Tools
+find-and-replace	Find & Replace	Find and replace text with regex support.	Text Tools
+text-cleaner	Text Cleaner	Remove formatting, special chars and clean up text.	Text Tools
+markdown-preview	Markdown Preview	Write Markdown and see live rendered output instantly.	Text Tools
+html-to-text	HTML to Text	Convert HTML markup to clean plain text.	Text Tools
+password-encryptor	Password Encryptor	Encrypt text with AES-GCM and a password.	Security Tools
+password-decryptor	Password Decryptor	Decrypt AES-GCM encrypted text with a password.	Security Tools
+random-pin-generator	Random PIN Generator	Generate secure random PINs of any length.	Security Tools
+random-number-generator	Random Number Generator	Generate random numbers within a custom range.	Security Tools
+otp-generator	OTP Generator	Generate one-time passwords using TOTP/HOTP.	Security Tools
+hash-compare	Hash Compare	Compare two hashes to check if they match.	Security Tools
+bcrypt-generator	Bcrypt Generator	Generate bcrypt password hashes with adjustable rounds.	Security Tools
+sha1-hash-generator	SHA1 Hash Generator	Generate SHA1 hashes from any text input.	Security Tools
+base32-encoder	Base32 Encoder	Encode text to Base32 format instantly.	Security Tools
+base32-decoder	Base32 Decoder	Decode Base32 encoded text back to plain text.	Security Tools
+uuid-bulk-generator	UUID Bulk Generator	Generate multiple UUIDs at once with custom count.	Developer Tools
+jwt-decoder	JWT Decoder	Decode JWT tokens and inspect header and payload.	Developer Tools
+jwt-encoder	JWT Encoder	Create JWT tokens from header and payload JSON.	Developer Tools
+sql-formatter	SQL Formatter	Format and beautify SQL queries instantly.	Developer Tools
+xml-formatter	XML Formatter	Beautify and format XML documents.	Developer Tools
+xml-validator	XML Validator	Validate XML syntax and find errors instantly.	Developer Tools
+csv-to-json	CSV to JSON	Convert CSV data to structured JSON format.	Developer Tools
+json-to-csv	JSON to CSV	Convert JSON data to CSV format instantly.	Developer Tools
+yaml-formatter	YAML Formatter	Format and beautify YAML documents.	Developer Tools
+yaml-validator	YAML Validator	Validate YAML syntax and find errors quickly.	Developer Tools
+color-converter	Color Converter	Convert colors between HEX, RGB, HSL and CMYK.	Developer Tools
+hex-to-rgb	HEX to RGB	Convert HEX color codes to RGB values.	Developer Tools
+rgb-to-hex	RGB to HEX	Convert RGB color values to HEX codes.	Developer Tools
+timestamp-converter	Timestamp Converter	Convert Unix timestamps to human-readable dates.	Developer Tools
+unix-time-converter	Unix Time Converter	Convert dates to Unix timestamps and back.	Developer Tools
+hreflang-generator	Hreflang Generator	Generate hreflang tags for international SEO.	SEO Tools
+schema-markup-generator	Schema Markup Generator	Generate schema.org JSON-LD structured data.	SEO Tools
+faq-schema-generator	FAQ Schema Generator	Generate FAQ schema markup for rich results.	SEO Tools
+breadcrumb-schema-generator	Breadcrumb Schema Generator	Generate breadcrumb schema markup for SEO.	SEO Tools
+article-schema-generator	Article Schema Generator	Generate article schema markup for blog posts.	SEO Tools
+product-schema-generator	Product Schema Generator	Generate product schema markup for e-commerce SEO.	SEO Tools
+website-schema-generator	Website Schema Generator	Generate website schema markup for your site.	SEO Tools
+meta-robots-generator	Meta Robots Generator	Generate meta robots tags for crawl control.	SEO Tools
+keyword-extractor	Keyword Extractor	Extract keywords and key phrases from any text.	SEO Tools
+serp-pixel-checker	SERP Pixel Checker	Check pixel width of titles and meta descriptions.	SEO Tools
+speed-converter	Speed Converter	Convert between m/s, km/h, mph, knots and more.	Converters
+area-converter	Area Converter	Convert between square metres, acres, hectares and more.	Converters
+volume-converter	Volume Converter	Convert between litres, gallons, cups and more.	Converters
+pressure-converter	Pressure Converter	Convert between pascals, bar, psi and atmospheres.	Converters
+energy-converter	Energy Converter	Convert between joules, calories, kWh and more.	Converters
+power-converter	Power Converter	Convert between watts, horsepower and kilowatts.	Converters
+fuel-converter	Fuel Converter	Convert between MPG, L/100km and km/L fuel economy.	Converters
+currency-converter	Currency Converter	Convert currencies using your own exchange rates.	Converters
+ai-blog-title-generator	AI Blog Title Generator	Generate catchy blog titles from your topic.	AI Tools
+ai-blog-outline-generator	AI Blog Outline Generator	Create structured blog post outlines instantly.	AI Tools
+ai-article-idea-generator	AI Article Idea Generator	Brainstorm fresh article ideas from any keyword.	AI Tools
+ai-paragraph-generator	AI Paragraph Generator	Generate well-structured paragraphs on any topic.	AI Tools
+ai-sentence-rewriter	AI Sentence Rewriter	Rewrite sentences to improve flow and clarity.	AI Tools
+ai-grammar-improver	AI Grammar Improver	Fix grammar and spelling errors automatically.	AI Tools
+ai-summarizer	AI Summarizer	Summarize long text into key points instantly.	AI Tools
+ai-expand-text	AI Expand Text	Expand short text into detailed paragraphs.	AI Tools
+ai-simplify-text	AI Simplify Text	Simplify complex text into easy-to-read language.	AI Tools
+ai-humanize-text	AI Humanize Text	Make AI-generated text sound natural and human.	AI Tools
+ai-meta-title-generator	AI Meta Title Generator	Generate SEO-optimized meta titles for pages.	AI Tools
+ai-meta-description-generator	AI Meta Description Generator	Create compelling meta descriptions for SEO.	AI Tools
+ai-keyword-generator	AI Keyword Generator	Generate targeted keywords for your content.	AI Tools
+ai-faq-generator	AI FAQ Generator	Generate FAQs with answers from your topic.	AI Tools
+ai-seo-outline-generator	AI SEO Outline Generator	Create SEO-optimized content outlines instantly.	AI Tools
+ai-slug-generator-pro	AI Slug Generator Pro	Generate clean, SEO-friendly URL slugs.	AI Tools
+ai-product-schema-writer	AI Product Schema Writer	Generate product schema markup automatically.	AI Tools
+ai-alt-text-generator	AI Alt Text Generator	Generate descriptive alt text for images.	AI Tools
+ai-instagram-caption-generator	AI Instagram Caption Generator	Generate engaging Instagram captions instantly.	AI Tools
+ai-facebook-caption-generator	AI Facebook Caption Generator	Create engaging Facebook post captions.	AI Tools
+ai-linkedin-post-generator	AI LinkedIn Post Generator	Generate professional LinkedIn posts in seconds.	AI Tools
+ai-tweet-generator	AI Tweet Generator	Generate catchy tweets that drive engagement.	AI Tools
+ai-pinterest-pin-title-generator	AI Pinterest Pin Title Generator	Generate click-worthy Pinterest pin titles.	AI Tools
+ai-pinterest-description-generator	AI Pinterest Description Generator	Create SEO-optimized Pinterest descriptions.	AI Tools
+ai-hashtag-generator	AI Hashtag Generator	Generate trending hashtags for any topic.	AI Tools
+ai-social-bio-generator	AI Social Bio Generator	Generate catchy bios for social media profiles.	AI Tools
+ai-youtube-title-generator	AI YouTube Title Generator	Generate clickable YouTube video titles.	AI Tools
+ai-youtube-description-generator	AI YouTube Description Generator	Create SEO-optimized YouTube descriptions.	AI Tools
+ai-video-hook-generator	AI Video Hook Generator	Generate attention-grabbing video hooks.	AI Tools
+ai-video-script-generator	AI Video Script Generator	Generate complete video scripts from your topic.	AI Tools
+ai-shorts-caption-generator	AI Shorts Caption Generator	Generate captions for YouTube Shorts and Reels.	AI Tools
+ai-thumbnail-text-generator	AI Thumbnail Text Generator	Generate punchy text overlays for thumbnails.	AI Tools
+ai-business-name-generator	AI Business Name Generator	Generate creative business name ideas.	AI Tools
+ai-startup-name-generator	AI Startup Name Generator	Generate catchy startup name ideas.	AI Tools
+ai-brand-name-generator	AI Brand Name Generator	Generate memorable brand name ideas.	AI Tools
+ai-slogan-generator	AI Slogan Generator	Generate catchy slogans for your brand.	AI Tools
+ai-tagline-generator	AI Tagline Generator	Generate memorable taglines for your business.	AI Tools
+ai-product-description-generator	AI Product Description Generator	Generate compelling product descriptions.	AI Tools
+ai-marketing-copy-generator	AI Marketing Copy Generator	Generate persuasive marketing copy instantly.	AI Tools
+ai-email-writer	AI Email Writer	Generate professional emails from your prompt.	AI Tools
+ai-cold-email-generator	AI Cold Email Generator	Generate cold outreach emails that get replies.	AI Tools
+ai-follow-up-email-generator	AI Follow-up Email Generator	Generate follow-up emails that drive responses.	AI Tools
+ai-professional-reply-generator	AI Professional Reply Generator	Generate professional email replies instantly.	AI Tools
+ai-resume-summary-generator	AI Resume Summary Generator	Generate compelling resume summaries.	AI Tools
+ai-cover-letter-generator	AI Cover Letter Generator	Generate professional cover letters instantly.	AI Tools
+ai-job-description-generator	AI Job Description Generator	Generate detailed job descriptions for any role.	AI Tools
+ai-interview-questions-generator	AI Interview Questions Generator	Generate interview questions for any role.	AI Tools
+ai-amazon-listing-generator	AI Amazon Listing Generator	Generate optimized Amazon product listings.	AI Tools
+ai-shopify-product-description-generator	AI Shopify Product Description Generator	Generate product descriptions for Shopify stores.	AI Tools
+ai-etsy-product-description-generator	AI Etsy Product Description Generator	Generate product descriptions for Etsy shops.	AI Tools
+ai-ebay-listing-generator	AI eBay Listing Generator	Generate optimized eBay product listings.	AI Tools
+video-compressor	Video Compressor	Reduce video file size without losing visible quality.	Video Tools
+video-converter	Video Converter	Convert videos between MP4, WebM, AVI and more formats.	Video Tools
+video-trimmer	Video Trimmer	Trim and cut video to keep only the parts you need.	Video Tools
+video-cutter	Video Cutter	Cut out unwanted sections from any video file.	Video Tools
+video-merger	Video Merger	Combine multiple video clips into one file.	Video Tools
+video-splitter	Video Splitter	Split a video into multiple equal or custom segments.	Video Tools
+video-rotator	Video Rotator	Rotate videos 90, 180 or 270 degrees instantly.	Video Tools
+video-cropper	Video Cropper	Crop video frames to any aspect ratio or dimension.	Video Tools
+video-speed-controller	Video Speed Controller	Speed up or slow down video playback speed.	Video Tools
+reverse-video	Reverse Video	Play any video in reverse for creative effects.	Video Tools
+mute-video	Mute Video	Remove audio from any video file instantly.	Video Tools
+extract-audio	Extract Audio	Pull the audio track out of any video file.	Video Tools
+video-to-gif	Video to GIF	Convert any video clip into an animated GIF.	Video Tools
+gif-to-video	GIF to Video	Convert animated GIFs to MP4 or WebM video.	Video Tools
+video-watermark	Video Watermark	Add text or image watermarks to your videos.	Video Tools
+video-thumbnail-generator	Video Thumbnail Generator	Extract frames from videos as thumbnail images.	Video Tools
+video-metadata-viewer	Video Metadata Viewer	Inspect codec, resolution, duration and more.	Video Tools
+video-metadata-remover	Video Metadata Remover	Strip metadata from video files for privacy.	Video Tools
+audio-converter	Audio Converter	Convert audio between MP3, WAV, OGG and more.	Audio Tools
+mp3-cutter	MP3 Cutter	Cut MP3 files to keep only the parts you need.	Audio Tools
+audio-trimmer	Audio Trimmer	Trim silence and unwanted parts from audio files.	Audio Tools
+audio-compressor	Audio Compressor	Reduce audio file size without losing quality.	Audio Tools
+merge-audio	Merge Audio	Combine multiple audio files into one track.	Audio Tools
+reverse-audio	Reverse Audio	Play any audio file in reverse instantly.	Audio Tools
+volume-booster	Volume Booster	Increase audio volume up to 3x without distortion.	Audio Tools
+audio-speed-changer	Audio Speed Changer	Change audio playback speed without changing pitch.	Audio Tools
+pitch-changer	Pitch Changer	Shift the pitch of any audio file up or down.	Audio Tools
+voice-recorder	Voice Recorder	Record audio from your microphone in the browser.	Audio Tools
+text-to-speech	Text to Speech	Convert written text into natural-sounding speech.	Audio Tools
+speech-to-text	Speech to Text	Transcribe spoken audio into text using your browser.	Audio Tools
+audio-metadata-viewer	Audio Metadata Viewer	View ID3 tags, bitrate and codec info.	Audio Tools
+audio-metadata-remover	Audio Metadata Remover	Remove ID3 tags and metadata from audio files.	Audio Tools
+word-to-pdf	Word to PDF	Convert DOCX documents to PDF in your browser.	Office Tools
+excel-to-pdf	Excel to PDF	Convert XLSX spreadsheets to PDF format.	Office Tools
+powerpoint-to-pdf	PowerPoint to PDF	Convert PPTX presentations to PDF.	Office Tools
+pdf-to-word	PDF to Word	Convert PDF documents to editable DOCX files.	Office Tools
+pdf-to-excel	PDF to Excel	Extract tables from PDF into XLSX format.	Office Tools
+pdf-to-powerpoint	PDF to PowerPoint	Convert PDF pages to editable PPTX slides.	Office Tools
+docx-viewer	DOCX Viewer	View Word documents directly in your browser.	Office Tools
+docx-editor	DOCX Editor	Edit Word documents online without any software.	Office Tools
+excel-viewer	Excel Viewer	View XLSX spreadsheets in your browser.	Office Tools
+csv-viewer	CSV Viewer	View CSV files in a clean, sortable table.	Office Tools
+csv-editor	CSV Editor	Edit CSV data in a spreadsheet-like interface.	Office Tools
+csv-merge	CSV Merge	Combine multiple CSV files into one dataset.	Office Tools
+csv-split	CSV Split	Split a large CSV into multiple smaller files.	Office Tools
+excel-to-csv	Excel to CSV	Convert XLSX spreadsheets to CSV format.	Office Tools
+csv-to-excel	CSV to Excel	Convert CSV data into XLSX spreadsheet files.	Office Tools
+ppt-viewer	PPT Viewer	View PowerPoint presentations in your browser.	Office Tools
+color-palette-generator	Color Palette Generator	Generate beautiful color palettes from any base color.	Design Tools
+gradient-generator	Gradient Generator	Create smooth CSS gradients with live preview.	Design Tools
+css-gradient-generator	CSS Gradient Generator	Generate CSS linear and radial gradient code.	Design Tools
+glassmorphism-generator	Glassmorphism Generator	Create frosted glass UI effects with CSS.	Design Tools
+neumorphism-generator	Neumorphism Generator	Generate soft UI neumorphism CSS styles.	Design Tools
+css-button-generator	CSS Button Generator	Design and generate CSS buttons with live preview.	Design Tools
+css-shadow-generator	CSS Shadow Generator	Create box-shadow CSS code with visual preview.	Design Tools
+border-radius-generator	Border Radius Generator	Generate border-radius CSS with visual preview.	Design Tools
+svg-viewer	SVG Viewer	View and inspect SVG files with code preview.	Design Tools
+svg-optimizer	SVG Optimizer	Minify and optimize SVG files for the web.	Design Tools
+svg-to-png	SVG to PNG	Convert SVG files to PNG images instantly.	Design Tools
+png-to-svg	PNG to SVG	Convert PNG images to SVG vector format.	Design Tools
+favicon-generator	Favicon Generator	Create favicons from any image for your website.	Design Tools
+image-placeholder-generator	Image Placeholder Generator	Generate placeholder images for mockups and prototypes.	Design Tools
+browser-information	Browser Information	View your browser, OS, screen and capability details.	Web Utilities
+user-agent-parser	User Agent Parser	Parse and decode any user agent string.	Web Utilities
+ip-address-checker	IP Address Checker	Check your IP address and network details.	Web Utilities
+http-header-viewer	HTTP Header Viewer	View HTTP response headers for any URL.	Web Utilities
+cookie-viewer	Cookie Viewer	Inspect cookies stored by your browser.	Web Utilities
+dns-lookup	DNS Lookup	Look up DNS records for any domain.	Web Utilities
+ssl-checker	SSL Checker	Check SSL certificate details for any website.	Web Utilities
+website-screenshot	Website Screenshot	Capture screenshots of any website URL.	Web Utilities
+open-graph-preview	Open Graph Preview	Preview how your site looks when shared on social media.	Web Utilities
+url-preview	URL Preview	Preview meta tags and content for any URL.	Web Utilities
+qr-label-generator	QR Label Generator	Generate printable QR code labels for products.	Web Utilities
+website-manifest-generator	Website Manifest Generator	Generate PWA manifest files for your website.	Web Utilities
+notes	Notes	Take and save notes directly in your browser.	Productivity
+to-do-list	To Do List	Create and manage tasks with a clean to-do list.	Productivity
+pomodoro-timer	Pomodoro Timer	Boost focus with a Pomodoro work-break timer.	Productivity
+countdown-timer	Countdown Timer	Set a countdown to any date or event.	Productivity
+stopwatch	Stopwatch	A precise stopwatch with lap timing support.	Productivity
+calendar	Calendar	View and navigate a monthly calendar.	Productivity
+age-timeline	Age Timeline	Visualize your life timeline in weeks.	Productivity
+meeting-planner	Meeting Planner	Find the best meeting time across timezones.	Productivity
+timezone-converter	Timezone Converter	Convert times between any world timezones.	Productivity
+business-day-calculator	Business Day Calculator	Calculate working days between two dates.	Productivity
