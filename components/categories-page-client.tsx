@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 
@@ -17,7 +18,9 @@ export function CategoriesPageClient({
   tools: Tool[];
   categories: Category[];
 }) {
-  const [activeSlug, setActiveSlug] = React.useState<string>('all');
+  const searchParams = useSearchParams();
+  const initialSlug = searchParams.get('cat') || 'all';
+  const [activeSlug, setActiveSlug] = React.useState<string>(initialSlug);
 
   const activeCategory = categories.find((c) => c.slug === activeSlug);
   const filteredTools = activeSlug === 'all'

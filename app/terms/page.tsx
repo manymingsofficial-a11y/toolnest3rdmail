@@ -30,7 +30,7 @@ export default function TermsPage() {
       <PageHeader
         eyebrow="Legal"
         title="Terms of Service"
-        description="The rules and conditions for using ToolNest."
+        description="Last updated: September 4, 2026 — the rules and conditions for using ToolNest."
       />
       <section className="mx-auto max-w-3xl px-4 pb-24 sm:px-6">
         <div className="space-y-8">
@@ -70,6 +70,20 @@ export default function TermsPage() {
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
               We may update these Terms of Service from time to time. Continued use of the
               site after changes constitutes acceptance of the revised terms.
+            </p>
+          </div>
+          <div className="rounded-2xl glass-card p-8">
+            <h2 className="text-xl font-semibold tracking-tight">6. Contact Us</h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+              If you have questions or concerns about these Terms of Service, please reach out
+              through our{' '}
+              <a
+                href="/contact"
+                className="text-brand-purple underline underline-offset-2 hover:opacity-80"
+              >
+                contact page
+              </a>
+              .
             </p>
           </div>
         </div>

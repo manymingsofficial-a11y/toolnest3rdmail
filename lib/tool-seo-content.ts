@@ -1530,6 +1530,10 @@ const BOILERPLATE_MARKERS = [
   'Download or copy the result',
   'Upload or enter your input data',
   'Download or copy your result',
+  'Enter your topic or text in the input field',
+  'Click the Generate button',
+  'Review the generated content in the result area',
+  'Copy the result to your clipboard with one click',
 ];
 
 export function isBoilerplateSeo(seo: ToolSeoContent): boolean {

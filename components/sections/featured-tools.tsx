@@ -52,7 +52,7 @@ export function FeaturedTools({
             return (
               <Link
                 key={cat.slug}
-                href="/categories"
+                href={`/categories?cat=${cat.slug}`}
                 className="group relative block overflow-hidden rounded-2xl glass-card p-6 transition-all duration-300 hover:-translate-y-1 hover:glow"
               >
                 <div

@@ -1,6 +1,6 @@
 import { PageHeader } from '@/components/page-header';
 
-const lastUpdated = 'August 18, 2026';
+const lastUpdated = 'September 4, 2026';
 
 export default function PrivacyPolicyPage() {
   return (

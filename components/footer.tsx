@@ -17,11 +17,7 @@ const legalLinks = [
   { label: 'Terms of Service', href: '/terms' },
 ];
 
-const defaultSocials = [
-  { icon: Twitter, label: 'Twitter', href: 'https://twitter.com/toolnest' },
-  { icon: Github, label: 'GitHub', href: 'https://github.com/toolnest' },
-  { icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/company/toolnest' },
-];
+const defaultSocials: { icon: typeof Twitter; label: string; href: string }[] = [];
 
 export function Footer({
   categories = [],
@@ -53,7 +49,7 @@ export function Footer({
       ].filter((s) => s.href !== '#')
     : defaultSocials;
 
-  const toolCount = allTools.length > 0 ? allTools.length : popularTools.length > 0 ? popularTools.length : 269;
+  const toolCount = allTools.length > 0 ? allTools.length : popularTools.length > 0 ? popularTools.length : 0;
   const displayName = siteName;
   const brandParts = displayName.includes('Nest')
     ? { before: displayName.split('Nest')[0], after: 'Nest' }
@@ -79,23 +75,25 @@ export function Footer({
               </span>
             </Link>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-              {categories.length} categories and {toolCount}+ free online tools — PDF, image, QR, developer, calculators and more. Fast, secure, and no registration required.
+              {categories.length} categories and {toolCount > 0 ? `${toolCount}+ ` : ''}free online tools — PDF, image, QR, developer, calculators and more. Fast, secure, and no registration required.
             </p>
             <div className="mt-6">
               <Newsletter variant="inline" title="Newsletter" description="New tools and updates." />
             </div>
-            <div className="mt-6 flex gap-2">
-              {socials.map(({ icon: Icon, label, href }) => (
-                <a
-                  key={label}
-                  href={href}
-                  aria-label={label}
-                  className="grid h-9 w-9 place-items-center rounded-lg border border-border/60 bg-background/40 text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  <Icon className="h-4 w-4" />
-                </a>
-              ))}
-            </div>
+            {socials.length > 0 && (
+              <div className="mt-6 flex gap-2">
+                {socials.map(({ icon: Icon, label, href }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    aria-label={label}
+                    className="grid h-9 w-9 place-items-center rounded-lg border border-border/60 bg-background/40 text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    <Icon className="h-4 w-4" />
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Categories */}

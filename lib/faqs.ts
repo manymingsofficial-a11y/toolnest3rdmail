@@ -11,7 +11,7 @@ export const faqs = [
   },
   {
     q: 'Are my files safe when using the tools?',
-    a: 'For the vast majority of tools (QR codes, calculators, formatters, generators), everything runs locally in your browser. File-based tools like image compression and PDF merge are processed securely and deleted automatically.',
+    a: 'For the vast majority of tools (QR codes, calculators, formatters, generators), everything runs locally in your browser. File-based tools like image compression and PDF merge also process your files entirely in your browser — your files are never uploaded to our servers.',
   },
   {
     q: 'How many tools does ToolNest have?',
