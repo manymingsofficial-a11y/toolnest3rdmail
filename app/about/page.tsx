@@ -7,6 +7,7 @@ import { tools, categories } from '@/lib/data';
 export const metadata = {
   title: 'About ToolNest',
   description: `ToolNest provides ${tools.length} free online tools across ${categories.length} categories — PDF, image, QR, SEO, AI, text, developer, calculators and more. All tools run in your browser with no registration required.`,
+  alternates: { canonical: '/about' },
 };
 
 const features = [
