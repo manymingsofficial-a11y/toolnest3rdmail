@@ -16,6 +16,8 @@ export const metadata: Metadata = {
     description:
       'Scan QR codes with your camera or from an image. Free, fast, and no registration required.',
   },
+
+  alternates: { canonical: '/tools/qr-scanner' },
 };
 
 const relatedTools = getRelatedTools('qr-scanner', 3).filter((t) =>

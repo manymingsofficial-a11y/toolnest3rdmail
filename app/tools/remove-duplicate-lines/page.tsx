@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Remove Duplicate Lines — Deduplicate Text Online Free | ToolNest',
   description:
     'Remove duplicate lines from any text instantly. Case sensitive or insensitive — free, in your browser, no sign-up.',
+
+  alternates: { canonical: '/tools/remove-duplicate-lines' },
 };
 
 const relatedTools = getRelatedTools('remove-duplicate-lines', 3).filter((t) =>

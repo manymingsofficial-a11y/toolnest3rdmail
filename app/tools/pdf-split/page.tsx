@@ -16,6 +16,8 @@ export const metadata: Metadata = {
     description:
       'Split any PDF by page range or into single-page files. Free, fast, and no registration.',
   },
+
+  alternates: { canonical: '/tools/pdf-split' },
 };
 
 const relatedTools = getRelatedTools('pdf-split', 3).filter((t) =>

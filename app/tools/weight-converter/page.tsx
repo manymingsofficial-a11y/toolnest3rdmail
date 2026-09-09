@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Weight Converter — Convert Kg, Lbs, Grams, Ounces Free | ToolNest',
   description:
     'Convert between metric and imperial weight units — kilograms, grams, pounds, ounces, tons, and more. Free online weight converter, no sign-up.',
+
+  alternates: { canonical: '/tools/weight-converter' },
 };
 
 const relatedTools = getRelatedTools('weight-converter', 3).filter((t) =>

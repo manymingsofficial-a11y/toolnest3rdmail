@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Robots.txt Generator — Create Crawl Rules for Search Bots | ToolNest',
   description:
     'Generate a robots.txt file to control which search engine bots can crawl your site. Allow, disallow, and set crawl-delay — free, no sign-up.',
+
+  alternates: { canonical: '/tools/robots-txt-generator' },
 };
 
 const relatedTools = getRelatedTools('robots-txt-generator', 3).filter((t) =>

@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Canonical URL Generator — Fix Duplicate Content with rel=canonical | ToolNest',
   description:
     'Generate canonical URL tags to consolidate duplicate pages and tell search engines your preferred URL. Copy-ready HTML — free, no sign-up.',
+
+  alternates: { canonical: '/tools/canonical-url-generator' },
 };
 
 const relatedTools = getRelatedTools('canonical-url-generator', 3).filter((t) =>

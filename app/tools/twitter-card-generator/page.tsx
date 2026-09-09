@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Twitter Card Generator — Create Twitter Meta Tags Online | ToolNest',
   description:
     'Generate Twitter Card meta tags (summary, summary_large_image, player) with a live preview. Copy-ready HTML for rich tweets — free, no sign-up.',
+
+  alternates: { canonical: '/tools/twitter-card-generator' },
 };
 
 const relatedTools = getRelatedTools('twitter-card-generator', 3).filter((t) =>

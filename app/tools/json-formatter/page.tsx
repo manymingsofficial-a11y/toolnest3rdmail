@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'JSON Formatter — Beautify & Pretty Print JSON Online Free | ToolNest',
   description:
     'Format and pretty-print messy JSON with adjustable indentation. Validate syntax, spot errors instantly, and copy clean output — free, no sign-up.',
+
+  alternates: { canonical: '/tools/json-formatter' },
 };
 
 const relatedTools = getRelatedTools('json-formatter', 3).filter((t) =>

@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Lorem Ipsum Generator — Placeholder Text Free | ToolNest',
   description:
     'Generate lorem ipsum placeholder text as words, sentences, or paragraphs. Copy or download — free, in your browser.',
+
+  alternates: { canonical: '/tools/lorem-ipsum-generator' },
 };
 
 const relatedTools = getRelatedTools('lorem-ipsum-generator', 3).filter((t) =>

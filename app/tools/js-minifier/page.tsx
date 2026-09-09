@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'JS Minifier — Compress JavaScript Online Free | ToolNest',
   description:
     'Minify JavaScript by removing comments and whitespace. Reduce file size for faster page loads — free, no sign-up.',
+
+  alternates: { canonical: '/tools/js-minifier' },
 };
 
 const relatedTools = getRelatedTools('js-minifier', 3).filter((t) =>

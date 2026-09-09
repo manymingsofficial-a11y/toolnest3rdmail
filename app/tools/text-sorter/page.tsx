@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Text Sorter — Sort Lines Online Free | ToolNest',
   description:
     'Sort text lines A-Z, Z-A, reverse order, or remove empty lines. Free, in your browser, no sign-up.',
+
+  alternates: { canonical: '/tools/text-sorter' },
 };
 
 const relatedTools = getRelatedTools('text-sorter', 3).filter((t) =>

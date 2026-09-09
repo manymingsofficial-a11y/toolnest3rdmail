@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Percentage Calculator — Calculate Percentages Online Free | ToolNest',
   description:
     'Calculate percentages, percentage change, increase or decrease, and what percent one number is of another. Free online percentage calculator — instant results.',
+
+  alternates: { canonical: '/tools/percentage-calculator' },
 };
 
 const relatedTools = getRelatedTools('percentage-calculator', 3).filter((t) =>

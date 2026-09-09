@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Open Graph Generator — Create OG Tags for Social Sharing | ToolNest',
   description:
     'Generate Open Graph (og:) meta tags for Facebook, LinkedIn, and other social platforms. Live preview and copy-ready HTML — free, no sign-up.',
+
+  alternates: { canonical: '/tools/open-graph-generator' },
 };
 
 const relatedTools = getRelatedTools('open-graph-generator', 3).filter((t) =>

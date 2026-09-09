@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Slug Generator — Create SEO-Friendly URL Slugs Online | ToolNest',
   description:
     'Convert titles into clean, SEO-friendly URL slugs. Lowercase, hyphenated, stop-word removal, and transliteration — free, no sign-up.',
+
+  alternates: { canonical: '/tools/slug-generator' },
 };
 
 const relatedTools = getRelatedTools('slug-generator', 3).filter((t) =>

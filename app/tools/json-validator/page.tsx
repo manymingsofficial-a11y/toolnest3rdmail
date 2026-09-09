@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'JSON Validator — Check & Validate JSON Syntax Online Free | ToolNest',
   description:
     'Validate JSON syntax and find errors fast. Get exact line and column for mistakes, with clear error messages — free, instant, no sign-up.',
+
+  alternates: { canonical: '/tools/json-validator' },
 };
 
 const relatedTools = getRelatedTools('json-validator', 3).filter((t) =>

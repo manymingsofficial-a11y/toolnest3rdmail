@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Discount Calculator — Calculate Sale Price & Savings Free | ToolNest',
   description:
     'Calculate the final price after a discount and see how much you save. Enter original price and discount percentage — free online discount calculator.',
+
+  alternates: { canonical: '/tools/discount-calculator' },
 };
 
 const relatedTools = getRelatedTools('discount-calculator', 3).filter((t) =>

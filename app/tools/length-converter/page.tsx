@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Length Converter — Convert Meters, Feet, Inches & More Free | ToolNest',
   description:
     'Convert between metric and imperial length units — meters, kilometers, feet, inches, miles, yards, and more. Free online length converter, no sign-up.',
+
+  alternates: { canonical: '/tools/length-converter' },
 };
 
 const relatedTools = getRelatedTools('length-converter', 3).filter((t) =>

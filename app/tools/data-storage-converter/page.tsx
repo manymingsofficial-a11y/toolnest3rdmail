@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Data Storage Converter — Convert Bytes, KB, MB, GB, TB Free | ToolNest',
   description:
     'Convert between digital storage units — bytes, kilobytes, megabytes, gigabytes, terabytes, and more. Free online data size converter, no sign-up.',
+
+  alternates: { canonical: '/tools/data-storage-converter' },
 };
 
 const relatedTools = getRelatedTools('data-storage-converter', 3).filter((t) =>

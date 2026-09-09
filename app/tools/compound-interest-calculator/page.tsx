@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Compound Interest Calculator — Calculate CI Online Free | ToolNest',
   description:
     'Calculate compound interest with any compounding frequency. Enter principal, rate, time, and frequency — free online compound interest calculator.',
+
+  alternates: { canonical: '/tools/compound-interest-calculator' },
 };
 
 const relatedTools = getRelatedTools('compound-interest-calculator', 3).filter((t) =>

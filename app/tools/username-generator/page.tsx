@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Username Generator — Create Random Usernames Free | ToolNest',
   description:
     'Generate unique random usernames with custom prefixes, suffixes, and numbers. Copy and use anywhere — free, in your browser, no sign-up.',
+
+  alternates: { canonical: '/tools/username-generator' },
 };
 
 const relatedTools = getRelatedTools('username-generator', 3).filter((t) =>

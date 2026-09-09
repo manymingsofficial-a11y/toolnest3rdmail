@@ -16,6 +16,8 @@ export const metadata: Metadata = {
     description:
       'Shrink PDF file size with three compression levels. Free, fast, and no registration required.',
   },
+
+  alternates: { canonical: '/tools/pdf-compress' },
 };
 
 const relatedTools = getRelatedTools('pdf-compress', 3).filter((t) =>

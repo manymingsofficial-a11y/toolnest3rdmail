@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Tip Calculator — Calculate Restaurant Tips & Split Bills Free | ToolNest',
   description:
     'Calculate tips and split the bill among friends. Enter bill amount, tip percentage, and number of people — free online tip calculator, no sign-up.',
+
+  alternates: { canonical: '/tools/tip-calculator' },
 };
 
 const relatedTools = getRelatedTools('tip-calculator', 3).filter((t) =>

@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Word Counter — Count Words & Characters Online Free | ToolNest',
   description:
     'Count words, characters, sentences, paragraphs and reading time in real time. Free, in your browser, no sign-up.',
+
+  alternates: { canonical: '/tools/word-counter' },
 };
 
 const relatedTools = getRelatedTools('word-counter', 3).filter((t) =>

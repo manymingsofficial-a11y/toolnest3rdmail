@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Temperature Converter — Convert Celsius, Fahrenheit, Kelvin Free | ToolNest',
   description:
     'Convert between Celsius, Fahrenheit, Kelvin, and more temperature scales. Free online temperature converter — instant results, no sign-up.',
+
+  alternates: { canonical: '/tools/temperature-converter' },
 };
 
 const relatedTools = getRelatedTools('temperature-converter', 3).filter((t) =>

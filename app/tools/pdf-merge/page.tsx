@@ -16,6 +16,8 @@ export const metadata: Metadata = {
     description:
       'Combine multiple PDFs into a single file. Drag, reorder, merge and download — free, no registration.',
   },
+
+  alternates: { canonical: '/tools/pdf-merge' },
 };
 
 const relatedTools = getRelatedTools('pdf-merge', 3).filter((t) =>

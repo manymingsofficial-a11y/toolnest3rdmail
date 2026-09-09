@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Age Calculator — Calculate Your Exact Age in Years, Months & Days | ToolNest',
   description:
     'Calculate your exact age in years, months, weeks, days, hours, and minutes from your birth date. Free online age calculator — instant results, no sign-up.',
+
+  alternates: { canonical: '/tools/age-calculator' },
 };
 
 const relatedTools = getRelatedTools('age-calculator', 3).filter((t) =>

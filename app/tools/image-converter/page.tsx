@@ -16,6 +16,8 @@ export const metadata: Metadata = {
     description:
       'Convert images between JPG, PNG and WEBP. Free, fast, and no registration.',
   },
+
+  alternates: { canonical: '/tools/image-converter' },
 };
 
 const relatedTools = getRelatedTools('image-converter', 3).filter((t) =>

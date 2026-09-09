@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Loan EMI Calculator — Calculate Monthly Loan Payments Free | ToolNest',
   description:
     'Calculate your monthly EMI, total interest, and total payable amount for any loan. Adjust principal, rate, and tenure — free online loan EMI calculator.',
+
+  alternates: { canonical: '/tools/loan-emi-calculator' },
 };
 
 const relatedTools = getRelatedTools('loan-emi-calculator', 3).filter((t) =>

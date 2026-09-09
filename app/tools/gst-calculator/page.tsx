@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'GST Calculator — Add or Remove GST Online Free | ToolNest',
   description:
     'Calculate GST (Goods and Services Tax) inclusive and exclusive amounts instantly. Add or remove GST at any tax rate — free online GST calculator.',
+
+  alternates: { canonical: '/tools/gst-calculator' },
 };
 
 const relatedTools = getRelatedTools('gst-calculator', 3).filter((t) =>

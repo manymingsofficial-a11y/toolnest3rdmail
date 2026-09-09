@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Base64 Encoder & Decoder — Convert Text Online Free | ToolNest',
   description:
     'Encode text to Base64 or decode Base64 back to text. Supports UTF-8, instant conversion, and copy — free, no sign-up.',
+
+  alternates: { canonical: '/tools/base64-encoder' },
 };
 
 const relatedTools = getRelatedTools('base64-encoder', 3).filter((t) =>

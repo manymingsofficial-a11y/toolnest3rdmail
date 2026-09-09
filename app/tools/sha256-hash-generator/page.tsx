@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'SHA-256 Hash Generator — Compute SHA256 Online Free | ToolNest',
   description:
     'Generate SHA-256 hashes from text using the Web Crypto API. Cryptographically secure, instant, and private — free, no sign-up.',
+
+  alternates: { canonical: '/tools/sha256-hash-generator' },
 };
 
 const relatedTools = getRelatedTools('sha256-hash-generator', 3).filter((t) =>

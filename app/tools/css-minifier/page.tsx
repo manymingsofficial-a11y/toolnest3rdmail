@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'CSS Minifier — Compress CSS Online Free | ToolNest',
   description:
     'Minify CSS by removing comments, whitespace, and redundant code. Reduce file size for faster page loads — free, no sign-up.',
+
+  alternates: { canonical: '/tools/css-minifier' },
 };
 
 const relatedTools = getRelatedTools('css-minifier', 3).filter((t) =>

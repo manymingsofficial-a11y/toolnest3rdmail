@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Password Strength Checker — Test Your Password | ToolNest',
   description:
     'Check password strength, estimate crack time, and get suggestions to improve your password. Runs in your browser — free, no sign-up.',
+
+  alternates: { canonical: '/tools/password-strength-checker' },
 };
 
 const relatedTools = getRelatedTools('password-strength-checker', 3).filter((t) =>

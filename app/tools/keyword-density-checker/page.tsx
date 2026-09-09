@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Keyword Density Checker — Analyze Word Frequency in Text | ToolNest',
   description:
     'Check keyword density and word frequency in your content. Spot over-optimization, find top terms, and refine your SEO copy — free, no sign-up.',
+
+  alternates: { canonical: '/tools/keyword-density-checker' },
 };
 
 const relatedTools = getRelatedTools('keyword-density-checker', 3).filter((t) =>

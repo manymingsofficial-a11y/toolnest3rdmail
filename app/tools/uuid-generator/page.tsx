@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'UUID Generator — Generate UUID v4 Online Free | ToolNest',
   description:
     'Generate random UUID v4 identifiers in bulk. Copy individual UUIDs or download as TXT — free, in your browser, no sign-up.',
+
+  alternates: { canonical: '/tools/uuid-generator' },
 };
 
 const relatedTools = getRelatedTools('uuid-generator', 3).filter((t) =>

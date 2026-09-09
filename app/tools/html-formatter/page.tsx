@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'HTML Formatter — Beautify & Pretty Print HTML Online Free | ToolNest',
   description:
     'Format and beautify messy HTML with proper indentation. Validate structure, fix nesting, and copy clean output — free, no sign-up.',
+
+  alternates: { canonical: '/tools/html-formatter' },
 };
 
 const relatedTools = getRelatedTools('html-formatter', 3).filter((t) =>

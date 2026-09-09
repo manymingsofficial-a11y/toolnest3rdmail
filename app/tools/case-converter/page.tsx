@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Case Converter — Convert Text Case Online Free | ToolNest',
   description:
     'Convert text to UPPERCASE, lowercase, Title Case, Sentence case, or tOGGLE cASE. Free, in your browser, no sign-up.',
+
+  alternates: { canonical: '/tools/case-converter' },
 };
 
 const relatedTools = getRelatedTools('case-converter', 3).filter((t) =>

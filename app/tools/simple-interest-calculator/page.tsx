@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Simple Interest Calculator — Calculate SI Online Free | ToolNest',
   description:
     'Calculate simple interest on any principal amount. Enter principal, rate, and time to see interest and total amount — free online SI calculator.',
+
+  alternates: { canonical: '/tools/simple-interest-calculator' },
 };
 
 const relatedTools = getRelatedTools('simple-interest-calculator', 3).filter((t) =>

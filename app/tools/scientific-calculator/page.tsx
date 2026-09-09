@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Scientific Calculator — Advanced Online Math Calculator Free | ToolNest',
   description:
     'Free online scientific calculator with trigonometry, logarithms, exponents, factorials, and more. Full keyboard support — no download or sign-up needed.',
+
+  alternates: { canonical: '/tools/scientific-calculator' },
 };
 
 const relatedTools = getRelatedTools('scientific-calculator', 3).filter((t) =>

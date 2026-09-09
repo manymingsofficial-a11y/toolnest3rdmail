@@ -16,6 +16,8 @@ export const metadata: Metadata = {
     description:
       'Crop images into square, 16:9, 4:3 or circle shapes. Free, fast, and no registration.',
   },
+
+  alternates: { canonical: '/tools/image-cropper' },
 };
 
 const relatedTools = getRelatedTools('image-cropper', 3).filter((t) =>

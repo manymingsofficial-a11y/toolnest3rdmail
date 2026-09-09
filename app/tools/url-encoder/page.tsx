@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'URL Encoder & Decoder — Percent-Encoding Online Free | ToolNest',
   description:
     'Encode URLs with percent-encoding or decode them back to plain text. Handles special characters and UTF-8 — free, no sign-up.',
+
+  alternates: { canonical: '/tools/url-encoder' },
 };
 
 const relatedTools = getRelatedTools('url-encoder', 3).filter((t) =>

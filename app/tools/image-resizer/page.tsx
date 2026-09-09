@@ -16,6 +16,8 @@ export const metadata: Metadata = {
     description:
       'Resize images to exact dimensions with aspect ratio lock. Free, fast, and no registration.',
   },
+
+  alternates: { canonical: '/tools/image-resizer' },
 };
 
 const relatedTools = getRelatedTools('image-resizer', 3).filter((t) =>

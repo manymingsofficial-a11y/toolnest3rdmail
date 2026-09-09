@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Character Counter — Count Characters Online Free | ToolNest',
   description:
     'Count characters, letters, digits, spaces and words in real time. Perfect for social media limits — free, in your browser.',
+
+  alternates: { canonical: '/tools/character-counter' },
 };
 
 const relatedTools = getRelatedTools('character-counter', 3).filter((t) =>

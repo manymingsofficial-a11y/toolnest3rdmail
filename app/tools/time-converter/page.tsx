@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Time Converter — Convert Seconds, Minutes, Hours & Days Free | ToolNest',
   description:
     'Convert between time units — seconds, minutes, hours, days, weeks, months, and years. Free online time duration converter, no sign-up.',
+
+  alternates: { canonical: '/tools/time-converter' },
 };
 
 const relatedTools = getRelatedTools('time-converter', 3).filter((t) =>

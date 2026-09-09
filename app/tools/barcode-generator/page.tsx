@@ -16,6 +16,8 @@ export const metadata: Metadata = {
     description:
       'Create barcodes for products and labels in six formats. Free, fast, and no registration required.',
   },
+
+  alternates: { canonical: '/tools/barcode-generator' },
 };
 
 const relatedTools = getRelatedTools('barcode-generator', 3).filter((t) =>

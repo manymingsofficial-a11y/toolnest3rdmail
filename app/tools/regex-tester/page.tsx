@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Regex Tester — Test Regular Expressions Online Free | ToolNest',
   description:
     'Test regular expressions against your text in real time. See matches, highlights, and capture groups instantly — free, no sign-up.',
+
+  alternates: { canonical: '/tools/regex-tester' },
 };
 
 const relatedTools = getRelatedTools('regex-tester', 3).filter((t) =>

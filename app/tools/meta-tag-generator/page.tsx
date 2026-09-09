@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Meta Tag Generator — Create HTML Meta Tags Online Free | ToolNest',
   description:
     'Generate SEO meta tags, Open Graph tags, and Twitter Card tags for your website. Preview, copy, and paste ready-to-use HTML — free, no sign-up.',
+
+  alternates: { canonical: '/tools/meta-tag-generator' },
 };
 
 const relatedTools = getRelatedTools('meta-tag-generator', 3).filter((t) =>

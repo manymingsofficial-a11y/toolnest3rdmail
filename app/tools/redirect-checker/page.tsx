@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Redirect Checker — Trace URL Redirect Chains & Status Codes | ToolNest',
   description:
     'Check HTTP redirect chains, status codes (301, 302, 307, 308), and final destination URLs. Find loops and broken redirects — free, no sign-up.',
+
+  alternates: { canonical: '/tools/redirect-checker' },
 };
 
 const relatedTools = getRelatedTools('redirect-checker', 3).filter((t) =>

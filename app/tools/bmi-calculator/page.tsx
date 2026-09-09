@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'BMI Calculator — Calculate Your Body Mass Index Free | ToolNest',
   description:
     'Calculate your Body Mass Index (BMI) instantly with metric or imperial units. See your BMI category and healthy weight range — free, no sign-up.',
+
+  alternates: { canonical: '/tools/bmi-calculator' },
 };
 
 const relatedTools = getRelatedTools('bmi-calculator', 3).filter((t) =>

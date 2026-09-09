@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Search Snippet Preview — Google SERP Preview Tool | ToolNest',
   description:
     'Preview how your page title and meta description appear in Google search results. Test length, avoid truncation, and boost click-through — free.',
+
+  alternates: { canonical: '/tools/search-snippet-preview' },
 };
 
 const relatedTools = getRelatedTools('search-snippet-preview', 3).filter((t) =>

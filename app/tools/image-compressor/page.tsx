@@ -16,6 +16,8 @@ export const metadata: Metadata = {
     description:
       'Shrink image file size with three compression levels. Free, fast, and no registration.',
   },
+
+  alternates: { canonical: '/tools/image-compressor' },
 };
 
 const relatedTools = getRelatedTools('image-compressor', 3).filter((t) =>

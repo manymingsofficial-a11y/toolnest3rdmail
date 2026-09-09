@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Password Generator — Create Strong Passwords Online Free | ToolNest',
   description:
     'Generate strong, secure random passwords with custom length, uppercase, lowercase, numbers, and symbols. Live strength indicator — free, no sign-up.',
+
+  alternates: { canonical: '/tools/password-generator' },
 };
 
 const relatedTools = getRelatedTools('password-generator', 3).filter((t) =>

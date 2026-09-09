@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'MD5 Hash Generator — Compute MD5 Online Free | ToolNest',
   description:
     'Generate MD5 hashes from text instantly. Useful for checksums and legacy systems — free, no sign-up, runs in your browser.',
+
+  alternates: { canonical: '/tools/md5-hash-generator' },
 };
 
 const relatedTools = getRelatedTools('md5-hash-generator', 3).filter((t) =>

@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Sitemap Generator — Create XML Sitemaps for Search Engines | ToolNest',
   description:
     'Generate an XML sitemap listing your site URLs with lastmod, changefreq, and priority. Help search engines discover and crawl your pages — free.',
+
+  alternates: { canonical: '/tools/sitemap-generator' },
 };
 
 const relatedTools = getRelatedTools('sitemap-generator', 3).filter((t) =>

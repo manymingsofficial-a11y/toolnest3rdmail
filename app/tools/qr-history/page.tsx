@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   title: 'QR History — Saved QR Codes | ToolNest',
   description:
     'View, reopen, download and delete every QR code you generated or scanned with ToolNest. Stored locally in your browser — free and private.',
+
+  alternates: { canonical: '/tools/qr-history' },
 };
 
 const relatedTools = getRelatedTools('qr-history', 3).filter((t) =>
