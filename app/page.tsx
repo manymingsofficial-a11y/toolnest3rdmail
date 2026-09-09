@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { Hero } from '@/components/sections/hero';
 import { StatsBanner } from '@/components/sections/stats-banner';
 import { Categories } from '@/components/sections/categories';
@@ -13,6 +14,11 @@ import { generateFaqJsonLd } from '@/lib/seo';
 import { faqs } from '@/lib/faqs';
 import { fetchTools, fetchCategories, fetchHomepageSettings, fetchSiteSettings, fetchBlogPosts } from '@/lib/public-data';
 import type { Tool, Category } from '@/lib/data';
+
+export const metadata: Metadata = {
+  description:
+    'Free online tools for images, PDFs, SEO, text, developers and more. Fast, secure browser-based tools with no signup required.',
+};
 
 export default async function Home() {
   const faqJsonLd = generateFaqJsonLd(faqs);
