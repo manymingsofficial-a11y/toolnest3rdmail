@@ -6,19 +6,9 @@ import { ImageResizer } from '@/components/image/image-resizer';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Image Resizer — Resize Images Online Free | ToolNest',
-  description:
-    'Resize images to exact pixel dimensions with aspect ratio lock. Quick percentage presets, before/after preview — free, in your browser, no sign-up.',
-  openGraph: {
-    title: 'Image Resizer — Resize Images Online Free | ToolNest',
-    description:
-      'Resize images to exact dimensions with aspect ratio lock. Free, fast, and no registration.',
-  },
-
-  alternates: { canonical: '/tools/image-resizer' },
-};
+export const metadata: Metadata = generateToolMetadata('image-resizer', 'Image Resizer — Resize Images Online Free | ToolNest', 'Resize images to exact pixel dimensions with aspect ratio lock. Quick percentage presets, before/after preview — free, in your browser, no sign-up.');
 
 const relatedTools = getRelatedTools('image-resizer', 3).filter((t) =>
   ['image-compressor', 'image-converter', 'image-cropper'].includes(t.slug)

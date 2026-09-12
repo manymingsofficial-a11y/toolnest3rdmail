@@ -6,14 +6,9 @@ import { AgeCalculator } from '@/components/calc/age-bmi-percent';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Age Calculator — Calculate Your Exact Age in Years, Months & Days | ToolNest',
-  description:
-    'Calculate your exact age in years, months, weeks, days, hours, and minutes from your birth date. Free online age calculator — instant results, no sign-up.',
-
-  alternates: { canonical: '/tools/age-calculator' },
-};
+export const metadata: Metadata = generateToolMetadata('age-calculator', 'Age Calculator — Calculate Your Exact Age in Years, Months & Days | ToolNest', 'Calculate your exact age in years, months, weeks, days, hours, and minutes from your birth date. Free online age calculator — instant results, no sign-up.');
 
 const relatedTools = getRelatedTools('age-calculator', 3).filter((t) =>
   ['bmi-calculator', 'percentage-calculator', 'scientific-calculator'].includes(t.slug)

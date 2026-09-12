@@ -6,14 +6,9 @@ import { BmiCalculator } from '@/components/calc/age-bmi-percent';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'BMI Calculator — Calculate Your Body Mass Index Free | ToolNest',
-  description:
-    'Calculate your Body Mass Index (BMI) instantly with metric or imperial units. See your BMI category and healthy weight range — free, no sign-up.',
-
-  alternates: { canonical: '/tools/bmi-calculator' },
-};
+export const metadata: Metadata = generateToolMetadata('bmi-calculator', 'BMI Calculator — Calculate Your Body Mass Index Free | ToolNest', 'Calculate your Body Mass Index (BMI) instantly with metric or imperial units. See your BMI category and healthy weight range — free, no sign-up.');
 
 const relatedTools = getRelatedTools('bmi-calculator', 3).filter((t) =>
   ['age-calculator', 'percentage-calculator', 'tip-calculator'].includes(t.slug)

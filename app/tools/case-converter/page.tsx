@@ -6,14 +6,9 @@ import { CaseConverter } from '@/components/text/case-converter';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Case Converter — Convert Text Case Online Free | ToolNest',
-  description:
-    'Convert text to UPPERCASE, lowercase, Title Case, Sentence case, or tOGGLE cASE. Free, in your browser, no sign-up.',
-
-  alternates: { canonical: '/tools/case-converter' },
-};
+export const metadata: Metadata = generateToolMetadata('case-converter', 'Case Converter — Convert Text Case Online Free | ToolNest', 'Convert text to UPPERCASE, lowercase, Title Case, Sentence case, or tOGGLE cASE. Free, in your browser, no sign-up.');
 
 const relatedTools = getRelatedTools('case-converter', 3).filter((t) =>
   ['word-counter', 'character-counter', 'text-sorter'].includes(t.slug)

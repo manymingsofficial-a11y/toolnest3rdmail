@@ -6,19 +6,9 @@ import { QrScanner } from '@/components/qr-scanner';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'QR Scanner — Free Online Tool | ToolNest',
-  description:
-    'Scan QR codes with your device camera or upload an image to decode. Detect, copy and open URLs instantly. Free, no sign-up, runs in your browser.',
-  openGraph: {
-    title: 'QR Scanner — Free Online Tool | ToolNest',
-    description:
-      'Scan QR codes with your camera or from an image. Free, fast, and no registration required.',
-  },
-
-  alternates: { canonical: '/tools/qr-scanner' },
-};
+export const metadata: Metadata = generateToolMetadata('qr-scanner', 'QR Scanner — Free Online Tool | ToolNest', 'Scan QR codes with your device camera or upload an image to decode. Detect, copy and open URLs instantly. Free, no sign-up, runs in your browser.');
 
 const relatedTools = getRelatedTools('qr-scanner', 3).filter((t) =>
   ['qr-code-generator', 'barcode-generator', 'qr-history'].includes(t.slug)

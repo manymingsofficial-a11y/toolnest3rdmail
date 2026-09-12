@@ -6,19 +6,9 @@ import { PdfCompress } from '@/components/pdf/pdf-compress';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'PDF Compress — Reduce PDF File Size Online Free | ToolNest',
-  description:
-    'Compress PDF files with Low, Medium, or High compression. See original vs compressed size and percentage saved — free, in your browser, no sign-up.',
-  openGraph: {
-    title: 'PDF Compress — Reduce PDF File Size Online Free | ToolNest',
-    description:
-      'Shrink PDF file size with three compression levels. Free, fast, and no registration required.',
-  },
-
-  alternates: { canonical: '/tools/pdf-compress' },
-};
+export const metadata: Metadata = generateToolMetadata('pdf-compress', 'PDF Compress — Reduce PDF File Size Online Free | ToolNest', 'Compress PDF files with Low, Medium, or High compression. See original vs compressed size and percentage saved — free, in your browser, no sign-up.');
 
 const relatedTools = getRelatedTools('pdf-compress', 3).filter((t) =>
   ['pdf-merge', 'pdf-split', 'image-compressor'].includes(t.slug)

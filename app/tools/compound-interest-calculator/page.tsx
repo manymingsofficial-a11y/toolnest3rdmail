@@ -6,14 +6,9 @@ import { CompoundInterestCalculator } from '@/components/calc/interest';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Compound Interest Calculator — Calculate CI Online Free | ToolNest',
-  description:
-    'Calculate compound interest with any compounding frequency. Enter principal, rate, time, and frequency — free online compound interest calculator.',
-
-  alternates: { canonical: '/tools/compound-interest-calculator' },
-};
+export const metadata: Metadata = generateToolMetadata('compound-interest-calculator', 'Compound Interest Calculator — Calculate CI Online Free | ToolNest', 'Calculate compound interest with any compounding frequency. Enter principal, rate, time, and frequency — free online compound interest calculator.');
 
 const relatedTools = getRelatedTools('compound-interest-calculator', 3).filter((t) =>
   ['simple-interest-calculator', 'loan-emi-calculator', 'scientific-calculator'].includes(t.slug)

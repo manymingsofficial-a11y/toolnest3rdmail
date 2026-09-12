@@ -6,14 +6,9 @@ import { UrlEncoderTool } from '@/components/dev/json-encoder';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'URL Encoder & Decoder — Percent-Encoding Online Free | ToolNest',
-  description:
-    'Encode URLs with percent-encoding or decode them back to plain text. Handles special characters and UTF-8 — free, no sign-up.',
-
-  alternates: { canonical: '/tools/url-encoder' },
-};
+export const metadata: Metadata = generateToolMetadata('url-encoder', 'URL Encoder & Decoder — Percent-Encoding Online Free | ToolNest', 'Encode URLs with percent-encoding or decode them back to plain text. Handles special characters and UTF-8 — free, no sign-up.');
 
 const relatedTools = getRelatedTools('url-encoder', 3).filter((t) =>
   ['base64-encoder', 'json-formatter', 'json-validator'].includes(t.slug)

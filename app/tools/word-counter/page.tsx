@@ -6,14 +6,9 @@ import { WordCounter } from '@/components/text/word-character-counter';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Word Counter — Count Words & Characters Online Free | ToolNest',
-  description:
-    'Count words, characters, sentences, paragraphs and reading time in real time. Free, in your browser, no sign-up.',
-
-  alternates: { canonical: '/tools/word-counter' },
-};
+export const metadata: Metadata = generateToolMetadata('word-counter', 'Word Counter — Count Words & Characters Online Free | ToolNest', 'Count words, characters, sentences, paragraphs and reading time in real time. Free, in your browser, no sign-up.');
 
 const relatedTools = getRelatedTools('word-counter', 3).filter((t) =>
   ['character-counter', 'case-converter', 'text-sorter'].includes(t.slug)

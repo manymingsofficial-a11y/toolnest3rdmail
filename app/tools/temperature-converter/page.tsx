@@ -6,14 +6,9 @@ import { TemperatureConverter } from '@/components/calc/converters';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Temperature Converter — Convert Celsius, Fahrenheit, Kelvin Free | ToolNest',
-  description:
-    'Convert between Celsius, Fahrenheit, Kelvin, and more temperature scales. Free online temperature converter — instant results, no sign-up.',
-
-  alternates: { canonical: '/tools/temperature-converter' },
-};
+export const metadata: Metadata = generateToolMetadata('temperature-converter', 'Temperature Converter — Convert Celsius, Fahrenheit, Kelvin Free | ToolNest', 'Convert between Celsius, Fahrenheit, Kelvin, and more temperature scales. Free online temperature converter — instant results, no sign-up.');
 
 const relatedTools = getRelatedTools('temperature-converter', 3).filter((t) =>
   ['length-converter', 'weight-converter', 'data-storage-converter'].includes(t.slug)

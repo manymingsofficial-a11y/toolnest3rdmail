@@ -6,14 +6,9 @@ import { UuidGenerator } from '@/components/security/uuid-generator';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'UUID Generator — Generate UUID v4 Online Free | ToolNest',
-  description:
-    'Generate random UUID v4 identifiers in bulk. Copy individual UUIDs or download as TXT — free, in your browser, no sign-up.',
-
-  alternates: { canonical: '/tools/uuid-generator' },
-};
+export const metadata: Metadata = generateToolMetadata('uuid-generator', 'UUID Generator — Generate UUID v4 Online Free | ToolNest', 'Generate random UUID v4 identifiers in bulk. Copy individual UUIDs or download as TXT — free, in your browser, no sign-up.');
 
 const relatedTools = getRelatedTools('uuid-generator', 3).filter((t) =>
   ['password-generator', 'username-generator', 'password-strength-checker'].includes(t.slug)

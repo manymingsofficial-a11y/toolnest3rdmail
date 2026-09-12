@@ -6,14 +6,9 @@ import { HtmlFormatter } from '@/components/dev/minifiers';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'HTML Formatter — Beautify & Pretty Print HTML Online Free | ToolNest',
-  description:
-    'Format and beautify messy HTML with proper indentation. Validate structure, fix nesting, and copy clean output — free, no sign-up.',
-
-  alternates: { canonical: '/tools/html-formatter' },
-};
+export const metadata: Metadata = generateToolMetadata('html-formatter', 'HTML Formatter — Beautify & Pretty Print HTML Online Free | ToolNest', 'Format and beautify messy HTML with proper indentation. Validate structure, fix nesting, and copy clean output — free, no sign-up.');
 
 const relatedTools = getRelatedTools('html-formatter', 3).filter((t) =>
   ['css-minifier', 'js-minifier', 'json-formatter'].includes(t.slug)

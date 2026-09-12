@@ -6,14 +6,9 @@ import { TimeConverter } from '@/components/calc/converters';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Time Converter — Convert Seconds, Minutes, Hours & Days Free | ToolNest',
-  description:
-    'Convert between time units — seconds, minutes, hours, days, weeks, months, and years. Free online time duration converter, no sign-up.',
-
-  alternates: { canonical: '/tools/time-converter' },
-};
+export const metadata: Metadata = generateToolMetadata('time-converter', 'Time Converter — Convert Seconds, Minutes, Hours & Days Free | ToolNest', 'Convert between time units — seconds, minutes, hours, days, weeks, months, and years. Free online time duration converter, no sign-up.');
 
 const relatedTools = getRelatedTools('time-converter', 3).filter((t) =>
   ['length-converter', 'weight-converter', 'data-storage-converter'].includes(t.slug)

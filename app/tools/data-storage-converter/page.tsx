@@ -6,14 +6,9 @@ import { DataStorageConverter } from '@/components/calc/converters';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Data Storage Converter — Convert Bytes, KB, MB, GB, TB Free | ToolNest',
-  description:
-    'Convert between digital storage units — bytes, kilobytes, megabytes, gigabytes, terabytes, and more. Free online data size converter, no sign-up.',
-
-  alternates: { canonical: '/tools/data-storage-converter' },
-};
+export const metadata: Metadata = generateToolMetadata('data-storage-converter', 'Data Storage Converter — Convert Bytes, KB, MB, GB, TB Free | ToolNest', 'Convert between digital storage units — bytes, kilobytes, megabytes, gigabytes, terabytes, and more. Free online data size converter, no sign-up.');
 
 const relatedTools = getRelatedTools('data-storage-converter', 3).filter((t) =>
   ['length-converter', 'weight-converter', 'time-converter'].includes(t.slug)

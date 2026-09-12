@@ -6,19 +6,9 @@ import { ImageConverter } from '@/components/image/image-converter';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Image Converter — Convert JPG, PNG, WEBP Online Free | ToolNest',
-  description:
-    'Convert images between JPG, PNG and WEBP formats. See before/after comparison and file size change — free, in your browser, no sign-up.',
-  openGraph: {
-    title: 'Image Converter — Convert JPG, PNG, WEBP Online Free | ToolNest',
-    description:
-      'Convert images between JPG, PNG and WEBP. Free, fast, and no registration.',
-  },
-
-  alternates: { canonical: '/tools/image-converter' },
-};
+export const metadata: Metadata = generateToolMetadata('image-converter', 'Image Converter — Convert JPG, PNG, WEBP Online Free | ToolNest', 'Convert images between JPG, PNG and WEBP formats. See before/after comparison and file size change — free, in your browser, no sign-up.');
 
 const relatedTools = getRelatedTools('image-converter', 3).filter((t) =>
   ['image-compressor', 'image-resizer', 'image-cropper'].includes(t.slug)

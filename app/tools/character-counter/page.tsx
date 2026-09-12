@@ -6,14 +6,9 @@ import { CharacterCounter } from '@/components/text/word-character-counter';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Character Counter — Count Characters Online Free | ToolNest',
-  description:
-    'Count characters, letters, digits, spaces and words in real time. Perfect for social media limits — free, in your browser.',
-
-  alternates: { canonical: '/tools/character-counter' },
-};
+export const metadata: Metadata = generateToolMetadata('character-counter', 'Character Counter — Count Characters Online Free | ToolNest', 'Count characters, letters, digits, spaces and words in real time. Perfect for social media limits — free, in your browser.');
 
 const relatedTools = getRelatedTools('character-counter', 3).filter((t) =>
   ['word-counter', 'case-converter', 'lorem-ipsum-generator'].includes(t.slug)

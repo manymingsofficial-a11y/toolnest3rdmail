@@ -6,14 +6,9 @@ import { Md5HashGenerator } from '@/components/dev/hashes';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'MD5 Hash Generator — Compute MD5 Online Free | ToolNest',
-  description:
-    'Generate MD5 hashes from text instantly. Useful for checksums and legacy systems — free, no sign-up, runs in your browser.',
-
-  alternates: { canonical: '/tools/md5-hash-generator' },
-};
+export const metadata: Metadata = generateToolMetadata('md5-hash-generator', 'MD5 Hash Generator — Compute MD5 Online Free | ToolNest', 'Generate MD5 hashes from text instantly. Useful for checksums and legacy systems — free, no sign-up, runs in your browser.');
 
 const relatedTools = getRelatedTools('md5-hash-generator', 3).filter((t) =>
   ['sha256-hash-generator', 'regex-tester', 'base64-encoder'].includes(t.slug)

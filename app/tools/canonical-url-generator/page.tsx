@@ -6,14 +6,9 @@ import { CanonicalUrlGenerator } from '@/components/seo/analyzers';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Canonical URL Generator — Fix Duplicate Content with rel=canonical | ToolNest',
-  description:
-    'Generate canonical URL tags to consolidate duplicate pages and tell search engines your preferred URL. Copy-ready HTML — free, no sign-up.',
-
-  alternates: { canonical: '/tools/canonical-url-generator' },
-};
+export const metadata: Metadata = generateToolMetadata('canonical-url-generator', 'Canonical URL Generator — Fix Duplicate Content with rel=canonical | ToolNest', 'Generate canonical URL tags to consolidate duplicate pages and tell search engines your preferred URL. Copy-ready HTML — free, no sign-up.');
 
 const relatedTools = getRelatedTools('canonical-url-generator', 3).filter((t) =>
   ['meta-tag-generator', 'sitemap-generator', 'slug-generator'].includes(t.slug)

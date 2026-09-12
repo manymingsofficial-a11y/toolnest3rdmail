@@ -6,14 +6,9 @@ import { TwitterCardGenerator } from '@/components/seo/generators';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Twitter Card Generator — Create Twitter Meta Tags Online | ToolNest',
-  description:
-    'Generate Twitter Card meta tags (summary, summary_large_image, player) with a live preview. Copy-ready HTML for rich tweets — free, no sign-up.',
-
-  alternates: { canonical: '/tools/twitter-card-generator' },
-};
+export const metadata: Metadata = generateToolMetadata('twitter-card-generator', 'Twitter Card Generator — Create Twitter Meta Tags Online | ToolNest', 'Generate Twitter Card meta tags (summary, summary_large_image, player) with a live preview. Copy-ready HTML for rich tweets — free, no sign-up.');
 
 const relatedTools = getRelatedTools('twitter-card-generator', 3).filter((t) =>
   ['open-graph-generator', 'meta-tag-generator', 'search-snippet-preview'].includes(t.slug)

@@ -6,14 +6,9 @@ import { JsonFormatter } from '@/components/dev/json-encoder';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'JSON Formatter — Beautify & Pretty Print JSON Online Free | ToolNest',
-  description:
-    'Format and pretty-print messy JSON with adjustable indentation. Validate syntax, spot errors instantly, and copy clean output — free, no sign-up.',
-
-  alternates: { canonical: '/tools/json-formatter' },
-};
+export const metadata: Metadata = generateToolMetadata('json-formatter', 'JSON Formatter — Beautify & Pretty Print JSON Online Free | ToolNest', 'Format and pretty-print messy JSON with adjustable indentation. Validate syntax, spot errors instantly, and copy clean output — free, no sign-up.');
 
 const relatedTools = getRelatedTools('json-formatter', 3).filter((t) =>
   ['json-validator', 'base64-encoder', 'url-encoder'].includes(t.slug)

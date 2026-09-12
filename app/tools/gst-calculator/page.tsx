@@ -6,14 +6,9 @@ import { GstCalculator } from '@/components/calc/financial';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'GST Calculator — Add or Remove GST Online Free | ToolNest',
-  description:
-    'Calculate GST (Goods and Services Tax) inclusive and exclusive amounts instantly. Add or remove GST at any tax rate — free online GST calculator.',
-
-  alternates: { canonical: '/tools/gst-calculator' },
-};
+export const metadata: Metadata = generateToolMetadata('gst-calculator', 'GST Calculator — Add or Remove GST Online Free | ToolNest', 'Calculate GST (Goods and Services Tax) inclusive and exclusive amounts instantly. Add or remove GST at any tax rate — free online GST calculator.');
 
 const relatedTools = getRelatedTools('gst-calculator', 3).filter((t) =>
   ['loan-emi-calculator', 'discount-calculator', 'tip-calculator'].includes(t.slug)

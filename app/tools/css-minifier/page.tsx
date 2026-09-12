@@ -6,14 +6,9 @@ import { CssMinifier } from '@/components/dev/minifiers';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'CSS Minifier — Compress CSS Online Free | ToolNest',
-  description:
-    'Minify CSS by removing comments, whitespace, and redundant code. Reduce file size for faster page loads — free, no sign-up.',
-
-  alternates: { canonical: '/tools/css-minifier' },
-};
+export const metadata: Metadata = generateToolMetadata('css-minifier', 'CSS Minifier — Compress CSS Online Free | ToolNest', 'Minify CSS by removing comments, whitespace, and redundant code. Reduce file size for faster page loads — free, no sign-up.');
 
 const relatedTools = getRelatedTools('css-minifier', 3).filter((t) =>
   ['js-minifier', 'html-formatter', 'json-formatter'].includes(t.slug)

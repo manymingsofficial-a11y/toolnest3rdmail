@@ -6,14 +6,9 @@ import { KeywordDensityChecker } from '@/components/seo/analyzers';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Keyword Density Checker — Analyze Word Frequency in Text | ToolNest',
-  description:
-    'Check keyword density and word frequency in your content. Spot over-optimization, find top terms, and refine your SEO copy — free, no sign-up.',
-
-  alternates: { canonical: '/tools/keyword-density-checker' },
-};
+export const metadata: Metadata = generateToolMetadata('keyword-density-checker', 'Keyword Density Checker — Analyze Word Frequency in Text | ToolNest', 'Check keyword density and word frequency in your content. Spot over-optimization, find top terms, and refine your SEO copy — free, no sign-up.');
 
 const relatedTools = getRelatedTools('keyword-density-checker', 3).filter((t) =>
   ['slug-generator', 'meta-tag-generator', 'search-snippet-preview'].includes(t.slug)

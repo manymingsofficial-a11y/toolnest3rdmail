@@ -6,14 +6,9 @@ import { ScientificCalculator } from '@/components/calc/scientific';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Scientific Calculator — Advanced Online Math Calculator Free | ToolNest',
-  description:
-    'Free online scientific calculator with trigonometry, logarithms, exponents, factorials, and more. Full keyboard support — no download or sign-up needed.',
-
-  alternates: { canonical: '/tools/scientific-calculator' },
-};
+export const metadata: Metadata = generateToolMetadata('scientific-calculator', 'Scientific Calculator — Advanced Online Math Calculator Free | ToolNest', 'Free online scientific calculator with trigonometry, logarithms, exponents, factorials, and more. Full keyboard support — no download or sign-up needed.');
 
 const relatedTools = getRelatedTools('scientific-calculator', 3).filter((t) =>
   ['percentage-calculator', 'age-calculator', 'compound-interest-calculator'].includes(t.slug)

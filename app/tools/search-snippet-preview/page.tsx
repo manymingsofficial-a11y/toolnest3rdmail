@@ -6,14 +6,9 @@ import { SearchSnippetPreview } from '@/components/seo/analyzers';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Search Snippet Preview — Google SERP Preview Tool | ToolNest',
-  description:
-    'Preview how your page title and meta description appear in Google search results. Test length, avoid truncation, and boost click-through — free.',
-
-  alternates: { canonical: '/tools/search-snippet-preview' },
-};
+export const metadata: Metadata = generateToolMetadata('search-snippet-preview', 'Search Snippet Preview — Google SERP Preview Tool | ToolNest', 'Preview how your page title and meta description appear in Google search results. Test length, avoid truncation, and boost click-through — free.');
 
 const relatedTools = getRelatedTools('search-snippet-preview', 3).filter((t) =>
   ['meta-tag-generator', 'open-graph-generator', 'twitter-card-generator'].includes(t.slug)

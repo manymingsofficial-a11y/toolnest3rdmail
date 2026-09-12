@@ -6,19 +6,9 @@ import { PdfSplit } from '@/components/pdf/pdf-split';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'PDF Split — Extract & Split PDF Pages Online Free | ToolNest',
-  description:
-    'Split a PDF by page range or into individual pages. Download each part separately — free, runs in your browser, no sign-up required.',
-  openGraph: {
-    title: 'PDF Split — Extract & Split PDF Pages Online Free | ToolNest',
-    description:
-      'Split any PDF by page range or into single-page files. Free, fast, and no registration.',
-  },
-
-  alternates: { canonical: '/tools/pdf-split' },
-};
+export const metadata: Metadata = generateToolMetadata('pdf-split', 'PDF Split — Extract & Split PDF Pages Online Free | ToolNest', 'Split a PDF by page range or into individual pages. Download each part separately — free, runs in your browser, no sign-up required.');
 
 const relatedTools = getRelatedTools('pdf-split', 3).filter((t) =>
   ['pdf-merge', 'pdf-compress', 'barcode-generator'].includes(t.slug)

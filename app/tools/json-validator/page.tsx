@@ -6,14 +6,9 @@ import { JsonValidator } from '@/components/dev/json-encoder';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'JSON Validator — Check & Validate JSON Syntax Online Free | ToolNest',
-  description:
-    'Validate JSON syntax and find errors fast. Get exact line and column for mistakes, with clear error messages — free, instant, no sign-up.',
-
-  alternates: { canonical: '/tools/json-validator' },
-};
+export const metadata: Metadata = generateToolMetadata('json-validator', 'JSON Validator — Check & Validate JSON Syntax Online Free | ToolNest', 'Validate JSON syntax and find errors fast. Get exact line and column for mistakes, with clear error messages — free, instant, no sign-up.');
 
 const relatedTools = getRelatedTools('json-validator', 3).filter((t) =>
   ['json-formatter', 'base64-encoder', 'url-encoder'].includes(t.slug)

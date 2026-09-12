@@ -6,19 +6,9 @@ import { PdfMerge } from '@/components/pdf/pdf-merge';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'PDF Merge — Combine PDFs Online Free | ToolNest',
-  description:
-    'Merge multiple PDF files into one. Drag & drop to upload, reorder pages, and download your combined PDF — free, in your browser, no sign-up.',
-  openGraph: {
-    title: 'PDF Merge — Combine PDFs Online Free | ToolNest',
-    description:
-      'Combine multiple PDFs into a single file. Drag, reorder, merge and download — free, no registration.',
-  },
-
-  alternates: { canonical: '/tools/pdf-merge' },
-};
+export const metadata: Metadata = generateToolMetadata('pdf-merge', 'PDF Merge — Combine PDFs Online Free | ToolNest', 'Merge multiple PDF files into one. Drag & drop to upload, reorder pages, and download your combined PDF — free, in your browser, no sign-up.');
 
 const relatedTools = getRelatedTools('pdf-merge', 3).filter((t) =>
   ['pdf-split', 'pdf-compress', 'qr-code-generator'].includes(t.slug)

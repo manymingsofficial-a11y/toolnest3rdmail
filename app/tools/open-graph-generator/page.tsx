@@ -6,14 +6,9 @@ import { OpenGraphGenerator } from '@/components/seo/generators';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Open Graph Generator — Create OG Tags for Social Sharing | ToolNest',
-  description:
-    'Generate Open Graph (og:) meta tags for Facebook, LinkedIn, and other social platforms. Live preview and copy-ready HTML — free, no sign-up.',
-
-  alternates: { canonical: '/tools/open-graph-generator' },
-};
+export const metadata: Metadata = generateToolMetadata('open-graph-generator', 'Open Graph Generator — Create OG Tags for Social Sharing | ToolNest', 'Generate Open Graph (og:) meta tags for Facebook, LinkedIn, and other social platforms. Live preview and copy-ready HTML — free, no sign-up.');
 
 const relatedTools = getRelatedTools('open-graph-generator', 3).filter((t) =>
   ['meta-tag-generator', 'twitter-card-generator', 'search-snippet-preview'].includes(t.slug)

@@ -6,14 +6,9 @@ import { SimpleInterestCalculator } from '@/components/calc/interest';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Simple Interest Calculator — Calculate SI Online Free | ToolNest',
-  description:
-    'Calculate simple interest on any principal amount. Enter principal, rate, and time to see interest and total amount — free online SI calculator.',
-
-  alternates: { canonical: '/tools/simple-interest-calculator' },
-};
+export const metadata: Metadata = generateToolMetadata('simple-interest-calculator', 'Simple Interest Calculator — Calculate SI Online Free | ToolNest', 'Calculate simple interest on any principal amount. Enter principal, rate, and time to see interest and total amount — free online SI calculator.');
 
 const relatedTools = getRelatedTools('simple-interest-calculator', 3).filter((t) =>
   ['compound-interest-calculator', 'loan-emi-calculator', 'gst-calculator'].includes(t.slug)

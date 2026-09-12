@@ -6,14 +6,9 @@ import { LoanEmiCalculator } from '@/components/calc/financial';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Loan EMI Calculator — Calculate Monthly Loan Payments Free | ToolNest',
-  description:
-    'Calculate your monthly EMI, total interest, and total payable amount for any loan. Adjust principal, rate, and tenure — free online loan EMI calculator.',
-
-  alternates: { canonical: '/tools/loan-emi-calculator' },
-};
+export const metadata: Metadata = generateToolMetadata('loan-emi-calculator', 'Loan EMI Calculator — Calculate Monthly Loan Payments Free | ToolNest', 'Calculate your monthly EMI, total interest, and total payable amount for any loan. Adjust principal, rate, and tenure — free online loan EMI calculator.');
 
 const relatedTools = getRelatedTools('loan-emi-calculator', 3).filter((t) =>
   ['gst-calculator', 'discount-calculator', 'simple-interest-calculator'].includes(t.slug)

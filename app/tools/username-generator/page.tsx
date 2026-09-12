@@ -6,14 +6,9 @@ import { UsernameGenerator } from '@/components/security/username-generator';
 import { SeoContent } from '@/components/seo-content';
 import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
+import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Username Generator — Create Random Usernames Free | ToolNest',
-  description:
-    'Generate unique random usernames with custom prefixes, suffixes, and numbers. Copy and use anywhere — free, in your browser, no sign-up.',
-
-  alternates: { canonical: '/tools/username-generator' },
-};
+export const metadata: Metadata = generateToolMetadata('username-generator', 'Username Generator — Create Random Usernames Free | ToolNest', 'Generate unique random usernames with custom prefixes, suffixes, and numbers. Copy and use anywhere — free, in your browser, no sign-up.');
 
 const relatedTools = getRelatedTools('username-generator', 3).filter((t) =>
   ['password-generator', 'password-strength-checker', 'uuid-generator'].includes(t.slug)
