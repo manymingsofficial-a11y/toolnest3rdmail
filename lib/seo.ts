@@ -203,7 +203,7 @@ export function generateToolMetadata(slug: string, customTitle?: string, customD
   if (!tool) return {};
 
   const enh = getToolEnhancement(slug);
-  const title = customTitle ?? enh?.titleSuffix ? `${tool.name} — ${enh!.titleSuffix}` : tool.name;
+  const title = customTitle ?? (enh?.titleSuffix ? `${tool.name} — ${enh!.titleSuffix}` : tool.name);
   const rawDescription = customDescription ?? enh?.description ?? tool.description;
   const description = rawDescription.length >= 120
     ? rawDescription
