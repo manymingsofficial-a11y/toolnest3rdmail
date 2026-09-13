@@ -8,7 +8,7 @@ import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
 import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = generateToolMetadata('pdf-split', 'PDF Split — Extract & Split PDF Pages Online Free | ToolNest', 'Split a PDF by page range or into individual pages. Download each part separately — free, runs in your browser, no sign-up required.');
+export const metadata: Metadata = generateToolMetadata('pdf-split', 'PDF Split — Extract & Split PDF Pages Online Free', 'Split a PDF by page range or into individual pages. Download each part separately — free, runs in your browser, no sign-up required.');
 
 const relatedTools = getRelatedTools('pdf-split', 3).filter((t) =>
   ['pdf-merge', 'pdf-compress', 'barcode-generator'].includes(t.slug)

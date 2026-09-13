@@ -8,7 +8,7 @@ import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
 import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = generateToolMetadata('text-sorter', 'Text Sorter — Sort Lines Online Free | ToolNest', 'Sort text lines A-Z, Z-A, reverse order, or remove empty lines. Free, in your browser, no sign-up.');
+export const metadata: Metadata = generateToolMetadata('text-sorter', 'Text Sorter — Sort Lines Online Free', 'Sort text lines A-Z, Z-A, reverse order, or remove empty lines. Free, in your browser, no sign-up.');
 
 const relatedTools = getRelatedTools('text-sorter', 3).filter((t) =>
   ['remove-duplicate-lines', 'case-converter', 'word-counter'].includes(t.slug)

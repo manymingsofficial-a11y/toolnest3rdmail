@@ -8,7 +8,7 @@ import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
 import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = generateToolMetadata('regex-tester', 'Regex Tester — Test Regular Expressions Online Free | ToolNest', 'Test regular expressions against your text in real time. See matches, highlights, and capture groups instantly — free, no sign-up.');
+export const metadata: Metadata = generateToolMetadata('regex-tester', 'Regex Tester — Test Regular Expressions Online Free', 'Test regular expressions against your text in real time. See matches, highlights, and capture groups instantly — free, no sign-up.');
 
 const relatedTools = getRelatedTools('regex-tester', 3).filter((t) =>
   ['sha256-hash-generator', 'md5-hash-generator', 'json-formatter'].includes(t.slug)

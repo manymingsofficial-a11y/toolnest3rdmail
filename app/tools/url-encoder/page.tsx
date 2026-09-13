@@ -8,7 +8,7 @@ import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
 import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = generateToolMetadata('url-encoder', 'URL Encoder & Decoder — Percent-Encoding Online Free | ToolNest', 'Encode URLs with percent-encoding or decode them back to plain text. Handles special characters and UTF-8 — free, no sign-up.');
+export const metadata: Metadata = generateToolMetadata('url-encoder', 'URL Encoder & Decoder — Percent-Encoding Online Free', 'Encode URLs with percent-encoding or decode them back to plain text. Handles special characters and UTF-8 — free, no sign-up.');
 
 const relatedTools = getRelatedTools('url-encoder', 3).filter((t) =>
   ['base64-encoder', 'json-formatter', 'json-validator'].includes(t.slug)

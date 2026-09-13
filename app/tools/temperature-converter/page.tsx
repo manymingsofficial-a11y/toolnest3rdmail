@@ -8,7 +8,7 @@ import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
 import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = generateToolMetadata('temperature-converter', 'Temperature Converter — Convert Celsius, Fahrenheit, Kelvin Free | ToolNest', 'Convert between Celsius, Fahrenheit, Kelvin, and more temperature scales. Free online temperature converter — instant results, no sign-up.');
+export const metadata: Metadata = generateToolMetadata('temperature-converter', 'Temperature Converter — Convert Celsius, Fahrenheit, Kelvin Free', 'Convert between Celsius, Fahrenheit, Kelvin, and more temperature scales. Free online temperature converter — instant results, no sign-up.');
 
 const relatedTools = getRelatedTools('temperature-converter', 3).filter((t) =>
   ['length-converter', 'weight-converter', 'data-storage-converter'].includes(t.slug)

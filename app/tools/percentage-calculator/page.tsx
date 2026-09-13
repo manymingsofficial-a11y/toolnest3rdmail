@@ -8,7 +8,7 @@ import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
 import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = generateToolMetadata('percentage-calculator', 'Percentage Calculator — Calculate Percentages Online Free | ToolNest', 'Calculate percentages, percentage change, increase or decrease, and what percent one number is of another. Free online percentage calculator — instant results.');
+export const metadata: Metadata = generateToolMetadata('percentage-calculator', 'Percentage Calculator — Calculate Percentages Online Free', 'Calculate percentages, percentage change, increase or decrease, and what percent one number is of another. Free online percentage calculator — instant results.');
 
 const relatedTools = getRelatedTools('percentage-calculator', 3).filter((t) =>
   ['age-calculator', 'bmi-calculator', 'discount-calculator'].includes(t.slug)

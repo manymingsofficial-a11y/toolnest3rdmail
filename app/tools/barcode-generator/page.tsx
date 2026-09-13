@@ -8,7 +8,7 @@ import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
 import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = generateToolMetadata('barcode-generator', 'Barcode Generator — Free Online Tool | ToolNest', 'Generate barcodes in Code128, Code39, EAN-13, EAN-8, UPC-A and UPC-E formats. Customize width, height, colors and download as PNG or SVG. Free, no sign-up.');
+export const metadata: Metadata = generateToolMetadata('barcode-generator', 'Barcode Generator — Free Online Tool', 'Generate barcodes in Code128, Code39, EAN-13, EAN-8, UPC-A and UPC-E formats. Customize width, height, colors and download as PNG or SVG. Free, no sign-up.');
 
 const relatedTools = getRelatedTools('barcode-generator', 3).filter((t) =>
   ['qr-code-generator', 'url-encoder', 'password-generator'].includes(t.slug)

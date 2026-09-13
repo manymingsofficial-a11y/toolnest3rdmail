@@ -8,7 +8,7 @@ import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
 import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = generateToolMetadata('js-minifier', 'JS Minifier — Compress JavaScript Online Free | ToolNest', 'Minify JavaScript by removing comments and whitespace. Reduce file size for faster page loads — free, no sign-up.');
+export const metadata: Metadata = generateToolMetadata('js-minifier', 'JS Minifier — Compress JavaScript Online Free', 'Minify JavaScript by removing comments and whitespace. Reduce file size for faster page loads — free, no sign-up.');
 
 const relatedTools = getRelatedTools('js-minifier', 3).filter((t) =>
   ['css-minifier', 'html-formatter', 'json-formatter'].includes(t.slug)

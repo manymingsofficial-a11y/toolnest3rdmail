@@ -8,7 +8,7 @@ import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
 import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = generateToolMetadata('remove-duplicate-lines', 'Remove Duplicate Lines — Deduplicate Text Online Free | ToolNest', 'Remove duplicate lines from any text instantly. Case sensitive or insensitive — free, in your browser, no sign-up.');
+export const metadata: Metadata = generateToolMetadata('remove-duplicate-lines', 'Remove Duplicate Lines — Deduplicate Text Online Free', 'Remove duplicate lines from any text instantly. Case sensitive or insensitive — free, in your browser, no sign-up.');
 
 const relatedTools = getRelatedTools('remove-duplicate-lines', 3).filter((t) =>
   ['text-sorter', 'case-converter', 'word-counter'].includes(t.slug)

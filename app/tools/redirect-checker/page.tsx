@@ -8,7 +8,7 @@ import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
 import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = generateToolMetadata('redirect-checker', 'Redirect Checker — Trace URL Redirect Chains & Status Codes | ToolNest', 'Check HTTP redirect chains, status codes (301, 302, 307, 308), and final destination URLs. Find loops and broken redirects — free, no sign-up.');
+export const metadata: Metadata = generateToolMetadata('redirect-checker', 'Redirect Checker — Trace URL Redirect Chains & Status Codes', 'Check HTTP redirect chains, status codes (301, 302, 307, 308), and final destination URLs. Find loops and broken redirects — free, no sign-up.');
 
 const relatedTools = getRelatedTools('redirect-checker', 3).filter((t) =>
   ['robots-txt-generator', 'canonical-url-generator', 'sitemap-generator'].includes(t.slug)

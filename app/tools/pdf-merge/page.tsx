@@ -8,7 +8,7 @@ import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
 import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = generateToolMetadata('pdf-merge', 'PDF Merge — Combine PDFs Online Free | ToolNest', 'Merge multiple PDF files into one. Drag & drop to upload, reorder pages, and download your combined PDF — free, in your browser, no sign-up.');
+export const metadata: Metadata = generateToolMetadata('pdf-merge', 'PDF Merge — Combine PDFs Online Free', 'Merge multiple PDF files into one. Drag & drop to upload, reorder pages, and download your combined PDF — free, in your browser, no sign-up.');
 
 const relatedTools = getRelatedTools('pdf-merge', 3).filter((t) =>
   ['pdf-split', 'pdf-compress', 'qr-code-generator'].includes(t.slug)

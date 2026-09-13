@@ -8,7 +8,7 @@ import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
 import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = generateToolMetadata('password-generator', 'Password Generator — Create Strong Passwords Online Free | ToolNest', 'Generate strong, secure random passwords with custom length, uppercase, lowercase, numbers, and symbols. Live strength indicator — free, no sign-up.');
+export const metadata: Metadata = generateToolMetadata('password-generator', 'Password Generator — Create Strong Passwords Online Free', 'Generate strong, secure random passwords with custom length, uppercase, lowercase, numbers, and symbols. Live strength indicator — free, no sign-up.');
 
 const relatedTools = getRelatedTools('password-generator', 3).filter((t) =>
   ['password-strength-checker', 'username-generator', 'uuid-generator'].includes(t.slug)

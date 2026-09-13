@@ -8,7 +8,7 @@ import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
 import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = generateToolMetadata('word-counter', 'Word Counter — Count Words & Characters Online Free | ToolNest', 'Count words, characters, sentences, paragraphs and reading time in real time. Free, in your browser, no sign-up.');
+export const metadata: Metadata = generateToolMetadata('word-counter', 'Word Counter — Count Words & Characters Online Free', 'Count words, characters, sentences, paragraphs and reading time in real time. Free, in your browser, no sign-up.');
 
 const relatedTools = getRelatedTools('word-counter', 3).filter((t) =>
   ['character-counter', 'case-converter', 'text-sorter'].includes(t.slug)

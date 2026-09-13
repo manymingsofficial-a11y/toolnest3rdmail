@@ -8,7 +8,7 @@ import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
 import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = generateToolMetadata('base64-encoder', 'Base64 Encoder & Decoder — Convert Text Online Free | ToolNest', 'Encode text to Base64 or decode Base64 back to text. Supports UTF-8, instant conversion, and copy — free, no sign-up.');
+export const metadata: Metadata = generateToolMetadata('base64-encoder', 'Base64 Encoder & Decoder — Convert Text Online Free', 'Encode text to Base64 or decode Base64 back to text. Supports UTF-8, instant conversion, and copy — free, no sign-up.');
 
 const relatedTools = getRelatedTools('base64-encoder', 3).filter((t) =>
   ['url-encoder', 'json-formatter', 'json-validator'].includes(t.slug)

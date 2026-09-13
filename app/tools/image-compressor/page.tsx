@@ -8,7 +8,7 @@ import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
 import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = generateToolMetadata('image-compressor', 'Image Compressor — Reduce Image Size Online Free | ToolNest', 'Compress JPG and PNG images with Low, Medium, or High compression. See before/after comparison and percentage saved — free, in your browser, no sign-up.');
+export const metadata: Metadata = generateToolMetadata('image-compressor', 'Image Compressor — Reduce Image Size Online Free', 'Compress JPG and PNG images with Low, Medium, or High compression. See before/after comparison and percentage saved — free, in your browser, no sign-up.');
 
 const relatedTools = getRelatedTools('image-compressor', 3).filter((t) =>
   ['image-resizer', 'image-converter', 'image-cropper'].includes(t.slug)

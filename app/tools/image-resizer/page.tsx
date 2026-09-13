@@ -8,7 +8,7 @@ import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
 import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = generateToolMetadata('image-resizer', 'Image Resizer — Resize Images Online Free | ToolNest', 'Resize images to exact pixel dimensions with aspect ratio lock. Quick percentage presets, before/after preview — free, in your browser, no sign-up.');
+export const metadata: Metadata = generateToolMetadata('image-resizer', 'Image Resizer — Resize Images Online Free', 'Resize images to exact pixel dimensions with aspect ratio lock. Quick percentage presets, before/after preview — free, in your browser, no sign-up.');
 
 const relatedTools = getRelatedTools('image-resizer', 3).filter((t) =>
   ['image-compressor', 'image-converter', 'image-cropper'].includes(t.slug)

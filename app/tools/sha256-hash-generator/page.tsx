@@ -8,7 +8,7 @@ import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
 import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = generateToolMetadata('sha256-hash-generator', 'SHA-256 Hash Generator — Compute SHA256 Online Free | ToolNest', 'Generate SHA-256 hashes from text using the Web Crypto API. Cryptographically secure, instant, and private — free, no sign-up.');
+export const metadata: Metadata = generateToolMetadata('sha256-hash-generator', 'SHA-256 Hash Generator — Compute SHA256 Online Free', 'Generate SHA-256 hashes from text using the Web Crypto API. Cryptographically secure, instant, and private — free, no sign-up.');
 
 const relatedTools = getRelatedTools('sha256-hash-generator', 3).filter((t) =>
   ['md5-hash-generator', 'regex-tester', 'base64-encoder'].includes(t.slug)

@@ -8,7 +8,7 @@ import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
 import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = generateToolMetadata('image-cropper', 'Image Cropper — Crop Images Online Free | ToolNest', 'Crop images into free, square, 16:9, 4:3 or circle shapes. Drag to adjust the crop area, preview, and download — free, in your browser, no sign-up.');
+export const metadata: Metadata = generateToolMetadata('image-cropper', 'Image Cropper — Crop Images Online Free', 'Crop images into free, square, 16:9, 4:3 or circle shapes. Drag to adjust the crop area, preview, and download — free, in your browser, no sign-up.');
 
 const relatedTools = getRelatedTools('image-cropper', 3).filter((t) =>
   ['image-resizer', 'image-compressor', 'image-converter'].includes(t.slug)

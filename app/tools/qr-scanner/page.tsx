@@ -8,7 +8,7 @@ import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
 import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = generateToolMetadata('qr-scanner', 'QR Scanner — Free Online Tool | ToolNest', 'Scan QR codes with your device camera or upload an image to decode. Detect, copy and open URLs instantly. Free, no sign-up, runs in your browser.');
+export const metadata: Metadata = generateToolMetadata('qr-scanner', 'QR Scanner — Free Online Tool', 'Scan QR codes with your device camera or upload an image to decode. Detect, copy and open URLs instantly. Free, no sign-up, runs in your browser.');
 
 const relatedTools = getRelatedTools('qr-scanner', 3).filter((t) =>
   ['qr-code-generator', 'barcode-generator', 'qr-history'].includes(t.slug)

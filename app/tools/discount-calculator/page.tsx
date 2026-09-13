@@ -8,7 +8,7 @@ import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
 import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = generateToolMetadata('discount-calculator', 'Discount Calculator — Calculate Sale Price & Savings Free | ToolNest', 'Calculate the final price after a discount and see how much you save. Enter original price and discount percentage — free online discount calculator.');
+export const metadata: Metadata = generateToolMetadata('discount-calculator', 'Discount Calculator — Calculate Sale Price & Savings Free', 'Calculate the final price after a discount and see how much you save. Enter original price and discount percentage — free online discount calculator.');
 
 const relatedTools = getRelatedTools('discount-calculator', 3).filter((t) =>
   ['gst-calculator', 'tip-calculator', 'percentage-calculator'].includes(t.slug)

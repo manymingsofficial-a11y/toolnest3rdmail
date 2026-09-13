@@ -8,7 +8,7 @@ import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
 import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = generateToolMetadata('length-converter', 'Length Converter — Convert Meters, Feet, Inches & More Free | ToolNest', 'Convert between metric and imperial length units — meters, kilometers, feet, inches, miles, yards, and more. Free online length converter, no sign-up.');
+export const metadata: Metadata = generateToolMetadata('length-converter', 'Length Converter — Convert Meters, Feet, Inches & More Free', 'Convert between metric and imperial length units — meters, kilometers, feet, inches, miles, yards, and more. Free online length converter, no sign-up.');
 
 const relatedTools = getRelatedTools('length-converter', 3).filter((t) =>
   ['weight-converter', 'temperature-converter', 'data-storage-converter'].includes(t.slug)

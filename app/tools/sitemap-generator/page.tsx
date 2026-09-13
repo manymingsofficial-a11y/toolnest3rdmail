@@ -8,7 +8,7 @@ import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
 import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = generateToolMetadata('sitemap-generator', 'Sitemap Generator — Create XML Sitemaps for Search Engines | ToolNest', 'Generate an XML sitemap listing your site URLs with lastmod, changefreq, and priority. Help search engines discover and crawl your pages — free.');
+export const metadata: Metadata = generateToolMetadata('sitemap-generator', 'Sitemap Generator — Create XML Sitemaps for Search Engines', 'Generate an XML sitemap listing your site URLs with lastmod, changefreq, and priority. Help search engines discover and crawl your pages — free.');
 
 const relatedTools = getRelatedTools('sitemap-generator', 3).filter((t) =>
   ['robots-txt-generator', 'meta-tag-generator', 'canonical-url-generator'].includes(t.slug)

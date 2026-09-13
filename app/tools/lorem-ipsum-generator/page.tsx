@@ -8,7 +8,7 @@ import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
 import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = generateToolMetadata('lorem-ipsum-generator', 'Lorem Ipsum Generator — Placeholder Text Free | ToolNest', 'Generate lorem ipsum placeholder text as words, sentences, or paragraphs. Copy or download — free, in your browser.');
+export const metadata: Metadata = generateToolMetadata('lorem-ipsum-generator', 'Lorem Ipsum Generator — Placeholder Text Free', 'Generate lorem ipsum placeholder text as words, sentences, or paragraphs. Copy or download — free, in your browser.');
 
 const relatedTools = getRelatedTools('lorem-ipsum-generator', 3).filter((t) =>
   ['word-counter', 'character-counter', 'case-converter'].includes(t.slug)

@@ -8,7 +8,7 @@ import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
 import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = generateToolMetadata('age-calculator', 'Age Calculator — Calculate Your Exact Age in Years, Months & Days | ToolNest', 'Calculate your exact age in years, months, weeks, days, hours, and minutes from your birth date. Free online age calculator — instant results, no sign-up.');
+export const metadata: Metadata = generateToolMetadata('age-calculator', 'Age Calculator — Calculate Your Exact Age in Years, Months & Days', 'Calculate your exact age in years, months, weeks, days, hours, and minutes from your birth date. Free online age calculator — instant results, no sign-up.');
 
 const relatedTools = getRelatedTools('age-calculator', 3).filter((t) =>
   ['bmi-calculator', 'percentage-calculator', 'scientific-calculator'].includes(t.slug)

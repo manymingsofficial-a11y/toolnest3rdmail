@@ -8,7 +8,7 @@ import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
 import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = generateToolMetadata('weight-converter', 'Weight Converter — Convert Kg, Lbs, Grams, Ounces Free | ToolNest', 'Convert between metric and imperial weight units — kilograms, grams, pounds, ounces, tons, and more. Free online weight converter, no sign-up.');
+export const metadata: Metadata = generateToolMetadata('weight-converter', 'Weight Converter — Convert Kg, Lbs, Grams, Ounces Free', 'Convert between metric and imperial weight units — kilograms, grams, pounds, ounces, tons, and more. Free online weight converter, no sign-up.');
 
 const relatedTools = getRelatedTools('weight-converter', 3).filter((t) =>
   ['length-converter', 'temperature-converter', 'data-storage-converter'].includes(t.slug)

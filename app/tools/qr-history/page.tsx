@@ -7,7 +7,7 @@ import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
 import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = generateToolMetadata('qr-history', 'QR History — Saved QR Codes | ToolNest', 'View, reopen, download and delete every QR code you generated or scanned with ToolNest. Stored locally in your browser — free and private.');
+export const metadata: Metadata = generateToolMetadata('qr-history', 'QR History — Saved QR Codes', 'View, reopen, download and delete every QR code you generated or scanned with ToolNest. Stored locally in your browser — free and private.');
 
 const relatedTools = getRelatedTools('qr-history', 3).filter((t) =>
   ['qr-code-generator', 'qr-scanner', 'barcode-generator'].includes(t.slug)

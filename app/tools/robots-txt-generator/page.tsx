@@ -8,7 +8,7 @@ import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
 import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = generateToolMetadata('robots-txt-generator', 'Robots.txt Generator — Create Crawl Rules for Search Bots | ToolNest', 'Generate a robots.txt file to control which search engine bots can crawl your site. Allow, disallow, and set crawl-delay — free, no sign-up.');
+export const metadata: Metadata = generateToolMetadata('robots-txt-generator', 'Robots.txt Generator — Create Crawl Rules for Search Bots', 'Generate a robots.txt file to control which search engine bots can crawl your site. Allow, disallow, and set crawl-delay — free, no sign-up.');
 
 const relatedTools = getRelatedTools('robots-txt-generator', 3).filter((t) =>
   ['sitemap-generator', 'meta-tag-generator', 'redirect-checker'].includes(t.slug)

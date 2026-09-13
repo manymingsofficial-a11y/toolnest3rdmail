@@ -8,7 +8,7 @@ import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
 import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = generateToolMetadata('tip-calculator', 'Tip Calculator — Calculate Restaurant Tips & Split Bills Free | ToolNest', 'Calculate tips and split the bill among friends. Enter bill amount, tip percentage, and number of people — free online tip calculator, no sign-up.');
+export const metadata: Metadata = generateToolMetadata('tip-calculator', 'Tip Calculator — Calculate Restaurant Tips & Split Bills Free', 'Calculate tips and split the bill among friends. Enter bill amount, tip percentage, and number of people — free online tip calculator, no sign-up.');
 
 const relatedTools = getRelatedTools('tip-calculator', 3).filter((t) =>
   ['discount-calculator', 'percentage-calculator', 'gst-calculator'].includes(t.slug)

@@ -8,7 +8,7 @@ import { RelatedTools } from '@/components/related-tools';
 import { getRelatedTools } from '@/lib/data';
 import { generateToolMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = generateToolMetadata('meta-tag-generator', 'Meta Tag Generator — Create HTML Meta Tags Online Free | ToolNest', 'Generate SEO meta tags, Open Graph tags, and Twitter Card tags for your website. Preview, copy, and paste ready-to-use HTML — free, no sign-up.');
+export const metadata: Metadata = generateToolMetadata('meta-tag-generator', 'Meta Tag Generator — Create HTML Meta Tags Online Free', 'Generate SEO meta tags, Open Graph tags, and Twitter Card tags for your website. Preview, copy, and paste ready-to-use HTML — free, no sign-up.');
 
 const relatedTools = getRelatedTools('meta-tag-generator', 3).filter((t) =>
   ['open-graph-generator', 'twitter-card-generator', 'canonical-url-generator'].includes(t.slug)
