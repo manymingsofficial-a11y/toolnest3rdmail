@@ -165,7 +165,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           {post.tags.map((tag) => (
             <Link
               key={tag}
-              href={`/blog/tag/${tag.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
+              href="/blog"
               className="rounded-lg border border-border/60 bg-background/40 px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
               #{tag}

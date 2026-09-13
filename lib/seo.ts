@@ -204,7 +204,10 @@ export function generateToolMetadata(slug: string, customTitle?: string, customD
 
   const enh = getToolEnhancement(slug);
   const title = customTitle ?? enh?.titleSuffix ? `${tool.name} — ${enh!.titleSuffix}` : tool.name;
-  const description = customDescription ?? enh?.description ?? tool.description;
+  const rawDescription = customDescription ?? enh?.description ?? tool.description;
+  const description = rawDescription.length >= 120
+    ? rawDescription
+    : `${rawDescription} ${tool.name.toLowerCase()} is a free online ${tool.category.toLowerCase().replace(/ & /g, ' ')} tool — no sign-up, runs in your browser.`;
   const url = `${SITE_URL}/tools/${slug}`;
   const keywords = generateToolKeywords(tool);
 
@@ -276,7 +279,7 @@ export function generateCategoryMetadata(slug: string): Metadata {
       title: `${title} | ${SITE_NAME}`,
       description,
       type: 'website',
-      url: `${SITE_URL}/categories`,
+      url: `${SITE_URL}/categories?cat=${slug}`,
       siteName: SITE_NAME,
       locale: 'en_US',
       images: [{ url: SITE_LOGO, width: 1200, height: 630, alt: `${title} — ${SITE_NAME}` }],
@@ -652,7 +655,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'compress-images-for-web-without-losing-quality',
     title: 'How to Compress Images for Web Without Losing Quality',
-    description: 'Practical techniques to shrink image file sizes by up to 80% while keeping them looking sharp. Covers format selection, quality settings, and the best free tools.',
+    description: 'Practical techniques to shrink image file sizes by up to 80% while keeping them sharp. Covers format selection, quality settings, and free tools.',
     category: 'Image Tools',
     tags: ['image compression', 'web performance', 'image optimization', 'WebP', 'SEO'],
     author: 'ToolNest Team',

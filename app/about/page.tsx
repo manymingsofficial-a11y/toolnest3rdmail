@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Globe, FileText, Zap, Shield } from 'lucide-react';
 
 import { PageHeader } from '@/components/page-header';
@@ -6,7 +7,7 @@ import { tools, categories } from '@/lib/data';
 
 export const metadata = {
   title: 'About ToolNest',
-  description: `ToolNest provides ${tools.length} free online tools across ${categories.length} categories — PDF, image, QR, SEO, AI, text, developer, calculators and more. All tools run in your browser with no registration required.`,
+  description: `ToolNest offers ${tools.length} free online tools across ${categories.length} categories — PDF, image, QR, SEO, AI, text, developer and more. No registration required.`,
   alternates: { canonical: '/about' },
 };
 
@@ -93,6 +94,16 @@ export default function AboutPage() {
         </div>
 
         <AdSlot slot="homepage-bottom" className="mt-8" />
+
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
+          <Link href="/privacy-policy" className="transition-colors hover:text-foreground">
+            Privacy Policy
+          </Link>
+          <span aria-hidden className="text-muted-foreground/30">·</span>
+          <Link href="/terms" className="transition-colors hover:text-foreground">
+            Terms of Service
+          </Link>
+        </div>
       </section>
     </>
   );

@@ -4,7 +4,7 @@ import { SITE_URL } from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: 'About — Free Online Tools for Everyone',
-  description: `ToolNest provides ${tools.length} free online tools across ${categories.length} categories — PDF, image, QR, SEO, AI, text, developer, calculators and more. All tools run in your browser with no registration required.`,
+  description: `ToolNest offers ${tools.length} free online tools across ${categories.length} categories — PDF, image, QR, SEO, AI, text, developer and more. No registration required.`,
   alternates: { canonical: '/about' },
   openGraph: {
     title: 'About ToolNest — Free Online Tools for Everyone',
