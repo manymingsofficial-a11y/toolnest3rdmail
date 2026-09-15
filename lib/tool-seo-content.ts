@@ -1,5 +1,6 @@
 import type { ToolSeoContent } from '@/components/tool-page-template';
 import { tools } from '@/lib/data';
+import { getEnhancedDescription } from '@/lib/tool-metadata-enhancements';
 
 type ContentEntry = ToolSeoContent;
 
@@ -1088,406 +1089,1459 @@ function getToolData(slug: string) {
   return tools.find((t) => t.slug === slug);
 }
 
-// Category-specific content profiles.
-// Each profile produces genuinely different content based on the tool's
-// actual name, description, slug, and category.
+// ─── Helper functions for tool-specific content generation ─────
+function coreAction(desc: string): string {
+  return desc.split(' — ')[0].split('. ')[0].replace(/\.$/, '').toLowerCase();
+}
+
+function useCasePhrase(desc: string): string {
+  const main = desc.split(' — ')[0];
+  const parts = main.split('. ');
+  if (parts.length > 1) return parts.slice(1).join('. ').replace(/\.$/, '');
+  return '';
+}
+
+function cap(s: string): string {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+// Extract a short feature phrase from the enhanced description
+function featurePhrase(desc: string): string {
+  const main = desc.split(' — ')[0];
+  return main.replace(/\.$/, '');
+}
+
 type CategoryProfile = {
-  whatIs: (name: string, desc: string) => string;
-  howTo: (name: string, slug: string) => string[];
-  benefits: (name: string, desc: string) => { title: string; description: string }[];
-  faqs: (name: string, desc: string, slug: string) => { q: string; a: string }[];
+  whatIs: (name: string, desc: string, enhancedDesc: string) => string;
+  howTo: (name: string, slug: string, enhancedDesc: string) => string[];
+  benefits: (name: string, desc: string, enhancedDesc: string) => { title: string; description: string }[];
+  faqs: (name: string, desc: string, slug: string, enhancedDesc: string) => { q: string; a: string }[];
 };
 
 const categoryProfiles: Record<string, CategoryProfile> = {
   'PDF Tools': {
-    whatIs: (name, desc) =>
-      `${name} is a browser-based PDF utility that ${desc.toLowerCase().replace(/\.$/, '')}. Unlike online PDF services that require you to upload files to a remote server, this tool processes your PDF entirely in your browser using the pdf-lib library, meaning your documents never leave your device.`,
-    howTo: (name, _slug) => [
-      `Drag and drop your PDF file into the ${name} interface, or click to browse and select it.`,
-      'The tool loads your PDF and displays its pages or available options depending on the operation.',
-      'Configure any available settings — such as page range, compression level, or rotation angle — based on what the tool offers.',
-      `Click the action button to process your PDF. The ${name} performs the operation locally using pdf-lib.`,
-      'Download the result. Your original file is never uploaded or stored on any server.',
-    ],
-    benefits: (name, _desc) => [
-      { title: 'Complete document privacy', description: `All PDF processing happens in your browser via pdf-lib. Your documents are never transmitted to any server, which is critical for contracts, legal documents, and sensitive business files.` },
-      { title: 'No registration or watermarks', description: `${name} is free to use with no account, no email, and no watermarks added to your output files. You can use it as many times as you need.` },
-      { title: 'Works with large PDFs', description: 'Since processing happens on your device, you are limited by your browser and hardware rather than a server-side file size cap. Most PDFs up to 100MB process without issue.' },
-      { title: 'Instant results', description: 'No upload or download wait time — the file is already on your device. Processing typically takes a few seconds for most operations.' },
-    ],
-    faqs: (name, _desc, slug) => [
-      { q: `Is ${name} safe to use with confidential PDFs?`, a: 'Yes. Your PDF is processed entirely in your browser using the pdf-lib JavaScript library. The file is never uploaded to a server, so it cannot be intercepted or stored by any third party.' },
-      { q: `Does ${name} work on encrypted or password-protected PDFs?`, a: 'Most tools can open PDFs with owner-level restrictions (like print or copy restrictions) but cannot bypass user-level passwords. You need to unlock the PDF first if it requires a password to open. Use the PDF Unlock tool for that.' },
-      { q: 'Will the output PDF maintain the same quality?', a: slug.includes('compress') ? 'Compression reduces file size by removing redundant data and downsampling images. The text remains crisp, but images may be slightly lower resolution depending on the compression level you choose.' : 'Yes. Operations like rotation, reordering, and page extraction preserve the original PDF quality exactly — no re-encoding or quality loss occurs.' },
-      { q: `Is there a file size limit for ${name}?`, a: 'There is no server-side limit since processing is local. In practice, very large PDFs (500MB+) may strain browser memory. For most documents under 100MB, the tool works smoothly.' },
-    ],
+    whatIs: (name, _desc, enhancedDesc) => {
+      const uc = useCasePhrase(enhancedDesc);
+      let r = `${name} ${coreAction(enhancedDesc)}. The tool uses the pdf-lib JavaScript library to process PDFs entirely in your browser — your documents are never uploaded to a server.`;
+      if (uc) r += ` ${cap(uc)}.`;
+      return r;
+    },
+    howTo: (name, slug, enhancedDesc) => {
+      const action = coreAction(enhancedDesc);
+      const steps: string[] = [];
+      steps.push(`Drag and drop your PDF into ${name}, or click to browse and select a file.`);
+      if (slug.includes('rotate')) {
+        steps.push('Select 90, 180, or 270 degrees for each page you want to rotate.');
+        steps.push('Click Apply Rotation to process the PDF locally with pdf-lib.');
+      } else if (slug.includes('compress')) {
+        steps.push('Choose a compression level — the tool optimizes embedded images and removes redundant data to reduce file size.');
+        steps.push('Click Compress to process the PDF in your browser.');
+      } else if (slug.includes('merge')) {
+        steps.push('Drag and drop additional PDFs to combine, and reorder them as needed.');
+        steps.push('Click Merge to join all PDFs into a single document using pdf-lib.');
+      } else if (slug.includes('split') || slug.includes('extract')) {
+        steps.push('Select the pages or page ranges you want to extract or split into separate files.');
+        steps.push('Click the action button to process the PDF locally.');
+      } else if (slug.includes('watermark')) {
+        steps.push('Enter your watermark text and adjust opacity and position settings.');
+        steps.push('Click Apply to add the watermark to every page using pdf-lib.');
+      } else if (slug.includes('delete')) {
+        steps.push('Select the pages you want to remove from the PDF.');
+        steps.push('Click Delete Pages to create a new PDF without the selected pages.');
+      } else if (slug.includes('protect')) {
+        steps.push('Enter a password to encrypt the PDF with.');
+        steps.push('Click Protect to encrypt the PDF locally in your browser.');
+      } else if (slug.includes('unlock')) {
+        steps.push('Enter the password for the PDF if it requires one to open.');
+        steps.push('Click Unlock to remove the password protection from the PDF.');
+      } else if (slug.includes('reorder')) {
+        steps.push('Drag and drop pages to rearrange them in the desired order.');
+        steps.push('Click Save to create a new PDF with the reordered pages.');
+      } else if (slug.includes('page-number')) {
+        steps.push('Choose the position, format, and starting number for page numbers.');
+        steps.push('Click Add Page Numbers to process the PDF with pdf-lib.');
+      } else if (slug.includes('metadata')) {
+        steps.push('Edit the title, author, subject, and keywords fields for the PDF document.');
+        steps.push('Click Save to update the PDF metadata in your browser.');
+      } else if (slug.includes('viewer')) {
+        steps.push('The PDF loads and displays in the viewer interface.');
+        steps.push('Use the page navigation controls to browse through the document.');
+      } else {
+        steps.push(`${cap(action)} using the options provided by the tool interface.`);
+        steps.push(`Click the action button to process your PDF with ${name}.`);
+      }
+      steps.push('Download the result — your original file never leaves your device.');
+      return steps;
+    },
+    benefits: (name, _desc, enhancedDesc) => {
+      const uc = useCasePhrase(enhancedDesc);
+      return [
+        { title: 'Documents never leave your device', description: `${name} uses pdf-lib to process PDFs entirely in your browser. Your files are never uploaded to a server, which is critical for contracts, legal documents, and sensitive business files.` },
+        { title: 'No registration or watermarks', description: `${name} is free with no account, no email, and no watermarks on output files. Use it as many times as you need.` },
+        { title: 'Works with large PDFs', description: 'Since processing happens on your device, you are limited by your hardware rather than a server-side file size cap. Most PDFs up to 100MB process without issue.' },
+        uc
+          ? { title: cap(uc.split(',')[0].split(' — ')[0]), description: `${uc}. The tool handles this directly in the browser with no software installation required.` }
+          : { title: 'Instant local processing', description: 'No upload or download wait time — the file is already on your device. Processing typically takes a few seconds for most operations.' },
+      ];
+    },
+    faqs: (name, _desc, slug, enhancedDesc) => {
+      const faqs: { q: string; a: string }[] = [];
+      if (slug.includes('compress')) {
+        faqs.push({ q: `How much does ${name} reduce file size?`, a: 'Compression reduces file size by optimizing embedded images and removing redundant data. Text remains crisp, but images may be slightly lower resolution depending on the compression level you choose.' });
+      } else if (slug.includes('merge')) {
+        faqs.push({ q: `How many PDFs can I merge with ${name}?`, a: 'You can merge as many PDFs as your browser memory allows. The tool combines them in the order you arrange them, producing a single PDF file.' });
+      } else if (slug.includes('rotate')) {
+        faqs.push({ q: `Can I rotate individual pages with ${name}?`, a: 'Yes. You can select specific pages and choose a rotation angle (90, 180, or 270 degrees) for each page independently, or rotate all pages at once.' });
+      } else if (slug.includes('split') || slug.includes('extract')) {
+        faqs.push({ q: `Can I extract specific pages with ${name}?`, a: 'Yes. Select the exact pages or page ranges you want to extract. The tool creates a new PDF containing only those pages, leaving your original file unchanged.' });
+      } else if (slug.includes('watermark')) {
+        faqs.push({ q: `What watermark options does ${name} support?`, a: 'You can customize the watermark text, opacity, font size, and position. The watermark is applied to every page in the PDF.' });
+      } else if (slug.includes('protect')) {
+        faqs.push({ q: `What encryption does ${name} use?`, a: 'The tool uses pdf-lib to add password protection. You set a password that anyone opening the PDF will need to enter.' });
+      } else if (slug.includes('unlock')) {
+        faqs.push({ q: `Can ${name} remove any PDF password?`, a: 'You need to know the password to unlock the PDF. The tool removes the password so you can open the PDF without entering it each time. It cannot bypass unknown passwords.' });
+      } else if (slug.includes('delete')) {
+        faqs.push({ q: `Can I undo page deletion with ${name}?`, a: `${name} creates a new PDF without the selected pages — your original file is not modified. Keep the original as a backup if you may need the deleted pages later.` });
+      } else if (slug.includes('reorder')) {
+        faqs.push({ q: `How do I rearrange pages with ${name}?`, a: 'Drag and drop pages in the interface to set the new order. The tool creates a new PDF with pages in the order you arranged them.' });
+      } else if (slug.includes('page-number')) {
+        faqs.push({ q: `Can I choose where page numbers appear with ${name}?`, a: 'Yes. You can set the position (top or bottom, left/center/right), the starting number, and the format (e.g. "1", "1 of 10").' });
+      } else if (slug.includes('metadata')) {
+        faqs.push({ q: `What metadata fields can I edit with ${name}?`, a: 'You can edit the title, author, subject, and keywords fields. These are the standard PDF document properties that appear in PDF readers.' });
+      } else if (slug.includes('viewer')) {
+        faqs.push({ q: `Does ${name} support large PDF files?`, a: 'Yes. The viewer uses pdf.js to render pages on demand, so even large PDFs load quickly. Only the current page is rendered at a time.' });
+      } else {
+        faqs.push({ q: `Is ${name} safe for confidential PDFs?`, a: 'Yes. Your PDF is processed entirely in your browser using pdf-lib. The file is never uploaded to a server, so it cannot be intercepted or stored by any third party.' });
+      }
+      if (slug.includes('compress')) {
+        faqs.push({ q: 'Will compression affect text quality?', a: 'No. Text is vector-based and remains crisp at any compression level. Only embedded images may be slightly lower resolution at aggressive settings.' });
+      } else {
+        faqs.push({ q: 'Will the output PDF maintain the same quality?', a: `Yes. ${name} preserves the original PDF content — no re-encoding or quality loss occurs for non-compression operations.` });
+      }
+      faqs.push({ q: `Is there a file size limit for ${name}?`, a: 'There is no server-side limit since processing is local. In practice, very large PDFs (500MB+) may strain browser memory. For most documents under 100MB, the tool works smoothly.' });
+      if (slug.includes('merge')) {
+        faqs.push({ q: 'Can I reorder PDFs before merging?', a: 'Yes. Drag and drop the files to change their order before clicking Merge. The output PDF will have pages in the order you arranged.' });
+      } else if (slug.includes('rotate')) {
+        faqs.push({ q: 'Can I rotate all pages at once?', a: 'Yes. You can rotate all pages with a single click, or select individual pages for different rotation angles.' });
+      } else {
+        faqs.push({ q: `Does ${name} work on mobile?`, a: 'Yes. The tool works in mobile browsers, though large PDFs may be slower to process on phones due to limited memory.' });
+      }
+      return faqs;
+    },
   },
 
   'Image Tools': {
-    whatIs: (name, desc) =>
-      `${name} ${desc.toLowerCase().replace(/\.$/, '')}. The tool uses the HTML5 Canvas API to process images directly in your browser — no upload, no server processing, and no quality loss from re-compression on a remote server.`,
-    howTo: (name, _slug) => [
-      `Click the upload area or drag and drop an image into ${name}. The tool supports JPG, PNG, and WebP formats.`,
-      'The image loads and is displayed in the editing canvas. Depending on the tool, you may see adjustment sliders, crop handles, or other controls.',
-      'Adjust the available settings — such as intensity, dimensions, angle, or position — until you are satisfied with the preview.',
-      `Click Apply or Download to process the image. ${name} renders the output using Canvas and generates a new file.`,
-      'Download the result. The original image file is never sent anywhere.',
-    ],
-    benefits: (_name, _desc) => [
-      { title: 'Privacy-first image processing', description: 'Your images are processed using the browser\'s Canvas API. No image data is transmitted to any server, which is important for personal photos, medical images, and confidential documents.' },
-      { title: 'No watermarks or sign-up', description: 'The output image is clean — no watermarks, no logos, no required attribution. Download and use the result freely for any purpose.' },
-      { title: 'Fast, real-time preview', description: 'Canvas-based processing means you see changes instantly as you adjust settings. No round-trip to a server for each preview.' },
-      { title: 'Supports all common formats', description: 'JPG, PNG, and WebP are fully supported for both input and output. The browser handles format conversion natively.' },
-    ],
-    faqs: (name, desc, slug) => [
-      { q: `Does ${name} work offline?`, a: 'Once the page is loaded, the tool functions without an internet connection since all processing is done in the browser. You can disconnect your network after the page loads.' },
-      { q: 'Will my image quality be reduced?', a: slug.includes('compress') || slug.includes('resiz') ? 'Quality reduction depends on your settings. For compression, lower quality settings reduce file size but may introduce artifacts. For resizing, downscaling preserves quality well; upscaling will produce a blurry result.' : 'The tool processes images using Canvas, which preserves the original quality unless you explicitly change dimensions or compression settings.' },
-      { q: `Is there a file size limit for ${name}?`, a: 'There is no server-side limit. Very large images (50MB+) may be slow to process or cause memory issues on older devices. For best performance, use images under 20MB.' },
-      { q: 'Can I batch process multiple images?', a: slug.includes('watermark') || slug.includes('compress') ? 'The tool processes one image at a time. For batch processing, run each image through the tool separately. Batch processing may be added in a future update.' : 'The tool handles one image per session. Open the tool again for each additional image you need to process.' },
-    ],
+    whatIs: (name, _desc, enhancedDesc) => {
+      const uc = useCasePhrase(enhancedDesc);
+      let r = `${name} ${coreAction(enhancedDesc)}. The tool uses the HTML5 Canvas API to process images directly in your browser — no upload, no server processing, and no quality loss from re-compression on a remote server.`;
+      if (uc) r += ` ${cap(uc)}.`;
+      return r;
+    },
+    howTo: (name, slug, enhancedDesc) => {
+      const action = coreAction(enhancedDesc);
+      const steps: string[] = [];
+      steps.push(`Click the upload area or drag and drop an image into ${name}. The tool supports JPG, PNG, and WebP formats.`);
+      if (slug.includes('blur')) {
+        steps.push('Adjust the blur intensity slider to control the strength of the effect.');
+        steps.push('Click Apply to render the blurred image using Canvas.');
+      } else if (slug.includes('sharpen')) {
+        steps.push('Adjust the sharpen intensity slider to improve detail and clarity.');
+        steps.push('Click Apply to render the sharpened image using Canvas.');
+      } else if (slug.includes('brightness')) {
+        steps.push('Drag the brightness slider to lighten dark photos or dim overexposed ones.');
+        steps.push('Click Apply to render the adjusted image using Canvas.');
+      } else if (slug.includes('contrast')) {
+        steps.push('Drag the contrast slider to enhance dull photos or soften harsh ones.');
+        steps.push('Click Apply to render the adjusted image using Canvas.');
+      } else if (slug.includes('grayscale')) {
+        steps.push('The tool instantly converts the image to black and white — no settings needed.');
+        steps.push('Click Download to save the grayscale image.');
+      } else if (slug.includes('sepia')) {
+        steps.push('The tool applies a vintage sepia tone with one click — no settings needed.');
+        steps.push('Click Download to save the sepia-filtered image.');
+      } else if (slug.includes('rotat')) {
+        steps.push('Select 90, 180, 270 degrees or enter a custom rotation angle.');
+        steps.push('Click Apply to rotate the image using Canvas.');
+      } else if (slug.includes('flip')) {
+        steps.push('Choose to flip horizontally or vertically.');
+        steps.push('Click Apply to flip the image instantly.');
+      } else if (slug.includes('crop')) {
+        steps.push('Drag the crop handles to select the area you want to keep.');
+        steps.push('Click Apply to crop the image using Canvas.');
+      } else if (slug.includes('resiz')) {
+        steps.push('Enter the target width and height, or drag the resize handles.');
+        steps.push('Click Apply to resize the image using Canvas.');
+      } else if (slug.includes('compress')) {
+        steps.push('Adjust the quality slider to balance file size and image quality.');
+        steps.push('Click Compress to render the optimized image.');
+      } else if (slug.includes('convert')) {
+        steps.push('Select the output format (JPG, PNG, or WebP) and adjust quality if needed.');
+        steps.push('Click Convert to render the image in the new format.');
+      } else if (slug.includes('watermark')) {
+        steps.push('Enter watermark text or upload a logo, then adjust opacity, position, and size.');
+        steps.push('Click Apply to overlay the watermark on the image.');
+      } else if (slug.includes('border')) {
+        steps.push('Choose border width, color, and style from the available options.');
+        steps.push('Click Apply to add the border to your image.');
+      } else if (slug.includes('rounded')) {
+        steps.push('Adjust the corner radius slider to control how rounded the corners are.');
+        steps.push('Click Apply to round the image corners using Canvas.');
+      } else if (slug.includes('color-picker')) {
+        steps.push('Click anywhere on the image to pick a color. Zoom in for pixel-precise selection.');
+        steps.push('Copy the hex or RGB color value from the output area.');
+      } else if (slug.includes('metadata')) {
+        steps.push(slug.includes('remover') ? 'The tool automatically strips EXIF, IPTC, and XMP metadata from your image.' : 'The tool displays EXIF, IPTC, and XMP metadata from your image, including camera model, GPS, and timestamp.');
+        steps.push(slug.includes('remover') ? 'Click Download to save the cleaned image.' : 'Review the metadata details in the results panel.');
+      } else {
+        steps.push(`${cap(action)} using the controls provided by the tool.`);
+        steps.push(`Click Apply or Download to process the image with ${name}.`);
+      }
+      steps.push('Download the result. The original image file is never sent anywhere.');
+      return steps;
+    },
+    benefits: (name, _desc, enhancedDesc) => {
+      const uc = useCasePhrase(enhancedDesc);
+      return [
+        { title: 'Images never leave your device', description: `${name} processes images using the browser's Canvas API. No image data is transmitted to any server, which is important for personal photos, medical images, and confidential documents.` },
+        { title: 'No watermarks or sign-up', description: 'The output image is clean — no watermarks, no logos, no required attribution. Download and use the result freely for any purpose.' },
+        { title: 'Fast, real-time preview', description: 'Canvas-based processing means you see changes instantly as you adjust settings. No round-trip to a server for each preview.' },
+        uc
+          ? { title: cap(uc.split(',')[0].split(' — ')[0]), description: `${uc}. This makes ${name} useful for backgrounds, privacy masking, and creative editing without needing desktop software.` }
+          : { title: 'Supports all common formats', description: 'JPG, PNG, and WebP are fully supported for both input and output. The browser handles format conversion natively.' },
+      ];
+    },
+    faqs: (name, _desc, slug, enhancedDesc) => {
+      const faqs: { q: string; a: string }[] = [];
+      if (slug.includes('blur')) {
+        faqs.push({ q: `How does the blur effect work in ${name}?`, a: 'The tool applies a Gaussian-style blur using the Canvas API. The slider controls the blur radius — higher values produce a stronger blur effect. The preview updates in real-time so you can fine-tune before downloading.' });
+      } else if (slug.includes('sharpen')) {
+        faqs.push({ q: `Can ${name} fix very blurry images?`, a: 'Sharpening enhances existing detail but cannot recover detail that is completely lost to blurring. It works best on slightly soft images. For severely blurred photos, results will be limited.' });
+      } else if (slug.includes('brightness') || slug.includes('contrast')) {
+        faqs.push({ q: `Will ${name} degrade my image quality?`, a: 'No. The tool applies adjustments using Canvas pixel manipulation, which preserves the original resolution. The adjusted image is rendered at full quality.' });
+      } else if (slug.includes('grayscale') || slug.includes('sepia')) {
+        faqs.push({ q: `Does ${name} support batch processing?`, a: 'The tool processes one image at a time. Open the tool again for each additional image. This keeps the tool lightweight and fast.' });
+      } else if (slug.includes('rotat')) {
+        faqs.push({ q: `Can I rotate by a custom angle with ${name}?`, a: 'Yes. In addition to 90, 180, and 270 degree quick-rotate buttons, you can enter a custom angle for precise rotation. The preview shows the result before you download.' });
+      } else if (slug.includes('compress')) {
+        faqs.push({ q: `How much does ${name} reduce file size?`, a: 'Compression results depend on the original image. JPGs typically shrink 30-70% with minimal visible quality loss. PNGs compress less since they use lossless encoding. Use the quality slider to find the right balance.' });
+      } else if (slug.includes('convert')) {
+        faqs.push({ q: `Which formats does ${name} support?`, a: 'The tool converts between JPG, PNG, and WebP. JPG is best for photos, PNG for images with transparency, and WebP for modern web use with smaller file sizes.' });
+      } else if (slug.includes('metadata-remover')) {
+        faqs.push({ q: `What metadata does ${name} remove?`, a: 'The tool strips EXIF data (camera model, GPS location, timestamp, settings), IPTC data (copyright, captions), and XMP data (custom metadata) from your image. The pixel content is unchanged.' });
+      } else if (slug.includes('metadata-viewer')) {
+        faqs.push({ q: `What metadata can ${name} show?`, a: 'The tool displays EXIF tags (camera, lens, exposure, GPS), IPTC tags (copyright, keywords), and XMP tags (custom metadata). Not all images contain all metadata — phone photos typically have the most.' });
+      } else if (slug.includes('color-picker')) {
+        faqs.push({ q: `How precise is the color selection in ${name}?`, a: 'You can zoom in to pixel level for precise selection. The tool shows the exact hex, RGB, and HSL values for the pixel you click on.' });
+      } else {
+        faqs.push({ q: `Does ${name} work offline?`, a: 'Once the page is loaded, the tool functions without an internet connection since all processing is done in the browser.' });
+      }
+      if (slug.includes('compress') || slug.includes('resiz')) {
+        faqs.push({ q: 'Will my image quality be reduced?', a: 'Quality reduction depends on your settings. For compression, lower quality settings reduce file size but may introduce artifacts. For resizing, downscaling preserves quality well; upscaling will produce a blurry result.' });
+      } else {
+        faqs.push({ q: 'Will my image quality be reduced?', a: 'The tool processes images using Canvas, which preserves the original quality unless you explicitly change dimensions or compression settings.' });
+      }
+      faqs.push({ q: `Is there a file size limit for ${name}?`, a: 'There is no server-side limit. Very large images (50MB+) may be slow to process or cause memory issues on older devices. For best performance, use images under 20MB.' });
+      if (slug.includes('watermark') || slug.includes('compress')) {
+        faqs.push({ q: 'Can I batch process multiple images?', a: 'The tool processes one image at a time. For batch processing, run each image through the tool separately. Batch processing may be added in a future update.' });
+      } else {
+        faqs.push({ q: 'Can I undo changes after processing?', a: 'The tool replaces the preview with the processed result. To undo, re-upload your original image. Consider keeping a backup of the original before processing.' });
+      }
+      return faqs;
+    },
   },
 
   'Audio Tools': {
-    whatIs: (name, desc) =>
-      `${name} ${desc.toLowerCase().replace(/\.$/, '')}. The tool uses the Web Audio API to process audio files entirely in your browser — no uploads, no server-side encoding, and no need to install audio editing software.`,
-    howTo: (name, _slug) => [
-      `Click upload or drag and drop an audio file into ${name}. Common formats like MP3, WAV, and OGG are supported.`,
-      'The audio file loads and a waveform or timeline display appears, depending on the tool.',
-      'Use the available controls — trim handles, speed slider, pitch control, or other adjustments — to configure the operation.',
-      'Preview the result by playing the audio before exporting.',
-      'Click Download or Export to save the processed audio file to your device.',
-    ],
-    benefits: (_name, _desc) => [
-      { title: 'No audio uploaded to servers', description: 'All audio processing happens through the Web Audio API in your browser. Your audio files are never transmitted to any server, protecting privacy for voice recordings, music demos, and confidential audio.' },
-      { title: 'No software installation', description: 'Audio editing tools typically require installing DAWs like Audacity or Adobe Audition. This tool runs in your browser with no downloads.' },
-      { title: 'Real-time preview', description: 'Listen to the processed audio before exporting to make sure the result is correct. No need to export and re-import to check.' },
-      { title: 'Free with no usage limits', description: 'Process as many audio files as you need. No account, no subscription, no per-file fees.' },
-    ],
-    faqs: (name, _desc, slug) => [
-      { q: 'What audio formats are supported?', a: slug.includes('convert') ? 'The tool converts between MP3, WAV, and OGG formats. The browser\'s Web Audio API handles encoding and decoding for supported formats.' : 'Most tools accept MP3, WAV, OGG, and M4A files. The Web Audio API decodes these formats natively in modern browsers.' },
-      { q: `Will ${name} reduce my audio quality?`, a: slug.includes('compress') ? 'Audio compression reduces file size by lowering the bitrate. At moderate settings, the quality difference is barely noticeable. At aggressive settings, you may hear artifacts in complex audio.' : 'The tool processes audio through the Web Audio API, which preserves quality for most operations. Re-encoding to MP3 may introduce minor quality loss due to the lossy format.' },
-      { q: 'Is there a file size limit?', a: 'Since processing is browser-based, the limit is your device\'s available memory. Files up to 50MB typically process without issues. Very large files may cause the browser to slow down or crash.' },
-      { q: 'Can I use this for commercial audio projects?', a: 'Yes. The tool does not add watermarks or require attribution. You own the output file and can use it commercially. Ensure you have the rights to the original audio you are processing.' },
-    ],
+    whatIs: (name, _desc, enhancedDesc) => {
+      const uc = useCasePhrase(enhancedDesc);
+      let r = `${name} ${coreAction(enhancedDesc)}. The tool uses the Web Audio API to process audio files entirely in your browser — no uploads, no server-side encoding, and no need to install audio editing software.`;
+      if (uc) r += ` ${cap(uc)}.`;
+      return r;
+    },
+    howTo: (name, slug, _enhancedDesc) => {
+      const steps: string[] = [];
+      steps.push(`Click upload or drag and drop an audio file into ${name}. Common formats like MP3, WAV, and OGG are supported.`);
+      if (slug.includes('cutter') || slug.includes('trim')) {
+        steps.push('Drag the trim handles to set the start and end points of the audio you want to keep.');
+        steps.push('Preview the selected segment by playing it before exporting.');
+        steps.push('Click Download or Export to save the trimmed audio file.');
+      } else if (slug.includes('compress')) {
+        steps.push('Adjust the bitrate slider to balance file size and audio quality.');
+        steps.push('Click Compress to render the optimized audio file.');
+        steps.push('Download the compressed audio to your device.');
+      } else if (slug.includes('convert')) {
+        steps.push('Select the output format (MP3, WAV, OGG, or AAC) and adjust sample rate if needed.');
+        steps.push('Click Convert to encode the audio in the new format.');
+        steps.push('Download the converted audio file.');
+      } else if (slug.includes('merge')) {
+        steps.push('Add additional audio files to combine, and reorder them as needed.');
+        steps.push('Click Merge to join all audio files into a single track.');
+        steps.push('Download the merged audio file.');
+      } else if (slug.includes('reverse')) {
+        steps.push('The tool automatically reverses the audio playback — no settings needed.');
+        steps.push('Preview the reversed audio, then click Download to save it.');
+      } else if (slug.includes('volume') || slug.includes('booster')) {
+        steps.push('Adjust the volume boost slider to increase the audio level.');
+        steps.push('Preview the adjusted audio to check for distortion.');
+        steps.push('Click Download to save the amplified audio file.');
+      } else if (slug.includes('speed')) {
+        steps.push('Adjust the speed slider to speed up or slow down the audio without changing pitch.');
+        steps.push('Preview the adjusted audio before exporting.');
+        steps.push('Click Download to save the speed-adjusted audio file.');
+      } else if (slug.includes('pitch')) {
+        steps.push('Adjust the pitch slider to shift the audio key up or down without affecting tempo.');
+        steps.push('Preview the pitch-shifted audio before exporting.');
+        steps.push('Click Download to save the pitch-adjusted audio file.');
+      } else if (slug.includes('metadata')) {
+        steps.push(slug.includes('remover') ? 'The tool automatically strips ID3 tags and metadata from your audio file.' : 'The tool displays ID3 tags, bitrate, codec, and duration info for your audio file.');
+        steps.push(slug.includes('remover') ? 'Click Download to save the cleaned audio file.' : 'Review the metadata details in the results panel.');
+      } else if (slug.includes('text-to-speech')) {
+        steps.push('Type or paste the text you want to convert to speech.');
+        steps.push('Select a voice and adjust the speech speed if needed.');
+        steps.push('Click Generate to create the audio, then download it.');
+      } else if (slug.includes('speech-to-text')) {
+        steps.push('Click the microphone button and start speaking, or upload an audio file.');
+        steps.push('The tool transcribes your speech to text in real-time.');
+        steps.push('Copy or download the transcribed text.');
+      } else if (slug.includes('voice-recorder')) {
+        steps.push('Click the record button to start recording from your microphone.');
+        steps.push('Click stop when finished. The tool saves the recording as WAV or WebM.');
+        steps.push('Download or play back the recording.');
+      } else {
+        steps.push(`Configure the available controls for the audio operation.`);
+        steps.push(`Click the action button to process your audio with ${name}.`);
+        steps.push('Download the processed audio file.');
+      }
+      return steps;
+    },
+    benefits: (name, _desc, enhancedDesc) => {
+      const uc = useCasePhrase(enhancedDesc);
+      return [
+        { title: 'Audio never uploaded to servers', description: `${name} processes audio through the Web Audio API in your browser. Your audio files are never transmitted to any server, protecting privacy for voice recordings, music demos, and confidential audio.` },
+        { title: 'No software installation', description: 'Audio editing tools typically require installing DAWs like Audacity or Adobe Audition. This tool runs in your browser with no downloads.' },
+        { title: 'Real-time preview', description: 'Listen to the processed audio before exporting to make sure the result is correct. No need to export and re-import to check.' },
+        uc
+          ? { title: cap(uc.split(',')[0].split(' — ')[0]), description: `${uc}. ${name} handles this without requiring dedicated audio editing software.` }
+          : { title: 'Free with no usage limits', description: 'Process as many audio files as you need. No account, no subscription, no per-file fees.' },
+      ];
+    },
+    faqs: (name, _desc, slug, _enhancedDesc) => {
+      const faqs: { q: string; a: string }[] = [];
+      if (slug.includes('convert')) {
+        faqs.push({ q: `What formats does ${name} support?`, a: 'The tool converts between MP3, WAV, OGG, and AAC formats. The Web Audio API handles encoding and decoding for supported formats in modern browsers.' });
+      } else if (slug.includes('cutter') || slug.includes('trim')) {
+        faqs.push({ q: `How precise is the trimming in ${name}?`, a: 'The tool provides millisecond-level precision for trim points. Drag the handles on the waveform display to set start and end positions, then preview before exporting.' });
+      } else if (slug.includes('compress')) {
+        faqs.push({ q: `How much does ${name} reduce file size?`, a: 'Audio compression reduces file size by lowering the bitrate. At moderate settings, the quality difference is barely noticeable. At aggressive settings, you may hear artifacts in complex audio.' });
+      } else if (slug.includes('merge')) {
+        faqs.push({ q: `Can I merge different audio formats with ${name}?`, a: 'Yes. The tool decodes all input files using the Web Audio API and encodes the merged output in a single format. Mix MP3, WAV, and OGG files in any order.' });
+      } else if (slug.includes('reverse')) {
+        faqs.push({ q: `What happens to audio quality when reversing with ${name}?`, a: 'Reversing does not re-encode the audio — it simply plays the samples in reverse order. Quality is fully preserved.' });
+      } else if (slug.includes('speed')) {
+        faqs.push({ q: `Does ${name} change the pitch when changing speed?`, a: 'No. The tool uses time-stretching algorithms that change speed without affecting pitch. The audio stays in the same key at any speed.' });
+      } else if (slug.includes('pitch')) {
+        faqs.push({ q: `Does ${name} change the tempo when shifting pitch?`, a: 'No. The tool shifts pitch independently of tempo. The audio duration stays the same while the key changes.' });
+      } else if (slug.includes('volume') || slug.includes('booster')) {
+        faqs.push({ q: `Will ${name} cause distortion?`, a: 'At moderate boost levels (up to 2x), distortion is minimal. At extreme levels (3x+), clipping may occur. Preview the result before downloading to check for distortion.' });
+      } else if (slug.includes('text-to-speech')) {
+        faqs.push({ q: `What voices does ${name} use?`, a: 'The tool uses your browser\'s built-in speech synthesis voices. Available voices depend on your operating system and browser. Most modern browsers offer multiple voices.' });
+      } else if (slug.includes('speech-to-text')) {
+        faqs.push({ q: `How accurate is ${name}?`, a: 'Accuracy depends on your browser\'s speech recognition engine, microphone quality, and background noise. Chrome typically offers the best accuracy. Clear speech in a quiet environment produces the best results.' });
+      } else {
+        faqs.push({ q: 'What audio formats are supported?', a: 'Most tools accept MP3, WAV, OGG, and M4A files. The Web Audio API decodes these formats natively in modern browsers.' });
+      }
+      if (slug.includes('compress')) {
+        faqs.push({ q: `Will ${name} reduce my audio quality?`, a: 'Audio compression reduces file size by lowering the bitrate. At moderate settings, the quality difference is barely noticeable. At aggressive settings, you may hear artifacts in complex audio.' });
+      } else {
+        faqs.push({ q: `Will ${name} reduce my audio quality?`, a: 'The tool processes audio through the Web Audio API, which preserves quality for most operations. Re-encoding to MP3 may introduce minor quality loss due to the lossy format.' });
+      }
+      faqs.push({ q: 'Is there a file size limit?', a: 'Since processing is browser-based, the limit is your device\'s available memory. Files up to 50MB typically process without issues. Very large files may cause the browser to slow down or crash.' });
+      faqs.push({ q: 'Can I use this for commercial audio projects?', a: 'Yes. The tool does not add watermarks or require attribution. You own the output file and can use it commercially. Ensure you have the rights to the original audio you are processing.' });
+      return faqs;
+    },
   },
 
   'Video Tools': {
-    whatIs: (name, desc) =>
-      `${name} ${desc.toLowerCase().replace(/\.$/, '')}. The tool uses browser-native video processing — the HTML5 video element and Canvas API — to edit video files locally without uploading them to a cloud video editor.`,
-    howTo: (name, _slug) => [
-      `Drag and drop a video file into ${name}, or click to browse. The tool supports common formats like MP4, WebM, and MOV.`,
-      'The video loads and a timeline or preview area appears.',
-      'Configure the operation — set trim points, select output format, adjust speed, or position the crop area depending on what the tool does.',
-      'Click Process or Export to render the output. Video processing happens in your browser using Canvas and MediaRecorder APIs.',
-      'Download the processed video when rendering is complete.',
-    ],
-    benefits: (_name, _desc) => [
-      { title: 'Videos never leave your device', description: 'Unlike cloud-based video editors, this tool processes video locally in your browser. Your raw footage stays private — important for client work, personal videos, and confidential content.' },
-      { title: 'No expensive software needed', description: 'Video editing suites like Adobe Premiere or Final Cut Pro cost hundreds of dollars. This tool handles common video operations for free in your browser.' },
-      { title: 'Quick edits without rendering queues', description: 'Cloud editors often queue rendering jobs. Browser-based processing starts immediately and completes as fast as your hardware allows.' },
-      { title: 'No account or subscription', description: 'Free to use with no sign-up, no watermark on output, and no file count limits.' },
-    ],
-    faqs: (name, _desc, _slug) => [
-      { q: 'What video formats are supported?', a: 'The tool accepts MP4, WebM, and MOV files (format support depends on your browser). Output is typically WebM or MP4, encoded via the MediaRecorder API.' },
-      { q: `Is ${name} fast enough for large videos?`, a: 'Processing speed depends on your device\'s CPU and the video length. Short clips (under 5 minutes) process in seconds. Longer videos may take several minutes. No upload time is needed since processing is local.' },
-      { q: 'Will the output video have a watermark?', a: 'No. The tool does not add watermarks or logos to your video. The output is clean and ready to use.' },
-      { q: 'Can I process 4K or high-bitrate video?', a: '4K video processing is possible but depends on your browser and hardware. For best performance with large files, close other browser tabs and use a desktop computer with sufficient RAM.' },
-    ],
+    whatIs: (name, _desc, enhancedDesc) => {
+      const uc = useCasePhrase(enhancedDesc);
+      let r = `${name} ${coreAction(enhancedDesc)}. The tool uses browser-native video processing — the HTML5 video element and Canvas API — to edit video files locally without uploading them to a cloud video editor.`;
+      if (uc) r += ` ${cap(uc)}.`;
+      return r;
+    },
+    howTo: (name, slug, _enhancedDesc) => {
+      const steps: string[] = [];
+      steps.push(`Drag and drop a video file into ${name}, or click to browse. The tool supports common formats like MP4, WebM, and MOV.`);
+      if (slug.includes('trim') || slug.includes('cutter')) {
+        steps.push('Drag the trim handles to set the start and end points of the video you want to keep.');
+        steps.push('Click Export to render the trimmed video in your browser.');
+      } else if (slug.includes('compress')) {
+        steps.push('Adjust the bitrate and resolution settings to reduce file size.');
+        steps.push('Click Compress to render the optimized video.');
+      } else if (slug.includes('convert')) {
+        steps.push('Select the output format (MP4, WebM, or AVI) and adjust codec settings if needed.');
+        steps.push('Click Convert to encode the video in the new format.');
+      } else if (slug.includes('merge')) {
+        steps.push('Add additional video files to combine, and reorder them as needed.');
+        steps.push('Click Merge to join all videos into a single file.');
+      } else if (slug.includes('split')) {
+        steps.push('Set the split points or specify the number of segments you want.');
+        steps.push('Click Split to divide the video into multiple clips.');
+      } else if (slug.includes('rotat')) {
+        steps.push('Select 90, 180, or 270 degrees rotation.');
+        steps.push('Click Apply to rotate the video using Canvas rendering.');
+      } else if (slug.includes('crop')) {
+        steps.push('Drag the crop handles to select the area you want to keep, or enter dimensions for a specific aspect ratio.');
+        steps.push('Click Apply to crop the video frames.');
+      } else if (slug.includes('speed')) {
+        steps.push('Adjust the speed slider to create time-lapse or slow-motion effects.');
+        steps.push('Click Export to render the speed-adjusted video.');
+      } else if (slug.includes('reverse')) {
+        steps.push('The tool automatically reverses the video playback — no settings needed.');
+        steps.push('Click Export to render the reversed video.');
+      } else if (slug.includes('mute')) {
+        steps.push('The tool automatically removes the audio track from your video.');
+        steps.push('Click Download to save the silent video.');
+      } else if (slug.includes('extract-audio')) {
+        steps.push('The tool automatically extracts the audio track from your video.');
+        steps.push('Select the output format (MP3 or WAV) and click Download.');
+      } else if (slug.includes('watermark')) {
+        steps.push('Enter watermark text or upload an image, then adjust position and opacity.');
+        steps.push('Click Apply to overlay the watermark on the video.');
+      } else if (slug.includes('thumbnail')) {
+        steps.push('Scrub to the frame you want to capture, or let the tool extract frames at intervals.');
+        steps.push('Click Download to save the thumbnail as PNG or JPG.');
+      } else if (slug.includes('to-gif')) {
+        steps.push('Set the start time, duration, and frame rate for the GIF.');
+        steps.push('Click Convert to render the animated GIF.');
+      } else if (slug.includes('gif-to-video')) {
+        steps.push('Select the output format (MP4 or WebM).');
+        steps.push('Click Convert to render the video from your GIF.');
+      } else if (slug.includes('metadata')) {
+        steps.push(slug.includes('remover') ? 'The tool automatically strips metadata from your video file.' : 'The tool displays codec, resolution, duration, bitrate, and other metadata for your video.');
+        steps.push(slug.includes('remover') ? 'Click Download to save the cleaned video.' : 'Review the metadata details in the results panel.');
+      } else {
+        steps.push(`Configure the available controls for the video operation.`);
+        steps.push(`Click the action button to process your video with ${name}.`);
+      }
+      steps.push('Download the processed video when rendering is complete.');
+      return steps;
+    },
+    benefits: (name, _desc, enhancedDesc) => {
+      const uc = useCasePhrase(enhancedDesc);
+      return [
+        { title: 'Videos never leave your device', description: `${name} processes video locally in your browser. Your raw footage stays private — important for client work, personal videos, and confidential content.` },
+        { title: 'No expensive software needed', description: 'Video editing suites like Adobe Premiere or Final Cut Pro cost hundreds of dollars. This tool handles common video operations for free in your browser.' },
+        { title: 'Quick edits without rendering queues', description: 'Cloud editors often queue rendering jobs. Browser-based processing starts immediately and completes as fast as your hardware allows.' },
+        uc
+          ? { title: cap(uc.split(',')[0].split(' — ')[0]), description: `${uc}. ${name} makes this possible without uploading your video to a cloud service.` }
+          : { title: 'No account or subscription', description: 'Free to use with no sign-up, no watermark on output, and no file count limits.' },
+      ];
+    },
+    faqs: (name, _desc, slug, _enhancedDesc) => {
+      const faqs: { q: string; a: string }[] = [];
+      if (slug.includes('compress')) {
+        faqs.push({ q: `How much does ${name} reduce file size?`, a: 'Compression results depend on the original video. By lowering bitrate and resolution, you can typically reduce file size by 50-80% with acceptable quality. Preview the result before downloading.' });
+      } else if (slug.includes('convert')) {
+        faqs.push({ q: `What formats does ${name} support?`, a: 'The tool converts between MP4, WebM, and AVI formats. Output is encoded via the MediaRecorder API, which supports MP4 and WebM in most browsers.' });
+      } else if (slug.includes('trim') || slug.includes('cutter')) {
+        faqs.push({ q: `How precise is the trimming in ${name}?`, a: 'The tool provides frame-level precision for trim points. Drag the handles on the timeline to set start and end positions, then preview before exporting.' });
+      } else if (slug.includes('merge')) {
+        faqs.push({ q: `Can I merge videos of different formats with ${name}?`, a: 'Yes. The tool decodes all input videos and encodes the merged output in a single format. Mix MP4, WebM, and MOV files in any order.' });
+      } else if (slug.includes('rotat')) {
+        faqs.push({ q: `Will rotation affect video quality in ${name}?`, a: 'No. Rotation is a lossless operation — the tool rearranges pixel data without re-encoding the video stream. Quality is fully preserved.' });
+      } else if (slug.includes('speed')) {
+        faqs.push({ q: `Does ${name} change audio pitch when changing speed?`, a: 'No. The tool preserves the original pitch when changing playback speed. Audio is time-stretched to match the new speed without key changes.' });
+      } else if (slug.includes('to-gif')) {
+        faqs.push({ q: `What is the maximum GIF duration with ${name}?`, a: 'GIFs are best for short clips (under 10 seconds). Longer clips produce very large GIF files. Set a short duration and lower frame rate for web-friendly output.' });
+      } else if (slug.includes('extract-audio')) {
+        faqs.push({ q: `What audio format does ${name} output?`, a: 'The tool extracts audio as MP3 or WAV. MP3 is smaller and widely compatible. WAV is lossless but larger.' });
+      } else if (slug.includes('mute')) {
+        faqs.push({ q: `Can ${name} mute specific parts of a video?`, a: `${name} removes the entire audio track. To mute only specific sections, use the video trimmer to cut those sections separately, or use a dedicated video editor.` });
+      } else {
+        faqs.push({ q: 'What video formats are supported?', a: 'The tool accepts MP4, WebM, and MOV files (format support depends on your browser). Output is typically WebM or MP4, encoded via the MediaRecorder API.' });
+      }
+      faqs.push({ q: `Is ${name} fast enough for large videos?`, a: 'Processing speed depends on your device\'s CPU and the video length. Short clips (under 5 minutes) process in seconds. Longer videos may take several minutes. No upload time is needed since processing is local.' });
+      faqs.push({ q: 'Will the output video have a watermark?', a: 'No. The tool does not add watermarks or logos to your video. The output is clean and ready to use.' });
+      faqs.push({ q: 'Can I process 4K or high-bitrate video?', a: '4K video processing is possible but depends on your browser and hardware. For best performance with large files, close other browser tabs and use a desktop computer with sufficient RAM.' });
+      return faqs;
+    },
   },
 
   'Developer Tools': {
-    whatIs: (name, desc) =>
-      `${name} ${desc.toLowerCase().replace(/\.$/, '')}. The tool runs entirely in your browser using standard JavaScript APIs, making it useful for quick development tasks without installing CLI tools or reaching for an IDE.`,
-    howTo: (name, _slug) => [
-      `Paste your code, text, or data into the ${name} input area. Some tools also support file upload.`,
-      'Configure any available options — such as indentation size, output format, or encoding type.',
-      'Click the process button to transform, format, or validate your input.',
-      'Copy the result from the output area, or download it as a file if the tool supports file export.',
-    ],
-    benefits: (_name, _desc) => [
-      { title: 'Instant results in your browser', description: 'No need to open a terminal, install a package, or switch to your IDE. Developer tools run instantly in a browser tab for quick formatting and encoding tasks.' },
-      { title: 'Input never leaves your device', description: 'All processing is client-side JavaScript. Code, API keys, and data stay on your machine — important when working with sensitive configs or proprietary code.' },
-      { title: 'Handles edge cases gracefully', description: 'The tools report specific errors with line numbers and context, making debugging faster than generic "invalid input" messages.' },
-      { title: 'No dependencies to install', description: 'These tools work in any modern browser without installing Node.js, Python, or any CLI utility. Useful on locked-down corporate machines or when pairing remotely.' },
-    ],
-    faqs: (name, _desc, slug) => [
-      { q: `Does ${name} work with large files?`, a: 'Most developer tools handle files up to several megabytes without issue. For very large JSON or XML files (10MB+), processing may slow down but should complete.' },
-      { q: 'Is my code or data sent to a server?', a: 'No. All processing happens in your browser via JavaScript. Your code, data, and API keys are never transmitted anywhere.' },
-      { q: slug.includes('format') ? 'Does the formatter follow a specific style guide?' : 'Can I integrate this tool into my build pipeline?', a: slug.includes('format') ? 'The formatter applies consistent indentation and spacing rules. For JSON and XML, it follows standard formatting conventions. For SQL, it aligns keywords and clauses for readability.' : 'The tools are designed for manual use in the browser. For build pipelines, use equivalent CLI tools like prettier, jq, or xmllint. This tool is for quick one-off tasks.' },
-      { q: 'What happens if my input has syntax errors?', a: slug.includes('valid') ? 'The validator reports the exact location of the error — line number, column, and a description of what is wrong — so you can fix it immediately.' : 'If the input is malformed, the tool will display an error message indicating what went wrong. Fix the error in your input and try again.' },
-    ],
+    whatIs: (name, _desc, enhancedDesc) => {
+      const uc = useCasePhrase(enhancedDesc);
+      let r = `${name} ${coreAction(enhancedDesc)}. The tool runs entirely in your browser using standard JavaScript APIs, making it useful for quick development tasks without installing CLI tools or reaching for an IDE.`;
+      if (uc) r += ` ${cap(uc)}.`;
+      return r;
+    },
+    howTo: (name, slug, _enhancedDesc) => {
+      const steps: string[] = [];
+      steps.push(`Paste your code, text, or data into the ${name} input area. Some tools also support file upload.`);
+      if (slug.includes('format') || slug.includes('beautif')) {
+        steps.push('Configure indentation size and formatting options if available.');
+        steps.push('Click Format to beautify the code with proper indentation and spacing.');
+      } else if (slug.includes('valid')) {
+        steps.push('Click Validate to check the syntax of your input.');
+        steps.push('Review any error messages with line numbers and fix issues in your input.');
+      } else if (slug.includes('minif')) {
+        steps.push('Click Minify to remove whitespace, comments, and unnecessary characters.');
+        steps.push('Copy the minified output for use in your project.');
+      } else if (slug.includes('encode') || slug.includes('decode')) {
+        steps.push('Enter the text you want to encode or decode.');
+        steps.push('Click the action button to transform the input.');
+      } else if (slug.includes('hash')) {
+        steps.push('Enter the text you want to hash.');
+        steps.push('The tool computes the hash instantly and displays it in the output area.');
+      } else if (slug.includes('jwt')) {
+        steps.push(slug.includes('decode') ? 'Paste your JWT token into the input field.' : 'Enter the header and payload JSON for your JWT.');
+        steps.push(slug.includes('decode') ? 'The tool decodes the token and displays the header and payload.' : 'Click Generate to create the JWT token.');
+      } else if (slug.includes('regex')) {
+        steps.push('Enter your regex pattern and test string.');
+        steps.push('The tool highlights matches in real-time as you type.');
+      } else if (slug.includes('json') || slug.includes('xml') || slug.includes('yaml')) {
+        steps.push('The tool processes your input and displays the formatted or converted result.');
+        steps.push('Copy the output or download it as a file.');
+      } else {
+        steps.push('Configure any available options, such as output format or encoding type.');
+        steps.push('Click the process button to transform, format, or validate your input.');
+      }
+      steps.push('Copy the result from the output area, or download it as a file if the tool supports file export.');
+      return steps;
+    },
+    benefits: (name, _desc, enhancedDesc) => {
+      const uc = useCasePhrase(enhancedDesc);
+      return [
+        { title: 'Instant results in your browser', description: `${name} runs instantly in a browser tab for quick formatting and encoding tasks — no need to open a terminal, install a package, or switch to your IDE.` },
+        { title: 'Input never leaves your device', description: 'All processing is client-side JavaScript. Code, API keys, and data stay on your machine — important when working with sensitive configs or proprietary code.' },
+        uc
+          ? { title: cap(uc.split(',')[0].split(' — ')[0]), description: `${uc}. ${name} provides this capability without installing Node.js packages or CLI utilities.` }
+          : { title: 'Handles edge cases gracefully', description: 'The tools report specific errors with line numbers and context, making debugging faster than generic "invalid input" messages.' },
+        { title: 'No dependencies to install', description: 'These tools work in any modern browser without installing Node.js, Python, or any CLI utility. Useful on locked-down corporate machines or when pairing remotely.' },
+      ];
+    },
+    faqs: (name, _desc, slug, _enhancedDesc) => {
+      const faqs: { q: string; a: string }[] = [];
+      if (slug.includes('format')) {
+        faqs.push({ q: `Does ${name} follow a specific style guide?`, a: 'The formatter applies consistent indentation and spacing rules. For JSON and XML, it follows standard formatting conventions. For SQL, it aligns keywords and clauses for readability. For YAML, it normalizes indentation.' });
+      } else if (slug.includes('valid')) {
+        faqs.push({ q: `What kind of errors does ${name} report?`, a: 'The validator reports the exact location of errors — line number, column, and a description of what is wrong — so you can fix issues immediately without guessing.' });
+      } else if (slug.includes('minif')) {
+        faqs.push({ q: `How much does ${name} reduce file size?`, a: 'Minification typically reduces file size by 30-60% by removing whitespace, comments, and unnecessary characters. The code functionality is unchanged.' });
+      } else if (slug.includes('encode') || slug.includes('decode')) {
+        faqs.push({ q: `What encoding does ${name} use?`, a: slug.includes('base32') ? 'The tool uses standard Base32 encoding (RFC 4648) to convert between plain text and Base32 format.' : slug.includes('base64') ? 'The tool uses standard Base64 encoding to convert between plain text and Base64 format.' : 'The tool uses the encoding standard appropriate for the specific operation.' });
+      } else if (slug.includes('hash')) {
+        faqs.push({ q: `Is ${name} suitable for password hashing?`, a: slug.includes('bcrypt') ? 'Yes. Bcrypt is specifically designed for password hashing — it includes a salt and is intentionally slow to resist brute-force attacks. Use it for storing password hashes in your database.' : 'No. MD5, SHA-1, and SHA-256 are fast hash functions designed for checksums and data integrity, not password storage. For passwords, use bcrypt.' });
+      } else if (slug.includes('jwt')) {
+        faqs.push({ q: `Is ${name} secure for production tokens?`, a: slug.includes('decode') ? 'Decoding a JWT does not verify its signature — it only reads the payload. Never trust decoded JWT data without verifying the signature server-side first.' : 'The tool creates unsigned or test tokens. For production, sign tokens with a secret key on your server.' });
+      } else if (slug.includes('regex')) {
+        faqs.push({ q: `What regex flavor does ${name} use?`, a: 'The tool uses JavaScript\'s native RegExp engine, which supports most PCRE features. Pattern syntax follows the ECMAScript specification.' });
+      } else {
+        faqs.push({ q: `Does ${name} work with large files?`, a: 'Most developer tools handle files up to several megabytes without issue. For very large JSON or XML files (10MB+), processing may slow down but should complete.' });
+      }
+      faqs.push({ q: 'Is my code or data sent to a server?', a: 'No. All processing happens in your browser via JavaScript. Your code, data, and API keys are never transmitted anywhere.' });
+      if (slug.includes('format')) {
+        faqs.push({ q: 'Can I customize the formatting style?', a: 'Yes. Most formatters offer indentation size options (2, 4, or tab). SQL and YAML formatters may have additional options for keyword casing and line wrapping.' });
+      } else {
+        faqs.push({ q: 'Can I integrate this tool into my build pipeline?', a: 'The tools are designed for manual use in the browser. For build pipelines, use equivalent CLI tools like prettier, jq, or xmllint. This tool is for quick one-off tasks.' });
+      }
+      faqs.push({ q: 'What happens if my input has syntax errors?', a: slug.includes('valid') ? 'The validator reports the exact location of the error — line number, column, and a description of what is wrong — so you can fix it immediately.' : 'If the input is malformed, the tool will display an error message indicating what went wrong. Fix the error in your input and try again.' });
+      return faqs;
+    },
   },
 
   'SEO Tools': {
-    whatIs: (name, desc) =>
-      `${name} ${desc.toLowerCase().replace(/\.$/, '')}. The tool helps you optimize your website for search engines by generating or analyzing structured data, meta tags, and other SEO elements directly in your browser.`,
-    howTo: (name, _slug) => [
-      `Enter the required information into the ${name} form fields — such as page URL, title, description, or schema type.`,
-      'Configure any available options, such as schema properties, tag attributes, or analysis settings.',
-      'Click Generate or Analyze to produce the output.',
-      'Copy the generated HTML, JSON-LD, or analysis report and integrate it into your website.',
-    ],
-    benefits: (_name, _desc) => [
-      { title: 'Valid structured data output', description: 'Generated schema markup follows Schema.org vocabulary and Google\'s structured data guidelines, helping you qualify for rich results in search.' },
-      { title: 'No SEO platform subscription', description: 'These tools provide the same outputs as expensive SEO platforms for common tasks like schema generation and meta tag creation — without the monthly fee.' },
-      { title: 'Immediate, actionable results', description: 'Copy-paste the generated tags directly into your CMS or HTML. No export, no formatting, no intermediate steps.' },
-      { title: 'Works for any website platform', description: 'The generated HTML and JSON-LD work on WordPress, Shopify, custom HTML, Next.js, or any platform that lets you edit the head section.' },
-    ],
-    faqs: (name, _desc, slug) => [
-      { q: slug.includes('schema') ? 'What is JSON-LD structured data?' : 'Do I need SEO tools if I use an SEO plugin?', a: slug.includes('schema') ? 'JSON-LD is a JavaScript notation that search engines use to understand your page content. Google uses it to display rich results — like star ratings, breadcrumbs, and FAQ accordions — in search results.' : 'SEO plugins handle some of these tasks automatically, but they may not cover every schema type or meta tag. These tools let you generate specific tags and schema manually for pages where your plugin falls short.' },
-      { q: `Will ${name} improve my search rankings?`, a: 'Structured data and proper meta tags help search engines understand your content, which can improve how your pages appear in results. However, rankings depend primarily on content quality, backlinks, and user experience — not meta tags alone.' },
-      { q: 'How do I test my generated schema markup?', a: 'Use Google\'s Rich Results Test (search.google.com/test/rich-results) to validate structured data before deploying. Paste the JSON-LD or provide your URL to check for errors.' },
-      { q: 'Can I use these tools for client websites?', a: 'Yes. The generated markup and tags are standard HTML and JSON-LD that work on any website. No attribution or license is required.' },
-    ],
+    whatIs: (name, _desc, enhancedDesc) => {
+      const uc = useCasePhrase(enhancedDesc);
+      let r = `${name} ${coreAction(enhancedDesc)}. The tool helps you optimize your website for search engines by generating or analyzing structured data, meta tags, and other SEO elements directly in your browser.`;
+      if (uc) r += ` ${cap(uc)}.`;
+      return r;
+    },
+    howTo: (name, slug, _enhancedDesc) => {
+      const steps: string[] = [];
+      steps.push(`Enter the required information into the ${name} form fields — such as page URL, title, description, or schema properties.`);
+      if (slug.includes('schema')) {
+        steps.push('Fill in the schema-specific fields (e.g. article title, author, date published, product price).');
+        steps.push('Click Generate to produce JSON-LD structured data markup.');
+        steps.push('Copy the JSON-LD and paste it into your page\'s head section or CMS.');
+      } else if (slug.includes('meta-tag') || slug.includes('open-graph') || slug.includes('twitter-card')) {
+        steps.push('Enter your page title, description, URL, and image URL.');
+        steps.push('Click Generate to produce the meta tag HTML.');
+        steps.push('Copy the HTML tags and paste them into your page\'s head section.');
+      } else if (slug.includes('keyword')) {
+        steps.push('Enter your text or URL to extract keywords from.');
+        steps.push('Click Extract to identify important terms and phrases.');
+        steps.push('Review the extracted keywords with their frequency and density.');
+      } else if (slug.includes('redirect')) {
+        steps.push('Enter the URL you want to check.');
+        steps.push('Click Check to trace the redirect chain and display HTTP status codes.');
+        steps.push('Review the redirect path from the original URL to the final destination.');
+      } else if (slug.includes('serp')) {
+        steps.push('Enter your title and meta description text.');
+        steps.push('The tool calculates pixel width and shows how your snippet will appear in Google search results.');
+        steps.push('Adjust your text to fit within the pixel limits for optimal display.');
+      } else if (slug.includes('slug')) {
+        steps.push('Enter your page title or text.');
+        steps.push('Click Generate to create a clean, URL-safe slug.');
+        steps.push('Copy the slug for use in your URL structure.');
+      } else if (slug.includes('sitemap')) {
+        steps.push('Enter your URLs or upload a list of pages.');
+        steps.push('Click Generate to produce a valid XML sitemap.');
+        steps.push('Download the sitemap.xml file and upload it to your website root.');
+      } else if (slug.includes('robots')) {
+        steps.push('Select the directives you want (index, follow, noarchive, etc.).');
+        steps.push('Click Generate to produce the meta robots tag or robots.txt content.');
+        steps.push('Copy the output to your page or robots.txt file.');
+      } else if (slug.includes('canonical')) {
+        steps.push('Enter your canonical URL.');
+        steps.push('Click Generate to produce the canonical link tag.');
+        steps.push('Copy the link tag and paste it into your page\'s head section.');
+      } else if (slug.includes('hreflang')) {
+        steps.push('Enter your page URLs and language/region codes.');
+        steps.push('Click Generate to produce hreflang link tags.');
+        steps.push('Copy the tags and paste them into your page\'s head section.');
+      } else {
+        steps.push('Configure any available options, such as schema properties or tag attributes.');
+        steps.push('Click Generate or Analyze to produce the output.');
+        steps.push('Copy the generated HTML, JSON-LD, or analysis report and integrate it into your website.');
+      }
+      return steps;
+    },
+    benefits: (name, _desc, enhancedDesc) => {
+      const uc = useCasePhrase(enhancedDesc);
+      return [
+        { title: 'Valid structured data output', description: `${name} generates markup that follows Schema.org vocabulary and Google\'s structured data guidelines, helping you qualify for rich results in search.` },
+        { title: 'No SEO platform subscription', description: 'These tools provide the same outputs as expensive SEO platforms for common tasks like schema generation and meta tag creation — without the monthly fee.' },
+        uc
+          ? { title: cap(uc.split(',')[0].split(' — ')[0]), description: `${uc}. ${name} simplifies this process with a form-based interface.` }
+          : { title: 'Immediate, actionable results', description: 'Copy-paste the generated tags directly into your CMS or HTML. No export, no formatting, no intermediate steps.' },
+        { title: 'Works for any website platform', description: 'The generated HTML and JSON-LD work on WordPress, Shopify, custom HTML, Next.js, or any platform that lets you edit the head section.' },
+      ];
+    },
+    faqs: (name, _desc, slug, _enhancedDesc) => {
+      const faqs: { q: string; a: string }[] = [];
+      if (slug.includes('schema')) {
+        faqs.push({ q: `What is JSON-LD structured data?`, a: 'JSON-LD is a JavaScript notation that search engines use to understand your page content. Google uses it to display rich results — like star ratings, breadcrumbs, and FAQ accordions — in search results.' });
+      } else if (slug.includes('keyword')) {
+        faqs.push({ q: `How does ${name} extract keywords?`, a: 'The tool analyzes your text to identify frequently occurring terms and phrases. It filters out common stop words and ranks remaining terms by frequency and relevance for SEO targeting.' });
+      } else if (slug.includes('redirect')) {
+        faqs.push({ q: `What redirect types does ${name} detect?`, a: 'The tool traces 301 (permanent), 302 (temporary), 307, and 308 redirects. It displays the full redirect chain from the original URL to the final destination, including HTTP status codes at each hop.' });
+      } else if (slug.includes('serp')) {
+        faqs.push({ q: `What pixel width should my title and description be?`, a: 'Google truncates titles around 600 pixels and descriptions around 960 pixels. The tool measures your text in pixels (not characters) for accurate SERP preview, since wider characters like "W" take more space.' });
+      } else if (slug.includes('slug')) {
+        faqs.push({ q: `What makes a good URL slug?`, a: 'Keep it short (3-5 words), lowercase, hyphen-separated, and include your primary keyword. Avoid stop words, special characters, and numbers unless they are meaningful. The tool handles all of this automatically.' });
+      } else if (slug.includes('sitemap')) {
+        faqs.push({ q: `How many URLs should a sitemap contain?`, a: 'A single sitemap can contain up to 50,000 URLs and be 50MB max. For larger sites, split into multiple sitemap files and use a sitemap index file. The tool generates valid XML that search engines can parse.' });
+      } else {
+        faqs.push({ q: `Will ${name} improve my search rankings?`, a: 'Structured data and proper meta tags help search engines understand your content, which can improve how your pages appear in results. However, rankings depend primarily on content quality, backlinks, and user experience.' });
+      }
+      faqs.push({ q: `Do I need SEO tools if I use an SEO plugin?`, a: 'SEO plugins handle some of these tasks automatically, but they may not cover every schema type or meta tag. These tools let you generate specific tags and schema manually for pages where your plugin falls short.' });
+      faqs.push({ q: 'How do I test my generated schema markup?', a: 'Use Google\'s Rich Results Test (search.google.com/test/rich-results) to validate structured data before deploying. Paste the JSON-LD or provide your URL to check for errors.' });
+      faqs.push({ q: 'Can I use these tools for client websites?', a: 'Yes. The generated markup and tags are standard HTML and JSON-LD that work on any website. No attribution or license is required.' });
+      return faqs;
+    },
   },
 
   'Text Tools': {
-    whatIs: (name, desc) =>
-      `${name} ${desc.toLowerCase().replace(/\.$/, '')}. The tool processes text entirely in your browser using JavaScript string operations — no server round-trip, no data upload, and instant results.`,
-    howTo: (name, _slug) => [
-      `Paste or type your text into the ${name} input area.`,
-      'Configure any available options, such as match case, whole words, or output format.',
-      'Click the process button to transform your text.',
-      'Copy the result from the output area and paste it where you need it.',
-    ],
-    benefits: (_name, _desc) => [
-      { title: 'Instant text transformation', description: 'Text operations like case conversion, cleaning, and comparison complete in milliseconds. No waiting for server processing.' },
-      { title: 'Handles large text blocks', description: 'These tools can process documents of any length — from a single sentence to a full novel — without slowdown, since everything runs in your browser.' },
-      { title: 'Your text stays private', description: 'All text processing is client-side. Sensitive documents like legal drafts, contracts, and personal writing are never transmitted to a server.' },
-      { title: 'No character or word limits', description: 'Unlike some online text tools that impose limits on paste size, these tools handle as much text as your browser can hold in memory.' },
-    ],
-    faqs: (name, _desc, slug) => [
-      { q: `Does ${name} support non-English text?`, a: 'Yes. The tools use JavaScript\'s native Unicode string handling, which supports all languages and character sets including CJK, Arabic, and Cyrillic.' },
-      { q: 'Is there a text size limit?', a: 'There is no artificial limit. Practical limits depend on your browser\'s memory. Text up to several megabytes (roughly a million words) processes without issues on modern devices.' },
-      { q: slug.includes('compare') ? 'How does the text comparison work?' : 'Can I undo changes after processing?', a: slug.includes('compare') ? 'The comparison tool identifies differences between two text blocks, highlighting added, removed, and changed lines. It uses a line-by-line diff algorithm to show exactly what changed.' : 'The tool replaces your input with the processed output. To undo, paste your original text back into the input area. Consider copying your original text before processing if you may need it.' },
-      { q: 'Will formatting be preserved?', a: 'Text tools work with plain text. Rich formatting (bold, italics, colors) from word processors is stripped when you paste. The tools operate on the raw text content only.' },
-    ],
+    whatIs: (name, _desc, enhancedDesc) => {
+      const uc = useCasePhrase(enhancedDesc);
+      let r = `${name} ${coreAction(enhancedDesc)}. The tool processes text entirely in your browser using JavaScript string operations — no server round-trip, no data upload, and instant results.`;
+      if (uc) r += ` ${cap(uc)}.`;
+      return r;
+    },
+    howTo: (name, slug, _enhancedDesc) => {
+      const steps: string[] = [];
+      steps.push(`Paste or type your text into the ${name} input area.`);
+      if (slug.includes('case')) {
+        steps.push('Select the case conversion type (uppercase, lowercase, title case, sentence case, or camelCase).');
+        steps.push('The tool converts the text instantly — copy the result from the output area.');
+      } else if (slug.includes('word') || slug.includes('character') || slug.includes('counter') || slug.includes('line')) {
+        steps.push('The tool counts words, characters, lines, and paragraphs in real-time as you type or paste.');
+        steps.push('Review the statistics displayed below the input area.');
+      } else if (slug.includes('reverse')) {
+        steps.push('Choose to reverse by character, by word, or by line.');
+        steps.push('The tool reverses the text instantly — copy the result.');
+      } else if (slug.includes('repeat')) {
+        steps.push('Enter the number of times to repeat and choose a separator if needed.');
+        steps.push('Click Generate to produce the repeated text.');
+      } else if (slug.includes('sort')) {
+        steps.push('Choose the sort order (alphabetical, reverse alphabetical, by length, or random).');
+        steps.push('The tool sorts lines instantly — copy the result.');
+      } else if (slug.includes('clean')) {
+        steps.push('The tool strips formatting, HTML tags, special characters, and extra whitespace.');
+        steps.push('Review the cleaned text and copy it.');
+      } else if (slug.includes('compare')) {
+        steps.push('Paste the original text in the left field and the modified text in the right field.');
+        steps.push('The tool highlights added, removed, and changed lines.');
+      } else if (slug.includes('find-and-replace') || slug.includes('find')) {
+        steps.push('Enter the search text and replacement text. Enable regex if needed.');
+        steps.push('Click Replace All to transform all matches in your text.');
+      } else if (slug.includes('duplicate')) {
+        steps.push('Choose case-sensitive or case-insensitive deduplication.');
+        steps.push('The tool removes duplicate lines instantly — copy the result.');
+      } else if (slug.includes('spaces')) {
+        steps.push('The tool normalizes whitespace — removing multiple spaces, tabs, and blank lines.');
+        steps.push('Review the cleaned text and copy it.');
+      } else if (slug.includes('lorem')) {
+        steps.push('Enter the number of paragraphs, sentences, or words you need.');
+        steps.push('Click Generate to produce lorem ipsum placeholder text.');
+      } else if (slug.includes('markdown')) {
+        steps.push('Type Markdown in the editor — the preview updates in real-time.');
+        steps.push('Copy the rendered HTML or the Markdown source.');
+      } else if (slug.includes('html-to-text')) {
+        steps.push('Paste your HTML into the input area.');
+        steps.push('The tool strips all tags and displays the plain text content.');
+      } else {
+        steps.push('Configure any available options, such as match case, whole words, or output format.');
+        steps.push('Click the process button to transform your text.');
+      }
+      steps.push('Copy the result from the output area and paste it where you need it.');
+      return steps;
+    },
+    benefits: (name, _desc, enhancedDesc) => {
+      const uc = useCasePhrase(enhancedDesc);
+      return [
+        { title: 'Instant text transformation', description: `${name} completes text operations in milliseconds. No waiting for server processing — everything happens in your browser.` },
+        { title: 'Your text stays private', description: 'All text processing is client-side. Sensitive documents like legal drafts, contracts, and personal writing are never transmitted to a server.' },
+        uc
+          ? { title: cap(uc.split(',')[0].split(' — ')[0]), description: `${uc}. ${name} makes this task straightforward with a simple interface.` }
+          : { title: 'Handles large text blocks', description: 'These tools can process documents of any length — from a single sentence to a full novel — without slowdown, since everything runs in your browser.' },
+        { title: 'No character or word limits', description: 'Unlike some online text tools that impose limits on paste size, these tools handle as much text as your browser can hold in memory.' },
+      ];
+    },
+    faqs: (name, _desc, slug, _enhancedDesc) => {
+      const faqs: { q: string; a: string }[] = [];
+      if (slug.includes('case')) {
+        faqs.push({ q: `What case formats does ${name} support?`, a: 'The tool supports uppercase, lowercase, title case, sentence case, camelCase, PascalCase, snake_case, and kebab-case conversion.' });
+      } else if (slug.includes('word') || slug.includes('character') || slug.includes('counter') || slug.includes('line')) {
+        faqs.push({ q: `What does ${name} count?`, a: 'The tool counts words, characters (with and without spaces), lines, paragraphs, and estimated reading time. All counts update in real-time as you type.' });
+      } else if (slug.includes('compare')) {
+        faqs.push({ q: `How does the comparison in ${name} work?`, a: 'The tool uses a line-by-line diff algorithm to identify additions, deletions, and changes between two text blocks. Differences are highlighted so you can spot exactly what changed.' });
+      } else if (slug.includes('find-and-replace') || slug.includes('find')) {
+        faqs.push({ q: `Does ${name} support regex?`, a: 'Yes. You can enable regex mode to search with regular expressions and use capture groups in the replacement text. This allows pattern-based find and replace for complex transformations.' });
+      } else if (slug.includes('duplicate')) {
+        faqs.push({ q: `Does ${name} preserve line order?`, a: 'Yes. The tool removes duplicate lines while preserving the order of first occurrence. The first time a line appears, it stays; subsequent duplicates are removed.' });
+      } else if (slug.includes('lorem')) {
+        faqs.push({ q: `Is the lorem ipsum from ${name} standard?`, a: 'Yes. The tool generates the classic Lorem Ipsum text that has been used as printer filler since the 1500s. It is pseudo-Latin derived from Cicero\'s De Finibus Bonorum et Malorum.' });
+      } else {
+        faqs.push({ q: `Does ${name} support non-English text?`, a: 'Yes. The tools use JavaScript\'s native Unicode string handling, which supports all languages and character sets including CJK, Arabic, and Cyrillic.' });
+      }
+      faqs.push({ q: 'Is there a text size limit?', a: 'There is no artificial limit. Practical limits depend on your browser\'s memory. Text up to several megabytes (roughly a million words) processes without issues on modern devices.' });
+      if (slug.includes('compare')) {
+        faqs.push({ q: 'Can I compare more than two text blocks?', a: `${name} compares two text blocks at a time. For three-way comparisons, use a dedicated merge tool. This tool is designed for quick before-and-after comparisons.` });
+      } else {
+        faqs.push({ q: 'Can I undo changes after processing?', a: 'The tool replaces your input with the processed output. To undo, paste your original text back into the input area. Consider copying your original text before processing if you may need it.' });
+      }
+      faqs.push({ q: 'Will formatting be preserved?', a: 'Text tools work with plain text. Rich formatting (bold, italics, colors) from word processors is stripped when you paste. The tools operate on the raw text content only.' });
+      return faqs;
+    },
   },
 
   'Converters': {
-    whatIs: (name, desc) =>
-      `${name} ${desc.toLowerCase().replace(/\.$/, '')}. The tool performs unit conversions using precise conversion factors defined in JavaScript — accurate to many decimal places and updated to current international standards.`,
-    howTo: (name, _slug) => [
-      `Enter the value you want to convert into the ${name} input field.`,
-      'Select the source unit (the unit your value is currently in).',
-      'Select the target unit (the unit you want to convert to).',
-      'The converted result appears instantly. Copy it or adjust your input for a new conversion.',
-    ],
-    benefits: (_name, _desc) => [
-      { title: 'Precise conversion factors', description: 'Conversions use internationally recognized conversion factors (SI units, NIST standards) with full floating-point precision. Results are accurate to at least 10 significant figures.' },
-      { title: 'Instant, bidirectional conversion', description: 'Change either the input or the unit selection and the result updates immediately. No submit button, no page reload.' },
-      { title: 'All common units included', description: 'Each converter covers the full range of units used in everyday and professional contexts — metric and imperial, plus specialized units where relevant.' },
-      { title: 'Works offline', description: 'Once the page loads, all conversion logic runs in your browser. You can use the tool without an internet connection.' },
-    ],
-    faqs: (name, _desc, _slug) => [
-      { q: `How accurate is ${name}?`, a: 'Conversions use JavaScript floating-point arithmetic with conversion factors accurate to at least 10 significant figures. For everyday use, the precision far exceeds what is needed. For scientific applications, verify against NIST reference values if extreme precision is required.' },
-      { q: 'Are both metric and imperial units supported?', a: 'Yes. Every converter includes both metric (SI) and imperial/US customary units. You can convert in either direction — metric to imperial or imperial to metric.' },
-      { q: 'Can I convert multiple values at once?', a: 'The tool converts one value per session. For batch conversions, enter each value separately. The instant results make batch work fast.' },
-      { q: 'Does the tool remember my last conversion?', a: 'The tool resets when you reload the page. If you need to save specific conversions, note them down or bookmark the page for quick access.' },
-    ],
+    whatIs: (name, _desc, enhancedDesc) => {
+      const uc = useCasePhrase(enhancedDesc);
+      let r = `${name} ${coreAction(enhancedDesc)}. The tool performs unit conversions using precise conversion factors defined in JavaScript — accurate to many decimal places and updated to current international standards.`;
+      if (uc) r += ` ${cap(uc)}.`;
+      return r;
+    },
+    howTo: (name, _slug, _enhancedDesc) => {
+      return [
+        `Enter the value you want to convert into the ${name} input field.`,
+        'Select the source unit (the unit your value is currently in).',
+        'Select the target unit (the unit you want to convert to).',
+        'The converted result appears instantly. Copy it or adjust your input for a new conversion.',
+      ];
+    },
+    benefits: (_name, _desc, enhancedDesc) => {
+      const uc = useCasePhrase(enhancedDesc);
+      return [
+        { title: 'Precise conversion factors', description: `Conversions use internationally recognized conversion factors (SI units, NIST standards) with full floating-point precision. Results are accurate to at least 10 significant figures.` },
+        { title: 'Instant, bidirectional conversion', description: 'Change either the input or the unit selection and the result updates immediately. No submit button, no page reload.' },
+        uc
+          ? { title: cap(uc.split(',')[0].split(' — ')[0]), description: `${uc}. The tool covers the full range of units used in everyday and professional contexts.` }
+          : { title: 'All common units included', description: 'Each converter covers the full range of units used in everyday and professional contexts — metric and imperial, plus specialized units where relevant.' },
+        { title: 'Works offline', description: 'Once the page loads, all conversion logic runs in your browser. You can use the tool without an internet connection.' },
+      ];
+    },
+    faqs: (name, _desc, slug, _enhancedDesc) => {
+      const faqs: { q: string; a: string }[] = [];
+      if (slug.includes('temperature')) {
+        faqs.push({ q: `What temperature units does ${name} support?`, a: 'The tool converts between Celsius, Fahrenheit, and Kelvin. These are the three most commonly used temperature scales in science, weather, and cooking.' });
+      } else if (slug.includes('length')) {
+        faqs.push({ q: `What length units does ${name} support?`, a: 'The tool converts between millimetres, centimetres, metres, kilometres, inches, feet, yards, and miles — covering both metric and imperial systems.' });
+      } else if (slug.includes('weight')) {
+        faqs.push({ q: `What weight units does ${name} support?`, a: 'The tool converts between milligrams, grams, kilograms, tonnes, ounces, pounds, and stones — covering both metric and imperial mass units.' });
+      } else if (slug.includes('currency')) {
+        faqs.push({ q: `Does ${name} use live exchange rates?`, a: 'No. The tool lets you enter your own exchange rates for the currencies you need. This gives you control over the rates used and works offline. For live rates, check a financial service like XE or your bank.' });
+      } else if (slug.includes('data-storage')) {
+        faqs.push({ q: `What data units does ${name} support?`, a: 'The tool converts between bytes, kilobytes (KB), megabytes (MB), gigabytes (GB), terabytes (TB), and petabytes (PB) — using both binary (1024) and decimal (1000) conventions.' });
+      } else if (slug.includes('time') || slug.includes('timestamp') || slug.includes('unix')) {
+        faqs.push({ q: `What does ${name} convert?`, a: slug.includes('timestamp') || slug.includes('unix') ? 'The tool converts between Unix timestamps (seconds or milliseconds since epoch) and human-readable date/time formats. It supports both UTC and local time.' : 'The tool converts between common time units — seconds, minutes, hours, days, weeks, months, and years.' });
+      } else if (slug.includes('color') || slug.includes('hex') || slug.includes('rgb')) {
+        faqs.push({ q: `What color formats does ${name} support?`, a: 'The tool converts between HEX, RGB, HSL, and CMYK color formats. Enter a value in any format and the tool shows the equivalent in all other formats instantly.' });
+      } else {
+        faqs.push({ q: `How accurate is ${name}?`, a: 'Conversions use JavaScript floating-point arithmetic with conversion factors accurate to at least 10 significant figures. For everyday use, the precision far exceeds what is needed.' });
+      }
+      faqs.push({ q: 'Are both metric and imperial units supported?', a: 'Yes. Every converter includes both metric (SI) and imperial/US customary units. You can convert in either direction — metric to imperial or imperial to metric.' });
+      faqs.push({ q: 'Can I convert multiple values at once?', a: 'The tool converts one value per session. For batch conversions, enter each value separately. The instant results make batch work fast.' });
+      faqs.push({ q: 'Does the tool remember my last conversion?', a: 'The tool resets when you reload the page. If you need to save specific conversions, note them down or bookmark the page for quick access.' });
+      return faqs;
+    },
   },
 
   'Calculators': {
-    whatIs: (name, desc) =>
-      `${name} ${desc.toLowerCase().replace(/\.$/, '')}. The tool performs calculations using JavaScript arithmetic with standard financial and mathematical formulas, giving you instant results without needing a spreadsheet or financial calculator.`,
-    howTo: (name, _slug) => [
-      `Enter the required values into the ${name} input fields — such as principal amount, rate, period, or other parameters specific to the calculation.`,
-      'The tool computes the result automatically as you type, or click Calculate if a button is provided.',
-      'Review the result, which may include a breakdown of the calculation components.',
-      'Adjust any input to see how the result changes — useful for comparing scenarios.',
-    ],
-    benefits: (_name, _desc) => [
-      { title: 'Transparent calculation breakdown', description: 'The tool shows how the result is computed — not just a final number. This helps you understand the math and verify the calculation makes sense for your situation.' },
-      { title: 'Instant scenario comparison', description: 'Change any input and see the result update immediately. This lets you quickly compare different loan amounts, interest rates, or time periods without re-entering all values.' },
-      { title: 'Standard formulas, no black boxes', description: 'Calculations use well-established financial and mathematical formulas (compound interest, EMI, BMI, etc.) that you can verify against any textbook or financial calculator.' },
-      { title: 'No ads in the calculation area', description: 'The calculator interface is clean and focused. Results are displayed prominently without distracting ad placements in the calculation flow.' },
-    ],
-    faqs: (name, _desc, slug) => [
-      { q: `Are ${name} results accurate for financial decisions?`, a: 'The calculator uses standard financial formulas. However, real-world loans and investments may include fees, taxes, and terms not captured by a simple calculator. Use the results as estimates and verify with your financial institution for exact figures.' },
-      { q: slug.includes('bmi') || slug.includes('age') ? 'Is this medical advice?' : 'Can I use this for business calculations?', a: slug.includes('bmi') || slug.includes('age') ? 'No. BMI and health calculators provide general reference values, not medical advice. Consult a healthcare professional for personalized health assessments, especially if you have conditions that affect interpretation.' : 'Yes. The calculators use standard formulas applicable to business scenarios like loan EMI, GST, and discount calculations. For official filings, verify against your accountant\'s calculations.' },
-      { q: 'Does the tool store my calculation history?', a: 'No. Calculations are not stored. If you need to save results, take a screenshot or note them down. Your input values are not transmitted to any server.' },
-      { q: 'Can I share my calculation results?', a: 'The tool does not have a share feature. Take a screenshot of the results or copy the numbers manually to share with others.' },
-    ],
+    whatIs: (name, _desc, enhancedDesc) => {
+      const uc = useCasePhrase(enhancedDesc);
+      let r = `${name} ${coreAction(enhancedDesc)}. The tool performs calculations using JavaScript arithmetic with standard financial and mathematical formulas, giving you instant results without needing a spreadsheet or financial calculator.`;
+      if (uc) r += ` ${cap(uc)}.`;
+      return r;
+    },
+    howTo: (name, slug, _enhancedDesc) => {
+      const steps: string[] = [];
+      if (slug.includes('bmi')) {
+        steps.push(`Enter your height and weight into the ${name} input fields.`);
+        steps.push('The tool calculates your BMI instantly and displays the category (underweight, normal, overweight, or obese).');
+        steps.push('Review the BMI score and category. Adjust your inputs to see how changes affect the result.');
+      } else if (slug.includes('age')) {
+        steps.push(`Enter your birth date into the ${name} input field.`);
+        steps.push('The tool calculates your exact age in years, months, and days instantly.');
+        steps.push('Review the age breakdown and time until your next birthday.');
+      } else if (slug.includes('compound') || slug.includes('interest') || slug.includes('loan') || slug.includes('emi')) {
+        steps.push(`Enter the principal amount, interest rate, and time period into the ${name} input fields.`);
+        steps.push('The tool computes the result automatically using standard financial formulas.');
+        steps.push('Review the breakdown of principal and interest. Adjust inputs to compare different scenarios.');
+      } else if (slug.includes('percentage')) {
+        steps.push(`Enter the values for your percentage calculation into the ${name} input fields.`);
+        steps.push('The tool computes the percentage instantly as you type.');
+        steps.push('Review the result and adjust inputs for different calculations.');
+      } else if (slug.includes('discount')) {
+        steps.push(`Enter the original price and discount percentage into the ${name} input fields.`);
+        steps.push('The tool calculates the discount amount and final price instantly.');
+        steps.push('Review the savings and adjust inputs for different discount scenarios.');
+      } else if (slug.includes('gst') || slug.includes('tax')) {
+        steps.push(`Enter the amount and tax rate into the ${name} input fields.`);
+        steps.push('The tool calculates the tax amount and total instantly.');
+        steps.push('Review the breakdown and adjust inputs for different amounts.');
+      } else if (slug.includes('tip')) {
+        steps.push(`Enter the bill amount and tip percentage into the ${name} input fields.`);
+        steps.push('The tool calculates the tip and total per person instantly.');
+        steps.push('Review the breakdown and adjust the number of people if splitting the bill.');
+      } else if (slug.includes('scientific')) {
+        steps.push(`Use the ${name} keypad or keyboard to enter your calculation.`);
+        steps.push('The tool evaluates the expression using standard mathematical order of operations.');
+        steps.push('Review the result and continue with additional calculations.');
+      } else if (slug.includes('business-day')) {
+        steps.push(`Enter the start and end dates into the ${name} input fields.`);
+        steps.push('The tool calculates the number of working days, excluding weekends.');
+        steps.push('Review the business day count and adjust dates for different periods.');
+      } else {
+        steps.push(`Enter the required values into the ${name} input fields.`);
+        steps.push('The tool computes the result automatically as you type.');
+        steps.push('Review the result and adjust inputs to compare different scenarios.');
+      }
+      return steps;
+    },
+    benefits: (name, _desc, enhancedDesc) => {
+      const uc = useCasePhrase(enhancedDesc);
+      return [
+        { title: 'Transparent calculation breakdown', description: `${name} shows how the result is computed — not just a final number. This helps you understand the math and verify the calculation makes sense for your situation.` },
+        { title: 'Instant scenario comparison', description: 'Change any input and see the result update immediately. This lets you quickly compare different loan amounts, interest rates, or time periods without re-entering all values.' },
+        uc
+          ? { title: cap(uc.split(',')[0].split(' — ')[0]), description: `${uc}. ${name} uses the standard formula for this calculation, so you can verify the result against any textbook or financial calculator.` }
+          : { title: 'Standard formulas, no black boxes', description: 'Calculations use well-established financial and mathematical formulas that you can verify against any textbook or financial calculator.' },
+        { title: 'No ads in the calculation area', description: 'The calculator interface is clean and focused. Results are displayed prominently without distracting ad placements in the calculation flow.' },
+      ];
+    },
+    faqs: (name, _desc, slug, _enhancedDesc) => {
+      const faqs: { q: string; a: string }[] = [];
+      if (slug.includes('bmi')) {
+        faqs.push({ q: `Is ${name} medical advice?`, a: 'No. BMI provides a general reference value based on height and weight. It does not account for muscle mass, bone density, or body composition. Consult a healthcare professional for personalized health assessments.' });
+      } else if (slug.includes('compound') || slug.includes('interest')) {
+        faqs.push({ q: `What formula does ${name} use?`, a: 'The tool uses the compound interest formula A = P(1 + r/n)^(nt), where P is principal, r is annual rate, n is compounding frequency, and t is time in years. You can verify this against any finance textbook.' });
+      } else if (slug.includes('loan') || slug.includes('emi')) {
+        faqs.push({ q: `Is the EMI from ${name} exact?`, a: 'The tool uses the standard EMI formula: EMI = P × r × (1+r)^n / ((1+r)^n - 1), where P is principal, r is monthly rate, and n is number of months. Real-world loans may include processing fees or insurance not captured by this formula.' });
+      } else if (slug.includes('age')) {
+        faqs.push({ q: `How does ${name} handle leap years?`, a: 'The tool accounts for leap years in its date calculation. If you were born on February 29, the tool counts your birthday on March 1 in non-leap years.' });
+      } else if (slug.includes('scientific')) {
+        faqs.push({ q: `What functions does ${name} support?`, a: 'The calculator supports trigonometric functions (sin, cos, tan), logarithms (log, ln), exponentials, factorials, square roots, powers, and constants like pi and e. It follows standard mathematical order of operations.' });
+      } else if (slug.includes('percentage')) {
+        faqs.push({ q: `What can ${name} calculate?`, a: 'The tool calculates percentage of a number, percentage increase/decrease between two values, and what percentage one number is of another. All three modes update instantly as you type.' });
+      } else {
+        faqs.push({ q: `Are ${name} results accurate for financial decisions?`, a: 'The calculator uses standard financial formulas. However, real-world loans and investments may include fees, taxes, and terms not captured by a simple calculator. Use the results as estimates and verify with your financial institution for exact figures.' });
+      }
+      if (slug.includes('bmi') || slug.includes('age')) {
+        faqs.push({ q: `Is this medical advice?`, a: 'No. BMI and health calculators provide general reference values, not medical advice. Consult a healthcare professional for personalized health assessments, especially if you have conditions that affect interpretation.' });
+      } else {
+        faqs.push({ q: 'Can I use this for business calculations?', a: 'Yes. The calculators use standard formulas applicable to business scenarios like loan EMI, GST, and discount calculations. For official filings, verify against your accountant\'s calculations.' });
+      }
+      faqs.push({ q: 'Does the tool store my calculation history?', a: 'No. Calculations are not stored. If you need to save results, take a screenshot or note them down. Your input values are not transmitted to any server.' });
+      faqs.push({ q: 'Can I share my calculation results?', a: 'The tool does not have a share feature. Take a screenshot of the results or copy the numbers manually to share with others.' });
+      return faqs;
+    },
   },
 
   'Design Tools': {
-    whatIs: (name, desc) =>
-      `${name} ${desc.toLowerCase().replace(/\.$/, '')}. The tool generates CSS code or visual assets using browser-native rendering — Canvas for image generation and live DOM updates for CSS previews.`,
-    howTo: (name, _slug) => [
-      `Open ${name} and configure the available settings — such as colors, angles, dimensions, or style properties.`,
-      'Watch the live preview update as you adjust each setting, so you can see the result before generating code.',
-      'Click Copy CSS, Download, or Export to get the final output.',
-      'Paste the CSS into your stylesheet or use the downloaded asset in your project.',
-    ],
-    benefits: (_name, _desc) => [
-      { title: 'Live visual preview', description: 'See changes in real-time as you adjust settings. No need to generate, copy, and test in a separate editor — the preview shows exactly what the output will look like.' },
-      { title: 'Copy-ready CSS code', description: 'Generated CSS includes vendor prefixes where needed and is formatted for direct pasting into your stylesheet. No manual cleanup required.' },
-      { title: 'No design software required', description: 'Create gradients, shadows, buttons, and other design elements without opening Figma, Photoshop, or Sketch. The tools produce production-ready CSS in seconds.' },
-      { title: 'Free for commercial use', description: 'Generated CSS and assets are yours to use in any project, personal or commercial. No attribution required.' },
-    ],
-    faqs: (name, _desc, slug) => [
-      { q: 'Does the generated CSS work in all browsers?', a: slug.includes('glass') || slug.includes('neumorph') ? 'Modern CSS properties like backdrop-filter (glassmorphism) and box-shadow (neumorphism) are supported in all current browsers. For older browsers, provide fallbacks — the tool generates standard CSS, and you can add fallbacks as needed.' : 'The tools generate standard CSS properties supported by all modern browsers. Vendor prefixes are included where necessary for maximum compatibility.' },
-      { q: `Can I use ${name} output in my framework?`, a: 'Yes. The generated CSS works with React, Vue, Angular, Svelte, or plain HTML/CSS. Copy the CSS and paste it into your component styles, global stylesheet, or CSS-in-JS solution.' },
-      { q: 'Can I customize the generated code further?', a: 'Yes. The CSS is standard and fully editable. Use the tool as a starting point, then refine the values in your code editor for fine-tuned results.' },
-      { q: 'Is there a download option for generated assets?', a: slug.includes('svg') || slug.includes('favicon') || slug.includes('png') ? 'Yes, the tool can export generated assets as SVG, PNG, or ICO files for direct use in your projects.' : 'The tool primarily generates CSS code that you copy. For visual assets like SVGs, a download option is available where applicable.' },
-    ],
+    whatIs: (name, _desc, enhancedDesc) => {
+      const uc = useCasePhrase(enhancedDesc);
+      let r = `${name} ${coreAction(enhancedDesc)}. The tool generates CSS code or visual assets using browser-native rendering — Canvas for image generation and live DOM updates for CSS previews.`;
+      if (uc) r += ` ${cap(uc)}.`;
+      return r;
+    },
+    howTo: (name, slug, _enhancedDesc) => {
+      const steps: string[] = [];
+      steps.push(`Open ${name} and configure the available settings — such as colors, angles, dimensions, or style properties.`);
+      if (slug.includes('gradient')) {
+        steps.push('Choose gradient type (linear, radial, or conic) and set color stops with positions.');
+        steps.push('Watch the live preview update as you adjust colors and angles.');
+        steps.push('Click Copy CSS to get the gradient code for your stylesheet.');
+      } else if (slug.includes('shadow')) {
+        steps.push('Set horizontal and vertical offset, blur radius, spread, and color for the shadow.');
+        steps.push('Watch the live preview update as you adjust each value.');
+        steps.push('Click Copy CSS to get the box-shadow code.');
+      } else if (slug.includes('button')) {
+        steps.push('Customize colors, borders, padding, border radius, and hover states.');
+        steps.push('Watch the button preview update in real-time.');
+        steps.push('Click Copy CSS to get the button code.');
+      } else if (slug.includes('glassmorphism')) {
+        steps.push('Adjust blur, transparency, border, and background color for the glass effect.');
+        steps.push('Watch the live preview update as you tweak each property.');
+        steps.push('Click Copy CSS to get the glassmorphism code.');
+      } else if (slug.includes('neumorphism')) {
+        steps.push('Set the distance, intensity, and color for the soft shadow effect.');
+        steps.push('Watch the live preview update as you adjust properties.');
+        steps.push('Click Copy CSS to get the neumorphism code.');
+      } else if (slug.includes('border-radius')) {
+        steps.push('Drag the corner radius sliders or enter values for each corner independently.');
+        steps.push('Watch the shape preview update in real-time.');
+        steps.push('Click Copy CSS to get the border-radius code.');
+      } else if (slug.includes('color-palette')) {
+        steps.push('Enter a base color and choose a color scheme type (complementary, analogous, triadic, etc.).');
+        steps.push('The tool generates a harmonious palette instantly.');
+        steps.push('Copy the hex values for each color in the palette.');
+      } else if (slug.includes('svg')) {
+        steps.push(slug.includes('optimizer') ? 'Upload or paste your SVG code.' : 'Upload your SVG file and set custom dimensions and background color.');
+        steps.push(slug.includes('optimizer') ? 'The tool removes unused data, whitespace, and metadata to reduce file size.' : 'The tool converts the SVG to PNG using Canvas rendering.');
+        steps.push(slug.includes('optimizer') ? 'Copy or download the optimized SVG.' : 'Download the PNG image.');
+      } else if (slug.includes('favicon')) {
+        steps.push('Upload your source image.');
+        steps.push('The tool generates multiple favicon sizes from the single image.');
+        steps.push('Download the favicon files for your website.');
+      } else if (slug.includes('placeholder')) {
+        steps.push('Set custom dimensions, background color, and text for the placeholder image.');
+        steps.push('The tool generates the placeholder instantly using Canvas.');
+        steps.push('Download the placeholder image for your mockup or prototype.');
+      } else {
+        steps.push('Watch the live preview update as you adjust each setting.');
+        steps.push('Click Copy CSS, Download, or Export to get the final output.');
+      }
+      steps.push('Paste the CSS into your stylesheet or use the downloaded asset in your project.');
+      return steps;
+    },
+    benefits: (name, _desc, enhancedDesc) => {
+      const uc = useCasePhrase(enhancedDesc);
+      return [
+        { title: 'Live visual preview', description: `${name} shows changes in real-time as you adjust settings. No need to generate, copy, and test in a separate editor — the preview shows exactly what the output will look like.` },
+        { title: 'Copy-ready CSS code', description: 'Generated CSS includes vendor prefixes where needed and is formatted for direct pasting into your stylesheet. No manual cleanup required.' },
+        uc
+          ? { title: cap(uc.split(',')[0].split(' — ')[0]), description: `${uc}. ${name} produces this output without needing Figma, Photoshop, or Sketch.` }
+          : { title: 'No design software required', description: 'Create gradients, shadows, buttons, and other design elements without opening design software. The tools produce production-ready CSS in seconds.' },
+        { title: 'Free for commercial use', description: 'Generated CSS and assets are yours to use in any project, personal or commercial. No attribution required.' },
+      ];
+    },
+    faqs: (name, _desc, slug, _enhancedDesc) => {
+      const faqs: { q: string; a: string }[] = [];
+      if (slug.includes('gradient')) {
+        faqs.push({ q: `What gradient types does ${name} support?`, a: 'The tool supports linear, radial, and conic gradients. You can set multiple color stops with precise positions, and adjust the angle for linear gradients. The output CSS works in all modern browsers.' });
+      } else if (slug.includes('glassmorphism')) {
+        faqs.push({ q: `Does ${name} work in all browsers?`, a: 'Glassmorphism uses backdrop-filter, which is supported in all current browsers (Chrome 76+, Firefox 103+, Safari 9+). For older browsers, provide a fallback background color — the tool generates standard CSS you can extend.' });
+      } else if (slug.includes('neumorphism')) {
+        faqs.push({ q: `Does ${name} work on dark backgrounds?`, a: 'Yes. Set the background color to match your dark theme, and the tool generates matching light and dark shadows for the neumorphism effect.' });
+      } else if (slug.includes('svg') && slug.includes('optimizer')) {
+        faqs.push({ q: `How much does ${name} reduce SVG file size?`, a: 'Optimization typically reduces SVG file size by 30-60% by removing comments, metadata, unused definitions, and redundant whitespace. The visual output is unchanged.' });
+      } else if (slug.includes('favicon')) {
+        faqs.push({ q: `What favicon sizes does ${name} generate?`, a: 'The tool generates common favicon sizes: 16x16, 32x32, 48x48, 180x180 (Apple Touch Icon), and 192x192 / 512x512 (Android). Upload a high-resolution source image for best results.' });
+      } else if (slug.includes('color-palette')) {
+        faqs.push({ q: `What color schemes does ${name} generate?`, a: 'The tool supports complementary, analogous, triadic, tetradic, split-complementary, and monochromatic color schemes. Enter a base color and select the scheme type to generate a harmonious palette.' });
+      } else {
+        faqs.push({ q: `Does the generated CSS from ${name} work in all browsers?`, a: 'The tools generate standard CSS properties supported by all modern browsers. Vendor prefixes are included where necessary for maximum compatibility.' });
+      }
+      faqs.push({ q: `Can I use ${name} output in my framework?`, a: 'Yes. The generated CSS works with React, Vue, Angular, Svelte, or plain HTML/CSS. Copy the CSS and paste it into your component styles, global stylesheet, or CSS-in-JS solution.' });
+      faqs.push({ q: 'Can I customize the generated code further?', a: 'Yes. The CSS is standard and fully editable. Use the tool as a starting point, then refine the values in your code editor for fine-tuned results.' });
+      faqs.push({ q: 'Is there a download option for generated assets?', a: slug.includes('svg') || slug.includes('favicon') || slug.includes('png') || slug.includes('placeholder') ? 'Yes, the tool can export generated assets as SVG, PNG, or ICO files for direct use in your projects.' : 'The tool primarily generates CSS code that you copy. For visual assets, a download option is available where applicable.' });
+      return faqs;
+    },
   },
 
   'Office Tools': {
-    whatIs: (name, desc) =>
-      `${name} ${desc.toLowerCase().replace(/\.$/, '')}. The tool processes spreadsheet and document files in your browser using JavaScript libraries like SheetJS (for Excel/CSV) and client-side text processing — no Office installation or cloud upload required.`,
-    howTo: (name, _slug) => [
-      `Drag and drop your file into ${name}, or click to browse and select it. Supported formats include CSV, Excel (.xlsx), Word (.docx), and PowerPoint (.pptx) depending on the tool.`,
-      'The tool parses the file and displays its contents or available options.',
-      'Configure any available settings, such as output format, sheet selection, or editing options.',
-      'Click the action button to process or convert the file.',
-      'Download the result to your device.',
-    ],
-    benefits: (_name, _desc) => [
-      { title: 'No Office installation needed', description: 'View, edit, and convert Office files without having Microsoft Office installed. The tools use JavaScript libraries like SheetJS and mammoth.js to parse and generate documents in the browser.' },
-      { title: 'Files stay on your device', description: 'All file processing is client-side. Your spreadsheets, documents, and presentations are never uploaded to a server — critical for business and confidential documents.' },
-      { title: 'Cross-platform compatibility', description: 'The tools work on any device with a modern browser — Windows, Mac, Linux, Chromebook, or tablet. No software to install or update.' },
-      { title: 'Free with no file limits', description: 'Process as many files as you need at no cost. File size is limited by your browser\'s memory rather than a server-side cap.' },
-    ],
-    faqs: (name, _desc, _slug) => [
-      { q: `Does ${name} preserve formatting in converted files?`, a: 'Basic formatting (text content, cell values, table structure) is preserved during conversion. Complex formatting like conditional formatting, charts, and macros may not transfer perfectly since the tools use simplified parsers.' },
-      { q: 'What file formats are supported?', a: 'Supported formats depend on the specific tool. Common combinations include CSV to Excel, Excel to CSV, Word to PDF, and PowerPoint to PDF. Check the tool interface for the exact input and output formats.' },
-      { q: 'Is there a file size limit?', a: 'Since processing is browser-based, the practical limit is your device\'s available memory. Files up to 50MB typically process without issues. Very large spreadsheets or documents may be slow.' },
-      { q: 'Are macros and formulas preserved?', a: 'No. Macros, VBA scripts, and complex Excel formulas are not preserved during conversion. The tools extract data and basic formatting, not executable content. This is a limitation of browser-based file processing.' },
-    ],
+    whatIs: (name, _desc, enhancedDesc) => {
+      const uc = useCasePhrase(enhancedDesc);
+      let r = `${name} ${coreAction(enhancedDesc)}. The tool processes spreadsheet and document files in your browser using JavaScript libraries like SheetJS (for Excel/CSV) and client-side text processing — no Office installation or cloud upload required.`;
+      if (uc) r += ` ${cap(uc)}.`;
+      return r;
+    },
+    howTo: (name, slug, _enhancedDesc) => {
+      const steps: string[] = [];
+      steps.push(`Drag and drop your file into ${name}, or click to browse and select it.`);
+      if (slug.includes('csv') || slug.includes('excel')) {
+        if (slug.includes('merge')) {
+          steps.push('Add additional CSV files to combine.');
+          steps.push('Click Merge to join the files into a single dataset.');
+        } else if (slug.includes('split')) {
+          steps.push('Set the split criteria — by row count or column values.');
+          steps.push('Click Split to divide the CSV into multiple files.');
+        } else if (slug.includes('editor')) {
+          steps.push('The tool displays your data in a spreadsheet-like interface.');
+          steps.push('Edit cells, add or remove rows, and modify values directly.');
+        } else if (slug.includes('viewer')) {
+          steps.push('The tool displays your data in a clean, sortable table.');
+          steps.push('Click column headers to sort and filter the data.');
+        } else {
+          steps.push('Configure the output format and any conversion options.');
+          steps.push('Click Convert to transform the file using SheetJS.');
+        }
+        steps.push('Download the result to your device.');
+      } else if (slug.includes('docx') || slug.includes('word')) {
+        if (slug.includes('editor')) {
+          steps.push('The tool displays the Word document content for editing.');
+          steps.push('Make your edits directly in the editor interface.');
+          steps.push('Click Download to save the modified DOCX file.');
+        } else if (slug.includes('viewer')) {
+          steps.push('The tool displays the Word document content in a readable format.');
+          steps.push('Scroll through the document and review the content.');
+        } else if (slug.includes('to-pdf') || slug.includes('word-to-pdf')) {
+          steps.push('The tool converts the DOCX to PDF in your browser.');
+          steps.push('Download the PDF file when conversion is complete.');
+        }
+      } else if (slug.includes('pdf-to')) {
+        steps.push(`The tool extracts content from your PDF and converts it to the target format.`);
+        steps.push('Review the converted output for accuracy.');
+        steps.push('Download the converted file to your device.');
+      } else if (slug.includes('ppt') || slug.includes('powerpoint')) {
+        if (slug.includes('viewer')) {
+          steps.push('The tool displays the presentation slides in your browser.');
+          steps.push('Navigate through slides and review the content.');
+        } else {
+          steps.push('The tool converts the PPTX to PDF in your browser.');
+          steps.push('Download the PDF file when conversion is complete.');
+        }
+      } else {
+        steps.push('The tool parses your file and displays its contents or available options.');
+        steps.push('Configure any available settings, such as output format or sheet selection.');
+        steps.push('Click the action button to process or convert the file.');
+        steps.push('Download the result to your device.');
+      }
+      return steps;
+    },
+    benefits: (name, _desc, enhancedDesc) => {
+      const uc = useCasePhrase(enhancedDesc);
+      return [
+        { title: 'No Office installation needed', description: `${name} lets you view, edit, and convert Office files without having Microsoft Office installed. The tools use JavaScript libraries like SheetJS to parse and generate documents in the browser.` },
+        { title: 'Files stay on your device', description: 'All file processing is client-side. Your spreadsheets, documents, and presentations are never uploaded to a server — critical for business and confidential documents.' },
+        uc
+          ? { title: cap(uc.split(',')[0].split(' — ')[0]), description: `${uc}. ${name} handles this conversion without requiring desktop software.` }
+          : { title: 'Cross-platform compatibility', description: 'The tools work on any device with a modern browser — Windows, Mac, Linux, Chromebook, or tablet. No software to install or update.' },
+        { title: 'Free with no file limits', description: 'Process as many files as you need at no cost. File size is limited by your browser\'s memory rather than a server-side cap.' },
+      ];
+    },
+    faqs: (name, _desc, slug, _enhancedDesc) => {
+      const faqs: { q: string; a: string }[] = [];
+      if (slug.includes('csv') && slug.includes('to-json')) {
+        faqs.push({ q: `Does ${name} handle quoted fields and commas inside values?`, a: 'Yes. The tool properly parses CSV files with quoted fields, embedded commas, and various delimiters. The JSON output preserves the structure and data types from the original CSV.' });
+      } else if (slug.includes('json') && slug.includes('to-csv')) {
+        faqs.push({ q: `Does ${name} flatten nested JSON?`, a: 'Yes. The tool flattens nested JSON objects into dot-notation column headers and converts JSON arrays into spreadsheet-ready CSV rows.' });
+      } else if (slug.includes('word-to-pdf') || slug.includes('docx') && slug.includes('to-pdf')) {
+        faqs.push({ q: `Does ${name} preserve Word formatting?`, a: 'Basic formatting (text content, headings, lists, tables) is preserved in the PDF conversion. Complex formatting like custom fonts, embedded images, and advanced layouts may not transfer perfectly.' });
+      } else if (slug.includes('pdf-to-word') || slug.includes('pdf-to-excel') || slug.includes('pdf-to-powerpoint')) {
+        faqs.push({ q: `How accurate is ${name} for PDF conversion?`, a: 'The tool extracts text and layout from the PDF. For text-heavy PDFs, accuracy is high. For PDFs with complex layouts, images, or scanned content, some formatting may not transfer perfectly.' });
+      } else if (slug.includes('csv-merge')) {
+        faqs.push({ q: `Can ${name} merge CSVs with different columns?`, a: 'Yes. The tool can merge CSVs with matching or different column structures. Files with different columns are merged by combining all unique columns across all files.' });
+      } else if (slug.includes('excel') || slug.includes('xlsx')) {
+        faqs.push({ q: `Does ${name} support formulas?`, a: 'Cell values are preserved, but formula results are extracted as static values. The tools use SheetJS which reads computed values, not the formula expressions themselves.' });
+      } else {
+        faqs.push({ q: `Does ${name} preserve formatting in converted files?`, a: 'Basic formatting (text content, cell values, table structure) is preserved during conversion. Complex formatting like conditional formatting, charts, and macros may not transfer perfectly.' });
+      }
+      faqs.push({ q: 'What file formats are supported?', a: 'Supported formats depend on the specific tool. Common combinations include CSV to Excel, Excel to CSV, Word to PDF, and PowerPoint to PDF. Check the tool interface for the exact input and output formats.' });
+      faqs.push({ q: 'Is there a file size limit?', a: 'Since processing is browser-based, the practical limit is your device\'s available memory. Files up to 50MB typically process without issues. Very large spreadsheets or documents may be slow.' });
+      faqs.push({ q: 'Are macros and formulas preserved?', a: 'No. Macros, VBA scripts, and complex Excel formulas are not preserved during conversion. The tools extract data and basic formatting, not executable content. This is a limitation of browser-based file processing.' });
+      return faqs;
+    },
   },
 
   'Productivity': {
-    whatIs: (name, desc) =>
-      `${name} ${desc.toLowerCase().replace(/\.$/, '')}. The tool runs entirely in your browser with data stored locally in your browser\'s localStorage or IndexedDB — your notes, timers, and tasks sync across tabs but never leave your device.`,
-    howTo: (name, _slug) => [
-      `Open ${name} — most tools start immediately without any setup or configuration.`,
-      'Use the tool\'s interface to add notes, set timers, manage tasks, or perform calculations depending on the tool type.',
-      'Your data is automatically saved to your browser\'s local storage as you work.',
-      'When you return to the tool later (on the same browser), your previous session data is restored automatically.',
-    ],
-    benefits: (_name, _desc) => [
-      { title: 'Data persists between sessions', description: 'Notes, to-do items, and timer settings are saved to your browser\'s local storage. You can close the tab and return later to find your data intact — no account needed.' },
-      { title: 'No account or sign-up', description: 'Productivity tools that require accounts create friction. These tools work immediately with zero setup, storing everything locally.' },
-      { title: 'Distraction-free interface', description: 'The tools are designed for focus — clean interfaces with no unnecessary features. A timer is a timer, a notepad is a notepad.' },
-      { title: 'Works offline', description: 'Once loaded, productivity tools function without an internet connection. Your data stays in your browser and is accessible anywhere.' },
-    ],
-    faqs: (name, _desc, _slug) => [
-      { q: `Will ${name} sync across my devices?`, a: 'No. Data is stored in your browser\'s local storage on the specific device you are using. It does not sync to other devices or browsers. For cross-device sync, use a dedicated app with cloud storage.' },
-      { q: 'What happens if I clear my browser data?', a: 'Clearing your browser\'s cache, cookies, or site data will erase your saved notes, tasks, and timer settings. Export important data before clearing browser data.' },
-      { q: 'Is my data sent to a server?', a: 'No. All productivity tool data is stored locally in your browser. Nothing is transmitted to or stored on any server.' },
-      { q: 'Can I export my data?', a: 'Some tools support export (e.g., notes can be downloaded as text files). For tools without explicit export, you can copy and paste your data to save it externally.' },
-    ],
+    whatIs: (name, _desc, enhancedDesc) => {
+      const uc = useCasePhrase(enhancedDesc);
+      let r = `${name} ${coreAction(enhancedDesc)}. The tool runs entirely in your browser with data stored locally in your browser\'s localStorage or IndexedDB — your notes, timers, and tasks persist between sessions but never leave your device.`;
+      if (uc) r += ` ${cap(uc)}.`;
+      return r;
+    },
+    howTo: (name, slug, _enhancedDesc) => {
+      const steps: string[] = [];
+      if (slug.includes('notes')) {
+        steps.push(`Open ${name} and start typing — the tool loads immediately with no setup.`);
+        steps.push('Your notes are saved automatically to your browser\'s local storage as you type.');
+        steps.push('When you return to the tool on the same browser, your notes are restored automatically.');
+      } else if (slug.includes('to-do') || slug.includes('todo')) {
+        steps.push(`Open ${name} and add tasks by typing and pressing Enter.`);
+        steps.push('Mark tasks as complete, delete tasks, or reorder them as needed.');
+        steps.push('Your task list persists automatically — it is restored when you return.');
+      } else if (slug.includes('pomodoro')) {
+        steps.push(`Open ${name} and set your work and break durations if you want custom intervals.`);
+        steps.push('Click Start to begin a focus session. The timer counts down your work period.');
+        steps.push('When the work session ends, the timer switches to your break period automatically.');
+      } else if (slug.includes('countdown')) {
+        steps.push(`Set your target date and time in ${name}.`);
+        steps.push('The tool displays the days, hours, minutes, and seconds remaining until your target.');
+        steps.push('The countdown updates in real-time and persists when you return.');
+      } else if (slug.includes('stopwatch')) {
+        steps.push(`Click Start in ${name} to begin timing.`);
+        steps.push('Click Lap to record split times, and Stop to pause.');
+        steps.push('Click Reset to clear all laps and start over.');
+      } else if (slug.includes('calendar')) {
+        steps.push(`Open ${name} to view the current month.`);
+        steps.push('Navigate to previous or next months using the navigation controls.');
+        steps.push('Click on any date to see details or plan ahead.');
+      } else if (slug.includes('meeting')) {
+        steps.push(`Add the cities or timezones for your meeting participants in ${name}.`);
+        steps.push('The tool displays each participant\'s local time side by side.');
+        steps.push('Find a time that works for everyone and note it down.');
+      } else if (slug.includes('timezone')) {
+        steps.push(`Enter the time and select the source timezone in ${name}.`);
+        steps.push('Select the target timezone to convert to.');
+        steps.push('The converted time appears instantly. Compare multiple timezones side by side.');
+      } else {
+        steps.push(`Open ${name} — the tool starts immediately without any setup or configuration.`);
+        steps.push('Use the tool\'s interface to perform the operation.');
+        steps.push('Your data is automatically saved to your browser\'s local storage as you work.');
+      }
+      return steps;
+    },
+    benefits: (name, _desc, enhancedDesc) => {
+      const uc = useCasePhrase(enhancedDesc);
+      return [
+        { title: 'Data persists between sessions', description: `${name} saves your data to your browser\'s local storage. You can close the tab and return later to find your data intact — no account needed.` },
+        { title: 'No account or sign-up', description: 'Productivity tools that require accounts create friction. These tools work immediately with zero setup, storing everything locally.' },
+        uc
+          ? { title: cap(uc.split(',')[0].split(' — ')[0]), description: `${uc}. ${name} provides this capability without any software installation.` }
+          : { title: 'Distraction-free interface', description: 'The tools are designed for focus — clean interfaces with no unnecessary features. A timer is a timer, a notepad is a notepad.' },
+        { title: 'Works offline', description: 'Once loaded, productivity tools function without an internet connection. Your data stays in your browser and is accessible anywhere on the same device.' },
+      ];
+    },
+    faqs: (name, _desc, slug, _enhancedDesc) => {
+      const faqs: { q: string; a: string }[] = [];
+      if (slug.includes('notes')) {
+        faqs.push({ q: `How much text can ${name} store?`, a: 'Notes are stored in your browser\'s localStorage, which typically allows 5-10MB per domain. This is enough for thousands of notes. If you hit the limit, export older notes to free space.' });
+      } else if (slug.includes('pomodoro')) {
+        faqs.push({ q: `Can I customize the work and break durations in ${name}?`, a: 'Yes. You can set custom work and break intervals. The default is 25 minutes of work followed by a 5-minute break, but you can adjust both to match your workflow.' });
+      } else if (slug.includes('timezone') || slug.includes('meeting')) {
+        faqs.push({ q: `Does ${name} account for daylight saving time?`, a: 'Yes. The tool uses the browser\'s Intl API, which automatically handles DST transitions for all timezones. Times adjust correctly when DST starts or ends.' });
+      } else if (slug.includes('countdown')) {
+        faqs.push({ q: `Does ${name} send notifications when the countdown ends?`, a: 'The tool displays a visual alert when the countdown reaches zero. For audio notifications, keep the tab open. The tool does not send push notifications to your device.' });
+      } else if (slug.includes('stopwatch')) {
+        faqs.push({ q: `How precise is ${name}?`, a: 'The stopwatch uses the browser\'s high-resolution timer, accurate to milliseconds. Lap times are recorded with the same precision.' });
+      } else {
+        faqs.push({ q: `Will ${name} sync across my devices?`, a: 'No. Data is stored in your browser\'s local storage on the specific device you are using. It does not sync to other devices or browsers. For cross-device sync, use a dedicated app with cloud storage.' });
+      }
+      faqs.push({ q: 'What happens if I clear my browser data?', a: 'Clearing your browser\'s cache, cookies, or site data will erase your saved notes, tasks, and timer settings. Export important data before clearing browser data.' });
+      faqs.push({ q: 'Is my data sent to a server?', a: 'No. All productivity tool data is stored locally in your browser. Nothing is transmitted to or stored on any server.' });
+      faqs.push({ q: 'Can I export my data?', a: 'Some tools support export (e.g., notes can be downloaded as text files). For tools without explicit export, you can copy and paste your data to save it externally.' });
+      return faqs;
+    },
   },
 
   'Security Tools': {
-    whatIs: (name, desc) =>
-      `${name} ${desc.toLowerCase().replace(/\.$/, '')}. The tool uses the Web Crypto API (crypto.getRandomValues) or standard cryptographic algorithms implemented in JavaScript to generate or hash data securely in your browser.`,
-    howTo: (name, _slug) => [
-      `Open ${name} and configure any available settings — such as hash type, output format, or number of values to generate.`,
-      'Enter input text or click generate, depending on the tool type.',
-      'The tool processes the input using the appropriate cryptographic function.',
-      'Copy the generated hash, password, UUID, or encoded value from the output area.',
-    ],
-    benefits: (_name, _desc) => [
-      { title: 'Cryptographically secure generation', description: 'Tools that generate random values use crypto.getRandomValues, the same cryptographically secure random number generator used by HTTPS connections — not Math.random, which is predictable and unsafe for security purposes.' },
-      { title: 'Hashes computed locally', description: 'Hash functions (SHA-256, SHA-1, MD5, bcrypt) are computed in your browser. Your input text is never transmitted to a server — important for hashing passwords and sensitive data.' },
-      { title: 'No API keys or configuration', description: 'Security tools work immediately without installing OpenSSL, configuring GPG, or writing scripts. Useful for developers and non-technical users alike.' },
-      { title: 'Supports common hash algorithms', description: 'MD5, SHA-1, SHA-256, and bcrypt are all available. Use the appropriate tool for your specific security requirement.' },
-    ],
-    faqs: (name, _desc, slug) => [
-      { q: slug.includes('bcrypt') || slug.includes('hash') ? 'Is it safe to hash passwords in the browser?' : `Is ${name} truly random?`, a: slug.includes('bcrypt') || slug.includes('hash') ? 'Yes. The hash is computed using JavaScript implementations of the respective algorithm (bcrypt, SHA-256, etc.) running in your browser. The input never leaves your device, so it is as safe as hashing on a server — and more private.' : 'Yes. Tools that generate random values use window.crypto.getRandomValues(), which provides cryptographically secure random numbers. This is the same API used for generating TLS keys and is far more secure than Math.random().' },
-      { q: 'Which hash algorithm should I use?', a: slug.includes('bcrypt') ? 'Bcrypt is designed specifically for password hashing — it includes a salt and is intentionally slow to resist brute-force attacks. For checksums and data integrity, use SHA-256. Avoid MD5 and SHA-1 for security-critical applications.' : 'For password storage: bcrypt. For data integrity and checksums: SHA-256. MD5 and SHA-1 are deprecated for security use but remain useful for non-security checksums.' },
-      { q: 'Are these tools suitable for production security?', a: 'The tools use correct implementations of standard algorithms. For production systems, use server-side cryptography libraries and follow OWASP guidelines. These browser tools are ideal for quick verification, testing, and one-off tasks.' },
-      { q: 'Is my input stored or logged?', a: 'No. All processing is client-side. Your input text, passwords, and generated values are never transmitted to or stored on any server.' },
-    ],
+    whatIs: (name, _desc, enhancedDesc) => {
+      const uc = useCasePhrase(enhancedDesc);
+      let r = `${name} ${coreAction(enhancedDesc)}. The tool uses the Web Crypto API (crypto.getRandomValues) or standard cryptographic algorithms implemented in JavaScript to generate or hash data securely in your browser.`;
+      if (uc) r += ` ${cap(uc)}.`;
+      return r;
+    },
+    howTo: (name, slug, _enhancedDesc) => {
+      const steps: string[] = [];
+      if (slug.includes('password-generator') || (slug.includes('password') && !slug.includes('decrypt') && !slug.includes('encrypt'))) {
+        steps.push(`Open ${name} and set your password requirements — length, character types (uppercase, lowercase, numbers, symbols).`);
+        steps.push('Click Generate to create a secure password using crypto.getRandomValues.');
+        steps.push('Copy the generated password and use it for your account or application.');
+      } else if (slug.includes('password-strength')) {
+        steps.push(`Enter a password into ${name} to test its strength.`);
+        steps.push('The tool analyzes length, character variety, and common patterns in real-time.');
+        steps.push('Review the strength score and recommendations for improvement.');
+      } else if (slug.includes('uuid')) {
+        steps.push(`Set the number of UUIDs you want to generate (up to 1000) in ${name}.`);
+        steps.push('Click Generate to create UUID v4 identifiers using crypto.getRandomValues.');
+        steps.push('Copy the generated UUIDs for use in your database or application.');
+      } else if (slug.includes('username')) {
+        steps.push(`Configure username length and style options in ${name}.`);
+        steps.push('Click Generate to create random usernames.');
+        steps.push('Copy the generated username for your account or profile.');
+      } else if (slug.includes('bcrypt')) {
+        steps.push(`Enter the password you want to hash and set the number of bcrypt rounds (4-12) in ${name}.`);
+        steps.push('Click Generate to compute the bcrypt hash.');
+        steps.push('Copy the hash for storage in your database or authentication system.');
+      } else if (slug.includes('sha') || slug.includes('md5')) {
+        steps.push(`Enter the text you want to hash into ${name}.`);
+        steps.push('The tool computes the hash instantly using the selected algorithm.');
+        steps.push('Copy the hash value for data verification or integrity checking.');
+      } else if (slug.includes('hash-compare')) {
+        steps.push(`Enter two hash values into ${name}.`);
+        steps.push('The tool compares them instantly and shows whether they match.');
+        steps.push('Use this to verify file integrity or detect changes.');
+      } else if (slug.includes('encrypt') || slug.includes('decrypt')) {
+        steps.push(slug.includes('encrypt') ? `Enter the text you want to encrypt and set a password in ${name}.` : `Enter the encrypted text and the password in ${name}.`);
+        steps.push(slug.includes('encrypt') ? 'Click Encrypt to produce AES-GCM 256-bit encrypted output.' : 'Click Decrypt to recover the original text.');
+        steps.push('Copy the result for secure sharing or storage.');
+      } else if (slug.includes('otp')) {
+        steps.push(`Enter the shared secret key in ${name}.`);
+        steps.push('The tool generates TOTP or HOTP one-time passwords using the standard algorithm.');
+        steps.push('Copy the OTP code for 2FA testing or verification.');
+      } else if (slug.includes('random-number') || slug.includes('random-pin')) {
+        steps.push(`Set the range and count for ${name}.`);
+        steps.push('Click Generate to produce random numbers or PINs using crypto.getRandomValues.');
+        steps.push('Copy the generated values.');
+      } else {
+        steps.push(`Open ${name} and configure any available settings — such as hash type, output format, or number of values.`);
+        steps.push('Enter input text or click generate.');
+        steps.push('Copy the generated value from the output area.');
+      }
+      return steps;
+    },
+    benefits: (name, _desc, enhancedDesc) => {
+      const uc = useCasePhrase(enhancedDesc);
+      return [
+        { title: 'Cryptographically secure generation', description: `${name} uses crypto.getRandomValues for random value generation — the same cryptographically secure random number generator used by HTTPS connections, not Math.random which is predictable.` },
+        { title: 'Hashes computed locally', description: 'All hash functions and cryptographic operations run in your browser. Your input text, passwords, and generated values are never transmitted to a server.' },
+        uc
+          ? { title: cap(uc.split(',')[0].split(' — ')[0]), description: `${uc}. ${name} provides this without installing OpenSSL or writing scripts.` }
+          : { title: 'No API keys or configuration', description: 'Security tools work immediately without installing OpenSSL, configuring GPG, or writing scripts. Useful for developers and non-technical users alike.' },
+        { title: 'Supports common algorithms', description: 'MD5, SHA-1, SHA-256, bcrypt, and AES-GCM are all available. Use the appropriate tool for your specific security requirement.' },
+      ];
+    },
+    faqs: (name, _desc, slug, _enhancedDesc) => {
+      const faqs: { q: string; a: string }[] = [];
+      if (slug.includes('password-generator') || (slug.includes('password') && !slug.includes('decrypt') && !slug.includes('encrypt') && !slug.includes('strength'))) {
+        faqs.push({ q: `Is the password from ${name} truly random?`, a: 'Yes. The tool uses window.crypto.getRandomValues(), which provides cryptographically secure random numbers. This is the same API used for generating TLS keys and is far more secure than Math.random().' });
+      } else if (slug.includes('bcrypt')) {
+        faqs.push({ q: `Is it safe to hash passwords in the browser with ${name}?`, a: 'Yes. The hash is computed using a JavaScript implementation of bcrypt running in your browser. The input never leaves your device, so it is as safe as hashing on a server — and more private.' });
+      } else if (slug.includes('uuid')) {
+        faqs.push({ q: `What UUID version does ${name} generate?`, a: 'The tool generates UUID v4 (random) identifiers, as specified in RFC 4122. These are suitable for database primary keys, session IDs, and distributed system identifiers.' });
+      } else if (slug.includes('encrypt')) {
+        faqs.push({ q: `What encryption does ${name} use?`, a: 'The tool uses AES-GCM 256-bit encryption via the Web Crypto API. This is the same encryption standard used by banks and government agencies. The password you set is used to derive the encryption key.' });
+      } else if (slug.includes('otp')) {
+        faqs.push({ q: `What OTP algorithms does ${name} support?`, a: 'The tool supports both TOTP (time-based, RFC 6238) and HOTP (counter-based, RFC 4226) algorithms. These are the same algorithms used by Google Authenticator and other 2FA apps.' });
+      } else if (slug.includes('sha') || slug.includes('md5')) {
+        faqs.push({ q: `Which hash algorithm should I use?`, a: slug.includes('sha256') ? 'SHA-256 is suitable for data integrity, checksums, and digital signatures. It is part of the SHA-2 family and is considered secure for all current applications.' : slug.includes('sha1') ? 'SHA-1 is deprecated for security-critical applications but remains useful for non-security checksums like Git commit hashes. Use SHA-256 for security purposes.' : 'MD5 is deprecated for security use due to known collision vulnerabilities. Use it only for non-security checksums. For security, use SHA-256 or bcrypt.' });
+      } else {
+        faqs.push({ q: `Is ${name} truly random?`, a: 'Yes. Tools that generate random values use window.crypto.getRandomValues(), which provides cryptographically secure random numbers. This is far more secure than Math.random().' });
+      }
+      if (slug.includes('bcrypt') || slug.includes('hash')) {
+        faqs.push({ q: 'Which hash algorithm should I use for passwords?', a: 'Bcrypt is designed specifically for password hashing — it includes a salt and is intentionally slow to resist brute-force attacks. For checksums and data integrity, use SHA-256. Avoid MD5 and SHA-1 for security-critical applications.' });
+      } else {
+        faqs.push({ q: 'Are these tools suitable for production security?', a: 'The tools use correct implementations of standard algorithms. For production systems, use server-side cryptography libraries and follow OWASP guidelines. These browser tools are ideal for quick verification, testing, and one-off tasks.' });
+      }
+      faqs.push({ q: 'Is my input stored or logged?', a: 'No. All processing is client-side. Your input text, passwords, and generated values are never transmitted to or stored on any server.' });
+      faqs.push({ q: `Can I use ${name} for commercial applications?`, a: 'Yes. The generated values are yours to use in any application. No attribution or license is required.' });
+      return faqs;
+    },
   },
 
   'Web Utilities': {
-    whatIs: (name, desc) =>
-      `${name} ${desc.toLowerCase().replace(/\.$/, '')}. The tool retrieves or displays technical information about web resources, network configurations, or browser capabilities using standard browser APIs and DNS lookups.`,
-    howTo: (name, _slug) => [
-      `Enter the URL, domain, or IP address into the ${name} input field, or simply open the tool to see your own information.`,
-      'Click the action button to perform the lookup, check, or analysis.',
-      'Review the results, which may include DNS records, SSL certificate details, HTTP headers, or browser information.',
-      'Copy any values you need for troubleshooting or configuration.',
-    ],
-    benefits: (_name, _desc) => [
-      { title: 'Quick network diagnostics', description: 'DNS lookups, SSL checks, and IP information are essential for troubleshooting web issues. These tools provide instant results without installing dig, openssl, or network utilities.' },
-      { title: 'Browser capability detection', description: 'Some tools display your browser\'s capabilities, user agent, and cookies — useful for debugging cross-browser issues and verifying what data websites can see about you.' },
-      { title: 'No command-line tools needed', description: 'Network and web diagnostics typically require CLI tools like dig, curl, or openssl. These browser-based tools provide equivalent information with a clean interface.' },
-      { title: 'Useful for developers and non-technical users', description: 'The tools present technical information in a readable format, making web diagnostics accessible without networking expertise.' },
-    ],
-    faqs: (name, _desc, slug) => [
-      { q: slug.includes('dns') ? 'What DNS record types are supported?' : `Does ${name} store the URLs I check?`, a: slug.includes('dns') ? 'The tool queries common DNS record types: A (IPv4 address), AAAA (IPv6 address), MX (mail exchange), CNAME (canonical name), TXT (text records), and NS (name servers). Results are fetched via DNS-over-HTTPS.' : 'No. The tool performs lookups or checks in real-time and does not store or log the URLs, domains, or IP addresses you enter.' },
-      { q: 'Can I use these tools for security auditing?', a: 'These tools provide informational results — DNS records, SSL certificate details, and HTTP headers. They are useful for basic security checks but are not a substitute for professional security scanning tools.' },
-      { q: 'Why might an SSL check show different results than my browser?', a: 'The tool checks the SSL certificate chain independently. Your browser may have cached results or use a different trust store. If results differ, clear your browser cache and recheck.' },
-      { q: 'Are the lookups done from my location?', a: 'DNS and IP lookups are performed from the tool\'s server or via DNS-over-HTTPS resolvers, not from your device. Results may differ from your local DNS resolver depending on geographic routing and CDN configurations.' },
-    ],
+    whatIs: (name, _desc, enhancedDesc) => {
+      const uc = useCasePhrase(enhancedDesc);
+      let r = `${name} ${coreAction(enhancedDesc)}. The tool retrieves or displays technical information about web resources, network configurations, or browser capabilities using standard browser APIs and DNS lookups.`;
+      if (uc) r += ` ${cap(uc)}.`;
+      return r;
+    },
+    howTo: (name, slug, _enhancedDesc) => {
+      const steps: string[] = [];
+      if (slug.includes('dns')) {
+        steps.push(`Enter the domain name you want to look up in ${name}.`);
+        steps.push('Click Look Up to query DNS records via DNS-over-HTTPS.');
+        steps.push('Review the A, AAAA, MX, CNAME, TXT, and NS records returned.');
+      } else if (slug.includes('ssl')) {
+        steps.push(`Enter the website URL you want to check in ${name}.`);
+        steps.push('Click Check to retrieve the SSL certificate details.');
+        steps.push('Review the issuer, validity period, expiration date, and certificate chain.');
+      } else if (slug.includes('redirect')) {
+        steps.push(`Enter the URL you want to trace in ${name}.`);
+        steps.push('Click Check to follow the redirect chain.');
+        steps.push('Review each hop with its HTTP status code (301, 302, 307, etc.).');
+      } else if (slug.includes('user-agent')) {
+        steps.push(`Paste a user agent string into ${name}, or view your own automatically.`);
+        steps.push('The tool parses the string and extracts browser, OS, and device info.');
+        steps.push('Review the parsed components in the results panel.');
+      } else if (slug.includes('browser-info')) {
+        steps.push(`Open ${name} to view your browser information automatically.`);
+        steps.push('Review the browser name, version, operating system, screen resolution, and capabilities.');
+        steps.push('Copy any values you need for troubleshooting or support.');
+      } else if (slug.includes('ip-address')) {
+        steps.push(`Open ${name} to view your IP address and network details.`);
+        steps.push('Review your public IP, location, and connection type.');
+        steps.push('Copy the IP address if needed for configuration or support.');
+      } else if (slug.includes('http-header')) {
+        steps.push(`Enter the URL you want to inspect in ${name}.`);
+        steps.push('Click View to fetch the HTTP response headers.');
+        steps.push('Review content type, cache settings, security headers, and other metadata.');
+      } else if (slug.includes('cookie')) {
+        steps.push(`Open ${name} to view cookies stored by your browser.`);
+        steps.push('Review cookie names, values, domains, and expiration dates.');
+        steps.push('Use the information for debugging or privacy auditing.');
+      } else if (slug.includes('website-screenshot')) {
+        steps.push(`Enter the website URL and set the viewport size in ${name}.`);
+        steps.push('Choose full-page or viewport-only capture.');
+        steps.push('Click Capture to take the screenshot and download it.');
+      } else if (slug.includes('url-preview') || slug.includes('open-graph-preview')) {
+        steps.push(`Enter the URL you want to preview in ${name}.`);
+        steps.push('The tool fetches and displays the page\'s meta tags, Open Graph tags, and Twitter Card tags.');
+        steps.push('Review how the link will appear when shared on social media.');
+      } else {
+        steps.push(`Enter the URL, domain, or IP address into the ${name} input field.`);
+        steps.push('Click the action button to perform the lookup, check, or analysis.');
+        steps.push('Review the results and copy any values you need.');
+      }
+      return steps;
+    },
+    benefits: (name, _desc, enhancedDesc) => {
+      const uc = useCasePhrase(enhancedDesc);
+      return [
+        { title: 'Quick network diagnostics', description: `${name} provides instant results without installing dig, openssl, or network utilities. DNS lookups, SSL checks, and IP information are essential for troubleshooting web issues.` },
+        { title: 'No command-line tools needed', description: 'Network and web diagnostics typically require CLI tools like dig, curl, or openssl. These browser-based tools provide equivalent information with a clean interface.' },
+        uc
+          ? { title: cap(uc.split(',')[0].split(' — ')[0]), description: `${uc}. ${name} presents this information in a readable format without requiring networking expertise.` }
+          : { title: 'Browser capability detection', description: 'Some tools display your browser\'s capabilities, user agent, and cookies — useful for debugging cross-browser issues and verifying what data websites can see about you.' },
+        { title: 'Useful for developers and non-technical users', description: 'The tools present technical information in a readable format, making web diagnostics accessible without networking expertise.' },
+      ];
+    },
+    faqs: (name, _desc, slug, _enhancedDesc) => {
+      const faqs: { q: string; a: string }[] = [];
+      if (slug.includes('dns')) {
+        faqs.push({ q: `What DNS record types does ${name} support?`, a: 'The tool queries A (IPv4 address), AAAA (IPv6 address), MX (mail exchange), CNAME (canonical name), TXT (text records), and NS (name servers). Results are fetched via DNS-over-HTTPS.' });
+      } else if (slug.includes('ssl')) {
+        faqs.push({ q: `Why might ${name} show different results than my browser?`, a: 'The tool checks the SSL certificate chain independently. Your browser may have cached results or use a different trust store. If results differ, clear your browser cache and recheck.' });
+      } else if (slug.includes('user-agent')) {
+        faqs.push({ q: `What information does ${name} extract?`, a: 'The tool parses the user agent string to extract browser name and version, operating system, device type (mobile/desktop), and rendering engine. User agent strings can be spoofed, so treat the results as hints, not facts.' });
+      } else if (slug.includes('website-screenshot')) {
+        faqs.push({ q: `Can ${name} capture pages that require login?`, a: 'No. The tool captures publicly accessible pages only. Password-protected pages or pages behind authentication cannot be captured since the tool does not have your login session.' });
+      } else if (slug.includes('cookie')) {
+        faqs.push({ q: `Can ${name} view cookies from other websites?`, a: 'No. Browsers restrict cookie access to the same origin. The tool can only view cookies set by the current domain, not cookies from other sites you have visited.' });
+      } else {
+        faqs.push({ q: `Does ${name} store the URLs I check?`, a: 'No. The tool performs lookups or checks in real-time and does not store or log the URLs, domains, or IP addresses you enter.' });
+      }
+      faqs.push({ q: 'Can I use these tools for security auditing?', a: 'These tools provide informational results — DNS records, SSL certificate details, and HTTP headers. They are useful for basic security checks but are not a substitute for professional security scanning tools.' });
+      if (slug.includes('ssl')) {
+        faqs.push({ q: 'Why might an SSL check show different results than my browser?', a: 'The tool checks the SSL certificate chain independently. Your browser may have cached results or use a different trust store. If results differ, clear your browser cache and recheck.' });
+      } else {
+        faqs.push({ q: 'Are the lookups done from my location?', a: 'DNS and IP lookups are performed from the tool\'s server or via DNS-over-HTTPS resolvers, not from your device. Results may differ from your local DNS resolver depending on geographic routing and CDN configurations.' });
+      }
+      faqs.push({ q: `Is ${name} free to use?`, a: 'Yes. The tool is completely free with no registration, no API limits, and no usage caps.' });
+      return faqs;
+    },
   },
 
   'QR & Barcode Tools': {
-    whatIs: (name, desc) =>
-      `${name} ${desc.toLowerCase().replace(/\.$/, '')}. The tool generates or scans QR codes and barcodes using JavaScript libraries (qrcode for generation, jsQR for scanning) — all processing happens in your browser with no server round-trip.`,
-    howTo: (name, _slug) => [
-      `Open ${name} and enter the data you want to encode — URL, text, phone number, or other content supported by the tool.`,
-      'Configure any available options, such as size, error correction level, colors, or barcode format.',
-      'Click Generate to create the QR code or barcode, or upload an image to scan.',
-      'Download the generated code as an image file (PNG, SVG, or JPG) or view the decoded content from a scan.',
-    ],
-    benefits: (_name, _desc) => [
-      { title: 'No server-side generation', description: 'QR codes and barcodes are generated entirely in your browser using the qrcode JavaScript library. Your data is never sent to a server — important for QR codes containing sensitive URLs or contact information.' },
-      { title: 'High-resolution SVG output', description: 'Download QR codes as SVG for print-quality output at any size. SVG QR codes stay sharp when scaled, unlike PNG which becomes pixelated when enlarged.' },
-      { title: 'Error correction support', description: 'QR codes support error correction levels (L, M, Q, H) that allow the code to be read even if partially damaged or obscured by a logo. Higher levels provide more resilience.' },
-      { title: 'No watermark or sign-up', description: 'Generated codes are clean and free of watermarks. Use them for business cards, product labels, marketing materials, or any purpose without attribution.' },
-    ],
-    faqs: (name, _desc, _slug) => [
-      { q: 'What is QR code error correction?', a: 'Error correction allows a QR code to be scanned correctly even if part of it is damaged or covered. There are four levels: L (7% recovery), M (15%), Q (25%), and H (30%). Higher levels make denser codes but are more resilient. Use H if you plan to overlay a logo.' },
-      { q: `Can ${name} generate codes for WiFi passwords?`, a: 'The QR Code Generator supports WiFi network QR codes that let guests connect by scanning. Enter the SSID, password, and encryption type, and the generated code connects scanners automatically.' },
-      { q: 'What is the minimum size for a printable QR code?', a: 'For reliable scanning, print QR codes at least 2x2 cm (0.8x0.8 inches). Larger codes scan more easily, especially from a distance. Always test with multiple devices before printing at scale.' },
-      { q: 'Can I scan QR codes from an image file?', a: 'Yes. The QR Scanner tool accepts image uploads and decodes QR codes from image files using the jsQR library. This is useful for scanning codes from screenshots or photos without a camera.' },
-    ],
+    whatIs: (name, _desc, enhancedDesc) => {
+      const uc = useCasePhrase(enhancedDesc);
+      let r = `${name} ${coreAction(enhancedDesc)}. The tool generates or scans QR codes and barcodes using JavaScript libraries (qrcode for generation, jsQR for scanning) — all processing happens in your browser with no server round-trip.`;
+      if (uc) r += ` ${cap(uc)}.`;
+      return r;
+    },
+    howTo: (name, slug, _enhancedDesc) => {
+      const steps: string[] = [];
+      if (slug.includes('scanner')) {
+        steps.push(`Open ${name} and allow camera access when prompted.`);
+        steps.push('Point your camera at a QR code, or upload an image containing a QR code.');
+        steps.push('The tool decodes the QR code using the jsQR library and displays the content.');
+      } else if (slug.includes('label')) {
+        steps.push(`Enter the data for each QR code and configure label sheet settings in ${name}.`);
+        steps.push('Set the label size, number per sheet, and QR code options.');
+        steps.push('Click Generate to create a printable sheet of QR code labels.');
+      } else {
+        steps.push(`Open ${name} and enter the data you want to encode — URL, text, phone number, WiFi, or other content.`);
+        steps.push('Configure available options, such as size, error correction level, colors, or barcode format.');
+        steps.push('Click Generate to create the QR code or barcode using the qrcode library.');
+        steps.push('Download the generated code as an image file (PNG, SVG, or JPG).');
+      }
+      return steps;
+    },
+    benefits: (name, _desc, enhancedDesc) => {
+      const uc = useCasePhrase(enhancedDesc);
+      return [
+        { title: 'No server-side generation', description: `${name} generates QR codes and barcodes entirely in your browser using the qrcode JavaScript library. Your data is never sent to a server — important for QR codes containing sensitive URLs or contact information.` },
+        { title: 'High-resolution SVG output', description: 'Download QR codes as SVG for print-quality output at any size. SVG QR codes stay sharp when scaled, unlike PNG which becomes pixelated when enlarged.' },
+        uc
+          ? { title: cap(uc.split(',')[0].split(' — ')[0]), description: `${uc}. ${name} handles this without requiring dedicated labeling software.` }
+          : { title: 'Error correction support', description: 'QR codes support error correction levels (L, M, Q, H) that allow the code to be read even if partially damaged or obscured by a logo. Higher levels provide more resilience.' },
+        { title: 'No watermark or sign-up', description: 'Generated codes are clean and free of watermarks. Use them for business cards, product labels, marketing materials, or any purpose without attribution.' },
+      ];
+    },
+    faqs: (name, _desc, slug, _enhancedDesc) => {
+      const faqs: { q: string; a: string }[] = [];
+      if (slug.includes('scanner')) {
+        faqs.push({ q: `Can ${name} scan QR codes from an image file?`, a: 'Yes. The scanner accepts image uploads and decodes QR codes from image files using the jsQR library. This is useful for scanning codes from screenshots or photos without a camera.' });
+      } else if (slug.includes('label')) {
+        faqs.push({ q: `What label sizes does ${name} support?`, a: 'The tool supports common label sheet formats including Avery sizes. You can also set custom label dimensions and the number of labels per sheet.' });
+      } else {
+        faqs.push({ q: `Can ${name} generate codes for WiFi passwords?`, a: 'Yes. The QR Code Generator supports WiFi network QR codes that let guests connect by scanning. Enter the SSID, password, and encryption type, and the generated code connects scanners automatically.' });
+      }
+      faqs.push({ q: 'What is QR code error correction?', a: 'Error correction allows a QR code to be scanned correctly even if part of it is damaged or covered. There are four levels: L (7% recovery), M (15%), Q (25%), and H (30%). Higher levels make denser codes but are more resilient. Use H if you plan to overlay a logo.' });
+      faqs.push({ q: 'What is the minimum size for a printable QR code?', a: 'For reliable scanning, print QR codes at least 2x2 cm (0.8x0.8 inches). Larger codes scan more easily, especially from a distance. Always test with multiple devices before printing at scale.' });
+      faqs.push({ q: `What formats can I download from ${name}?`, a: 'QR codes can be downloaded as PNG, SVG, or JPG. SVG is recommended for printing since it scales without quality loss. PNG is best for digital use.' });
+      return faqs;
+    },
   },
 
   'Social Media Tools': {
-    whatIs: (name, desc) =>
-      `${name} ${desc.toLowerCase().replace(/\.$/, '')}. The tool generates social media meta tags, previews, or content optimized for specific platforms using browser-based text processing and HTML generation.`,
-    howTo: (name, _slug) => [
-      `Enter your page URL, title, description, and image URL into the ${name} form.`,
-      'Configure any platform-specific options, such as card type for Twitter or image dimensions for Open Graph.',
-      'Click Generate to produce the meta tags or preview.',
-      'Copy the generated HTML tags and paste them into your page\'s head section.',
-    ],
-    benefits: (_name, _desc) => [
-      { title: 'Platform-accurate meta tags', description: 'Generated tags follow each platform\'s current specifications — Open Graph for Facebook/LinkedIn, Twitter Card for X/Twitter, and platform-specific image dimensions.' },
-      { title: 'Visual preview', description: 'Some tools show a preview of how your link will appear in social feeds, helping you optimize the title, description, and image before publishing.' },
-      { title: 'No social media management tool needed', description: 'These tools generate the tags you need for free, without subscribing to Hootsuite, Buffer, or similar platforms just for meta tag creation.' },
-      { title: 'Works with any CMS', description: 'Copy-paste the generated HTML into WordPress, Shopify, Next.js, or any platform that lets you edit the head section of your pages.' },
-    ],
-    faqs: (name, _desc, _slug) => [
-      { q: 'What are Open Graph tags?', a: 'Open Graph (og:) meta tags control how your page appears when shared on Facebook, LinkedIn, and other platforms. Key tags: og:title, og:description, og:image, and og:url. Without these, platforms use generic previews.' },
-      { q: `Why doesn't my ${name} preview match what I see on the platform?`, a: 'Social platforms cache link previews. After updating your meta tags, use Facebook\'s Sharing Debugger or Twitter\'s Card Validator to force a refresh. Changes may take a few minutes to appear.' },
-      { q: 'Do I need both Open Graph and Twitter Card tags?', a: 'Twitter falls back to Open Graph tags if Twitter Card tags are missing, but adding explicit Twitter Card tags gives you more control over how links appear on X/Twitter specifically.' },
-      { q: 'What image size should I use for social previews?', a: 'Use images at least 1200x630 pixels for Open Graph and 1200x600 for Twitter summary_large_image cards. JPG or PNG formats are universally supported. Keep file size under 1MB for fast loading.' },
-    ],
+    whatIs: (name, _desc, enhancedDesc) => {
+      const uc = useCasePhrase(enhancedDesc);
+      let r = `${name} ${coreAction(enhancedDesc)}. The tool generates social media meta tags, previews, or content optimized for specific platforms using browser-based text processing and HTML generation.`;
+      if (uc) r += ` ${cap(uc)}.`;
+      return r;
+    },
+    howTo: (name, _slug, _enhancedDesc) => {
+      return [
+        `Enter your page URL, title, description, and image URL into the ${name} form.`,
+        'Configure any platform-specific options, such as card type for Twitter or image dimensions for Open Graph.',
+        'Click Generate to produce the meta tags or preview.',
+        'Copy the generated HTML tags and paste them into your page\'s head section.',
+      ];
+    },
+    benefits: (name, _desc, enhancedDesc) => {
+      const uc = useCasePhrase(enhancedDesc);
+      return [
+        { title: 'Platform-accurate meta tags', description: `${name} generates tags that follow each platform\'s current specifications — Open Graph for Facebook/LinkedIn, Twitter Card for X/Twitter, and platform-specific image dimensions.` },
+        { title: 'Visual preview', description: 'Some tools show a preview of how your link will appear in social feeds, helping you optimize the title, description, and image before publishing.' },
+        uc
+          ? { title: cap(uc.split(',')[0].split(' — ')[0]), description: `${uc}. ${name} makes this process straightforward with a form-based interface.` }
+          : { title: 'No social media management tool needed', description: 'These tools generate the tags you need for free, without subscribing to Hootsuite, Buffer, or similar platforms just for meta tag creation.' },
+        { title: 'Works with any CMS', description: 'Copy-paste the generated HTML into WordPress, Shopify, Next.js, or any platform that lets you edit the head section of your pages.' },
+      ];
+    },
+    faqs: (name, _desc, _slug, _enhancedDesc) => {
+      return [
+        { q: 'What are Open Graph tags?', a: 'Open Graph (og:) meta tags control how your page appears when shared on Facebook, LinkedIn, and other platforms. Key tags: og:title, og:description, og:image, and og:url. Without these, platforms use generic previews.' },
+        { q: `Why doesn\'t my ${name} preview match what I see on the platform?`, a: 'Social platforms cache link previews. After updating your meta tags, use Facebook\'s Sharing Debugger or Twitter\'s Card Validator to force a refresh. Changes may take a few minutes to appear.' },
+        { q: 'Do I need both Open Graph and Twitter Card tags?', a: 'Twitter falls back to Open Graph tags if Twitter Card tags are missing, but adding explicit Twitter Card tags gives you more control over how links appear on X/Twitter specifically.' },
+        { q: 'What image size should I use for social previews?', a: 'Use images at least 1200x630 pixels for Open Graph and 1200x600 for Twitter summary_large_image cards. JPG or PNG formats are universally supported. Keep file size under 1MB for fast loading.' },
+      ];
+    },
   },
 };
 
 // Tools that don't fit neatly into a category profile get a fallback generator
-// that uses the tool's own description to produce unique content.
-function generateFallbackContent(name: string, desc: string, slug: string): ContentEntry {
+// that uses the tool's own enhanced description to produce unique content.
+function generateFallbackContent(name: string, desc: string, slug: string, enhancedDesc: string): ContentEntry {
+  const action = coreAction(enhancedDesc);
+  const uc = useCasePhrase(enhancedDesc);
   return {
-    whatIs: `${name} ${desc.toLowerCase().replace(/\.$/, '')}. This tool runs entirely in your browser with no server-side processing, meaning your data stays on your device throughout the operation.`,
+    whatIs: `${name} ${action}. The tool runs entirely in your browser with no server-side processing, meaning your data stays on your device throughout the operation.${uc ? ` ${cap(uc)}.` : ''}`,
     howTo: [
       `Open ${name} and enter or upload your input as prompted by the tool interface.`,
-      'Configure any available settings or options specific to the operation.',
+      `Configure any available settings specific to ${action}.`,
       'Click the action button to process your input.',
       'Review the output and download or copy the result as needed.',
     ],
     benefits: [
       { title: 'Browser-based, no installation', description: `${name} runs in any modern browser without installing software or creating an account. Open the page and start using it immediately.` },
       { title: 'Private and secure', description: 'All processing happens locally in your browser. Your input data is never transmitted to or stored on any server.' },
-      { title: 'Free with no limits', description: 'Use the tool as many times as you need at no cost. No file size limits, no usage caps, no subscription.' },
+      uc
+        ? { title: cap(uc.split(',')[0].split(' — ')[0]), description: `${uc}. ${name} provides this capability directly in the browser.` }
+        : { title: 'Free with no limits', description: 'Use the tool as many times as you need at no cost. No file size limits, no usage caps, no subscription.' },
       { title: 'Cross-platform', description: 'The tool works on desktop, tablet, and mobile browsers. Access it from any device with a modern browser.' },
     ],
     faqs: [
@@ -1500,26 +2554,24 @@ function generateFallbackContent(name: string, desc: string, slug: string): Cont
 }
 
 export function generateToolSeoContent(slug: string): ContentEntry {
-  // First check for hand-crafted content
   const handCrafted = toolSeoContent[slug];
   if (handCrafted) return handCrafted;
 
-  // Then try category-based generation
   const tool = getToolData(slug);
-  if (!tool) return generateFallbackContent(slug, slug, slug);
+  if (!tool) return generateFallbackContent(slug, slug, slug, slug);
 
+  const enhancedDesc = getEnhancedDescription(tool);
   const profile = categoryProfiles[tool.category];
   if (profile) {
     return {
-      whatIs: profile.whatIs(tool.name, tool.description),
-      howTo: profile.howTo(tool.name, slug),
-      benefits: profile.benefits(tool.name, tool.description),
-      faqs: profile.faqs(tool.name, tool.description, slug),
+      whatIs: profile.whatIs(tool.name, tool.description, enhancedDesc),
+      howTo: profile.howTo(tool.name, slug, enhancedDesc),
+      benefits: profile.benefits(tool.name, tool.description, enhancedDesc),
+      faqs: profile.faqs(tool.name, tool.description, slug, enhancedDesc),
     };
   }
 
-  // Fallback for uncategorized tools
-  return generateFallbackContent(tool.name, tool.description, slug);
+  return generateFallbackContent(tool.name, tool.description, slug, enhancedDesc);
 }
 
 // Detect boilerplate content — the generic howTo steps that 162+ pages share
