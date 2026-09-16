@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
-import { tools as staticTools } from '@/lib/data';
+import { tools as staticTools, categories as staticCategories } from '@/lib/data';
 import { blogPosts as staticBlogPosts, SITE_URL } from '@/lib/seo';
-import { fetchTools, fetchBlogPosts } from '@/lib/public-data';
+import { fetchTools, fetchBlogPosts, fetchCategories } from '@/lib/public-data';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
@@ -15,13 +15,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/terms`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
   ];
 
-  const [dbTools, dbBlogPosts] = await Promise.all([
+  const [dbTools, dbBlogPosts, dbCategories] = await Promise.all([
     fetchTools(),
     fetchBlogPosts(),
+    fetchCategories(),
   ]);
 
   const tools = dbTools.length > 0 ? dbTools : staticTools;
   const blogPosts = dbBlogPosts.length > 0 ? dbBlogPosts : staticBlogPosts;
+  const categories = dbCategories.length > 0 ? dbCategories : staticCategories;
+
+  const categoryPages: MetadataRoute.Sitemap = categories.map((c) => ({
+    url: `${SITE_URL}/categories?cat=${c.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.8,
+  }));
 
   const toolPages: MetadataRoute.Sitemap = tools.map((t) => ({
     url: `${SITE_URL}/tools/${t.slug}`,
@@ -37,5 +46,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  return [...staticPages, ...toolPages, ...blogPages];
+  return [...staticPages, ...categoryPages, ...toolPages, ...blogPages];
 }

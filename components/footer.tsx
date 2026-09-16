@@ -7,6 +7,7 @@ import type { Category, Tool } from '@/lib/data';
 const quickLinks = [
   { label: 'All Tools', href: '/tools' },
   { label: 'Categories', href: '/categories' },
+  { label: 'Search', href: '/search' },
   { label: 'Blog', href: '/blog' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },

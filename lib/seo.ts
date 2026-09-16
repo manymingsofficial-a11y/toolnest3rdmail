@@ -205,9 +205,16 @@ export function generateToolMetadata(slug: string, customTitle?: string, customD
   const enh = getToolEnhancement(slug);
   const title = customTitle ?? (enh?.titleSuffix ? `${tool.name} — ${enh!.titleSuffix}` : tool.name);
   const rawDescription = customDescription ?? enh?.description ?? tool.description;
-  const description = rawDescription.length >= 120
-    ? rawDescription
-    : `${rawDescription} ${tool.name.toLowerCase()} is a free online ${tool.category.toLowerCase().replace(/ & /g, ' ')} tool — no sign-up, runs in your browser.`;
+  let description: string;
+  if (rawDescription.length >= 120) {
+    description = rawDescription.length > 160 ? rawDescription.slice(0, 157).replace(/\s+\S*$/, '') + '...' : rawDescription;
+  } else {
+    const suffix = ` — a free online ${tool.category.toLowerCase().replace(/ & /g, ' ')} tool that runs entirely in your browser. No sign-up, no upload required.`;
+    description = (rawDescription + suffix).slice(0, 160);
+    if (description.length === 160 && !description.endsWith('.')) {
+      description = description.replace(/\s+\S*$/, '').replace(/[,;—-]\s*$/, '') + '...';
+    }
+  }
   const url = `${SITE_URL}/tools/${slug}`;
   const keywords = generateToolKeywords(tool);
 
