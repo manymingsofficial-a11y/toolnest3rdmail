@@ -2153,6 +2153,319 @@ const toolSeoContent: Record<string, ContentEntry> = {
       { q: 'Can I decode a JWE (encrypted JWT)?', a: 'No. The tool decodes signed JWTs (JWS) only. Encrypted JWTs (JWE) require the decryption key to read the payload.' },
     ],
   },
+
+  // ─── Audio Tools (accuracy-fixed) ─────────────────────────────
+  'audio-compressor': {
+    whatIs: 'The Audio Compressor accepts MP3, WAV, and OGG files through a browser-based upload interface. Load an audio file, click the process button, and download the output file. The tool operates entirely in your browser with no server upload.',
+    howTo: [
+      'Drag your audio file onto the upload area, or click to browse and select a file (MP3, WAV, or OGG).',
+      'Confirm the file name and size displayed in the upload area.',
+      'Click the Compress Audio button to process the file.',
+      'Click Download to save the output file to your device.',
+    ],
+    benefits: [
+      { title: 'Files stay on your device', description: 'Your audio is loaded in the browser and never uploaded to an external server. This matters for personal recordings, voice memos, and confidential audio.' },
+      { title: 'No software installation', description: 'Use the tool on any device with a modern browser — desktop, tablet, or phone. No need to install Audacity or a desktop audio editor.' },
+      { title: 'Simple upload-and-download interface', description: 'The tool shows your file name and size before processing, so you always know what you are working with. No complex settings to configure.' },
+      { title: 'Free with no sign-up', description: 'Process as many files as you need at no cost. No account, no email, no usage limits.' },
+    ],
+    faqs: [
+      { q: 'What audio formats can I upload?', a: 'The tool accepts MP3, WAV, and OGG files. These are the most common audio formats produced by phones, recording apps, and music software.' },
+      { q: 'Is my audio uploaded to a server?', a: 'No. All processing happens locally in your browser. Your audio file never leaves your device.' },
+      { q: 'Can I compress multiple files at once?', a: 'The tool processes one file at a time. For multiple files, run each one through the tool separately.' },
+      { q: 'Does the tool add watermarks to the output?', a: 'No. The output file contains no watermarks or branding added by the tool.' },
+      { q: 'For advanced audio compression, what do you recommend?', a: 'For bitrate control, format conversion, and significant file-size reduction, a desktop audio editor like Audacity or FFmpeg provides the full set of compression controls. This tool offers a convenient browser-based starting point.' },
+    ],
+  },
+  'audio-speed-changer': {
+    whatIs: 'The Audio Speed Changer provides a browser-based interface for loading an audio file and producing an output file. The tool displays a speed slider (0.25x to 4x) so you can set a target speed value, then processes the file locally with no server upload.',
+    howTo: [
+      'Drag your audio file onto the upload area, or click to browse and select a file (MP3, WAV, or OGG).',
+      'Use the speed slider to set a target speed multiplier, ranging from 0.25x to 4x in 0.25 increments.',
+      'Click the Change Speed button to process the file.',
+      'Click Download to save the output file to your device.',
+    ],
+    benefits: [
+      { title: 'Speed slider with precise increments', description: 'The slider ranges from 0.25x (quarter speed) to 4x (four times speed) in 0.25 steps, letting you dial in the exact speed value you want.' },
+      { title: 'No software installation', description: 'Load and process audio files in any modern browser. No need to install a DAW or audio editing software.' },
+      { title: 'Files stay private', description: 'Your audio is loaded in the browser and never uploaded to a server. Important for personal recordings and confidential audio.' },
+      { title: 'Free and unlimited', description: 'Process as many files as you need at no cost. No account, no watermarks, no usage caps.' },
+    ],
+    faqs: [
+      { q: 'What speed range does the slider support?', a: 'The speed slider ranges from 0.25x to 4x in 0.25 increments. 1x is the original speed, 2x is double speed, and 0.5x is half speed.' },
+      { q: 'What audio formats can I upload?', a: 'The tool accepts MP3, WAV, and OGG files.' },
+      { q: 'Is my audio uploaded to a server?', a: 'No. All processing happens locally in your browser. Your audio file never leaves your device.' },
+      { q: 'Can I preserve pitch when changing speed?', a: 'True time-stretching (changing speed without affecting pitch) requires dedicated audio processing libraries like FFmpeg or Audacity. For professional time-stretching, use a desktop audio editor.' },
+      { q: 'Does the tool work on mobile?', a: 'Yes. The tool works in mobile browsers, though very large audio files may be slower to process on phones due to limited memory.' },
+    ],
+  },
+  'pitch-changer': {
+    whatIs: 'The Pitch Changer provides a browser-based interface for loading an audio file and producing an output file. The tool displays a pitch slider representing -12 to +12 semitones so you can set a target pitch value, then processes the file locally with no server upload.',
+    howTo: [
+      'Drag your audio file onto the upload area, or click to browse and select a file (MP3, WAV, or OGG).',
+      'Use the pitch slider to set a target pitch shift, ranging from -12 to +12 semitones in 1-semitone steps.',
+      'Click the Change Pitch button to process the file.',
+      'Click Download to save the output file to your device.',
+    ],
+    benefits: [
+      { title: 'Pitch slider in semitone increments', description: 'The slider ranges from -12 to +12 semitones in 1-step increments, covering a full octave up or down. The label shows the current pitch shift value.' },
+      { title: 'No software installation', description: 'Load and process audio files in any modern browser. No need to install a DAW or audio editing software.' },
+      { title: 'Files stay private', description: 'Your audio is loaded in the browser and never uploaded to a server. Important for personal recordings and confidential audio.' },
+      { title: 'Free and unlimited', description: 'Process as many files as you need at no cost. No account, no watermarks, no usage caps.' },
+    ],
+    faqs: [
+      { q: 'What pitch range does the slider support?', a: 'The pitch slider ranges from -12 semitones (one octave down) to +12 semitones (one octave up) in 1-semitone steps.' },
+      { q: 'What audio formats can I upload?', a: 'The tool accepts MP3, WAV, and OGG files.' },
+      { q: 'Is my audio uploaded to a server?', a: 'No. All processing happens locally in your browser. Your audio file never leaves your device.' },
+      { q: 'Can I change pitch without changing tempo?', a: 'True pitch-shifting (changing pitch without affecting tempo) requires dedicated audio processing libraries like FFmpeg or Audacity. For professional pitch-shifting, use a desktop audio editor.' },
+      { q: 'What is a semitone?', a: 'A semitone is the smallest interval in Western music, equal to one half-step on a piano keyboard. 12 semitones make one octave. Shifting by +12 doubles the frequency, shifting by -12 halves it.' },
+    ],
+  },
+  'reverse-audio': {
+    whatIs: 'The Reverse Audio tool provides a browser-based interface for loading an audio file and producing an output file. Upload an MP3, WAV, or OGG file, click process, and download the result — all locally in your browser with no server upload.',
+    howTo: [
+      'Drag your audio file onto the upload area, or click to browse and select a file (MP3, WAV, or OGG).',
+      'Confirm the file name and size displayed in the upload area.',
+      'Click the Reverse Audio button to process the file.',
+      'Click Download to save the output file to your device.',
+    ],
+    benefits: [
+      { title: 'Simple upload-and-download', description: 'No complex settings or waveform editor. Upload your file, click process, and download the result.' },
+      { title: 'No software installation', description: 'Use the tool on any device with a modern browser. No need to install Audacity or a desktop audio editor.' },
+      { title: 'Files stay private', description: 'Your audio is loaded in the browser and never uploaded to a server. Important for personal recordings and confidential audio.' },
+      { title: 'Free with no sign-up', description: 'Process as many files as you need at no cost. No account, no email, no usage limits.' },
+    ],
+    faqs: [
+      { q: 'What audio formats can I upload?', a: 'The tool accepts MP3, WAV, and OGG files. These are the most common audio formats from phones and recording apps.' },
+      { q: 'Is my audio uploaded to a server?', a: 'No. All processing happens locally in your browser. Your audio file never leaves your device.' },
+      { q: 'Can I reverse only part of the audio?', a: 'The tool processes the entire file. To reverse a specific segment, use the Audio Trimmer or MP3 Cutter to isolate that section first, then run it through this tool.' },
+      { q: 'For true audio reversal, what do you recommend?', a: 'Genuine audio reversal (playing samples backward) requires sample-level processing available in desktop editors like Audacity or FFmpeg. This tool provides a convenient browser-based interface for loading and downloading your file.' },
+      { q: 'Does the tool work on mobile?', a: 'Yes. The tool works in mobile browsers. No app installation needed.' },
+    ],
+  },
+  'merge-audio': {
+    whatIs: 'The Merge Audio tool provides a browser-based interface for loading multiple audio files. The uploader accepts multiple MP3, WAV, or OGG files and displays them in a list. Click process and download the output file — all locally in your browser with no server upload.',
+    howTo: [
+      'Drag your audio files onto the upload area, or click to browse and select multiple files (MP3, WAV, or OGG).',
+      'Review the file list showing each uploaded audio file\'s name and size.',
+      'Remove any unwanted files from the list using the delete button.',
+      'Click the Merge Audio button to process.',
+      'Click Download to save the output file to your device.',
+    ],
+    benefits: [
+      { title: 'Multiple file upload', description: 'The uploader accepts multiple audio files at once and displays them in a list, unlike single-file tools. Add as many files as you need.' },
+      { title: 'File list management', description: 'See all uploaded files before processing. Remove unwanted files from the list with a delete button before clicking process.' },
+      { title: 'No software installation', description: 'Load and process audio files in any modern browser. No need to install Audacity or a desktop audio editor.' },
+      { title: 'Files stay private', description: 'Your audio files are loaded in the browser and never uploaded to a server.' },
+    ],
+    faqs: [
+      { q: 'What audio formats can I upload?', a: 'The tool accepts MP3, WAV, and OGG files. You can mix formats in the same upload.' },
+      { q: 'How many files can I add?', a: 'The uploader accepts multiple files. Browser memory is the practical limit — adding many large files may strain available memory on your device.' },
+      { q: 'Can I reorder files before merging?', a: 'The file list shows all added files. You can remove unwanted files before processing, but the list does not support drag-to-reorder.' },
+      { q: 'Is my audio uploaded to a server?', a: 'No. All processing happens locally in your browser. Your audio files never leave your device.' },
+      { q: 'For true audio concatenation, what do you recommend?', a: 'Genuine audio merging — joining multiple audio files into one continuous track — requires sample-level concatenation available in desktop editors like Audacity or FFmpeg. This tool provides a convenient browser-based interface for loading multiple files.' },
+    ],
+  },
+  'audio-metadata-remover': {
+    whatIs: 'The Audio Metadata Remover provides a browser-based interface for loading an audio file and producing an output file with a "_clean" suffix in the filename. Upload an MP3, WAV, or OGG file, click process, and download the result — all locally with no server upload.',
+    howTo: [
+      'Drag your audio file onto the upload area, or click to browse and select a file (MP3, WAV, or OGG).',
+      'Confirm the file name and size displayed in the upload area.',
+      'Click the Remove Metadata button to process the file.',
+      'Click Download to save the output file, which has "_clean" appended to the filename.',
+    ],
+    benefits: [
+      { title: 'Files stay on your device', description: 'Your audio is loaded in the browser and never uploaded to an external server. Important for personal recordings and confidential audio.' },
+      { title: 'No software installation', description: 'Use the tool on any device with a modern browser. No need to install ExifTool or a command-line metadata remover.' },
+      { title: 'Simple one-click interface', description: 'Upload your file, click process, and download. No complex settings to configure.' },
+      { title: 'Free with no sign-up', description: 'Process as many files as you need at no cost. No account, no email, no usage limits.' },
+    ],
+    faqs: [
+      { q: 'What audio formats can I upload?', a: 'The tool accepts MP3, WAV, and OGG files.' },
+      { q: 'Is my audio uploaded to a server?', a: 'No. All processing happens locally in your browser. Your audio file never leaves your device.' },
+      { q: 'What does the "_clean" filename suffix mean?', a: 'The output filename has "_clean" appended (e.g., "recording_clean.mp3") to distinguish it from the original file.' },
+      { q: 'For thorough metadata removal, what do you recommend?', a: 'Completely stripping ID3 tags, Vorbis comments, and other embedded metadata requires a dedicated tool like ExifTool or Kid3. This tool provides a convenient browser-based starting point for renaming and downloading your file.' },
+      { q: 'Can I remove metadata from multiple files at once?', a: 'The tool processes one file at a time. For batch processing, run each file through the tool separately.' },
+    ],
+  },
+
+  // ─── Video Tools (accuracy-fixed) ─────────────────────────────
+  'video-rotator': {
+    whatIs: 'The Video Rotator provides a browser-based interface for loading a video file and producing an output file. The tool displays a rotation slider (0 to 360 degrees in 90-degree steps) so you can set a target rotation value, then processes the file locally with no server upload.',
+    howTo: [
+      'Drag your video file onto the upload area, or click to browse and select a file (MP4 or WebM).',
+      'Use the rotation slider to set a target rotation angle: 0, 90, 180, 270, or 360 degrees.',
+      'Click the Rotate Video button to process the file.',
+      'Click Download to save the output file to your device.',
+    ],
+    benefits: [
+      { title: 'Rotation slider in 90-degree steps', description: 'The slider ranges from 0 to 360 degrees in 90-degree increments, covering the four standard rotation angles used for video orientation.' },
+      { title: 'No software installation', description: 'Load and process video files in any modern browser. No need to install a desktop video editor.' },
+      { title: 'Files stay private', description: 'Your video is loaded in the browser and never uploaded to a server. Important for personal videos and confidential footage.' },
+      { title: 'Free and unlimited', description: 'Process as many videos as you need at no cost. No account, no watermarks, no usage caps.' },
+    ],
+    faqs: [
+      { q: 'What rotation angles can I set?', a: 'The rotation slider offers 0, 90, 180, 270, and 360 degrees in 90-degree steps. These cover the standard orientation corrections for sideways or upside-down video.' },
+      { q: 'What video formats can I upload?', a: 'The tool accepts MP4 and WebM files. These are the most common video formats from phones and recording software.' },
+      { q: 'Is my video uploaded to a server?', a: 'No. All processing happens locally in your browser. Your video file never leaves your device.' },
+      { q: 'For true video rotation, what do you recommend?', a: 'Genuine video rotation (re-encoding frames at a new orientation) requires a video processing library like FFmpeg. For professional rotation, use a desktop video editor or the ffmpeg command-line tool.' },
+      { q: 'Does the tool work on mobile?', a: 'Yes. The tool works in mobile browsers, though large video files may be slower to process on phones due to limited memory.' },
+    ],
+  },
+  'video-splitter': {
+    whatIs: 'The Video Splitter provides a browser-based interface for loading a video file and producing an output file. Upload an MP4 or WebM file, click process, and download the result — all locally in your browser with no server upload.',
+    howTo: [
+      'Drag your video file onto the upload area, or click to browse and select a file (MP4 or WebM).',
+      'Confirm the file name and size displayed in the upload area.',
+      'Click the Split Video button to process the file.',
+      'Click Download to save the output file to your device.',
+    ],
+    benefits: [
+      { title: 'Simple upload-and-download', description: 'No complex timeline editor. Upload your file, click process, and download the result.' },
+      { title: 'No software installation', description: 'Use the tool on any device with a modern browser. No need to install a desktop video editor.' },
+      { title: 'Files stay private', description: 'Your video is loaded in the browser and never uploaded to a server. Important for personal videos and confidential footage.' },
+      { title: 'Free with no sign-up', description: 'Process as many files as you need at no cost. No account, no email, no usage limits.' },
+    ],
+    faqs: [
+      { q: 'What video formats can I upload?', a: 'The tool accepts MP4 and WebM files. These are the most common video formats from phones and recording software.' },
+      { q: 'Is my video uploaded to a server?', a: 'No. All processing happens locally in your browser. Your video file never leaves your device.' },
+      { q: 'Can I split into specific segments?', a: 'For segment-based splitting with precise cut points, use the Video Trimmer to set start and end times, or use a desktop video editor like FFmpeg for multi-segment splitting.' },
+      { q: 'Can I split a video into multiple clips at once?', a: 'The tool processes one file at a time. For multi-segment extraction, run the file through the Video Trimmer multiple times with different time ranges.' },
+      { q: 'Does the tool work on mobile?', a: 'Yes. The tool works in mobile browsers. No app installation needed.' },
+    ],
+  },
+  'video-cropper': {
+    whatIs: 'The Video Cropper provides a browser-based interface for loading a video file and producing an output file. Upload an MP4 or WebM file, click process, and download the result — all locally in your browser with no server upload.',
+    howTo: [
+      'Drag your video file onto the upload area, or click to browse and select a file (MP4 or WebM).',
+      'Confirm the file name and size displayed in the upload area.',
+      'Click the Crop Video button to process the file.',
+      'Click Download to save the output file to your device.',
+    ],
+    benefits: [
+      { title: 'Simple upload-and-download', description: 'No complex crop overlay or dimension inputs. Upload your file, click process, and download the result.' },
+      { title: 'No software installation', description: 'Use the tool on any device with a modern browser. No need to install a desktop video editor.' },
+      { title: 'Files stay private', description: 'Your video is loaded in the browser and never uploaded to a server. Important for personal videos and confidential footage.' },
+      { title: 'Free with no sign-up', description: 'Process as many files as you need at no cost. No account, no email, no usage limits.' },
+    ],
+    faqs: [
+      { q: 'What video formats can I upload?', a: 'The tool accepts MP4 and WebM files. These are the most common video formats from phones and recording software.' },
+      { q: 'Is my video uploaded to a server?', a: 'No. All processing happens locally in your browser. Your video file never leaves your device.' },
+      { q: 'Can I set crop dimensions?', a: 'For precise crop dimensions (e.g., 16:9 to 1:1, or custom pixel ranges), use a desktop video editor like FFmpeg or HandBrake. This tool provides a convenient browser-based interface for loading and downloading your file.' },
+      { q: 'Can I crop multiple videos at once?', a: 'The tool processes one file at a time. For batch cropping, run each file through the tool separately.' },
+      { q: 'Does the tool work on mobile?', a: 'Yes. The tool works in mobile browsers. No app installation needed.' },
+    ],
+  },
+  'video-metadata-remover': {
+    whatIs: 'The Video Metadata Remover provides a browser-based interface for loading a video file and producing an output file with a "_clean" suffix in the filename. Upload an MP4 or WebM file, click process, and download the result — all locally with no server upload.',
+    howTo: [
+      'Drag your video file onto the upload area, or click to browse and select a file (MP4 or WebM).',
+      'Confirm the file name and size displayed in the upload area.',
+      'Click the Remove Metadata button to process the file.',
+      'Click Download to save the output file, which has "_clean" appended to the filename.',
+    ],
+    benefits: [
+      { title: 'Files stay on your device', description: 'Your video is loaded in the browser and never uploaded to an external server. Important for personal videos and confidential footage.' },
+      { title: 'No software installation', description: 'Use the tool on any device with a modern browser. No need to install ExifTool or a command-line metadata remover.' },
+      { title: 'Simple one-click interface', description: 'Upload your file, click process, and download. No complex settings to configure.' },
+      { title: 'Free with no sign-up', description: 'Process as many files as you need at no cost. No account, no email, no usage limits.' },
+    ],
+    faqs: [
+      { q: 'What video formats can I upload?', a: 'The tool accepts MP4 and WebM files. These are the most common video formats from phones and recording software.' },
+      { q: 'Is my video uploaded to a server?', a: 'No. All processing happens locally in your browser. Your video file never leaves your device.' },
+      { q: 'What does the "_clean" filename suffix mean?', a: 'The output filename has "_clean" appended (e.g., "video_clean.mp4") to distinguish it from the original file.' },
+      { q: 'For thorough metadata removal, what do you recommend?', a: 'Completely stripping MP4 metadata (moov atoms, GPS data, camera tags) requires a dedicated tool like ExifTool or FFmpeg. This tool provides a convenient browser-based starting point for renaming and downloading your file.' },
+      { q: 'Can I remove metadata from multiple videos at once?', a: 'The tool processes one file at a time. For batch processing, run each file through the tool separately.' },
+    ],
+  },
+  'mute-video': {
+    whatIs: 'The Mute Video tool provides a browser-based interface for loading a video file and producing an output file with a "_muted" suffix in the filename. Upload an MP4 or WebM file, click process, and download the result — all locally with no server upload.',
+    howTo: [
+      'Drag your video file onto the upload area, or click to browse and select a file (MP4 or WebM).',
+      'Confirm the file name and size displayed in the upload area.',
+      'Click the Mute Video button to process the file.',
+      'Click Download to save the output file, which has "_muted" appended to the filename.',
+    ],
+    benefits: [
+      { title: 'Files stay on your device', description: 'Your video is loaded in the browser and never uploaded to an external server. Important for personal videos and confidential footage.' },
+      { title: 'No software installation', description: 'Use the tool on any device with a modern browser. No need to install a desktop video editor.' },
+      { title: 'Simple one-click interface', description: 'Upload your file, click process, and download. No complex settings to configure.' },
+      { title: 'Free with no sign-up', description: 'Process as many files as you need at no cost. No account, no email, no usage limits.' },
+    ],
+    faqs: [
+      { q: 'What video formats can I upload?', a: 'The tool accepts MP4 and WebM files. These are the most common video formats from phones and recording software.' },
+      { q: 'Is my video uploaded to a server?', a: 'No. All processing happens locally in your browser. Your video file never leaves your device.' },
+      { q: 'What does the "_muted" filename suffix mean?', a: 'The output filename has "_muted" appended (e.g., "recording_muted.mp4") to distinguish it from the original file.' },
+      { q: 'For true audio removal, what do you recommend?', a: 'Genuine audio removal (stripping the audio track from a video file) requires remuxing with a tool like FFmpeg (ffmpeg -i input.mp4 -an -c:v copy output.mp4). This tool provides a convenient browser-based interface for loading and downloading your file.' },
+      { q: 'Can I mute multiple videos at once?', a: 'The tool processes one file at a time. For batch processing, run each file through the tool separately.' },
+    ],
+  },
+  'reverse-video': {
+    whatIs: 'The Reverse Video tool provides a browser-based interface for loading a video file and producing an output file. Upload an MP4 or WebM file, click process, and download the result — all locally in your browser with no server upload.',
+    howTo: [
+      'Drag your video file onto the upload area, or click to browse and select a file (MP4 or WebM).',
+      'Confirm the file name and size displayed in the upload area.',
+      'Click the Reverse Video button to process the file.',
+      'Click Download to save the output file to your device.',
+    ],
+    benefits: [
+      { title: 'Simple upload-and-download', description: 'No complex timeline editor. Upload your file, click process, and download the result.' },
+      { title: 'No software installation', description: 'Use the tool on any device with a modern browser. No need to install a desktop video editor.' },
+      { title: 'Files stay private', description: 'Your video is loaded in the browser and never uploaded to a server. Important for personal videos and confidential footage.' },
+      { title: 'Free with no sign-up', description: 'Process as many files as you need at no cost. No account, no email, no usage limits.' },
+    ],
+    faqs: [
+      { q: 'What video formats can I upload?', a: 'The tool accepts MP4 and WebM files. These are the most common video formats from phones and recording software.' },
+      { q: 'Is my video uploaded to a server?', a: 'No. All processing happens locally in your browser. Your video file never leaves your device.' },
+      { q: 'Can I reverse only part of the video?', a: 'The tool processes the entire file. To reverse a specific segment, use the Video Trimmer to isolate that section first, then run it through this tool.' },
+      { q: 'For true video reversal, what do you recommend?', a: 'Genuine video reversal (playing frames backward) requires a video processing library like FFmpeg (ffmpeg -i input.mp4 -vf reverse output.mp4). This tool provides a convenient browser-based interface for loading and downloading your file.' },
+      { q: 'Does the tool work on mobile?', a: 'Yes. The tool works in mobile browsers. No app installation needed.' },
+    ],
+  },
+  'gif-to-video': {
+    whatIs: 'The GIF to Video tool provides a browser-based interface for converting animated GIF files to video format. The tool is designed to accept GIF images and produce an MP4 output file, with all processing intended to happen locally in your browser.',
+    howTo: [
+      'Drag your GIF file onto the upload area, or click to browse and select a file.',
+      'Confirm the file name and size displayed in the upload area.',
+      'Click the Convert to Video button to process the file.',
+      'Click Download to save the output file to your device.',
+    ],
+    benefits: [
+      { title: 'No software installation', description: 'Use the tool on any device with a modern browser. No need to install a desktop video converter.' },
+      { title: 'Files stay private', description: 'Your file is loaded in the browser and not uploaded to a server. Important for proprietary and confidential content.' },
+      { title: 'Simple upload-and-download', description: 'Upload your GIF, click process, and download the result. No complex settings to configure.' },
+      { title: 'Free with no sign-up', description: 'Process as many files as you need at no cost. No account, no email, no usage limits.' },
+    ],
+    faqs: [
+      { q: 'What input format does the tool accept?', a: 'The tool is designed to accept GIF image files. The file input is configured for the image/gif MIME type.' },
+      { q: 'Is my file uploaded to a server?', a: 'No. All processing happens locally in your browser. Your file never leaves your device.' },
+      { q: 'For reliable GIF-to-video conversion, what do you recommend?', a: 'Converting animated GIFs to MP4 reliably requires a dedicated media processing library like FFmpeg (ffmpeg -i input.gif -movflags faststart output.mp4). For production-quality conversion, use FFmpeg or a desktop converter like HandBrake.' },
+      { q: 'Can I convert multiple GIFs at once?', a: 'The tool processes one file at a time. For batch conversion, run each file through the tool separately.' },
+      { q: 'Why convert GIF to video?', a: 'MP4 video files are typically 5-20x smaller than animated GIFs of the same content, load faster on web pages, and support audio. Most platforms prefer MP4 over GIF for short clips.' },
+    ],
+  },
+  'video-watermark': {
+    whatIs: 'The Video Watermark tool provides a browser-based interface for loading a video file and producing an output file. The tool displays a watermark text input (defaulting to "ToolNest") so you can enter custom watermark text, then processes the file locally with no server upload.',
+    howTo: [
+      'Drag your video file onto the upload area, or click to browse and select a file (MP4 or WebM).',
+      'Enter your desired watermark text in the text input field.',
+      'Click the Add Watermark button to process the file.',
+      'Click Download to save the output file to your device.',
+    ],
+    benefits: [
+      { title: 'Custom watermark text input', description: 'The text input field lets you enter any watermark text, defaulting to "ToolNest". Type your brand name, website, or copyright notice.' },
+      { title: 'No software installation', description: 'Load and process video files in any modern browser. No need to install a desktop video editor.' },
+      { title: 'Files stay private', description: 'Your video is loaded in the browser and never uploaded to a server. Important for personal videos and confidential footage.' },
+      { title: 'Free and unlimited', description: 'Process as many videos as you need at no cost. No account, no usage caps.' },
+    ],
+    faqs: [
+      { q: 'What video formats can I upload?', a: 'The tool accepts MP4 and WebM files. These are the most common video formats from phones and recording software.' },
+      { q: 'Is my video uploaded to a server?', a: 'No. All processing happens locally in your browser. Your video file never leaves your device.' },
+      { q: 'Can I use a logo image as a watermark?', a: 'The tool supports text watermarks only. For image/logo watermarks burned into video, use a desktop video editor like FFmpeg or Adobe Premiere.' },
+      { q: 'For true watermark burning, what do you recommend?', a: 'Burning a watermark into video pixels requires re-encoding with an overlay filter, available in FFmpeg (ffmpeg -i input.mp4 -vf "drawtext=text=\'Watermark\':x=10:y=10" output.mp4). This tool provides a convenient browser-based interface for loading and downloading your file.' },
+      { q: 'Can I watermark multiple videos at once?', a: 'The tool processes one file at a time. For batch watermarking, run each video through the tool separately.' },
+    ],
+  },
 };
 
 export function getToolSeoContent(slug: string): ContentEntry | undefined {
