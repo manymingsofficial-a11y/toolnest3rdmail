@@ -2466,6 +2466,246 @@ const toolSeoContent: Record<string, ContentEntry> = {
       { q: 'Can I watermark multiple videos at once?', a: 'The tool processes one file at a time. For batch watermarking, run each video through the tool separately.' },
     ],
   },
+
+  // ─── PDF Tools (hand-crafted) ──────────────────────────────
+  'pdf-compress': {
+    whatIs: 'The PDF Compressor reduces PDF file sizes using the pdf-lib library and pdf.js rendering, all in your browser. It offers three compression levels — Low, Medium, and High — that control page render scale and JPEG quality. If the initial object-stream optimization does not reduce size enough, the tool re-renders each page as a JPEG image at the chosen quality and rebuilds the PDF, which can significantly shrink image-heavy documents.',
+    howTo: [
+      'Drag a PDF file onto the upload area, or click to browse and select a file.',
+      'Choose a compression level: Low (best quality, mild compression), Medium (balanced), or High (smallest size, lower quality).',
+      'Click the Compress PDF button. The tool processes each page and shows a progress bar.',
+      'Review the result panel showing original size, compressed size, and percentage saved.',
+      'Click Download compressed PDF to save the result to your device.',
+    ],
+    benefits: [
+      { title: 'Three compression levels with real size reporting', description: 'Low, Medium, and High presets control render scale and JPEG quality. The result panel shows original size, compressed size, and the exact percentage saved, so you know the impact before downloading.' },
+      { title: 'Two-stage compression strategy', description: 'The tool first optimizes with object streams. If that does not reduce size by at least 2%, it falls back to rendering each page as a JPEG image at your chosen quality and rebuilding the PDF — effective for image-heavy documents.' },
+      { title: 'Documents never leave your device', description: 'All processing uses pdf-lib and pdf.js in the browser. Your PDF is never uploaded to a server, which matters for contracts, legal documents, and sensitive business files.' },
+      { title: 'No registration or watermarks', description: 'Free with no account, no email, and no watermarks on output files. The downloaded file has "-compressed" appended to the original filename.' },
+    ],
+    faqs: [
+      { q: 'What is the difference between Low, Medium, and High compression?', a: 'Low uses a 2x render scale with 85% JPEG quality (best quality, mild compression). Medium uses 1.4x scale with 60% quality (balanced). High uses 0.9x scale with 40% quality (smallest size, lower image quality). Text remains crisp at all levels since it is vector-based.' },
+      { q: 'How does the two-stage compression work?', a: 'The tool first tries object-stream optimization, which compacts the PDF structure without re-rendering. If the result is still within 2% of the original size, it re-renders each page as a JPEG image at your chosen scale and quality using pdf.js, then rebuilds the PDF with those images. This second stage is what produces significant size reduction for image-heavy PDFs.' },
+      { q: 'Will compression affect text quality?', a: 'No. Text is vector-based and remains crisp at any compression level. Only embedded images may be lower resolution at the High setting, since the fallback stage rasterizes pages to JPEG.' },
+      { q: 'Is there a file size limit?', a: 'There is no server-side limit since processing is local. In practice, very large PDFs (100MB+) may strain browser memory, especially during the image-rendering fallback stage. Most documents under 50MB process smoothly.' },
+      { q: 'Can I compress password-protected PDFs?', a: 'The tool loads PDFs with encryption ignored, so it can open password-protected files. However, the output PDF will not retain the password protection.' },
+    ],
+  },
+  'pdf-merge': {
+    whatIs: 'The PDF Merger combines multiple PDF files into a single document using the pdf-lib library. Upload two or more PDFs, drag to reorder them in the list, and the tool copies all pages from each file in sequence to produce one merged PDF. Each file shows its name, size, and page count. All processing happens in your browser with no server upload.',
+    howTo: [
+      'Drag PDF files onto the upload area, or click to browse and select multiple files.',
+      'Review the file list — each entry shows the filename, file size, and page count.',
+      'Drag files to reorder them, or use the up and down arrow buttons next to each file.',
+      'Remove any unwanted files with the X button, then click Merge PDFs.',
+      'Click Download merged PDF to save the combined document as "merged.pdf".',
+    ],
+    benefits: [
+      { title: 'Drag-to-reorder file list with page counts', description: 'Each uploaded PDF shows its filename, size, and page count. Drag files to reorder them, or use the arrow buttons. You see exactly what will be merged and in what order before clicking the button.' },
+      { title: 'True page-level merging with pdf-lib', description: 'The tool uses pdf-lib to copy all pages from each source PDF in sequence, producing a single valid PDF document. This is genuine structural merging, not just file concatenation.' },
+      { title: 'Documents never leave your device', description: 'All processing happens in the browser. Your PDFs are never uploaded to a server, which is critical for contracts, legal documents, and confidential business files.' },
+      { title: 'No registration or watermarks', description: 'Free with no account, no email, and no watermarks. The output file is named "merged.pdf" and contains no branding added by the tool.' },
+    ],
+    faqs: [
+      { q: 'How many PDFs can I merge?', a: 'You need at least two PDFs to merge. There is no hard limit on the number of files — the practical constraint is browser memory. Most users can merge dozens of PDFs without issue.' },
+      { q: 'Can I reorder files before merging?', a: 'Yes. Drag and drop files in the list to change their order, or use the up and down arrow buttons next to each file. The merged PDF will contain pages in the order you arranged.' },
+      { q: 'Does the tool show page counts for each file?', a: 'Yes. Each file in the list displays its filename, file size, and page count (when the PDF can be read). This helps you verify the merge order before processing.' },
+      { q: 'What happens to bookmarks and form fields?', a: 'pdf-lib copies page content. Interactive elements like form fields and bookmarks from the source PDFs may not carry over to the merged output. For documents with form fields, check the merged file after processing.' },
+      { q: 'Can I merge password-protected PDFs?', a: 'The tool loads PDFs with encryption ignored, so it can open password-protected files. The merged output will not retain any password protection.' },
+    ],
+  },
+  'pdf-split': {
+    whatIs: 'The PDF Splitter divides a PDF into multiple files using the pdf-lib library. It offers two modes: split by custom page ranges (e.g., "1-3, 5, 7-9") or split every page into its own PDF. The tool reads the page count from your file, validates your ranges, and produces separate PDF files for each group of pages. All processing happens in your browser.',
+    howTo: [
+      'Drag a PDF file onto the upload area, or click to browse and select a file.',
+      'Choose a split mode: "By page range" or "Every page".',
+      'If using page ranges, enter comma-separated ranges using 1-based page numbers (e.g., 1-3, 5, 7-9). The tool shows your total page count for reference.',
+      'Click Split PDF. The tool creates a separate PDF for each range or page.',
+      'Download individual files or click Download all to save every split PDF at once.',
+    ],
+    benefits: [
+      { title: 'Two split modes with flexible ranges', description: 'Split by custom page ranges (e.g., "1-3, 5, 7-9") or split every page into its own one-page PDF. Ranges are validated against your document\'s actual page count to prevent errors.' },
+      { title: 'Individual or bulk download', description: 'Each split file is listed with its page range and file size. Download individual files with a click, or use Download all to save every file. Filenames include the part number and original filename.' },
+      { title: 'True page extraction with pdf-lib', description: 'The tool uses pdf-lib to copy the selected pages into new PDF documents. This is genuine page-level extraction, producing valid standalone PDFs — not just a single file with some pages removed.' },
+      { title: 'Documents never leave your device', description: 'All processing happens in the browser. Your PDF is never uploaded to a server, which is critical for confidential and legal documents.' },
+    ],
+    faqs: [
+      { q: 'How do page ranges work?', a: 'Use 1-based page numbers separated by commas. Ranges use a hyphen. For example, "1-3, 5, 7-9" creates three files: pages 1-3, page 5, and pages 7-9. The tool validates that all numbers are within your document\'s page count.' },
+      { q: 'What does "Every page" mode do?', a: 'It creates a separate one-page PDF for each page in the document. A 10-page PDF produces 10 individual PDF files. This is useful for extracting single pages or creating page-by-page handouts.' },
+      { q: 'How are the output files named?', a: 'Each file is named using the original filename with "-part-N" appended, where N is the part number. For example, "report-part-1.pdf", "report-part-2.pdf", and so on.' },
+      { q: 'Can I split a 100-page PDF?', a: 'Yes. The tool processes each split group sequentially using pdf-lib. Very large PDFs may take a few seconds, but there is no server-side page limit — the constraint is browser memory.' },
+      { q: 'Can I split password-protected PDFs?', a: 'The tool loads PDFs with encryption ignored, so it can open password-protected files. The split output files will not retain any password protection.' },
+    ],
+  },
+
+  // ─── Image Tools (hand-crafted) ────────────────────────────
+  'image-compressor': {
+    whatIs: 'The Image Compressor reduces image file sizes using the browser Canvas API. It offers three compression levels — Low (80% quality), Medium (50%), and High (25%) — that control JPEG quality. PNG images are re-encoded as PNG and JPG/WebP images as JPEG. The tool shows a before/after preview with file sizes and the percentage saved. All processing happens locally with no server upload.',
+    howTo: [
+      'Drag an image onto the upload area, or click to browse and select a file (JPG, PNG, or WebP).',
+      'Choose a compression level: Low (best quality, mild compression), Medium (balanced), or High (smallest size, lower quality).',
+      'Click the Compress button. The tool draws the image to a canvas and re-encodes it at the selected quality.',
+      'Review the before/after preview showing original and compressed file sizes plus percentage saved.',
+      'Click Download to save the compressed image with "-compressed" appended to the filename.',
+    ],
+    benefits: [
+      { title: 'Three quality presets with before/after preview', description: 'Low (80% quality), Medium (50%), and High (25%) presets let you balance quality and size. The before/after preview shows both images side by side with file sizes and the exact percentage saved.' },
+      { title: 'Canvas-based re-encoding', description: 'The tool draws your image to an HTML5 Canvas element and re-encodes it using the browser\'s native image encoder at your chosen quality level. PNGs stay PNG; other formats are re-encoded as JPEG.' },
+      { title: 'Images never leave your device', description: 'All processing happens in the browser via the Canvas API. No image data is transmitted to any server, which is important for personal photos, medical images, and confidential documents.' },
+      { title: 'No watermarks or sign-up', description: 'The output image is clean — no watermarks, no logos, no required attribution. Free with no account needed.' },
+    ],
+    faqs: [
+      { q: 'What is the difference between Low, Medium, and High compression?', a: 'Low uses 80% JPEG quality (mild compression, best quality). Medium uses 50% quality (balanced). High uses 25% quality (smallest file, noticeable quality reduction). The before/after preview lets you compare results before downloading.' },
+      { q: 'Are PNG images compressed as PNG or JPEG?', a: 'PNG images are re-encoded as PNG (which uses lossless compression), so compression is typically modest. JPG and WebP images are re-encoded as JPEG, where the quality slider has a much larger impact on file size.' },
+      { q: 'How much can I expect the file size to shrink?', a: 'JPGs typically shrink 30-70% depending on the quality level and original content. PNGs compress less since they use lossless encoding. Photos with smooth gradients compress more than images with sharp detail.' },
+      { q: 'Does the tool resize my image?', a: 'No. The compressor preserves the original pixel dimensions. It only changes the encoding quality. Use the Image Resizer tool if you also need to change dimensions.' },
+      { q: 'Is there a file size limit?', a: 'There is no server-side limit. Very large images (50MB+) may be slow to process on older devices due to canvas memory constraints. For best performance, use images under 20MB.' },
+    ],
+  },
+  'image-converter': {
+    whatIs: 'The Image Converter transforms images between JPG, PNG, and WebP formats using the browser Canvas API. Upload an image, select a target format, and the tool draws the image to a canvas and re-encodes it in the chosen format at 92% quality. When converting to JPG, transparent areas are filled with a white background. A before/after preview shows both the source and converted image with file sizes. All processing is local.',
+    howTo: [
+      'Drag an image onto the upload area, or click to browse and select a file.',
+      'Review the detected source format displayed in the tool (JPG, PNG, or WEBP).',
+      'Choose a target format: JPG (best for photos), PNG (lossless with transparency), or WEBP (smallest modern format).',
+      'Click the Convert button. The tool re-encodes the image using Canvas at 92% quality.',
+      'Review the before/after preview, then click Download to save the converted file with the new extension.',
+    ],
+    benefits: [
+      { title: 'Three target formats with source detection', description: 'The tool detects your source format (JPG, PNG, or WEBP) and offers conversion to any of the other two. Each format option shows a hint: JPG for photos, PNG for lossless with transparency, WEBP for smallest modern format.' },
+      { title: 'Transparent-to-white background fill for JPG', description: 'When converting a PNG with transparency to JPG, the tool fills transparent areas with a white background, since JPG does not support transparency. This prevents black or corrupted backgrounds in the output.' },
+      { title: 'Images never leave your device', description: 'All processing happens in the browser via the Canvas API. No image data is transmitted to any server, which is important for personal photos and confidential images.' },
+      { title: 'Before/after preview with file sizes', description: 'The preview panel shows both the original and converted image side by side, with file sizes for each. You can see the quality and size impact before downloading.' },
+    ],
+    faqs: [
+      { q: 'Which formats can I convert between?', a: 'The tool supports conversion between JPG, PNG, and WebP. JPG is best for photographs, PNG for images needing transparency or lossless quality, and WebP for modern web use with smaller file sizes.' },
+      { q: 'What happens to transparency when converting PNG to JPG?', a: 'JPG does not support transparency. The tool fills transparent areas with a white background during conversion, so you get a clean white background instead of black or corrupted pixels.' },
+      { q: 'What quality does the converted image use?', a: 'The tool re-encodes at 92% quality for JPEG and WebP outputs, which provides a good balance between visual quality and file size. PNG output is lossless by nature.' },
+      { q: 'Can I convert to all three formats at once?', a: 'The tool converts to one format at a time. To create versions in multiple formats, run the tool separately for each target format.' },
+      { q: 'Does conversion change image dimensions?', a: 'No. The converter preserves the original width and height. It only changes the encoding format. Use the Image Resizer tool if you also need to change dimensions.' },
+    ],
+  },
+  'image-cropper': {
+    whatIs: 'The Image Cropper lets you visually select and crop a region of an image using the react-image-crop library and the browser Canvas API. Choose from four aspect ratio presets (Free, 1:1, 16:9, 4:3) or a circular crop, then drag the crop selection on the image. The tool renders the cropped region to a canvas at full resolution, accounting for device pixel ratio. All processing is local with no server upload.',
+    howTo: [
+      'Drag an image onto the upload area, or click to browse and select a file.',
+      'Choose a crop shape: Free, 1:1 (square), 16:9, 4:3, or Circle.',
+      'Drag the crop handles on the image to select the area you want to keep. The selection constrains to your chosen aspect ratio.',
+      'Click Apply Crop. The tool renders the selected region to a canvas at full resolution.',
+      'Review the cropped preview, then click Download to save the result with "-cropped" in the filename.',
+    ],
+    benefits: [
+      { title: 'Visual crop with four aspect ratio presets and circle', description: 'Choose Free (any dimensions), 1:1, 16:9, 4:3, or Circle. The crop selection automatically constrains to your chosen ratio. The circle mode clips the cropped region into a round shape using Canvas clipping.' },
+      { title: 'Full-resolution output with device pixel ratio', description: 'The crop is rendered to a canvas sized to the actual pixel dimensions of the selected region, multiplied by the device pixel ratio. This ensures the output is sharp on high-DPI displays and at print resolution.' },
+      { title: 'Images never leave your device', description: 'All cropping happens in the browser via the Canvas API. No image data is transmitted to any server, which is important for personal photos and confidential images.' },
+      { title: 'No watermarks or sign-up', description: 'The cropped image is clean — no watermarks, no logos. Circle crops are output as PNG to preserve transparency; rectangular crops match the source format (PNG or JPG).' },
+    ],
+    faqs: [
+      { q: 'What crop shapes are available?', a: 'The tool offers five crop modes: Free (drag any rectangle), 1:1 (square), 16:9 (widescreen), 4:3 (standard), and Circle. Circle mode clips the cropped area into a round shape using Canvas clipping.' },
+      { q: 'How does the circle crop work?', a: 'Circle mode uses the smaller dimension of your crop selection to create a square, then applies a circular clip path using the Canvas arc API. The result is a round image with transparent corners, saved as PNG to preserve the transparency.' },
+      { q: 'Is the crop at full resolution?', a: 'Yes. The tool calculates the actual pixel crop area by scaling the displayed crop coordinates by the ratio of natural to displayed image dimensions. It also multiplies by device pixel ratio for sharp output on high-DPI screens.' },
+      { q: 'Can I crop to a custom aspect ratio not listed?', a: 'The tool offers Free mode, which lets you drag the crop to any dimensions without aspect ratio constraints. For a specific custom ratio not in the presets, use Free mode and adjust manually.' },
+      { q: 'What format is the cropped output?', a: 'Circle crops are saved as PNG (to preserve transparency around the circle). Rectangular crops match the source format: PNG sources output as PNG, other formats as JPG.' },
+    ],
+  },
+  'image-resizer': {
+    whatIs: 'The Image Resizer changes the pixel dimensions of an image using the browser Canvas API. Enter a target width and height in pixels, with an optional aspect ratio lock that automatically adjusts the other dimension. Quick-resize buttons scale to 25%, 50%, or 75% of the original size. The tool uses high-quality image smoothing and shows a before/after preview. All processing is local.',
+    howTo: [
+      'Drag an image onto the upload area, or click to browse and select a file.',
+      'Enter the target width and/or height in pixels. The tool displays the original dimensions for reference.',
+      'Use the aspect ratio lock (chain icon) to automatically maintain proportions when changing one dimension, or unlock for independent width and height.',
+      'Optionally click 25%, 50%, or 75% to quickly scale relative to the original size.',
+      'Click Resize, review the before/after preview, then click Download to save with the new dimensions in the filename.',
+    ],
+    benefits: [
+      { title: 'Aspect ratio lock with quick-scale buttons', description: 'The chain icon locks width and height together so changing one automatically calculates the other. Quick-scale buttons resize to 25%, 50%, or 75% of the original in one click, useful for creating thumbnails or reduced-size copies.' },
+      { title: 'High-quality canvas smoothing', description: 'The tool sets imageSmoothingQuality to "high" on the canvas context before drawing, which produces smoother downscaling results. This is particularly noticeable when reducing image size significantly.' },
+      { title: 'Images never leave your device', description: 'All resizing happens in the browser via the Canvas API. No image data is transmitted to any server, which is important for personal photos and confidential images.' },
+      { title: 'Before/after preview with file sizes', description: 'The preview panel shows both the original and resized image with their file sizes. The output filename includes the new dimensions (e.g., "photo-800x600.jpg") for easy identification.' },
+    ],
+    faqs: [
+      { q: 'How does the aspect ratio lock work?', a: 'When locked (chain icon linked), changing the width automatically calculates the height based on the original aspect ratio, and vice versa. When unlocked, you can set width and height independently for non-proportional resizing.' },
+      { q: 'What do the 25%, 50%, and 75% buttons do?', a: 'They scale the image relative to its original dimensions. For a 2000x1000 image, 50% sets the width to 1000px and the height to 500px (if the aspect ratio lock is on). This is a quick way to create reduced-size copies.' },
+      { q: 'Does resizing reduce image quality?', a: 'Downscaling preserves quality well — the tool uses high-quality canvas smoothing. Upscaling (making the image larger than the original) will produce a blurry result since no new detail can be created from existing pixels.' },
+      { q: 'What format is the resized output?', a: 'PNG sources are re-encoded as PNG; all other formats (JPG, WebP) are re-encoded as JPEG at 92% quality. The output filename includes the new dimensions, e.g., "photo-800x600.jpg".' },
+      { q: 'Can I resize to specific dimensions like 1920x1080?', a: 'Yes. Enter 1920 in the width field and 1080 in the height field. If the aspect ratio lock is on and the original ratio does not match 16:9, unlock it first to set both dimensions independently.' },
+    ],
+  },
+
+  // ─── Security Tools (hand-crafted) ─────────────────────────
+  'password-generator': {
+    whatIs: 'The Password Generator creates cryptographically random passwords using the browser Web Crypto API (crypto.getRandomValues). It offers a length slider from 4 to 64 characters and toggles for uppercase, lowercase, numbers, symbols, exclude-similar (il1Lo0O), and exclude-ambiguous ({}[]()<>). A built-in strength meter shows entropy bits, an estimated crack time, and a four-bar strength indicator. All generation happens locally — no password ever leaves your browser.',
+    howTo: [
+      'Set the password length using the slider (range: 4 to 64 characters).',
+      'Toggle character types on or off: uppercase, lowercase, numbers, and symbols.',
+      'Optionally enable "Exclude similar" to remove characters like i, l, 1, L, o, 0, O, or "Exclude ambiguous" to remove characters like { } [ ] ( ) < >.',
+      'Click Regenerate to create a new password, or just adjust settings — the tool auto-generates on every change.',
+      'Click the Copy button to copy the password to your clipboard, or toggle the eye icon to hide/show it.',
+    ],
+    benefits: [
+      { title: 'Cryptographically secure randomness', description: 'The generator uses crypto.getRandomValues, the Web Crypto API\'s cryptographically secure random number generator — not Math.random. This ensures passwords cannot be predicted or reproduced.' },
+      { title: 'Six character-set options with exclusion filters', description: 'Toggle uppercase, lowercase, numbers, and symbols independently. Two exclusion filters remove similar-looking characters (il1Lo0O) for readability and ambiguous punctuation ({}[]()<>) for systems that reject them.' },
+      { title: 'Built-in strength analysis with entropy and crack time', description: 'The strength meter calculates entropy in bits based on the character pool size and password length, then estimates crack time. A four-bar indicator gives an instant visual strength rating.' },
+      { title: 'Passwords never leave your browser', description: 'All generation and analysis happens locally in JavaScript. No password is transmitted, stored, or logged anywhere. The tool works offline once the page is loaded.' },
+    ],
+    faqs: [
+      { q: 'Is the randomness truly secure?', a: 'Yes. The tool uses crypto.getRandomValues, which is the Web Crypto API\'s cryptographically secure random number generator. This is the same API used for cryptographic operations in modern browsers. It does not use Math.random, which is not cryptographically secure.' },
+      { q: 'What does "Exclude similar" do?', a: 'It removes characters that look alike and are easy to confuse when reading or typing: i, l, 1, L, o, 0, O. This is useful for passwords that need to be read over the phone or typed from a printout.' },
+      { q: 'What does "Exclude ambiguous" do?', a: 'It removes punctuation characters that some systems reject or that can cause parsing issues: { } [ ] ( ) < >. This helps when the password will be used in systems with strict character policies.' },
+      { q: 'How is the crack time estimated?', a: 'The tool calculates entropy as (password length) times log2(character pool size). It then estimates crack time assuming a rate of 10 billion guesses per second (a rough approximation of modern GPU cracking). Actual crack time varies widely.' },
+      { q: 'What length should I use?', a: 'For most accounts, 16-20 characters with all four character types enabled provides strong security (60+ bits of entropy). For high-value accounts, consider 24+ characters. The strength meter shows the entropy and estimated crack time for your current settings.' },
+      { q: 'Can I generate multiple passwords?', a: 'Click Regenerate to create a new password each time, or change any setting to auto-generate. The tool shows one password at a time. Generate and copy each password before creating the next.' },
+    ],
+  },
+  'password-strength-checker': {
+    whatIs: 'The Password Strength Checker analyzes a password in real time, entirely in your browser. As you type, it calculates entropy in bits, estimates crack time, shows a four-bar strength indicator, and runs six requirement checks (12+ characters, uppercase, lowercase, number, symbol, no repeated characters). A suggestions panel offers specific improvement advice. No password is ever transmitted or stored.',
+    howTo: [
+      'Type or paste a password into the input field.',
+      'Toggle the eye icon to show or hide the password text.',
+      'Review the strength indicator (four bars), entropy in bits, and estimated crack time.',
+      'Check the requirements list to see which criteria your password meets (12+ chars, uppercase, lowercase, number, symbol, no repeated characters).',
+      'Read the suggestions panel for specific advice on improving your password.',
+    ],
+    benefits: [
+      { title: 'Real-time entropy and crack-time estimation', description: 'The tool calculates entropy as (password length) times log2(character pool size) based on which character types are present. It estimates crack time at 10 billion guesses per second. Both update instantly as you type.' },
+      { title: 'Six specific requirement checks', description: 'The tool checks for at least 12 characters, an uppercase letter, a lowercase letter, a number, a symbol, and no characters repeated three or more times in a row. Each check shows a pass/fail indicator.' },
+      { title: 'Actionable improvement suggestions', description: 'The suggestions panel lists specific steps to strengthen your password, such as adding more characters, mixing character types, or avoiding repeated sequences. Suggestions update based on your current input.' },
+      { title: 'Your password never leaves the browser', description: 'All analysis runs in local JavaScript. The password is not transmitted, stored, or logged. A note under the input field reminds you of this. The tool works offline once loaded.' },
+    ],
+    faqs: [
+      { q: 'Is it safe to type my real password?', a: 'Yes. All analysis happens in your browser via local JavaScript. The password is never transmitted to any server, stored, or logged. A privacy note under the input field confirms this. You can also use the hide toggle to mask the text.' },
+      { q: 'How is entropy calculated?', a: 'Entropy is calculated as (password length) times log2(character pool size). The pool size depends on which character types are present: 26 for lowercase, 26 for uppercase, 10 for numbers, 32 for symbols. A 16-character password with all four types has about 95 bits of entropy.' },
+      { q: 'How accurate is the crack time estimate?', a: 'The estimate assumes 10 billion guesses per second, which approximates modern GPU cracking speed. Actual crack time depends on the hash algorithm used by the service, salt, and attack strategy. Treat the estimate as a rough comparison tool, not an exact prediction.' },
+      { q: 'What does the "No repeated chars" check look for?', a: 'It detects any character repeated three or more times in a row (e.g., "aaa" or "111"). Repeated sequences weaken passwords because they reduce the effective entropy and are common in dictionary attacks.' },
+      { q: 'Why does my password show as weak even though it is long?', a: 'Length alone does not guarantee strength. If the password uses only lowercase letters, the character pool is small (26), so entropy grows slowly. Adding uppercase, numbers, and symbols increases the pool, which dramatically increases entropy per character.' },
+    ],
+  },
+
+  // ─── Developer Tools (hand-crafted) ────────────────────────
+  'json-formatter': {
+    whatIs: 'The JSON Formatter beautifies and minifies JSON data using JavaScript\'s native JSON.parse and JSON.stringify. Paste JSON into the input area, and the tool automatically parses and re-formats it with your chosen indentation (2 or 4 spaces). Click Beautify to pretty-print or Minify to compress to a single line. Syntax errors are caught and displayed with the specific error message from the JavaScript parser. Copy or download the formatted output.',
+    howTo: [
+      'Paste your JSON text into the input area on the left.',
+      'The tool auto-formats as you type using the current indentation setting.',
+      'Click Beautify to pretty-print with 2 or 4 space indentation, or Minify to compress to a single line.',
+      'Switch between 2-space and 4-space indentation using the buttons in the toolbar.',
+      'Copy the formatted output to your clipboard, or download it as "formatted.json".',
+    ],
+    benefits: [
+      { title: 'Real-time formatting with auto-parse', description: 'The tool automatically parses and reformats your JSON as you type or change the indentation setting. You see the formatted output instantly without clicking a button, though Beautify and Minify buttons are available for explicit actions.' },
+      { title: 'Beautify and minify in one tool', description: 'Switch between pretty-printed (2 or 4 space indentation) and minified (single-line, no whitespace) output with one click. Useful for alternating between development readability and production file-size optimization.' },
+      { title: 'Precise syntax error reporting', description: 'When your JSON has a syntax error, the tool displays the exact error message from the JavaScript JSON.parse engine, including the position and nature of the error. This helps you find and fix issues quickly.' },
+      { title: 'Copy and download without uploading', description: 'All parsing happens in your browser. No JSON data is sent to a server. Copy the formatted output to your clipboard or download it as "formatted.json" directly from the tool.' },
+    ],
+    faqs: [
+      { q: 'What is the difference between Beautify and Minify?', a: 'Beautify adds indentation (2 or 4 spaces) and line breaks to make JSON human-readable. Minify removes all unnecessary whitespace and line breaks to produce the smallest possible single-line output, which is useful for production web files.' },
+      { q: 'Does the tool validate my JSON?', a: 'Yes. The tool uses JSON.parse to parse your input. If there is a syntax error, it displays the exact error message from the JavaScript engine in the output area instead of formatted JSON. This makes it a combined formatter and validator.' },
+      { q: 'Can I choose between 2-space and 4-space indentation?', a: 'Yes. The toolbar has buttons for 2 and 4 space indentation. Changing the indentation immediately reformats the output. The default is 2 spaces.' },
+      { q: 'Does the tool handle nested objects and arrays?', a: 'Yes. JSON.stringify with the indentation parameter handles arbitrary nesting depth. Objects, arrays, strings, numbers, booleans, and null are all formatted correctly.' },
+      { q: 'Is my JSON data sent to a server?', a: 'No. All parsing and formatting happens in your browser using JavaScript\'s native JSON.parse and JSON.stringify. No data is transmitted, stored, or logged. The tool works offline once the page is loaded.' },
+      { q: 'Can I download the formatted JSON?', a: 'Yes. Click the download button to save the formatted output as "formatted.json". You can also copy it to your clipboard with the copy button.' },
+    ],
+  },
 };
 
 export function getToolSeoContent(slug: string): ContentEntry | undefined {
