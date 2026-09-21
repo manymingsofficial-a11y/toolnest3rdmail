@@ -8,7 +8,7 @@ export const metadata = buildToolMetadata(
   'Create favicons from any image for your website.'
 );
 
-const relatedSlugs = ['image-resizer', 'image-placeholder-generator', 'svg-to-png'];
+const relatedSlugs = ['image-resizer', 'image-placeholder-generator', 'svg-to-png', 'svg-optimizer'];
 
 export default function FaviconGeneratorPage() {
   return (

@@ -7,7 +7,7 @@ export const metadata = buildToolMetadata(
   'Generate FAQ schema markup for rich results.'
 );
 
-const relatedSlugs = ['schema-markup-generator', 'article-schema-generator', 'meta-tag-generator'];
+const relatedSlugs = ['schema-markup-generator', 'article-schema-generator', 'meta-tag-generator', 'ai-product-schema-writer'];
 
 export default function FaqSchemaGeneratorPage() {
   return (

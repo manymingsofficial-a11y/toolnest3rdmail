@@ -7,7 +7,7 @@ export const metadata = buildToolMetadata(
   'Generate website schema markup for your site.'
 );
 
-const relatedSlugs = ['schema-markup-generator', 'breadcrumb-schema-generator', 'meta-tag-generator'];
+const relatedSlugs = ['schema-markup-generator', 'breadcrumb-schema-generator', 'meta-tag-generator', 'ai-product-schema-writer'];
 
 export default function WebsiteSchemaGeneratorPage() {
   return (

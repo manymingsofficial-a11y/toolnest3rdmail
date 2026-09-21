@@ -7,7 +7,7 @@ export const metadata = buildToolMetadata(
   'Create compelling meta descriptions for SEO.'
 );
 
-const relatedSlugs = ['ai-meta-title-generator', 'ai-faq-generator', 'ai-keyword-generator'];
+const relatedSlugs = ['ai-meta-title-generator', 'ai-faq-generator', 'ai-keyword-generator', 'ai-product-description-generator'];
 
 export default function AiMetaDescriptionGeneratorPage() {
   return (

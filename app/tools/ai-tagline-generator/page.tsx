@@ -7,7 +7,7 @@ export const metadata = buildToolMetadata(
   'Generate memorable taglines for your business.'
 );
 
-const relatedSlugs = ['ai-slogan-generator', 'ai-business-name-generator', 'ai-marketing-copy-generator'];
+const relatedSlugs = ['ai-slogan-generator', 'ai-business-name-generator', 'ai-marketing-copy-generator', 'ai-product-description-generator'];
 
 export default function AiTaglineGeneratorPage() {
   return (

@@ -7,7 +7,7 @@ export const metadata = buildToolMetadata(
   'Generate product schema markup for e-commerce SEO.'
 );
 
-const relatedSlugs = ['schema-markup-generator', 'article-schema-generator', 'meta-tag-generator'];
+const relatedSlugs = ['schema-markup-generator', 'article-schema-generator', 'meta-tag-generator', 'ai-product-schema-writer'];
 
 export default function ProductSchemaGeneratorPage() {
   return (

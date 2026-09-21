@@ -8,7 +8,7 @@ export const metadata = buildToolMetadata(
   'Convert SVG files to PNG images instantly.'
 );
 
-const relatedSlugs = ['png-to-svg', 'svg-viewer', 'image-converter'];
+const relatedSlugs = ['png-to-svg', 'svg-viewer', 'image-converter', 'svg-optimizer'];
 
 export default function SvgToPngPage() {
   return (

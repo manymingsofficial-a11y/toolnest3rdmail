@@ -8,7 +8,7 @@ export const metadata = buildToolMetadata(
   'View XLSX spreadsheets in your browser.'
 );
 
-const relatedSlugs = ['csv-viewer', 'docx-viewer', 'excel-to-csv'];
+const relatedSlugs = ['csv-viewer', 'docx-viewer', 'excel-to-csv', 'excel-to-pdf'];
 
 export default function ExcelViewerPage() {
   return (

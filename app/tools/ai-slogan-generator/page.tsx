@@ -7,7 +7,7 @@ export const metadata = buildToolMetadata(
   'Generate catchy slogans for your brand.'
 );
 
-const relatedSlugs = ['ai-tagline-generator', 'ai-brand-name-generator', 'ai-marketing-copy-generator'];
+const relatedSlugs = ['ai-tagline-generator', 'ai-brand-name-generator', 'ai-marketing-copy-generator', 'ai-product-description-generator'];
 
 export default function AiSloganGeneratorPage() {
   return (

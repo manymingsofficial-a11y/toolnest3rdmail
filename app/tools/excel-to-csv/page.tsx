@@ -8,7 +8,7 @@ export const metadata = buildToolMetadata(
   'Convert XLSX spreadsheets to CSV format.'
 );
 
-const relatedSlugs = ['csv-to-excel', 'csv-viewer', 'excel-viewer'];
+const relatedSlugs = ['csv-to-excel', 'csv-viewer', 'excel-viewer', 'excel-to-pdf'];
 
 export default function ExcelToCsvPage() {
   return (

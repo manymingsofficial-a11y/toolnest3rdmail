@@ -8,7 +8,7 @@ export const metadata = buildToolMetadata(
   'Convert PDF documents to editable DOCX files.'
 );
 
-const relatedSlugs = ['pdf-to-excel', 'pdf-to-powerpoint', 'word-to-pdf'];
+const relatedSlugs = ['pdf-to-excel', 'pdf-to-powerpoint', 'word-to-pdf', 'excel-to-pdf'];
 
 export default function PdfToWordPage() {
   return (
