@@ -20,6 +20,7 @@ export const metadata: Metadata = {
     url: `${SITE_URL}/blog`,
     siteName: 'ToolNest',
     locale: 'en_US',
+    images: [{ url: '/logo.png', width: 1200, height: 630, alt: 'ToolNest Blog — Guides & Tutorials' }],
   },
   twitter: {
     card: 'summary_large_image',

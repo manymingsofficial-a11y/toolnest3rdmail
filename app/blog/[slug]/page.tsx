@@ -35,6 +35,7 @@ export async function generateMetadata({
       url: `${SITE_URL}/blog/${params.slug}`,
       siteName: 'ToolNest',
       locale: 'en_US',
+      images: [{ url: '/logo.png', width: 1200, height: 630, alt: post.title }],
       publishedTime: post.publishedAt,
       modifiedTime: post.updatedAt ?? post.publishedAt,
       authors: [post.author],

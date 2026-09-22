@@ -14,6 +14,7 @@ export const metadata: Metadata = {
     url: `${SITE_URL}/terms`,
     siteName: 'ToolNest',
     locale: 'en_US',
+    images: [{ url: '/logo.png', width: 1200, height: 630, alt: 'Terms of Service — ToolNest' }],
   },
   twitter: {
     card: 'summary_large_image',
