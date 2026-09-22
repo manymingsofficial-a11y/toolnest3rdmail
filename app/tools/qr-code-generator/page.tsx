@@ -8,7 +8,6 @@ import { RelatedTools } from '@/components/related-tools';
 import { ToolActions } from '@/components/tool-actions';
 import { getRelatedTools } from '@/lib/data';
 import {
-  generateWebApplicationJsonLd,
   generateBreadcrumbJsonLd,
   generateHowToJsonLd,
   generateFaqJsonLd,
@@ -26,7 +25,6 @@ const relatedTools = getRelatedTools('qr-code-generator', 3).filter((t) =>
 );
 
 export default function QrCodeGeneratorPage() {
-  const webAppJsonLd = generateWebApplicationJsonLd('qr-code-generator');
   const breadcrumbJsonLd = generateBreadcrumbJsonLd([
     { name: 'Home', url: '/' },
     { name: 'Tools', url: '/tools' },
@@ -51,12 +49,6 @@ export default function QrCodeGeneratorPage() {
 
   return (
     <>
-      {webAppJsonLd && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppJsonLd) }}
-        />
-      )}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}

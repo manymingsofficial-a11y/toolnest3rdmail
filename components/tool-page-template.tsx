@@ -11,7 +11,6 @@ import { getIcon } from '@/lib/icon-map';
 import { getRelatedTools, tools, categories } from '@/lib/data';
 import { generateToolSeoContent, isBoilerplateSeo } from '@/lib/tool-seo-content';
 import {
-  generateWebApplicationJsonLd,
   generateBreadcrumbJsonLd,
   generateHowToJsonLd,
   generateFaqJsonLd,
@@ -65,7 +64,6 @@ export function ToolPageTemplate({
         .filter((t): t is NonNullable<typeof t> => Boolean(t))
     : getRelatedTools(slug, 3);
 
-  const webAppJsonLd = generateWebApplicationJsonLd(slug);
   const toolCategory = categories.find((c) => c.name === tool.category);
 
   const breadcrumbJsonLd = generateBreadcrumbJsonLd([
@@ -82,12 +80,6 @@ export function ToolPageTemplate({
 
   return (
     <>
-      {webAppJsonLd && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppJsonLd) }}
-        />
-      )}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}

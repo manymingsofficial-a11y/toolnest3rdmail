@@ -50,27 +50,6 @@ export function generateWebsiteJsonLd() {
   };
 }
 
-export function generateWebApplicationJsonLd(slug: string) {
-  const tool = tools.find((t) => t.slug === slug);
-  if (!tool) return null;
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'WebApplication',
-    name: tool.name,
-    description: tool.description,
-    url: `${SITE_URL}/tools/${tool.slug}`,
-    applicationCategory: 'WebApplication',
-    operatingSystem: 'Any',
-    browserRequirements: 'Requires a modern web browser with JavaScript enabled.',
-    offers: {
-      '@type': 'Offer',
-      price: '0',
-      priceCurrency: 'USD',
-    },
-    isAccessibleForFree: true,
-  };
-}
-
 export function generateCategoryJsonLd(slug: string) {
   const cat = categories.find((c) => c.slug === slug);
   if (!cat) return null;
