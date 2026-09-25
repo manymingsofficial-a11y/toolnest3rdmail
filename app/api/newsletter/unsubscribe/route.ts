@@ -21,17 +21,20 @@ export async function POST(req: NextRequest) {
       .eq('email', email)
       .maybeSingle();
 
+    // Always return success to prevent email enumeration
     if (!existing) {
-      return NextResponse.json(
-        { error: 'This email is not subscribed.' },
-        { status: 404 }
-      );
+      // Email not found - return generic success
+      return NextResponse.json({
+        ok: true,
+        message: "If this email was subscribed, it has been unsubscribed. If it wasn't subscribed, no action was needed.",
+      });
     }
 
     if (existing.status === 'unsubscribed') {
+      // Already unsubscribed - return generic success
       return NextResponse.json({
         ok: true,
-        message: 'You are already unsubscribed.',
+        message: "If this email was subscribed, it has been unsubscribed. If it was already unsubscribed, no changes were made.",
       });
     }
 
@@ -57,7 +60,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       ok: true,
-      message: 'You have been unsubscribed. Sorry to see you go!',
+      message: "If this email was subscribed, it has been unsubscribed. You will no longer receive updates.",
     });
   } catch {
     return NextResponse.json(

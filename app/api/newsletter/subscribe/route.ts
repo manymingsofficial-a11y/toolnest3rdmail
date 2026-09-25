@@ -29,12 +29,15 @@ export async function POST(req: NextRequest) {
       .eq('email', email)
       .maybeSingle();
 
+    // Always return success to prevent email enumeration
+    // The actual logic still runs but response is generic
     if (existing) {
       if (existing.status === 'active') {
-        return NextResponse.json(
-          { error: 'You are already subscribed!' },
-          { status: 409 }
-        );
+        // Already subscribed - silently return success
+        return NextResponse.json({
+          ok: true,
+          message: "If this email is subscribed, you'll receive a confirmation. If not, you've been added to the list.",
+        });
       }
       // Reactivate unsubscribed user
       const { error: reactivateError } = await supabaseServer
@@ -62,7 +65,7 @@ export async function POST(req: NextRequest) {
 
       return NextResponse.json({
         ok: true,
-        message: "Welcome back! You're subscribed again.",
+        message: "If this email was previously unsubscribed, it's been reactivated. If not, you've been added to the list.",
       });
     }
 
@@ -92,7 +95,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       ok: true,
-      message: "You're subscribed! Watch your inbox for updates.",
+      message: "If this email is new, you've been added to the list. If it was already subscribed, no changes were made.",
     });
   } catch {
     return NextResponse.json(

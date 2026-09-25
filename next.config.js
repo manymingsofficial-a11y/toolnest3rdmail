@@ -31,6 +31,23 @@ const nextConfig = {
           { key: 'X-DNS-Prefetch-Control', value: 'on' },
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+          // Content Security Policy - Report Only mode for safe testing
+          // Allows: inline scripts for JSON-LD, Google AdSense, Google Fonts, inline styles, Vercel Speed Insights
+          {
+            key: 'Content-Security-Policy-Report-Only',
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://www.googletagmanager.com https://va.vercel-scripts.com",
+              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+              "font-src 'self' https://fonts.gstatic.com data:",
+              "img-src 'self' data: https: blob:",
+              "connect-src 'self' https://*.supabase.co https://vitals.vercel-insights.com https://pagead2.googlesyndication.com",
+              "frame-src 'self' https://www.google.com https://googleads.g.doubleclick.net",
+              "base-uri 'self'",
+              "form-action 'self'",
+              "report-uri /api/csp-report",
+            ].join('; '),
+          },
         ],
       },
       {
