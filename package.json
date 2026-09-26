@@ -10,6 +10,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@ffmpeg/core": "^0.12.10",
+    "@ffmpeg/ffmpeg": "^0.12.15",
+    "@ffmpeg/util": "^0.12.2",
     "@hookform/resolvers": "^3.9.0",
     "@netlify/plugin-nextjs": "^5.15.1",
     "@next/swc-wasm-nodejs": "13.5.1",
@@ -56,6 +59,7 @@
     "jsbarcode": "^3.12.3",
     "jsqr": "^1.4.0",
     "lucide-react": "^0.446.0",
+    "music-metadata": "^9.0.3",
     "next": "13.5.1",
     "next-themes": "^0.3.0",
     "pdf-lib": "^1.17.1",
