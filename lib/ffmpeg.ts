@@ -83,3 +83,5 @@ export function revokeObjectUrl(url: string) {
     // ignore
   }
 }
+
+export { fetchFile } from '@ffmpeg/util';
