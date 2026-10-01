@@ -412,22 +412,25 @@ export function PdfProtect() {
     try {
       const doc = await loadPdf();
       if (!doc) return;
+      // NOTE: pdf-lib does NOT support PDF encryption (password protection).
+      // This only saves the PDF without actual encryption.
+      // The password is stored as metadata only and does NOT restrict access.
       const bytes = await doc.save({
         useObjectStreams: false,
       });
-      setResult(bytes, 'protected.pdf');
+      setResult(bytes, 'unencrypted.pdf');
     } catch (e) {
       setState((s) => ({
         ...s,
         loading: false,
-        error: e instanceof Error ? e.message : 'Failed to protect PDF.',
+        error: e instanceof Error ? e.message : 'Failed to process PDF.',
       }));
     }
   }
 
   return (
     <PdfLayout
-      title="PDF Protect"
+      title="PDF Protect (Metadata Only)"
       file={state.file}
       onFile={loadFile}
       onClear={clear}
@@ -438,20 +441,34 @@ export function PdfProtect() {
       onReset={clear}
       loading={state.loading}
     >
+      <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm mb-4">
+        <p className="font-medium text-amber-600 dark:text-amber-400">
+          Important Limitation
+        </p>
+        <p className="mt-1 text-muted-foreground">
+          The current implementation (<strong>pdf-lib v1.17.1</strong>) does <strong>not support PDF encryption</strong>.
+          This tool only saves the PDF without actual password protection.
+          The password is stored as document metadata but does <strong>not restrict access</strong> to the file.
+        </p>
+        <p className="mt-2 text-sm">
+          For real PDF encryption with password protection, use a tool with proper encryption support
+          (e.g., qpdf, Adobe Acrobat, or server-side PDF engines).
+        </p>
+      </div>
       <div className="space-y-3">
         <div className="space-y-2">
-          <Label className="text-sm font-medium">Password</Label>
+          <Label className="text-sm font-medium">Password (metadata only)</Label>
           <Input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter a password"
+            placeholder="Enter a password (stored as metadata only)"
             className="rounded-xl"
           />
         </div>
-        <Button onClick={process} disabled={!password} className="rounded-xl">
+        <Button onClick={process} disabled={!password} className="rounded-xl" variant="outline">
           <Lock className="mr-1.5 h-4 w-4" />
-          Protect PDF
+          Save PDF (No Encryption)
         </Button>
       </div>
     </PdfLayout>
