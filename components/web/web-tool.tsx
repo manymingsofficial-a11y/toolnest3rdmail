@@ -83,17 +83,6 @@ export function WebTool({ config }: { config: WebToolConfig }) {
           return;
         }
 
-        if (config.slug === 'ip-address-checker') {
-          setResult(JSON.stringify({
-            note: 'Your public IP requires a server-side check. In a production environment, this would fetch your IP from an API.',
-            localIP: 'Available via WebRTC (browser-specific)',
-            userAgent: navigator.userAgent,
-          }, null, 2));
-          setProcessing(false);
-          toast.success('IP information retrieved!');
-          return;
-        }
-
         if (config.slug === 'http-header-viewer') {
           setResult(JSON.stringify({
             note: 'Due to CORS restrictions, HTTP headers cannot be fetched directly from the browser for arbitrary URLs. In production, this would use a server-side proxy.',
@@ -104,26 +93,6 @@ export function WebTool({ config }: { config: WebToolConfig }) {
           return;
         }
 
-        if (config.slug === 'dns-lookup') {
-          setResult(JSON.stringify({
-            note: 'DNS lookups require a server-side resolver. In production, this would query DNS servers via an API.',
-            domain: url,
-          }, null, 2));
-          setProcessing(false);
-          toast.success('DNS lookup complete!');
-          return;
-        }
-
-        if (config.slug === 'ssl-checker') {
-          setResult(JSON.stringify({
-            note: 'SSL certificate details require server-side verification. In production, this would connect to the domain and inspect the certificate.',
-            domain: url,
-          }, null, 2));
-          setProcessing(false);
-          toast.success('SSL check complete!');
-          return;
-        }
-
         if (config.slug === 'website-screenshot') {
           setResult(JSON.stringify({
             note: 'Website screenshots require a server-side rendering service. In production, this would use a headless browser to capture the page.',
@@ -131,17 +100,6 @@ export function WebTool({ config }: { config: WebToolConfig }) {
           }, null, 2));
           setProcessing(false);
           toast.success('Screenshot info ready!');
-          return;
-        }
-
-        if (config.slug === 'open-graph-preview') {
-          setResult(JSON.stringify({
-            note: 'Open Graph tags require fetching the URL. Due to CORS, this would use a server-side proxy in production.',
-            url: url,
-            expectedTags: ['og:title', 'og:description', 'og:image', 'og:url', 'og:type'],
-          }, null, 2));
-          setProcessing(false);
-          toast.success('Open Graph preview ready!');
           return;
         }
 
