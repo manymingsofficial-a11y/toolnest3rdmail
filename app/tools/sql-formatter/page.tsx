@@ -1,5 +1,5 @@
 import { ToolPageTemplate, buildToolMetadata } from '@/components/tool-page-template';
-import { SqlFormatter } from '@/components/dev/dev-tools-extra';
+import { SqlFormatter } from '@/components/dev/SqlFormatter';
 
 export const metadata = buildToolMetadata(
   'sql-formatter',

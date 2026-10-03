@@ -1,5 +1,5 @@
 import { ToolPageTemplate, buildToolMetadata } from '@/components/tool-page-template';
-import { XmlFormatter } from '@/components/dev/dev-tools-extra';
+import { XmlFormatter } from '@/components/dev/XmlFormatter';
 
 export const metadata = buildToolMetadata(
   'xml-formatter',

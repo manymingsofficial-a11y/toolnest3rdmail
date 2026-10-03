@@ -1,5 +1,5 @@
 import { ToolPageTemplate, buildToolMetadata } from '@/components/tool-page-template';
-import { YamlValidator } from '@/components/dev/dev-tools-extra';
+import { YamlValidator } from '@/components/dev/YamlTools';
 
 export const metadata = buildToolMetadata(
   'yaml-validator',

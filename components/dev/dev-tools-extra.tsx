@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Copy, Check, Boxes, FileJson, Database, FileCode, FileSpreadsheet, Braces, Timer} from 'lucide-react';
+import { Copy, Check, Boxes, FileJson, Database, FileCode, FileSpreadsheet, Braces, Timer } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -42,7 +42,7 @@ function ToolCard({ title, children }: { title: string; children: React.ReactNod
   );
 }
 
-export function UuidBulkGenerator() {
+function UuidBulkGenerator() {
   const [count, setCount] = React.useState(5);
   const [uppercase, setUppercase] = React.useState(false);
   const [noHyphens, setNoHyphens] = React.useState(false);
@@ -102,7 +102,7 @@ function base64UrlDecode(str: string): string {
   return atob(s);
 }
 
-export function JwtDecoder() {
+function JwtDecoder() {
   const [token, setToken] = React.useState('');
   const [header, setHeader] = React.useState('');
   const [payload, setPayload] = React.useState('');
@@ -153,7 +153,7 @@ export function JwtDecoder() {
   );
 }
 
-export function JwtEncoder() {
+function JwtEncoder() {
   const [header, setHeader] = React.useState('{\n  "alg": "HS256",\n  "typ": "JWT"\n}');
   const [payload, setPayload] = React.useState('{\n  "sub": "1234567890",\n  "name": "John Doe",\n  "iat": 1516239022\n}');
   const [secret, setSecret] = React.useState('');
@@ -216,101 +216,7 @@ export function JwtEncoder() {
   );
 }
 
-export function SqlFormatter() {
-  const [input, setInput] = React.useState('');
-  const [output, setOutput] = React.useState('');
-
-  function format() {
-    let sql = input;
-    sql = sql.replace(/\s+/g, ' ').trim();
-    const keywords = ['SELECT', 'FROM', 'WHERE', 'AND', 'OR', 'INNER JOIN', 'LEFT JOIN', 'RIGHT JOIN', 'OUTER JOIN', 'GROUP BY', 'ORDER BY', 'HAVING', 'LIMIT', 'OFFSET', 'INSERT INTO', 'VALUES', 'UPDATE', 'SET', 'DELETE FROM', 'CREATE TABLE', 'ALTER TABLE', 'DROP TABLE', 'UNION', 'UNION ALL'];
-    for (const kw of keywords) {
-      const re = new RegExp(`\\b${kw}\\b`, 'gi');
-      sql = sql.replace(re, '\n' + kw);
-    }
-    sql = sql.replace(/\n\s+/g, '\n').trim();
-    sql = sql.replace(/,\s+/g, ',\n  ');
-    setOutput(sql);
-  }
-
-  return (
-    <ToolCard title="SQL Formatter">
-      <div className="space-y-2">
-        <Label className="text-sm font-medium">SQL Input</Label>
-        <Textarea value={input} onChange={(e) => setInput(e.target.value)} placeholder="SELECT * FROM users WHERE id = 1" className="min-h-[120px] rounded-xl font-mono text-sm" />
-      </div>
-      <Button onClick={format} className="rounded-xl">
-        <Database className="mr-1.5 h-4 w-4" />
-        Format SQL
-      </Button>
-      {output && (
-        <div className="space-y-2">
-          <Label className="text-sm font-medium">Formatted SQL</Label>
-          <Textarea value={output} readOnly className="min-h-[150px] rounded-xl font-mono text-sm" />
-          <CopyButton text={output} />
-        </div>
-      )}
-    </ToolCard>
-  );
-}
-
-export function XmlFormatter() {
-  const [input, setInput] = React.useState('');
-  const [output, setOutput] = React.useState('');
-  const [error, setError] = React.useState<string | null>(null);
-
-  function format() {
-    try {
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(input, 'text/xml');
-      if (doc.querySelector('parsererror')) {
-        setError('Invalid XML.');
-        setOutput('');
-        return;
-      }
-      const serialized = new XMLSerializer().serializeToString(doc);
-      let formatted = '';
-      let indent = '';
-      for (const ch of serialized) {
-        if (ch === '>') {
-          formatted += ch + '\n' + indent;
-        } else if (ch === '<' && formatted.endsWith(indent)) {
-          formatted = formatted.slice(0, -indent.length);
-          formatted += ch;
-        } else {
-          formatted += ch;
-        }
-      }
-      setOutput(formatted.trim());
-      setError(null);
-    } catch {
-      setError('Failed to format XML.');
-    }
-  }
-
-  return (
-    <ToolCard title="XML Formatter">
-      <div className="space-y-2">
-        <Label className="text-sm font-medium">XML Input</Label>
-        <Textarea value={input} onChange={(e) => setInput(e.target.value)} placeholder="<root><item>value</item></root>" className="min-h-[120px] rounded-xl font-mono text-sm" />
-      </div>
-      <Button onClick={format} className="rounded-xl">
-        <FileCode className="mr-1.5 h-4 w-4" />
-        Format XML
-      </Button>
-      {error && <p className="text-sm text-destructive">{error}</p>}
-      {output && (
-        <div className="space-y-2">
-          <Label className="text-sm font-medium">Formatted XML</Label>
-          <Textarea value={output} readOnly className="min-h-[150px] rounded-xl font-mono text-sm" />
-          <CopyButton text={output} />
-        </div>
-      )}
-    </ToolCard>
-  );
-}
-
-export function XmlValidator() {
+function XmlValidator() {
   const [input, setInput] = React.useState('');
   const [valid, setValid] = React.useState<boolean | null>(null);
   const [message, setMessage] = React.useState('');
@@ -392,7 +298,7 @@ function parseCsv(text: string): string[][] {
   return rows.filter((r) => r.length > 1 || (r.length === 1 && r[0] !== ''));
 }
 
-export function CsvToJson() {
+function CsvToJson() {
   const [input, setInput] = React.useState('');
   const [output, setOutput] = React.useState('');
 
@@ -434,7 +340,7 @@ export function CsvToJson() {
   );
 }
 
-export function JsonToCsv() {
+function JsonToCsv() {
   const [input, setInput] = React.useState('');
   const [output, setOutput] = React.useState('');
   const [error, setError] = React.useState<string | null>(null);
@@ -489,94 +395,6 @@ export function JsonToCsv() {
   );
 }
 
-export function YamlFormatter() {
-  const [input, setInput] = React.useState('');
-  const [output, setOutput] = React.useState('');
-  const [error, setError] = React.useState<string | null>(null);
-
-  function format() {
-    try {
-      const lines = input.split('\n');
-      const formatted = lines
-        .map((line) => {
-          const trimmed = line.trimEnd();
-          const indent = line.length - line.trimStart().length;
-          return ' '.repeat(indent) + trimmed.trimStart();
-        })
-        .join('\n');
-      setOutput(formatted);
-      setError(null);
-    } catch {
-      setError('Failed to format YAML.');
-    }
-  }
-
-  return (
-    <ToolCard title="YAML Formatter">
-      <div className="space-y-2">
-        <Label className="text-sm font-medium">YAML Input</Label>
-        <Textarea value={input} onChange={(e) => setInput(e.target.value)} placeholder="key: value" className="min-h-[120px] rounded-xl font-mono text-sm" />
-      </div>
-      <Button onClick={format} className="rounded-xl">
-        <Braces className="mr-1.5 h-4 w-4" />
-        Format YAML
-      </Button>
-      {error && <p className="text-sm text-destructive">{error}</p>}
-      {output && (
-        <div className="space-y-2">
-          <Label className="text-sm font-medium">Formatted YAML</Label>
-          <Textarea value={output} readOnly className="min-h-[120px] rounded-xl font-mono text-sm" />
-          <CopyButton text={output} />
-        </div>
-      )}
-    </ToolCard>
-  );
-}
-
-export function YamlValidator() {
-  const [input, setInput] = React.useState('');
-  const [valid, setValid] = React.useState<boolean | null>(null);
-
-  function validate() {
-    try {
-      const lines = input.split('\n');
-      let valid = true;
-      for (const line of lines) {
-        const trimmed = line.trim();
-        if (trimmed && !trimmed.startsWith('#')) {
-          if (!trimmed.includes(':') && !trimmed.startsWith('-')) {
-            valid = false;
-            break;
-          }
-        }
-      }
-      setValid(valid);
-    } catch {
-      setValid(false);
-    }
-  }
-
-  return (
-    <ToolCard title="YAML Validator">
-      <div className="space-y-2">
-        <Label className="text-sm font-medium">YAML Input</Label>
-        <Textarea value={input} onChange={(e) => setInput(e.target.value)} placeholder="key: value" className="min-h-[150px] rounded-xl font-mono text-sm" />
-      </div>
-      <Button onClick={validate} className="rounded-xl">
-        <Braces className="mr-1.5 h-4 w-4" />
-        Validate YAML
-      </Button>
-      {valid !== null && (
-        <div className={cn('rounded-xl border p-4 text-center', valid ? 'border-green-500/30 bg-green-500/10' : 'border-red-500/30 bg-red-500/10')}>
-          <p className={valid ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}>
-            {valid ? 'YAML appears valid!' : 'YAML validation failed.'}
-          </p>
-        </div>
-      )}
-    </ToolCard>
-  );
-}
-
 function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
   const m = hex.match(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i);
   if (!m) return null;
@@ -605,7 +423,7 @@ function rgbToHsl(r: number, g: number, b: number): [number, number, number] {
   return [Math.round(h * 360), Math.round(s * 100), Math.round(l * 100)];
 }
 
-export function ColorConverter() {
+function ColorConverter() {
   const [hex, setHex] = React.useState('#6366f1');
   const [rgb, setRgb] = React.useState({ r: 99, g: 102, b: 241 });
   const [hsl, setHsl] = React.useState<[number, number, number]>([239, 84, 67]);
@@ -652,7 +470,7 @@ export function ColorConverter() {
   );
 }
 
-export function HexToRgb() {
+function HexToRgb() {
   const [hex, setHex] = React.useState('#6366f1');
   const result = React.useMemo(() => {
     const c = hexToRgb(hex);
@@ -679,7 +497,7 @@ export function HexToRgb() {
   );
 }
 
-export function RgbToHex() {
+function RgbToHex() {
   const [r, setR] = React.useState(99);
   const [g, setG] = React.useState(102);
   const [b, setB] = React.useState(241);
@@ -711,7 +529,7 @@ export function RgbToHex() {
   );
 }
 
-export function TimestampConverter() {
+function TimestampConverter() {
   const [timestamp, setTimestamp] = React.useState(String(Math.floor(Date.now() / 1000)));
   const [date, setDate] = React.useState(new Date().toISOString().slice(0, 19));
 
@@ -752,7 +570,7 @@ export function TimestampConverter() {
   );
 }
 
-export function UnixTimeConverter() {
+function UnixTimeConverter() {
   const [now, setNow] = React.useState(Math.floor(Date.now() / 1000));
   const [input, setInput] = React.useState('');
   const [result, setResult] = React.useState('');
@@ -792,3 +610,17 @@ export function UnixTimeConverter() {
     </ToolCard>
   );
 }
+
+export {
+  UuidBulkGenerator,
+  JwtDecoder,
+  JwtEncoder,
+  XmlValidator,
+  CsvToJson,
+  JsonToCsv,
+  ColorConverter,
+  HexToRgb,
+  RgbToHex,
+  TimestampConverter,
+  UnixTimeConverter,
+};
