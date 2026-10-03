@@ -4828,6 +4828,1006 @@ const toolSeoContent: Record<string, ContentEntry> = {
       { q: 'Is my Markdown stored?', a: 'No. All rendering happens in your browser. Your Markdown text is not transmitted to any server.' },
     ],
   },
+
+  // ─── QR & Barcode Tools ──────────────────────────────────────
+  'qr-code-generator': {
+    whatIs: 'The QR Code Generator creates custom QR codes for URLs, plain text, WiFi credentials, email addresses, phone numbers, and SMS messages. Choose from multiple error correction levels, customize foreground and background colors, and download the result as SVG or PNG — all rendering happens in your browser using the qrcode JavaScript library.',
+    howTo: [
+      'Select the content type (URL, text, WiFi, email, phone, or SMS) from the dropdown.',
+      'Enter the destination URL or text content you want the QR code to encode.',
+      'Optionally customize the foreground color, background color, and error correction level (L, M, Q, or H).',
+      'Click Generate to render the QR code instantly in the preview area.',
+      'Download the QR code as an SVG vector file or a PNG image at your chosen size.',
+    ],
+    benefits: [
+      { title: 'SVG and PNG output', description: 'Download as SVG for crisp scaling at any size — perfect for print, signage, and business cards. Download as PNG for digital use in emails, websites, and social media. SVG files scale without pixelation no matter how large they are printed.' },
+      { title: 'Custom colors and error correction', description: 'Match QR codes to your brand colors with custom foreground and background. Choose error correction level L (7% recovery) for dense data, or H (30% recovery) for QR codes that remain scannable even when partially obscured or printed on textured surfaces.' },
+      { title: 'Supports WiFi QR codes', description: 'Generate a QR code that connects phones to your WiFi network automatically when scanned. Encode the SSID, password, and encryption type (WPA, WEP, or none) so guests can join without typing a password.' },
+      { title: 'No server-side generation', description: 'QR codes are rendered entirely in your browser using the qrcode library. No data is sent to a server, which matters for QR codes containing private URLs, WiFi credentials, or contact information.' },
+    ],
+    faqs: [
+      { q: 'What is the difference between SVG and PNG QR codes?', a: 'SVG is a vector format that scales to any size without pixelation — ideal for print, posters, and business cards. PNG is a raster image best for digital use. For physical printing or large-format displays, choose SVG.' },
+      { q: 'What error correction level should I use?', a: 'Level L recovers 7% of data loss and produces the smallest QR code. Level M (15%) is the default for most use cases. Level Q (25%) is good for QR codes that may get slightly damaged. Level H (30%) is best for industrial environments or when a logo will be placed in the center.' },
+      { q: 'Can I add a logo to the center of my QR code?', a: 'The tool generates a clean QR code without a center logo. If you need a logo, download the SVG and overlay your logo in a design tool, leaving at least 30% of the QR code area intact. Use error correction level H to maintain scannability with a logo overlay.' },
+      { q: 'Why will my QR code not scan?', a: 'Common causes: insufficient contrast between foreground and background (use dark on light), too much data for the QR code size (shorten the URL), or the QR code is too small when printed (ensure at least 2x2cm for standard scans). Test with multiple phone cameras before printing.' },
+      { q: 'Are these QR codes static or dynamic?', a: 'The tool generates static QR codes — the encoded content is fixed at generation time. Dynamic QR codes (which redirect through a short URL you can update later) require a server-side service. Static QR codes have no expiration and work offline.' },
+      { q: 'Is my QR code data sent to a server?', a: 'No. QR code generation happens entirely in your browser using the qrcode JavaScript library. Your encoded content is never transmitted to any server.' },
+    ],
+  },
+  'qr-scanner': {
+    whatIs: 'The QR Scanner reads QR codes using your device camera or from an uploaded image file. The tool uses the jsQR library to decode QR code pixel data in real time — no server-side processing, no API calls. Scan QR codes containing URLs, text, WiFi credentials, contact information, or any other encoded data.',
+    howTo: [
+      'Click the Start Camera button and allow browser camera access when prompted.',
+      'Point your camera at a QR code. The tool continuously scans video frames for QR code patterns.',
+      'When a QR code is detected, the decoded content appears in the results area.',
+      'Alternatively, upload an image file containing a QR code and the tool decodes it from the image data.',
+      'Copy the decoded text or click the link if the QR code contains a URL.',
+    ],
+    benefits: [
+      { title: 'Real camera scanning with jsQR', description: 'The tool uses the jsQR library to analyze video frames in real time, not a fake scanner. It detects QR codes from live camera input at typical scanning distances of 10-30cm.' },
+      { title: 'Image upload decoding', description: 'No camera? Upload a screenshot or photo containing a QR code and the tool decodes it from the image pixels. Useful for scanning QR codes from documents, emails, or other screens.' },
+      { title: 'Works on mobile and desktop', description: 'On phones, the tool uses the rear camera for scanning physical QR codes. On desktops with a webcam, scan QR codes held up to the camera or from another screen.' },
+      { title: 'No data transmitted', description: 'QR code decoding happens entirely in your browser. Camera frames and uploaded images are processed locally — no video or image data is sent to a server.' },
+    ],
+    faqs: [
+      { q: 'Which browsers support camera scanning?', a: 'Camera scanning requires the MediaDevices API, which is available in Chrome, Edge, Firefox, and Safari on both desktop and mobile. HTTPS is required for camera access on most browsers.' },
+      { q: 'Can I scan QR codes from a screenshot?', a: 'Yes. Upload the screenshot image file and the tool decodes the QR code from the image. This works for screenshots from phones, other browser tabs, or document scans.' },
+      { q: 'Why does the scanner not detect my QR code?', a: 'Ensure the QR code is well-lit, centered in the camera view, and occupies at least 30% of the frame. Dirty, damaged, or low-contrast QR codes may not decode. Try the image upload method as an alternative.' },
+      { q: 'Does the tool store what I scan?', a: 'No. Decoded content is displayed in your browser only. Nothing is transmitted to a server or stored after you leave the page.' },
+      { q: 'Can I scan barcodes with this tool?', a: 'No. This tool decodes QR codes specifically. For 1D barcodes (UPC, EAN, Code128), use the Barcode Generator tool which also includes scanning capabilities.' },
+    ],
+  },
+  'qr-history': {
+    whatIs: 'The QR History page shows a list of every QR code you have generated or scanned during your current browser session. Reopen a previous QR code to view it again, download it, or copy its content. History is stored in your browser using localStorage — no account or server-side storage required.',
+    howTo: [
+      'Generate or scan QR codes using the QR Code Generator or QR Scanner tools.',
+      'Open the QR History page to see a list of your recent QR code activity.',
+      'Click any entry to reopen the QR code and view its content, download it, or copy the decoded text.',
+      'Use the Clear History button to remove all stored QR code records from your browser.',
+    ],
+    benefits: [
+      { title: 'Quick re-access to past QR codes', description: 'No need to re-enter a URL or re-scan a code. History shows your recent activity so you can download a QR code you generated earlier or re-copy scanned content.' },
+      { title: 'Stored locally in your browser', description: 'QR history uses localStorage, not a server-side database. Your scanned and generated QR code content never leaves your device. Clearing your browser data also clears the history.' },
+      { title: 'No account needed', description: 'History works without signing up. It is tied to your browser, not to a user account, so it is available immediately after generating or scanning QR codes.' },
+      { title: 'Privacy-conscious design', description: 'Because history is stored locally, you have full control. Clear it with one button, or clear your browser data to remove everything. No server has access to your QR code activity.' },
+    ],
+    faqs: [
+      { q: 'How long is QR history stored?', a: 'History persists in localStorage until you manually clear it or clear your browser data. It survives page reloads and browser restarts. There is no automatic expiration.' },
+      { q: 'Does QR history sync across devices?', a: 'No. localStorage is browser-specific. History on your phone is separate from history on your desktop. For cross-device access, download the QR code and transfer the file manually.' },
+      { q: 'What data is stored in QR history?', a: 'Each entry stores the QR code content (the encoded text or URL), the type (generated or scanned), and a timestamp. For generated QR codes, the image is stored as a data URI so it can be re-displayed.' },
+      { q: 'Is QR history sent to a server?', a: 'No. All history data is stored in your browser localStorage. No QR code content is transmitted to or stored on any server.' },
+    ],
+  },
+  'barcode-generator': {
+    whatIs: 'The Barcode Generator creates 1D barcodes in multiple symbologies using the JsBarcode library. Generate UPC-A barcodes for retail products, EAN-13 for international products, Code128 for shipping labels, Code39 for industrial use, and ITF-14 for packaging. Download barcodes as SVG, PNG, or JPG — all rendering happens in your browser.',
+    howTo: [
+      'Select the barcode symbology (UPC, EAN-13, Code128, Code39, ITF-14, or others) from the dropdown.',
+      'Enter the data to encode — format requirements vary by symbology (UPC needs 11-12 digits, EAN-13 needs 12-13 digits, Code128 accepts any ASCII text).',
+      'Optionally customize the bar width, height, font size, and whether to display the human-readable text below the bars.',
+      'Click Generate to render the barcode in the preview area.',
+      'Download the barcode as SVG, PNG, or JPG for use in product labels, packaging, or inventory systems.',
+    ],
+    benefits: [
+      { title: 'Multiple barcode symbologies', description: 'Generate barcodes for different industries: UPC-A for North American retail, EAN-13 for international retail, Code128 for logistics and shipping, Code39 for industrial and automotive, and ITF-14 for outer carton labeling.' },
+      { title: 'GS1-compliant formats', description: 'UPC-A and EAN-13 barcodes follow the GS1 specification for retail product identification. The tool validates check digits to ensure your barcodes scan correctly at retail point-of-sale systems.' },
+      { title: 'SVG output for print', description: 'Download as SVG for pixel-perfect printing on product labels and packaging. SVG barcodes render at any size without distortion, which is critical for scanner readability at different label sizes.' },
+      { title: 'Browser-based, no API keys', description: 'Barcode generation uses the JsBarcode library entirely in your browser. No server calls, no API limits, no registration. Generate unlimited barcodes for free.' },
+    ],
+    faqs: [
+      { q: 'What is the difference between UPC and EAN barcodes?', a: 'UPC-A is a 12-digit barcode used primarily in North America. EAN-13 is a 13-digit barcode used internationally. Both encode a product identifier, but EAN-13 includes a country prefix. If you sell in both markets, generate EAN-13 — UPC scanners can read EAN-13 barcodes.' },
+      { q: 'Which barcode symbology should I use?', a: 'For retail products: UPC-A (US/Canada) or EAN-13 (international). For shipping and logistics: Code128 (supports alphanumeric). For industrial and internal use: Code39 (supports letters and numbers). For outer cartons: ITF-14 (14-digit GTIN).' },
+      { q: 'Does the tool calculate the check digit?', a: 'Yes. UPC-A and EAN-13 barcodes require a check digit as the last digit. The tool automatically calculates and appends the correct check digit based on the preceding digits you enter.' },
+      { q: 'Can I generate barcodes with text below them?', a: 'Yes. The tool displays the human-readable value below the barcode by default. You can toggle this off or adjust the font size in the settings.' },
+      { q: 'Will my barcodes scan at retail checkout?', a: 'UPC-A and EAN-13 barcodes generated by this tool follow GS1 specifications and include correct check digits. Test your printed barcode with an actual scanner before mass production, as print quality and label size affect scannability.' },
+      { q: 'Can I generate QR codes with this tool?', a: 'No. This tool generates 1D barcodes only. For 2D QR codes, use the QR Code Generator tool.' },
+    ],
+  },
+
+  // ─── Calculators ─────────────────────────────────────────────
+  'age-calculator': {
+    whatIs: 'The Age Calculator computes your exact age in years, months, weeks, days, hours, and minutes from your date of birth. Enter your birth date and the tool calculates the precise time elapsed, accounting for leap years and varying month lengths using JavaScript native Date math.',
+    howTo: [
+      'Enter your date of birth using the date picker or by typing the date.',
+      'Optionally enter a target date — defaults to today — to calculate age as of a specific date.',
+      'The tool instantly displays your age in years and months, total days, total weeks, and total hours.',
+      'Use the results for eligibility checks, retirement planning, or milestone tracking.',
+    ],
+    benefits: [
+      { title: 'Accounts for leap years', description: 'The tool uses JavaScript Date objects which correctly handle leap years. Someone born on February 29 gets accurate results, and the year/month/day breakdown reflects actual calendar time, not a simple division by 365.' },
+      { title: 'Multiple output formats', description: 'See age as years + months + days for human-readable context, or as total days, total weeks, or total hours for calculations. Useful for age-gating, medical dosing, and time-since calculations.' },
+      { title: 'Target date support', description: 'Calculate age as of any date, not just today. Useful for determining age at a future event (retirement, school enrollment, competition eligibility) or a past date (age at marriage, age when a child was born).' },
+      { title: 'Instant, no sign-up', description: 'Results update immediately as you change the date. No account, no data stored, no page reload.' },
+    ],
+    faqs: [
+      { q: 'How does the calculator handle leap years?', a: 'The tool uses JavaScript native Date math, which correctly accounts for leap years. If you were born on February 29, the tool counts your birthday as March 1 in non-leap years, following the common legal convention.' },
+      { q: 'Can I calculate the age difference between two people?', a: 'Enter the older person birth date as the date of birth and the younger person birth date as the target date. The result shows the exact age gap in years, months, and days.' },
+      { q: 'Is my birth date stored or sent anywhere?', a: 'No. The calculation happens entirely in your browser. Your birth date is not transmitted to a server or stored after you leave the page.' },
+      { q: 'Why does the total days count not match years times 365?', a: 'Because leap years add an extra day every 4 years (except century years not divisible by 400), the actual number of days in a year averages 365.25, not 365. The tool counts real calendar days, so the total reflects every leap day that occurred during your lifetime.' },
+    ],
+  },
+  'bmi-calculator': {
+    whatIs: 'The BMI Calculator computes Body Mass Index from your height and weight. Enter your measurements in metric (centimetres and kilograms) or imperial (feet/inches and pounds) units, and the tool calculates your BMI value and WHO category: underweight (<18.5), normal (18.5-24.9), overweight (25-29.9), or obese (30+).',
+    howTo: [
+      'Choose your unit system: metric (cm, kg) or imperial (ft/in, lbs).',
+      'Enter your height in the appropriate fields.',
+      'Enter your weight.',
+      'The tool instantly calculates your BMI value and displays the corresponding WHO weight category.',
+    ],
+    benefits: [
+      { title: 'Dual unit support', description: 'Switch between metric and imperial without re-entering data. The tool converts units automatically, so you can use whichever system you are comfortable with.' },
+      { title: 'WHO category classification', description: 'The result shows which WHO weight category your BMI falls into, providing context beyond a raw number. This helps you understand whether your weight is in a healthy range for your height.' },
+      { title: 'Instant calculation', description: 'BMI updates in real time as you type. No submit button, no page reload. Adjust your inputs and see the result change immediately.' },
+      { title: 'No data stored', description: 'Your height and weight are processed in your browser only. No health data is sent to a server or stored after you leave the page.' },
+    ],
+    faqs: [
+      { q: 'What is the BMI formula?', a: 'BMI = weight (kg) / height (m)². For imperial units, the formula is BMI = 703 × weight (lbs) / height (in)². The tool handles the conversion automatically.' },
+      { q: 'Is BMI accurate for athletes?', a: 'BMI does not distinguish between muscle and fat. Athletes with high muscle mass may register as overweight or obese despite having low body fat. BMI is a population-level screening tool, not a precise body composition measure. For athletic individuals, body fat percentage is a better metric.' },
+      { q: 'Does BMI account for age or gender?', a: 'No. The standard BMI formula uses only height and weight. The WHO categories apply to adults aged 20 and over. For children and teens (aged 2-19), BMI percentile-for-age is used instead. The tool calculates adult BMI.' },
+      { q: 'What are the BMI category thresholds?', a: 'Underweight: below 18.5. Normal weight: 18.5 to 24.9. Overweight: 25 to 29.9. Obese: 30 or above. These are WHO international classifications used for health screening.' },
+      { q: 'Should I use BMI for medical decisions?', a: 'BMI is a screening tool, not a diagnostic instrument. Consult a healthcare provider for individualized health assessments. They may use additional measurements like waist circumference, blood pressure, and blood tests for a complete picture.' },
+    ],
+  },
+  'percentage-calculator': {
+    whatIs: 'The Percentage Calculator solves three common percentage problems: what is X% of a number, what percentage one number is of another, and the percentage increase or decrease between two values. Enter your numbers and the result updates instantly.',
+    howTo: [
+      'Choose the calculation type: percentage of a number, number as percentage of another, or percentage change.',
+      'Enter the values in the input fields for your chosen calculation type.',
+      'The result appears instantly as you type — no submit button needed.',
+      'Use the result for discounts, tax calculations, grade computation, or data analysis.',
+    ],
+    benefits: [
+      { title: 'Three calculation modes', description: 'Calculate "X% of Y" (e.g. 15% of 200 = 30), "X is what % of Y" (e.g. 30 is 15% of 200), or percentage change between two values (e.g. increase from 100 to 150 = 50% increase). Switch modes without re-entering data.' },
+      { title: 'Handles percentage decrease', description: 'The percentage change mode automatically detects whether the change is an increase or decrease and displays the correct sign. Enter an old value and new value to see the percentage difference.' },
+      { title: 'Instant results', description: 'No submit button or page reload. Results update as you type, making it easy to test different values and scenarios quickly.' },
+      { title: 'Works on any device', description: 'The calculator is fully responsive. Use it on desktop, tablet, or phone for quick percentage calculations on the go.' },
+    ],
+    faqs: [
+      { q: 'How do I calculate a discount percentage?', a: 'Use the "X% of Y" mode. Enter the discount percentage as X and the original price as Y. The result is the discount amount. Subtract it from the original price for the final price. For example, 20% of $50 = $10 discount, final price $40.' },
+      { q: 'How do I calculate percentage increase?', a: 'Use the percentage change mode. Enter the original value as the first number and the new value as the second. The tool calculates (new - original) / original × 100. A positive result is an increase; a negative result is a decrease.' },
+      { q: 'Can I calculate tax with this tool?', a: 'Yes. Use "X% of Y" mode with the tax rate as X and the pre-tax amount as Y. The result is the tax amount. Add it to the pre-tax amount for the total. For example, 8% of $25 = $2 tax, total $27.' },
+      { q: 'Why does my percentage change show a negative number?', a: 'A negative percentage change means the value decreased. For example, if a price drops from $100 to $80, the percentage change is -20%, indicating a 20% decrease.' },
+    ],
+  },
+  'loan-emi-calculator': {
+    whatIs: 'The Loan EMI Calculator computes the monthly Equated Monthly Installment (EMI) for a loan given the principal amount, annual interest rate, and loan tenure. The tool also displays the total interest payable and total amount (principal + interest) over the loan period using the standard EMI formula.',
+    howTo: [
+      'Enter the loan principal amount (the total amount you are borrowing).',
+      'Enter the annual interest rate as a percentage (e.g. 8.5 for 8.5%).',
+      'Enter the loan tenure in months or years.',
+      'The tool displays your monthly EMI, total interest, and total repayment amount instantly.',
+    ],
+    benefits: [
+      { title: 'Standard EMI formula', description: 'The tool uses the standard EMI formula: EMI = P × r × (1+r)^n / ((1+r)^n - 1), where P is principal, r is monthly interest rate, and n is number of months. This is the formula banks use for home, auto, and personal loans.' },
+      { title: 'Total interest breakdown', description: 'See not just the monthly payment but the total interest you will pay over the entire loan term. This helps you compare loan offers and understand the true cost of borrowing.' },
+      { title: 'Tenure in months or years', description: 'Enter the loan period in whichever unit is convenient. The tool converts years to months internally for the calculation. Compare a 15-year vs 30-year mortgage to see how tenure affects total interest.' },
+      { title: 'Instant comparison', description: 'Adjust any input and see the EMI, total interest, and total amount update immediately. Compare different loan amounts, rates, or tenures side by side to find the best option.' },
+    ],
+    faqs: [
+      { q: 'What is the EMI formula?', a: 'EMI = P × r × (1+r)^n / ((1+r)^n - 1), where P is the principal, r is the monthly interest rate (annual rate divided by 12 and converted to a decimal), and n is the number of monthly installments.' },
+      { q: 'Does the calculator account for processing fees?', a: 'No. The calculator computes EMI based on principal, interest rate, and tenure only. Processing fees, prepayment charges, and other loan costs vary by lender and are not included. Ask your lender for the all-inclusive cost.' },
+      { q: 'How does tenure affect total interest?', a: 'A longer tenure reduces your monthly EMI but increases total interest paid. For example, a $100,000 loan at 8% over 15 years has a higher EMI but lower total interest than the same loan over 30 years. Use the calculator to compare.' },
+      { q: 'Can I use this for home loans and car loans?', a: 'Yes. The EMI formula is the same for all reducing-balance loans — home loans, auto loans, personal loans, and education loans. Enter the principal, rate, and tenure for your specific loan.' },
+      { q: 'What is the difference between flat rate and reducing balance?', a: 'This calculator uses the reducing balance method, where interest is calculated on the outstanding principal each month. Most bank loans use this method. Flat rate loans (where interest is calculated on the full principal for the entire term) have higher effective interest rates.' },
+    ],
+  },
+  'gst-calculator': {
+    whatIs: 'The GST Calculator computes GST-inclusive and GST-exclusive amounts for transactions in countries with a Goods and Services Tax. Enter an amount and GST rate, and the tool shows the tax component, pre-tax amount, and total — useful for invoicing, pricing, and accounting.',
+    howTo: [
+      'Enter the amount and select whether it is GST-exclusive (add GST) or GST-inclusive (extract GST).',
+      'Enter the applicable GST rate (e.g. 18 for 18% in India, 5 for 5% in Singapore).',
+      'The tool displays the GST amount, pre-tax value, and total value instantly.',
+    ],
+    benefits: [
+      { title: 'Both inclusive and exclusive calculation', description: 'Add GST to a pre-tax amount (exclusive mode) or extract the GST component from a tax-inclusive price (inclusive mode). Both directions are useful depending on whether you are pricing products or analyzing receipts.' },
+      { title: 'Any GST rate supported', description: 'Enter any rate — 5%, 12%, 18%, 28% for India, 5% for Singapore, 10% for Australia, 15% for New Zealand. The tool does not hardcode rates so you can use it for any jurisdiction.' },
+      { title: 'Instant results', description: 'All three values (pre-tax, GST, total) update as you type. No submit button needed. Quickly test different amounts or rates.' },
+      { title: 'Useful for invoicing', description: 'Calculate the tax breakdown for line items on invoices. Enter the pre-tax price to see the GST and total, or enter the total to see how much is tax.' },
+    ],
+    faqs: [
+      { q: 'How do I calculate GST from a total price?', a: 'Use inclusive mode. Enter the total price and the GST rate. The tool divides by (1 + rate/100) to find the pre-tax amount, then subtracts to get the GST component. For example, $118 inclusive at 18% GST = $100 pre-tax + $18 GST.' },
+      { q: 'How do I add GST to a price?', a: 'Use exclusive mode. Enter the pre-tax amount and the GST rate. The tool multiplies the amount by the rate to get the GST, then adds it. For example, $100 + 18% GST = $118 total.' },
+      { q: 'What GST rates does the tool support?', a: 'Any rate you enter. Common rates: India (5%, 12%, 18%, 28%), Australia (10%), New Zealand (15%), Singapore (5%), Canada (5% federal + provincial). The tool does not hardcode rates — enter whatever applies to your transaction.' },
+      { q: 'Can I use this for VAT calculations?', a: 'Yes. VAT and GST are calculated the same way. Enter the VAT rate instead of the GST rate. The math is identical — a percentage added to or extracted from a transaction amount.' },
+    ],
+  },
+  'discount-calculator': {
+    whatIs: 'The Discount Calculator determines the final price after applying a percentage or fixed-amount discount to an original price. Enter the original price and discount amount or percentage, and the tool shows the savings and final price instantly.',
+    howTo: [
+      'Enter the original price of the item.',
+      'Enter the discount as a percentage (e.g. 25 for 25% off) or as a fixed amount.',
+      'The tool displays the discount amount and the final price you pay.',
+    ],
+    benefits: [
+      { title: 'Percentage and fixed-amount discounts', description: 'Calculate savings from percentage discounts (e.g. 30% off) or fixed-amount discounts (e.g. $15 off). The tool handles both modes, so you can evaluate any sale promotion.' },
+      { title: 'Shows both savings and final price', description: 'See how much you save and what you actually pay. This makes it easy to compare different discount offers and decide which gives the better deal.' },
+      { title: 'Instant calculation', description: 'Results update as you type. Quickly test different discount rates or prices to compare deals while shopping.' },
+      { title: 'Works on mobile', description: 'Pull up the calculator on your phone while shopping to verify that the advertised discount matches the actual savings at checkout.' },
+    ],
+    faqs: [
+      { q: 'How do I calculate a percentage discount?', a: 'Enter the original price and the discount percentage. The tool multiplies the price by the percentage to get the savings, then subtracts to find the final price. For example, $80 with 25% off = $20 savings, $60 final price.' },
+      { q: 'Can I calculate stacked discounts?', a: 'The tool calculates one discount at a time. For stacked discounts (e.g. 20% off, then an additional 10% off), calculate the first discount, then use the result as the original price for the second discount. Note that 20% + 10% is not 30% — it is 28% total.' },
+      { q: 'Does the calculator account for tax?', a: 'No. The calculator applies the discount to the pre-tax price. Tax is typically applied after the discount. To find the final total, calculate the discounted price first, then add tax using the Percentage Calculator.' },
+      { q: 'How do I find the original price from a discounted price?', a: 'If you know the final price and the discount percentage, divide the final price by (1 - discount/100). For example, if you paid $60 after a 25% discount, the original price was $60 / 0.75 = $80.' },
+    ],
+  },
+  'tip-calculator': {
+    whatIs: 'The Tip Calculator computes the tip amount and total bill based on your bill subtotal, tip percentage, and number of people splitting the cost. The tool shows the per-person amount, making it easy to split a restaurant bill fairly.',
+    howTo: [
+      'Enter the bill subtotal (the amount before tip).',
+      'Enter the tip percentage (e.g. 15, 18, 20) or choose a quick-select button.',
+      'Enter the number of people splitting the bill.',
+      'The tool displays the tip amount, total bill, and amount each person pays.',
+    ],
+    benefits: [
+      { title: 'Bill splitting', description: 'Enter the number of diners and the tool divides the total (bill + tip) equally. No more mental math at the table — everyone knows exactly what they owe.' },
+      { title: 'Quick-select tip percentages', description: 'Common tip amounts (15%, 18%, 20%, 25%) are available as one-click buttons. No need to type the percentage — just tap and calculate.' },
+      { title: 'Calculates on pre-tax amount', description: 'Enter the subtotal before tax for the most accurate tip calculation. Tipping on the pre-tax amount is standard etiquette, though some prefer tipping on the total.' },
+      { title: 'Instant per-person result', description: 'The per-person amount updates immediately as you change the bill, tip, or party size. Adjust numbers on the fly as people join or leave the group.' },
+    ],
+    faqs: [
+      { q: 'Should I tip before or after tax?', a: 'Standard etiquette recommends tipping on the pre-tax subtotal. Tip is a reward for service, not a percentage of government tax. Enter the pre-tax amount as the bill subtotal.' },
+      { q: 'What is a standard tip percentage?', a: 'In the United States, 15-20% is standard for full-service restaurants. 18% is common for average service, 20%+ for excellent service. In many other countries, tipping is less expected or not customary. Check local norms when traveling.' },
+      { q: 'How do I split the bill unevenly?', a: 'This calculator splits equally. For uneven splits (where someone ordered more), calculate the tip on each person individual order separately using the tool.' },
+      { q: 'Can I use this for delivery apps?', a: 'Yes. Enter the order subtotal and the tip percentage you want to give the delivery driver. The tool calculates the tip amount and total cost.' },
+    ],
+  },
+  'simple-interest-calculator': {
+    whatIs: 'The Simple Interest Calculator computes interest using the formula SI = P × R × T / 100, where P is principal, R is annual interest rate, and T is time in years. The tool shows the interest earned and total amount (principal + interest) for loans, deposits, and investments that use simple rather than compound interest.',
+    howTo: [
+      'Enter the principal amount (the initial sum of money).',
+      'Enter the annual interest rate as a percentage.',
+      'Enter the time period in years.',
+      'The tool displays the simple interest earned and the total amount (principal + interest).',
+    ],
+    benefits: [
+      { title: 'Standard SI formula', description: 'The tool uses the universally accepted simple interest formula: SI = P × R × T / 100. This is the formula taught in finance courses and used for short-term loans, auto loans, and some fixed deposits.' },
+      { title: 'Shows total amount', description: 'In addition to the interest, the tool shows the total amount (principal + interest) so you can see the full repayment or maturity value at a glance.' },
+      { title: 'Useful for short-term loans', description: 'Simple interest is commonly used for auto loans, short-term personal loans, and some bonds. The calculator helps you understand the true cost of borrowing or the return on a simple-interest investment.' },
+      { title: 'Instant results', description: 'Interest and total update as you type. Compare different principal amounts, rates, or time periods to see how each variable affects the outcome.' },
+    ],
+    faqs: [
+      { q: 'What is the difference between simple and compound interest?', a: 'Simple interest is calculated only on the original principal. Compound interest is calculated on the principal plus accumulated interest from previous periods. Over time, compound interest grows faster. Use the Compound Interest Calculator for compound calculations.' },
+      { q: 'When is simple interest used?', a: 'Simple interest is used for most auto loans, some personal loans, short-term business loans, and certain government bonds. Home mortgages and most savings accounts use compound interest. Check your loan agreement to confirm which method applies.' },
+      { q: 'Can I enter time in months instead of years?', a: 'The tool expects time in years. For a 6-month period, enter 0.5. For 18 months, enter 1.5. The formula requires the time period in years for the annual rate to be accurate.' },
+      { q: 'How is simple interest different from an EMI?', a: 'Simple interest calculates total interest as a lump sum. EMI (Equated Monthly Installment) divides repayment into equal monthly payments using a reducing balance method. For a loan with monthly payments, use the Loan EMI Calculator instead.' },
+    ],
+  },
+  'compound-interest-calculator': {
+    whatIs: 'The Compound Interest Calculator computes the future value of an investment or loan using compound interest. Enter the principal, annual interest rate, time period, and compounding frequency (annually, semi-annually, quarterly, monthly, or daily) to see the total interest earned and the final amount.',
+    howTo: [
+      'Enter the principal amount (initial investment or loan amount).',
+      'Enter the annual interest rate as a percentage.',
+      'Enter the time period in years.',
+      'Select the compounding frequency: annual, semi-annual, quarterly, monthly, or daily.',
+      'The tool displays the total compound interest and the final amount (principal + interest).',
+    ],
+    benefits: [
+      { title: 'Compounding frequency control', description: 'Compounding frequency dramatically affects results. Monthly compounding yields more than annual compounding at the same rate. The tool lets you compare frequencies to see the difference — useful for comparing savings accounts and investment products.' },
+      { title: 'Standard CI formula', description: 'The tool uses the compound interest formula: A = P × (1 + r/n)^(n×t), where P is principal, r is annual rate, n is compounding periods per year, and t is years. This is the formula used by banks and financial calculators.' },
+      { title: 'Rule of 72 reference', description: 'At a given interest rate, the tool helps you see how long it takes to double your money. The Rule of 72 (72 ÷ rate ≈ years to double) is a quick approximation — the calculator gives the precise answer.' },
+      { title: 'Compare investment options', description: 'Adjust the rate and compounding frequency to compare different savings accounts, CDs, or investment products. See how a 5% rate with monthly compounding compares to 5.5% with annual compounding.' },
+    ],
+    faqs: [
+      { q: 'What compounding frequency should I use?', a: 'It depends on your financial product. Most savings accounts compound monthly. Certificates of deposit (CDs) may compound daily or monthly. Bonds often compound semi-annually. Check your account terms and select the matching frequency for accurate results.' },
+      { q: 'How much more does monthly compounding earn vs annual?', a: 'On a $10,000 investment at 8% for 10 years: annual compounding yields $21,589, monthly compounding yields $22,196. The difference is $607 — about 2.8% more. The higher the rate and longer the term, the bigger the gap.' },
+      { q: 'What is the Rule of 72?', a: 'Divide 72 by your annual interest rate to estimate how many years it takes to double your money. At 8%, it takes about 9 years (72/8 = 9). The calculator gives the exact number, but the Rule of 72 is useful for quick mental estimates.' },
+      { q: 'Can I use this for loan calculations?', a: 'Yes. Compound interest applies to credit cards and some loans. Enter the loan amount as principal and the APR as the rate. The result shows the total amount you would owe if no payments were made — useful for understanding the cost of carrying a balance.' },
+    ],
+  },
+  'scientific-calculator': {
+    whatIs: 'The Scientific Calculator provides advanced mathematical functions beyond basic arithmetic: trigonometric functions (sin, cos, tan), logarithms (log, ln), exponentials, square roots, factorials, and constants like pi and e. Switch between degree and radian modes for trigonometric calculations.',
+    howTo: [
+      'Type your expression directly or use the on-screen keypad buttons.',
+      'For trigonometric functions, select degree or radian mode using the toggle.',
+      'Use the function buttons for sin, cos, tan, log, ln, square root, factorial, and powers.',
+      'Press Enter or click = to evaluate the expression and see the result.',
+    ],
+    benefits: [
+      { title: 'Trigonometric functions', description: 'Calculate sin, cos, tan and their inverses. Switch between degree and radian mode depending on whether you are working with angles (degrees) or calculus (radians).' },
+      { title: 'Logarithms and exponentials', description: 'Compute common logarithm (log base 10), natural logarithm (ln, base e), and exponential functions. Essential for chemistry (pH calculations), physics (decibel calculations), and finance (continuous compounding).' },
+      { title: 'Keyboard input support', description: 'Type expressions directly from your keyboard for speed, or use the on-screen buttons for visual input. The calculator accepts standard mathematical notation.' },
+      { title: 'No app installation', description: 'Access a scientific calculator on any device with a browser — Chromebook, tablet, phone, or locked-down work computer where you cannot install software.' },
+    ],
+    faqs: [
+      { q: 'How do I switch between degrees and radians?', a: 'Use the degree/radian toggle button. In degree mode, sin(30) = 0.5. In radian mode, sin(30) = -0.988 (since 30 radians ≈ 1719 degrees). Always check the mode before trigonometric calculations.' },
+      { q: 'What functions are available?', a: 'Basic arithmetic (+, -, ×, ÷), trigonometric (sin, cos, tan, asin, acos, atan), logarithms (log, ln), square root, factorial, powers (x^y), constants (pi, e), and parentheses for grouping.' },
+      { q: 'Can I use this for chemistry homework?', a: 'Yes. The logarithm functions support pH calculations (pH = -log[H+]), and the exponential function supports rate constant calculations. The calculator handles the math needed for general chemistry courses.' },
+      { q: 'Does the calculator respect order of operations?', a: 'Yes. The calculator follows standard mathematical operator precedence: parentheses first, then exponents, then multiplication and division, then addition and subtraction (PEMDAS).' },
+    ],
+  },
+
+  // ─── Converters ──────────────────────────────────────────────
+  'length-converter': {
+    whatIs: 'The Length Converter converts between metric and imperial length units: metres, centimetres, millimetres, kilometres, inches, feet, yards, and miles. Enter a value in any unit and the tool shows the equivalent in all other units instantly.',
+    howTo: [
+      'Enter a value in the input field.',
+      'Select the source unit from the dropdown.',
+      'The tool displays converted values in all other length units simultaneously.',
+      'Copy the converted value you need for your calculation or documentation.',
+    ],
+    benefits: [
+      { title: 'Bidirectional metric-imperial conversion', description: 'Convert in either direction — metres to feet, miles to kilometres, inches to centimetres. The tool shows all units at once so you can find the exact conversion you need without switching modes.' },
+      { title: 'All common length units', description: 'Metres, centimetres, millimetres, kilometres, inches, feet, yards, and miles are all supported. Covers engineering, construction, science, and everyday use cases.' },
+      { title: 'Instant multi-unit display', description: 'Enter one value and see every other unit immediately. No need to convert step by step — the tool shows all equivalents at once, which is useful when working with mixed-unit specifications.' },
+      { title: 'Precise conversion factors', description: 'The tool uses exact conversion factors (1 inch = 2.54 cm, 1 foot = 0.3048 m, 1 mile = 1.609344 km). Results are mathematically precise, not approximated.' },
+    ],
+    faqs: [
+      { q: 'What is the conversion factor for feet to metres?', a: '1 foot = 0.3048 metres exactly. This is an international agreement, not an approximation. To convert feet to metres, multiply by 0.3048. To convert metres to feet, divide by 0.3048.' },
+      { q: 'How many inches are in a centimetre?', a: '1 centimetre = 0.393701 inches. Conversely, 1 inch = 2.54 centimetres exactly. The tool displays both directions simultaneously.' },
+      { q: 'Can I convert miles to kilometres?', a: 'Yes. 1 mile = 1.609344 kilometres exactly. Enter the value in miles and the tool shows the kilometre equivalent along with all other units.' },
+      { q: 'Are the conversion factors exact or approximate?', a: 'All conversion factors used by the tool are exact by international agreement. The metre-to-foot conversion (0.3048) and inch-to-centimetre conversion (2.54) are defined exactly, not measured.' },
+    ],
+  },
+  'weight-converter': {
+    whatIs: 'The Weight Converter converts between metric and imperial mass units: kilograms, grams, milligrams, tonnes, pounds, ounces, and stones. Enter a value in any unit and see all other equivalents instantly.',
+    howTo: [
+      'Enter a value in the input field.',
+      'Select the source unit from the dropdown.',
+      'The tool displays converted values in all other weight units simultaneously.',
+      'Copy the converted value you need.',
+    ],
+    benefits: [
+      { title: 'Metric and imperial units', description: 'Convert between kilograms, grams, milligrams, tonnes, pounds, ounces, and stones. Useful for cooking (metric recipes with imperial ingredients), shipping (package weights), and fitness (body weight tracking).' },
+      { title: 'Stones support', description: 'The tool includes stones, which are commonly used for body weight in the UK and Ireland. Convert stones to kilograms or pounds without a separate calculator.' },
+      { title: 'All units at once', description: 'Enter one value and see every unit immediately. No need to select a target unit — the tool shows all conversions simultaneously, saving time when you need multiple equivalents.' },
+      { title: 'Precise conversion factors', description: 'The tool uses exact conversion factors (1 kg = 2.20462 lbs, 1 lb = 16 oz, 1 stone = 14 lbs). Results are mathematically precise.' },
+    ],
+    faqs: [
+      { q: 'How many pounds are in a kilogram?', a: '1 kilogram = 2.20462 pounds. To convert kg to lbs, multiply by 2.20462. To convert lbs to kg, divide by 2.20462. The tool handles this automatically.' },
+      { q: 'What is a stone in kilograms?', a: '1 stone = 6.35029 kilograms. Stones are primarily used for body weight in the UK and Ireland. The tool converts stones to kg, lbs, and other units.' },
+      { q: 'Can I convert ounces to grams for cooking?', a: 'Yes. 1 ounce = 28.3495 grams. Enter the value in ounces and the tool shows the gram equivalent. This is useful when following recipes that use different unit systems.' },
+      { q: 'Does the tool distinguish between mass and weight?', a: 'Technically, kilograms and pounds are units of mass, while weight is a force. In everyday use, mass and weight are used interchangeably. The tool converts mass units, which is what most people need.' },
+    ],
+  },
+  'temperature-converter': {
+    whatIs: 'The Temperature Converter converts between Celsius, Fahrenheit, and Kelvin. Enter a temperature in any scale and the tool shows the equivalent in the other two scales instantly using the standard conversion formulas.',
+    howTo: [
+      'Enter a temperature value in the input field.',
+      'Select the source scale (Celsius, Fahrenheit, or Kelvin).',
+      'The tool displays the equivalent temperatures in the other two scales.',
+      'Copy the converted value for your calculation or documentation.',
+    ],
+    benefits: [
+      { title: 'Three temperature scales', description: 'Convert between Celsius (used in most of the world), Fahrenheit (used in the US), and Kelvin (used in science). The tool shows all three simultaneously so you can reference any scale.' },
+      { title: 'Formula-accurate conversions', description: 'The tool uses the exact conversion formulas: C to F: × 9/5 + 32; C to K: + 273.15; F to K: (F - 32) × 5/9 + 273.15. Results are mathematically precise, not rounded approximations.' },
+      { title: 'Useful for cooking and science', description: 'Convert oven temperatures from Celsius recipes to Fahrenheit for US ovens. Convert room temperature to Kelvin for physics problem sets. Convert weather temperatures when traveling between countries.' },
+      { title: 'Includes absolute zero', description: 'The tool handles extreme values correctly. Enter 0 Kelvin (absolute zero, -273.15°C) and see the equivalent in all scales. Negative Celsius temperatures convert correctly to Fahrenheit.' },
+    ],
+    faqs: [
+      { q: 'How do I convert Celsius to Fahrenheit?', a: 'Multiply the Celsius temperature by 9/5, then add 32. For example, 100°C × 9/5 + 32 = 212°F (boiling point of water). The tool does this automatically.' },
+      { q: 'What is 0 Kelvin in Celsius?', a: '0 Kelvin = -273.15°C. This is absolute zero, the lowest theoretically possible temperature, where molecular motion stops. The tool converts Kelvin to Celsius and Fahrenheit correctly at this boundary.' },
+      { q: 'Why does the Fahrenheit scale seem arbitrary?', a: 'Daniel Fahrenheit set 0°F as the freezing point of a saltwater solution and 100°F (approximately) as body temperature. The scale is historical. Celsius is more intuitive (0 = freezing water, 100 = boiling water), which is why most of the world uses it.' },
+      { q: 'Can I convert negative temperatures?', a: 'Yes. The tool handles negative values in all scales. -40°C and -40°F are the same temperature — the only point where the two scales intersect. The tool shows this correctly.' },
+    ],
+  },
+  'time-converter': {
+    whatIs: 'The Time Converter converts between time units: milliseconds, seconds, minutes, hours, days, and weeks. Enter a value in any unit and the tool shows the equivalent in all other time units instantly.',
+    howTo: [
+      'Enter a time value in the input field.',
+      'Select the source unit (milliseconds, seconds, minutes, hours, days, or weeks).',
+      'The tool displays converted values in all other time units simultaneously.',
+      'Copy the converted value you need.',
+    ],
+    benefits: [
+      { title: 'All common time units', description: 'Convert between milliseconds, seconds, minutes, hours, days, and weeks. Useful for converting between programmer time formats (milliseconds), human time (hours), and scheduling (days).' },
+      { title: 'Developer-friendly', description: 'Convert Unix timestamps (milliseconds since epoch) to human-readable durations. Convert API rate limits (requests per second) to daily quotas. Convert cache TTL values between seconds and hours.' },
+      { title: 'Multi-unit display', description: 'See all units at once. Enter 1 day and instantly see it as 86,400 seconds, 1,440 minutes, 24 hours, or 0.1429 weeks. No need to convert step by step.' },
+      { title: 'Precise conversions', description: 'All conversions use exact factors (1 minute = 60 seconds, 1 hour = 60 minutes, 1 day = 24 hours). No rounding errors.' },
+    ],
+    faqs: [
+      { q: 'How many seconds are in a day?', a: '1 day = 24 hours × 60 minutes × 60 seconds = 86,400 seconds. The tool shows this conversion instantly when you enter 1 day.' },
+      { q: 'Does the converter account for leap seconds?', a: 'No. The tool uses standard time units where 1 minute = 60 seconds and 1 day = 24 hours. Leap seconds (which add an extra second to specific days) are not included, as they are irregular and announced only 6 months in advance.' },
+      { q: 'Can I convert weeks to hours?', a: 'Yes. 1 week = 7 days × 24 hours = 168 hours. Enter the value in weeks and the tool shows the hour equivalent along with all other units.' },
+      { q: 'Is this the same as a timestamp converter?', a: 'No. This tool converts between time duration units (e.g. 90 minutes = 1.5 hours). The Timestamp Converter and Unix Time Converter convert specific points in time (e.g. Unix timestamp 1696000000 = October 2023).' },
+    ],
+  },
+  'data-storage-converter': {
+    whatIs: 'The Data Storage Converter converts between digital storage units: bytes, kilobytes (KB), megabytes (MB), gigabytes (GB), terabytes (TB), and petabytes (PB). The tool uses both binary (KiB, MiB) and decimal (KB, MB) conventions and clarifies the difference.',
+    howTo: [
+      'Enter a storage value in the input field.',
+      'Select the source unit (bytes, KB, MB, GB, TB, or PB).',
+      'The tool displays converted values in all other storage units simultaneously.',
+      'Copy the converted value for your documentation or capacity planning.',
+    ],
+    benefits: [
+      { title: 'Clarifies KB vs KiB confusion', description: 'Hard drive manufacturers use decimal KB (1 KB = 1000 bytes) while operating systems often use binary KiB (1 KiB = 1024 bytes). This tool helps you understand why a 500GB drive shows as 465GB in your OS.' },
+      { title: 'All common units', description: 'Bytes, kilobytes, megabytes, gigabytes, terabytes, and petabytes. Covers everything from small file sizes to enterprise storage capacities.' },
+      { title: 'Multi-unit display', description: 'Enter one value and see all units at once. No need to convert step by step from bytes to gigabytes — the tool shows every equivalent simultaneously.' },
+      { title: 'Useful for bandwidth planning', description: 'Convert file sizes to estimate download times. A 750MB file on a 100Mbps connection takes about 60 seconds. The converter helps you reason about file sizes in units you understand.' },
+    ],
+    faqs: [
+      { q: 'Why does my 500GB hard drive show as 465GB in Windows?', a: 'Hard drive manufacturers use decimal units (1 GB = 10^9 bytes = 1,000,000,000 bytes). Windows uses binary units (1 GB = 2^30 bytes = 1,073,741,824 bytes). 500,000,000,000 ÷ 1,073,741,824 ≈ 465. The drive has 500 billion bytes either way — the difference is the unit definition.' },
+      { q: 'What is the difference between KB and KiB?', a: 'KB (kilobyte) = 1000 bytes (decimal). KiB (kibibyte) = 1024 bytes (binary). The IEC introduced KiB, MiB, GiB in 1998 to resolve the ambiguity. Most operating systems use KB to mean KiB, which causes the confusion.' },
+      { q: 'How many megabytes are in a gigabyte?', a: 'In decimal units (used by storage manufacturers): 1 GB = 1000 MB. In binary units (used by most operating systems): 1 GB = 1024 MB. The tool shows both conversions.' },
+      { q: 'Can I convert bits to bytes?', a: 'The tool converts between byte-based units (bytes, KB, MB, etc.). To convert bits to bytes, divide by 8 (1 byte = 8 bits). For network speeds (Mbps to MB/s), divide by 8.' },
+    ],
+  },
+
+  // ─── Text Tools ──────────────────────────────────────────────
+  'case-converter': {
+    whatIs: 'The Case Converter transforms text between uppercase, lowercase, title case, sentence case, and toggle case. Paste any text and instantly convert capitalization patterns — useful for fixing accidentally-typed CAPS LOCK text, standardizing headlines, or preparing data for import.',
+    howTo: [
+      'Paste or type your text into the input area.',
+      'Click the desired case conversion button: UPPER, lower, Title Case, Sentence case, or tOGGLE cASE.',
+      'The converted text appears in the output area.',
+      'Copy the result and paste it into your document, CMS, or application.',
+    ],
+    benefits: [
+      { title: 'Five case modes', description: 'UPPER CASE for emphasis or acronyms. lower case for URLs and code. Title Case for headlines and book titles. Sentence case for normal paragraphs. tOGGLE cASE for reversing the current capitalization of each letter.' },
+      { title: 'Fixes CAPS LOCK mistakes', description: 'Accidentally typed an entire paragraph with CAPS LOCK on? Paste it and click lower or Sentence case to fix it instantly, instead of retyping everything.' },
+      { title: 'Title Case follows AP style', description: 'Title Case capitalizes the first letter of each word. For precise headline styling (where articles and prepositions stay lowercase), review the output and adjust manually — the tool capitalizes every word.' },
+      { title: 'No text stored', description: 'Your text is processed in the browser only. Nothing is sent to a server, which matters for confidential documents, emails, and proprietary content.' },
+    ],
+    faqs: [
+      { q: 'What is the difference between Title Case and Sentence case?', a: 'Title Case capitalizes the first letter of every word ("The Quick Brown Fox"). Sentence case capitalizes only the first word of each sentence ("The quick brown fox"). Use Title Case for headlines and Sentence case for body text.' },
+      { q: 'Does Title Case skip articles and prepositions?', a: 'The tool capitalizes every word. Standard style guides (AP, Chicago) keep articles (a, an, the), short prepositions (in, on, at), and coordinating conjunctions (and, but, or) lowercase unless they start the title. Review the output and manually lowercase these words if needed.' },
+      { q: 'What is toggle case?', a: 'Toggle case reverses the capitalization of each letter — uppercase becomes lowercase and vice versa. "Hello World" becomes "hELLO wORLD". Useful for correcting inverted capitalization.' },
+      { q: 'Can I convert multiple paragraphs at once?', a: 'Yes. Paste as much text as you need. The tool processes the entire input. For Sentence case, each sentence (determined by periods, exclamation marks, and question marks) is capitalized independently.' },
+    ],
+  },
+  'character-counter': {
+    whatIs: 'The Character Counter shows the exact count of characters, characters without spaces, words, sentences, and paragraphs in your text as you type or paste. The tool updates in real time and displays counts for all metrics simultaneously.',
+    howTo: [
+      'Type or paste your text into the input area.',
+      'The tool displays character count, character count without spaces, word count, sentence count, and paragraph count in real time.',
+      'Use these counts to verify your text meets length requirements for platforms, forms, or publications.',
+      'Copy or edit your text as needed.',
+    ],
+    benefits: [
+      { title: 'Platform-specific limits at a glance', description: 'See if your text fits within common limits: Twitter (280 characters), SMS (160 characters), meta description (160 characters), title tag (60 characters), Google Ad headline (30 characters). The counter shows the raw counts — compare against your target platform limits.' },
+      { title: 'Real-time updates', description: 'Counts update with every keystroke. No need to click a button — paste your text and instantly see whether you are over or under your target length.' },
+      { title: 'Multiple metrics', description: 'Beyond character count, see words (for word-count limits), sentences (for readability assessment), and paragraphs (for structure analysis). All metrics update simultaneously.' },
+      { title: 'No data sent anywhere', description: 'Text analysis happens entirely in your browser. Your content — whether a tweet, email, or essay — is never transmitted to a server.' },
+    ],
+    faqs: [
+      { q: 'Does the character count include spaces?', a: 'The tool shows both: total characters (including spaces) and characters without spaces. Most platform limits (Twitter, SMS) count spaces. Meta description limits typically count spaces as well.' },
+      { q: 'How are words counted?', a: 'Words are counted by splitting on whitespace. "Hello, world!" counts as 2 words. Hyphenated words ("well-known") count as 1 word. Contractions ("don\'t") count as 1 word.' },
+      { q: 'What counts as a sentence?', a: 'Sentences are counted by splitting on sentence-ending punctuation (periods, exclamation marks, question marks). "Hello! How are you?" counts as 2 sentences. Abbreviations with periods ("Dr. Smith") may inflate the count slightly.' },
+      { q: 'How is this different from the Word Counter?', a: 'The Character Counter emphasizes character count for platform limits (Twitter, SMS, meta tags). The Word Counter emphasizes word count and reading time estimation for writing targets (essays, blog posts, articles). Both show all metrics, but the primary focus differs.' },
+    ],
+  },
+  'word-counter': {
+    whatIs: 'The Word Counter displays real-time word count, character count, sentence count, paragraph count, and estimated reading time as you type or paste text. The tool is designed for writers who need to hit specific word count targets — essays, blog posts, articles, and reports.',
+    howTo: [
+      'Type or paste your text into the input area.',
+      'The tool displays word count, character count, sentence count, paragraph count, and estimated reading time instantly.',
+      'Edit your text to meet your target word count or reading time.',
+      'Copy the final text when it meets your requirements.',
+    ],
+    benefits: [
+      { title: 'Reading time estimation', description: 'The tool estimates reading time based on an average reading speed of 200 words per minute. A 1,000-word article shows a 5-minute read time. Useful for blog posts where showing estimated read time improves engagement.' },
+      { title: 'Writing target tracking', description: 'Whether you need 500 words for an essay, 1,500 for a blog post, or 50,000 for NaNoWriMo, the real-time counter shows your progress. No more selecting all text and checking the word count in your word processor.' },
+      { title: 'Multiple metrics at once', description: 'See words, characters, sentences, and paragraphs simultaneously. Adjust your writing to hit word count targets while maintaining appropriate sentence length and paragraph structure.' },
+      { title: 'Private and instant', description: 'All counting happens in your browser. Your draft text — whether an unpublished article, confidential report, or personal essay — is never sent to a server.' },
+    ],
+    faqs: [
+      { q: 'How is reading time calculated?', a: 'The tool divides word count by 200 (average adult reading speed in words per minute). 1,000 words = 5 minutes. 400 words = 2 minutes. Adjust your writing length based on your target read time.' },
+      { q: 'What is a good word count for a blog post?', a: 'SEO studies suggest 1,500-2,500 words for comprehensive guides. List posts and news articles are typically 500-1,000 words. The tool helps you track progress toward your target.' },
+      { q: 'How are words counted?', a: 'Words are counted by splitting on whitespace. "Hello, world!" = 2 words. Hyphenated words ("well-known") = 1 word. Contractions ("don\'t") = 1 word. Numbers ("2024") count as words.' },
+      { q: 'Can I use this for NaNoWriMo?', a: 'Yes. NaNoWriMo requires 50,000 words in November. The counter shows your total in real time so you can track progress. Paste your daily writing to see your word count without opening a full word processor.' },
+    ],
+  },
+  'lorem-ipsum-generator': {
+    whatIs: 'The Lorem Ipsum Generator produces placeholder text in the classic Lorem Ipsum style. Generate a specific number of words, sentences, or paragraphs of dummy text for use in design mockups, website prototypes, and print layouts where the actual content is not yet available.',
+    howTo: [
+      'Choose the output unit: words, sentences, or paragraphs.',
+      'Enter the number of units you want to generate.',
+      'Click Generate to produce the placeholder text.',
+      'Copy the generated Lorem Ipsum text and paste it into your mockup, prototype, or layout.',
+    ],
+    benefits: [
+      { title: 'Three output units', description: 'Generate by word count (for filling small text fields), sentence count (for UI components), or paragraph count (for full-page layouts). Choose the unit that matches your design need.' },
+      { title: 'Classic Lorem Ipsum text', description: 'The tool generates text from the standard Lorem Ipsum corpus, which has been used in printing and design since the 1500s. Designers recognize it instantly as placeholder content, preventing confusion with real copy.' },
+      { title: 'No sign-up needed', description: 'Generate placeholder text immediately without creating an account. Useful when you are in the middle of a design session and need filler text fast.' },
+      { title: 'Useful for web and print', description: 'Web designers use Lorem Ipsum in HTML mockups to demonstrate text layout and typography. Print designers use it in InDesign layouts to show where body copy will sit before the real content is written.' },
+    ],
+    faqs: [
+      { q: 'What is Lorem Ipsum?', a: 'Lorem Ipsum is dummy text from a Latin work by Cicero (de Finibus Bonorum et Malorum), written in 45 BC. It has been used as placeholder text in printing since the 1500s. Designers use it because its letter distribution resembles real text, giving accurate visual weight.' },
+      { q: 'Why use Lorem Ipsum instead of real text?', a: 'Placeholder text lets designers and clients focus on layout, typography, and visual hierarchy without being distracted by the actual words. Real content during the design phase leads to discussions about copy instead of design decisions.' },
+      { q: 'Is the generated text random?', a: 'The tool generates text from the standard Lorem Ipsum word pool. The same parameters (e.g. 5 paragraphs) produce the same output each time, which is useful for consistent mockups. Each paragraph is a different section from the original text.' },
+      { q: 'Can I generate Lorem Ipsum in other languages?', a: 'The tool generates English Lorem Ipsum (the standard Latin-derived text). For localized placeholder text, consider using real placeholder text in your target language to better represent character widths and accents.' },
+    ],
+  },
+  'text-sorter': {
+    whatIs: 'The Text Sorter reorders lines of text alphabetically, numerically, by line length, or in reverse. Remove empty lines, remove duplicates, and randomize line order — useful for cleaning up lists, sorting data exports, and organizing multiline text.',
+    howTo: [
+      'Paste your multiline text into the input area.',
+      'Choose a sort mode: alphabetical (A-Z), reverse alphabetical (Z-A), by length (shortest first), or randomize.',
+      'Optionally toggle "Remove empty lines" and "Remove duplicates".',
+      'The sorted text appears in the output area. Copy it for use in your document or application.',
+    ],
+    benefits: [
+      { title: 'Multiple sort modes', description: 'Sort alphabetically for name lists and glossaries. Sort by length to find the shortest or longest lines. Randomize for shuffling quiz questions or playlist entries. Reverse for descending order.' },
+      { title: 'Remove duplicates and empty lines', description: 'Clean up messy text exports in one step. Toggle both options to produce a sorted, deduplicated, compact list — no more manual cleanup in a spreadsheet.' },
+      { title: 'Line-based sorting', description: 'The tool sorts by entire lines, not by words within a line. This makes it ideal for sorting lists, CSV data (one record per line), log entries, and any text where each line is a distinct item.' },
+      { title: 'Case-sensitive and insensitive', description: 'Choose whether uppercase and lowercase letters sort separately. Case-insensitive sorting treats "Apple" and "apple" as equivalent, which is usually what you want for alphabetical lists.' },
+    ],
+    faqs: [
+      { q: 'Does the sorter sort words within a line?', a: 'No. The tool sorts entire lines. If you have a paragraph of text on one line, it stays intact. To sort words within a sentence, split them onto separate lines first, sort, then rejoin.' },
+      { q: 'Can I sort numerically?', a: 'Alphabetical sort places "10" before "2" because it sorts character by character. For numerical sorting, ensure each line starts with a number and use a tool that parses numeric values. The current tool sorts alphabetically.' },
+      { q: 'What does randomize do?', a: 'Randomize shuffles all lines in random order. This is useful for creating randomized quiz answer orders, shuffling a playlist, or randomizing a list of participants for a draw.' },
+      { q: 'Is there a line limit?', a: 'The tool handles thousands of lines without performance issues. Very large inputs (100,000+ lines) may take a moment to process but will complete in the browser.' },
+    ],
+  },
+  'remove-duplicate-lines': {
+    whatIs: 'The Remove Duplicate Lines tool eliminates repeated lines from multiline text, keeping only the first occurrence of each line. Toggle case sensitivity and whitespace trimming to control what counts as a duplicate — useful for cleaning up email lists, log files, and data exports.',
+    howTo: [
+      'Paste your text containing duplicate lines into the input area.',
+      'Toggle "Case sensitive" if you want "Apple" and "apple" to be treated as different lines.',
+      'Toggle "Trim whitespace" if you want lines with trailing spaces to match clean lines.',
+      'The tool removes duplicates and shows the cleaned text in the output area.',
+      'Copy the deduplicated text for use in your application or document.',
+    ],
+    benefits: [
+      { title: 'Case sensitivity control', description: 'In case-sensitive mode, "Apple" and "apple" are distinct lines — both are kept. In case-insensitive mode (default), only the first occurrence is kept regardless of capitalization. Choose based on whether case matters for your data.' },
+      { title: 'Whitespace trimming', description: 'Enable whitespace trimming to treat "hello" and "hello " (with trailing space) as the same line. This catches duplicates that look identical but have invisible whitespace differences — a common issue in copy-pasted data.' },
+      { title: 'Preserves original order', description: 'The tool keeps the first occurrence and removes subsequent duplicates, preserving the order of your original text. This is important for lists where order matters (timestamps, priority lists).' },
+      { title: 'No data uploaded', description: 'Deduplication happens entirely in your browser. Email lists, customer data, and proprietary text never leave your device.' },
+    ],
+    faqs: [
+      { q: 'How does the tool decide which duplicate to keep?', a: 'The tool keeps the first occurrence of each line and removes all subsequent duplicates. The original order of unique lines is preserved.' },
+      { q: 'Can I see which lines were removed?', a: 'The tool shows the deduplicated output. To see what was removed, compare the input line count with the output line count. The tool does not display a diff view of removed lines.' },
+      { q: 'Does the tool work with CSV data?', a: 'Yes. If each row is on its own line, the tool removes duplicate rows. For CSV files where duplicates should be identified by a specific column rather than the entire row, use a spreadsheet with column-based deduplication instead.' },
+      { q: 'Is there a limit to how many lines I can process?', a: 'The tool handles tens of thousands of lines in the browser. Very large inputs (1 million+ lines) may cause the browser to freeze briefly during processing.' },
+    ],
+  },
+
+  // ─── Developer Tools ─────────────────────────────────────────
+  'base64-encoder': {
+    whatIs: 'The Base64 Encoder converts text to and from Base64 encoding using the browser native btoa() and atob() functions. Encode plain text to Base64 for data URIs, API authentication headers, and embedding binary data in JSON — or decode Base64 back to readable text.',
+    howTo: [
+      'Paste your text into the input area.',
+      'Click Encode to convert text to Base64, or click Decode to convert Base64 back to text.',
+      'The result appears in the output area.',
+      'Copy the encoded or decoded string for use in your code or API call.',
+    ],
+    benefits: [
+      { title: 'Native browser encoding', description: 'The tool uses JavaScript btoa() for encoding and atob() for decoding — the same functions available in every browser. The output is standard Base64 compatible with all APIs, libraries, and frameworks.' },
+      { title: 'Bidirectional conversion', description: 'Encode text to Base64 and decode Base64 to text in the same tool. No need for separate encoder and decoder pages. Switch between modes with one click.' },
+      { title: 'Useful for API authentication', description: 'HTTP Basic Auth requires a Base64-encoded "username:password" string. Encode your credentials and paste them into the Authorization header for API testing.' },
+      { title: 'Data URI generation', description: 'Encode small images, SVGs, or fonts as Base64 data URIs to embed them directly in HTML or CSS without external file requests. This reduces HTTP requests for small assets.' },
+    ],
+    faqs: [
+      { q: 'What is Base64 encoding?', a: 'Base64 converts binary data into ASCII text using 64 characters (A-Z, a-z, 0-9, +, /). It is used to safely transmit binary data through text-only channels like JSON, XML, and HTTP headers.' },
+      { q: 'Does Base64 encoding encrypt my data?', a: 'No. Base64 is encoding, not encryption. Anyone can decode Base64 without a key. Never use Base64 to protect sensitive data — use AES encryption (see the Password Encryptor tool) instead.' },
+      { q: 'Why does my encoded string have = at the end?', a: 'Base64 encoding pads the output with = characters to make the length a multiple of 4. One = means the original data had 2 bytes remaining in the last group; two = means 1 byte remaining. This is normal and required by the spec.' },
+      { q: 'Can I encode non-ASCII characters (UTF-8)?', a: 'The tool uses btoa() which handles ASCII text. For UTF-8 text with non-ASCII characters (é, 漢, emoji), the tool may not encode correctly. For full UTF-8 support, use encodeURIComponent() before encoding in your own code.' },
+      { q: 'How much larger is Base64 than the original?', a: 'Base64 encoding increases size by approximately 33%. A 750-byte input becomes 1000 bytes of Base64. This overhead is the trade-off for text-safe transmission.' },
+    ],
+  },
+  'url-encoder': {
+    whatIs: 'The URL Encoder converts text to and from URL-encoded (percent-encoded) format using JavaScript encodeURIComponent() and decodeURIComponent(). Encode special characters, spaces, and Unicode for safe inclusion in URLs, query parameters, and form data.',
+    howTo: [
+      'Paste your text or URL into the input area.',
+      'Click Encode to percent-encode the text, or Decode to convert percent-encoded text back to readable form.',
+      'The result appears in the output area.',
+      'Copy the encoded or decoded URL for use in your application, API call, or browser.',
+    ],
+    benefits: [
+      { title: 'Uses encodeURIComponent()', description: 'The tool uses JavaScript encodeURIComponent(), which encodes all characters except A-Z, a-z, 0-9, - _ . ! ~ * \' ( ). This is the correct function for encoding URL query parameter values and form data.' },
+      { title: 'Bidirectional encoding and decoding', description: 'Encode a URL with special characters for transmission, then decode it back to readable form. Both directions use native JavaScript functions for maximum compatibility.' },
+      { title: 'Handles spaces correctly', description: 'Spaces are encoded as %20 in URLs. The tool uses encodeURIComponent which produces %20, not + (which is used in application/x-www-form-urlencoded encoding). %20 is the correct encoding for URL paths and query parameters.' },
+      { title: 'Unicode support', description: 'encodeURIComponent handles UTF-8 characters correctly. Emoji, CJK characters, and accented letters are encoded as multi-byte percent-encoded sequences, ensuring they work in any browser.' },
+    ],
+    faqs: [
+      { q: 'What is the difference between encodeURI and encodeURIComponent?', a: 'encodeURI preserves URL structural characters (:/?#&=+$,;@) so the overall URL remains valid. encodeURIComponent encodes everything except alphanumerics and - _ . ! ~ * \' ( ), making it suitable for individual parameter values. This tool uses encodeURIComponent.' },
+      { q: 'Should spaces be %20 or +?', a: 'In URL paths and query parameters, spaces should be %20. The + encoding is specific to application/x-www-form-urlencoded (form submissions). This tool uses %20 via encodeURIComponent, which is correct for URLs.' },
+      { q: 'Can I encode an entire URL?', a: 'If you encode an entire URL (including https://), the :// will be encoded to %3A%2F%2F, which will break the URL. Use this tool to encode individual query parameter values, not the full URL. For encoding full URLs, use encodeURI() in your code instead.' },
+      { q: 'Why do I need to URL-encode text?', a: 'URLs can only contain ASCII characters. Special characters like spaces, &, =, ?, and non-English characters must be percent-encoded to avoid being misinterpreted as URL structure. For example, a search query "cat & dog" must be encoded as "cat%20%26%20dog".' },
+    ],
+  },
+  'json-validator': {
+    whatIs: 'The JSON Validator checks whether a JSON string is syntactically valid and reports the specific error and location if it is not. Paste JSON into the input area and the tool parses it with JavaScript JSON.parse(), displaying either a success message or the exact error with line and column position.',
+    howTo: [
+      'Paste your JSON string into the input textarea.',
+      'The tool validates the JSON automatically as you type or when you click Validate.',
+      'If the JSON is valid, a success message appears.',
+      'If the JSON is invalid, the tool shows the error message and the character position where parsing failed.',
+      'Fix the error in your JSON and re-validate.',
+    ],
+    benefits: [
+      { title: 'Precise error location', description: 'When JSON is invalid, the tool reports the exact error message from JSON.parse() (e.g. "Unexpected token } in JSON at position 42"). This tells you exactly where the syntax error is, so you can fix it without scanning the entire file.' },
+      { title: 'Catches common JSON errors', description: 'The tool detects trailing commas, unquoted keys, single quotes instead of double quotes, missing brackets, extra commas, and other common mistakes that produce invalid JSON.' },
+      { title: 'Instant feedback', description: 'Validation runs as you type. No need to click a button — paste malformed JSON and the error appears immediately. Fix the error and the success message replaces it.' },
+      { title: 'No data sent to a server', description: 'JSON parsing happens entirely in your browser using native JSON.parse(). Your configuration files, API payloads, and data structures are never transmitted anywhere.' },
+    ],
+    faqs: [
+      { q: 'What are common JSON syntax errors?', a: 'Trailing commas ({"a":1,} — remove the last comma), unquoted keys ({a:1} — use {"a":1}), single quotes ({\'a\':1} — use double quotes), and missing brackets. The tool catches all of these.' },
+      { q: 'How is this different from the JSON Formatter?', a: 'The JSON Formatter beautifies and indents valid JSON for readability. The JSON Validator focuses on finding and reporting syntax errors. Use the Validator first to ensure your JSON is valid, then the Formatter to make it readable.' },
+      { q: 'Does the tool support JSON5 or JSONC?', a: 'No. The tool validates standard JSON (RFC 8259). JSON5 (which allows comments, trailing commas, unquoted keys) and JSONC (JSON with comments) will be reported as invalid. Use a dedicated JSON5 parser for those formats.' },
+      { q: 'Can I validate JSON with comments?', a: 'Standard JSON does not support comments. // and /* */ will cause a validation error. If your JSON has comments, it is technically JSONC. Remove comments before validating, or use a JSONC-aware parser in your development environment.' },
+    ],
+  },
+  'regex-tester': {
+    whatIs: 'The Regex Tester evaluates regular expressions against test strings in real time. Enter a regex pattern and a test string, and the tool shows matches with highlighted portions using JavaScript native RegExp. Supports common flags (g, i, m, s) and displays match groups.',
+    howTo: [
+      'Enter your regular expression pattern in the regex input field.',
+      'Select regex flags (g for global, i for case-insensitive, m for multiline, s for dot-all).',
+      'Enter the test string in the input area.',
+      'The tool highlights all matches in the test string and displays match details including captured groups.',
+    ],
+    benefits: [
+      { title: 'Real-time match highlighting', description: 'See matches highlighted in your test string as you type. No need to click a button — the tool re-evaluates on every keystroke, making it fast to iterate on your pattern.' },
+      { title: 'Flag support', description: 'Toggle the four most common regex flags: g (global — find all matches, not just the first), i (case-insensitive), m (multiline — ^ and $ match line boundaries), s (dot-all — . matches newlines).' },
+      { title: 'Captured group display', description: 'When your regex uses parentheses for capture groups, the tool shows the content of each group. This helps you verify that your pattern captures the right portions of the input string.' },
+      { title: 'JavaScript RegExp engine', description: 'The tool uses the browser native RegExp engine, so results match what you will get in JavaScript code. No external regex library — what works here works in your Node.js or browser code.' },
+    ],
+    faqs: [
+      { q: 'Which regex flavor does the tool support?', a: 'The tool uses JavaScript native RegExp, which supports most PCRE features but not lookbehind assertions in older browsers, possessive quantifiers, or named backreferences (though modern Chrome supports lookbehind and named capture groups).' },
+      { q: 'What do the regex flags do?', a: 'g (global): find all matches, not just the first. i (case-insensitive): "abc" matches "ABC". m (multiline): ^ and $ match at line breaks, not just string boundaries. s (dot-all): . matches newline characters.' },
+      { q: 'Can I test regex for Python or Java?', a: 'The tool uses JavaScript RegExp, which is similar but not identical to Python or Java regex. Most basic patterns work the same, but advanced features (lookbehind, atomic groups, Unicode classes) may differ. Test in your target language for production use.' },
+      { q: 'Why does my regex work here but not in my code?', a: 'If you are using the g flag, the regex object maintains lastIndex state between calls in JavaScript. Use regex.lastIndex = 0 or create a new RegExp before each test. Also check that your code uses the same flags as the tester.' },
+    ],
+  },
+  'html-formatter': {
+    whatIs: 'The HTML Formatter beautifies minified or messy HTML by adding proper indentation and line breaks. Paste compressed HTML and the tool reformats it with consistent nesting, making it readable for debugging, code review, and editing.',
+    howTo: [
+      'Paste your HTML (minified, inline, or messy) into the input area.',
+      'Click Format to beautify the HTML with proper indentation.',
+      'The formatted HTML appears in the output area with nested elements indented consistently.',
+      'Copy the formatted HTML for use in your editor or documentation.',
+    ],
+    benefits: [
+      { title: 'Readable indentation', description: 'The tool adds consistent indentation based on nesting depth, so you can see the document structure at a glance. This makes it easier to find unclosed tags, identify nesting errors, and understand the page structure.' },
+      { title: 'Handles inline and minified HTML', description: 'Unminify HTML that was compressed for production. Reformat template literals or server-rendered HTML that arrives as a single line. The tool handles deeply nested structures correctly.' },
+      { title: 'No browser extension needed', description: 'Format HTML on any device without installing a browser extension or IDE plugin. Useful on Chromebooks, locked-down machines, or when reviewing HTML in a context where you cannot install tools.' },
+      { title: 'Local processing only', description: 'Your HTML is processed in the browser. No page source, template code, or proprietary markup is sent to a server.' },
+    ],
+    faqs: [
+      { q: 'Does the formatter modify my HTML?', a: 'The tool adds whitespace (indentation and line breaks) for readability. It does not change tags, attributes, or content. The formatted HTML renders identically to the original — only the source formatting changes.' },
+      { q: 'Can it format HTML with embedded CSS and JavaScript?', a: 'The tool formats the HTML structure. Embedded CSS in <style> tags and JavaScript in <script> tags are preserved but not internally reformatted. Use the CSS Minifier (in reverse) or JS Minifier for formatting those portions.' },
+      { q: 'Does it handle malformed HTML?', a: 'The tool works best with well-formed HTML. Missing closing tags or malformed structures may not indent correctly, as the tool relies on tag pairing for nesting depth. Fix structural errors first for best results.' },
+      { q: 'How is this different from the CSS or JS minifier?', a: 'The HTML Formatter beautifies HTML markup. The CSS Minifier and JS Minifier compress their respective code types. Each tool handles a specific language syntax. For full-page optimization, minify each component separately.' },
+    ],
+  },
+  'css-minifier': {
+    whatIs: 'The CSS Minifier compresses CSS stylesheets by removing whitespace, comments, and unnecessary characters to reduce file size. Paste your CSS and the tool produces a minified version that renders identically but loads faster — improving page speed and Core Web Vitals.',
+    howTo: [
+      'Paste your CSS code into the input area.',
+      'Click Minify to remove whitespace, comments, and redundant characters.',
+      'The minified CSS appears in the output area.',
+      'Copy the minified CSS and use it in your production build or inline styles.',
+    ],
+    benefits: [
+      { title: 'Reduces file size by 20-40%', description: 'CSS files typically shrink 20-40% after minification. Comments, whitespace, and unnecessary semicolons are removed. For a 50KB stylesheet, that saves 10-20KB per page load.' },
+      { title: 'Improves Core Web Vitals', description: 'Smaller CSS files download and parse faster, directly improving First Contentful Paint and Largest Contentful Paint scores. Google uses these metrics as ranking signals.' },
+      { title: 'Preserves CSS validity', description: 'The tool removes only non-functional characters — comments, whitespace, and trailing semicolons. Selectors, properties, values, and media queries are preserved exactly. The minified CSS renders identically to the original.' },
+      { title: 'No build tools required', description: 'Minify CSS without setting up webpack, PostCSS, or a CI pipeline. Useful for quick optimizations, static sites, or environments where you cannot install build tools.' },
+    ],
+    faqs: [
+      { q: 'How much does CSS minification reduce file size?', a: 'Typically 20-40%, depending on how much whitespace and how many comments the original file contains. Well-commented, generously-spaced CSS shrinks more than already-compact CSS.' },
+      { q: 'Will minification break my CSS?', a: 'No. The tool removes only whitespace, comments, and unnecessary characters (like trailing semicolons and leading zeros in values like 0.5em). The rendered output is identical. Always test in a browser after minification to confirm.' },
+      { q: 'Should I minify CSS or use gzip?', a: 'Both. Minification removes unnecessary characters from the file itself, while gzip compresses the file during transmission. They work together — minify first, then let your server gzip the minified file for maximum compression.' },
+      { q: 'Does the tool generate source maps?', a: 'No. The tool produces minified CSS without a source map. For production builds with source maps, use a build tool like webpack or Vite that generates source maps alongside minified output.' },
+    ],
+  },
+  'js-minifier': {
+    whatIs: 'The JavaScript Minifier compresses JS code by removing whitespace, comments, and unnecessary characters to reduce file size. Paste your JavaScript and the tool produces a smaller version that functions identically but downloads and parses faster in the browser.',
+    howTo: [
+      'Paste your JavaScript code into the input area.',
+      'Click Minify to remove whitespace, comments, and redundant characters.',
+      'The minified JavaScript appears in the output area.',
+      'Copy the minified JS and use it in your production build or inline script.',
+    ],
+    benefits: [
+      { title: 'Reduces download size', description: 'JavaScript files typically shrink 15-30% from whitespace and comment removal alone. For production, a full minifier like Terser also renames variables for 40-60% total reduction, but this tool focuses on safe whitespace removal.' },
+      { title: 'Faster page loads', description: 'Smaller JS files download faster and parse faster, improving Time to Interactive and Total Blocking Time — both Core Web Vitals metrics that affect search rankings.' },
+      { title: 'Safe minification', description: 'The tool removes comments, whitespace, and unnecessary characters without renaming variables or mangling code. This ensures the minified output is functionally identical to the original — no risk of breaking runtime behavior.' },
+      { title: 'No build pipeline needed', description: 'Minify JavaScript without installing Node.js, webpack, or Terser. Useful for static sites, quick optimizations, or environments where you cannot run build tools.' },
+    ],
+    faqs: [
+      { q: 'How much does this tool reduce JS file size?', a: 'Typically 15-30% from whitespace and comment removal. Full minifiers like Terser achieve 40-60% by also renaming variables and dead-code elimination. This tool focuses on safe character removal without variable mangling.' },
+      { q: 'Will minification break my JavaScript?', a: 'No. The tool removes only whitespace, comments, and unnecessary characters. It does not rename variables, merge declarations, or change logic. The output is functionally identical to the input. ASI (automatic semicolon insertion) is preserved.' },
+      { q: 'Should I use this instead of Terser or esbuild?', a: 'For production builds, use Terser or esbuild through your bundler — they achieve higher compression through variable mangling and dead code elimination. This tool is for quick, safe minification when you do not have a build pipeline available.' },
+      { q: 'Does the tool minify ES6+ syntax?', a: 'Yes. The tool handles modern JavaScript syntax (arrow functions, template literals, destructuring, async/await) correctly. It removes whitespace and comments without parsing or transforming the code, so syntax validity is preserved.' },
+    ],
+  },
+  'md5-hash-generator': {
+    whatIs: 'The MD5 Hash Generator computes the MD5 hash of any text input using the Web Crypto API (where available) or a JavaScript implementation. MD5 produces a 128-bit (32-character hexadecimal) hash. The tool is useful for generating checksums, but MD5 is cryptographically broken and should not be used for password hashing or security.',
+    howTo: [
+      'Paste or type your text into the input area.',
+      'The tool computes the MD5 hash instantly as you type.',
+      'Copy the 32-character hexadecimal hash string from the output area.',
+    ],
+    benefits: [
+      { title: 'Instant hashing', description: 'The hash updates in real time as you type. No submit button — paste your text and the MD5 hash appears immediately. Useful for quick checksum comparisons.' },
+      { title: 'Checksum generation', description: 'MD5 is still widely used for file integrity checks, cache key generation, and ETag computation. Generate an MD5 hash to use as a checksum for detecting changes in data or as a cache-busting identifier.' },
+      { title: 'ETag and cache key support', description: 'Some APIs and CDN configurations use MD5 for ETag generation. Generate the hash for your content to set or compare ETag headers in HTTP responses.' },
+      { title: 'No data transmitted', description: 'Hashing happens in your browser. Your text input is never sent to a server, which matters for hashing API keys, internal identifiers, or sensitive data for checksum purposes.' },
+    ],
+    faqs: [
+      { q: 'Is MD5 secure for password hashing?', a: 'No. MD5 is cryptographically broken — collision attacks can find two different inputs that produce the same hash in seconds. Never use MD5 for password storage. Use bcrypt (see the bcrypt Generator tool) or Argon2 for password hashing.' },
+      { q: 'When is MD5 still appropriate?', a: 'MD5 is acceptable for non-security purposes: file checksums (detecting accidental corruption), cache key generation, ETag computation, and checksums in Git (which uses MD5 internally for some operations). It should not be used for any security-sensitive application.' },
+      { q: 'What is the MD5 hash length?', a: 'MD5 always produces a 128-bit hash, displayed as a 32-character hexadecimal string (e.g. "d41d8cd98f00b204e9800998ecf8427e" for empty string). The output length is fixed regardless of input size.' },
+      { q: 'Can I reverse an MD5 hash?', a: 'No. MD5 is a one-way hash function — you cannot derive the original input from the hash. However, because MD5 is broken, rainbow tables and collision attacks make it insecure for authentication. Use the SHA-256 Hash Generator for stronger hashing.' },
+      { q: 'How is MD5 different from SHA-256?', a: 'MD5 produces a 128-bit hash and is broken (collision attacks exist). SHA-256 produces a 256-bit hash and is still considered secure. For any security application, use SHA-256 or bcrypt. For non-security checksums, MD5 is faster and sufficient.' },
+    ],
+  },
+  'sha256-hash-generator': {
+    whatIs: 'The SHA-256 Hash Generator computes the SHA-256 (Secure Hash Algorithm 256-bit) hash of any text input using the Web Crypto API. SHA-256 produces a 64-character hexadecimal hash and is considered cryptographically secure — suitable for data integrity verification, digital signatures, and blockchain applications.',
+    howTo: [
+      'Paste or type your text into the input area.',
+      'The tool computes the SHA-256 hash using the Web Crypto SubtleCrypto API.',
+      'Copy the 64-character hexadecimal hash string from the output area.',
+    ],
+    benefits: [
+      { title: 'Uses Web Crypto API', description: 'The tool uses the browser native SubtleCrypto.digest() API, which provides hardware-accelerated SHA-256 computation. This is the same cryptographic library used by browsers for TLS and Web Authentication.' },
+      { title: 'Cryptographically secure', description: 'SHA-256 is part of the SHA-2 family and is considered secure by NIST. Unlike MD5 and SHA-1, no practical collision attacks exist against SHA-256. It is used in Bitcoin, TLS certificates, and digital signatures.' },
+      { title: 'Data integrity verification', description: 'Generate a SHA-256 hash of a file or message to verify its integrity later. If the hash matches, the data has not been altered. This is how package managers (npm, pip) verify downloaded files.' },
+      { title: 'No server-side processing', description: 'Hashing happens entirely in your browser using the Web Crypto API. Your text is never transmitted to a server, which is important for hashing sensitive data like API keys or internal identifiers.' },
+    ],
+    faqs: [
+      { q: 'Is SHA-256 secure for password hashing?', a: 'SHA-256 is secure for data integrity but not ideal for password hashing. Passwords should be hashed with a slow algorithm like bcrypt or Argon2 that includes a salt and is computationally expensive. SHA-256 is fast, which makes it vulnerable to brute-force attacks on passwords. Use the bcrypt Generator for passwords.' },
+      { q: 'What is the SHA-256 hash length?', a: 'SHA-256 always produces a 256-bit hash, displayed as a 64-character hexadecimal string. The output length is fixed regardless of input size — a single character and a 1GB file both produce 64 hex characters.' },
+      { q: 'Can SHA-256 be reversed?', a: 'No. SHA-256 is a one-way function. It is computationally infeasible to derive the original input from the hash. However, for short or common inputs, precomputed tables (rainbow tables) can find the input. Use a salt for password-related applications.' },
+      { q: 'How is SHA-256 different from MD5?', a: 'SHA-256 produces a 256-bit hash (64 hex characters) and is cryptographically secure. MD5 produces a 128-bit hash (32 hex characters) and is broken — collisions can be found in seconds. For any security-sensitive application, use SHA-256.' },
+    ],
+  },
+
+  // ─── Security Tools ──────────────────────────────────────────
+  'username-generator': {
+    whatIs: 'The Username Generator creates random usernames with customizable patterns: prefix, suffix, number length, and separator style. Generate usernames for gaming platforms, forums, social media, and testing environments using the Web Crypto API for cryptographically secure randomness.',
+    howTo: [
+      'Optionally enter a prefix (e.g. your name or a word) to start the username.',
+      'Optionally enter a suffix to end the username.',
+      'Set the number of random digits to append (0-6).',
+      'Choose a separator style: none, hyphen, underscore, or dot.',
+      'Click Generate to produce a username. Click again for a new random variation.',
+    ],
+    benefits: [
+      { title: 'Cryptographically secure randomness', description: 'The tool uses the Web Crypto API (crypto.getRandomValues) for random number generation, not Math.random(). This produces unpredictable usernames that cannot be guessed — important for security-sensitive accounts.' },
+      { title: 'Customizable patterns', description: 'Control every part of the username: prefix, suffix, random digits, and separator. Generate a pattern like "gamer_4827" or "alex-92" that fits the naming conventions of your target platform.' },
+      { title: 'Platform-compatible', description: 'Different platforms have different username rules. Some allow underscores, others only allow alphanumeric characters. The separator option lets you generate usernames that comply with each platform character restrictions.' },
+      { title: 'Useful for testing', description: 'Generate realistic usernames for test databases, QA environments, and demo accounts. The random component ensures each generated username is unique, avoiding collisions in test data.' },
+    ],
+    faqs: [
+      { q: 'Are the generated usernames unique?', a: 'The random digit component (up to 6 digits) provides 999,999 possible combinations per prefix-suffix pattern. Collisions are extremely unlikely for reasonable numbers of generated usernames. For guaranteed uniqueness, check the platform username availability before registering.' },
+      { q: 'Can I generate usernames without numbers?', a: 'Yes. Set the number of random digits to 0. The username will consist of just the prefix and suffix (if provided), with no random component. Note that short, common usernames are likely already taken on most platforms.' },
+      { q: 'What characters are allowed in generated usernames?', a: 'The tool generates usernames with alphanumeric characters (A-Z, a-z, 0-9) and your chosen separator (hyphen, underscore, dot, or none). These characters are accepted by most platforms including Discord, Reddit, and gaming services.' },
+      { q: 'Is the randomness truly random?', a: 'The tool uses crypto.getRandomValues(), which provides cryptographically secure random numbers derived from the operating system entropy source. This is significantly more unpredictable than Math.random() and suitable for security-sensitive usernames.' },
+    ],
+  },
+  'uuid-generator': {
+    whatIs: 'The UUID Generator creates RFC 4122 version 4 UUIDs (Universally Unique Identifiers) using the Web Crypto API. Each UUID is a 128-bit identifier displayed as a 36-character string (8-4-4-4-12 hexadecimal format). Generate single UUIDs or bulk-generate up to 1000 at once.',
+    howTo: [
+      'Enter the number of UUIDs you want to generate (1-1000).',
+      'Click Generate to produce the UUIDs using crypto.randomUUID().',
+      'Copy a single UUID or copy all UUIDs as a newline-separated list.',
+    ],
+    benefits: [
+      { title: 'RFC 4122 v4 compliant', description: 'The tool generates version 4 UUIDs, which use random bits for all non-version fields. This is the most common UUID version for application development. The format follows RFC 4122: xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx.' },
+      { title: 'Uses crypto.randomUUID()', description: 'The tool uses the browser native crypto.randomUUID() API, which provides cryptographically secure random UUIDs. This is the same function used by Node.js and modern browsers for secure identifier generation.' },
+      { title: 'Bulk generation', description: 'Generate up to 1000 UUIDs at once for database seeding, test fixtures, or batch operations. All UUIDs are unique — the probability of collision with v4 UUIDs is negligible (1 in 2^122).' },
+      { title: 'Copy-ready format', description: 'UUIDs are displayed in standard hyphenated format (550e8400-e29b-41d4-a716-446655440000). Copy a single UUID or all UUIDs as a list for pasting into SQL, JSON, or configuration files.' },
+    ],
+    faqs: [
+      { q: 'What is a UUID v4?', a: 'UUID version 4 uses random bits for all fields except the version number (fixed at 4) and the variant bits. This makes v4 UUIDs effectively unique — the probability of two random v4 UUIDs colliding is 1 in 2^122, which is negligible.' },
+      { q: 'Are generated UUIDs guaranteed unique?', a: 'UUID v4 uses 122 bits of randomness, making collisions astronomically unlikely. For practical purposes, generated UUIDs are unique. However, if you need guaranteed uniqueness in a distributed system, use a UUID v1 (time-based) or maintain a central registry.' },
+      { q: 'What is the UUID format?', a: 'A UUID is a 36-character string in the format 8-4-4-4-12: xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx. The "4" indicates version 4, and "y" is one of 8, 9, a, or b (variant 1). Example: 550e8400-e29b-41d4-a716-446655440000.' },
+      { q: 'Can I generate UUIDs without hyphens?', a: 'The tool generates standard hyphenated UUIDs. To remove hyphens, use a text replacement tool after copying. Some databases and systems accept UUIDs without hyphens (32 contiguous hex characters).' },
+      { q: 'How is this different from the UUID Bulk Generator?', a: 'The UUID Generator handles both single and bulk generation (up to 1000). The UUID Bulk Generator is a separate page focused on bulk operations with larger batch sizes. Both produce the same RFC 4122 v4 UUIDs.' },
+    ],
+  },
+
+  // ─── SEO Tools ───────────────────────────────────────────────
+  'meta-tag-generator': {
+    whatIs: 'The Meta Tag Generator creates SEO meta tags for web pages: title tag, meta description, meta keywords, viewport, charset, and Open Graph tags. Enter your page details and the tool produces ready-to-paste HTML for your page head section.',
+    howTo: [
+      'Enter your page title (keep under 60 characters for Google display).',
+      'Enter your meta description (keep under 160 characters).',
+      'Optionally add keywords, author, and Open Graph image URL.',
+      'Click Generate to produce the meta tag HTML.',
+      'Copy the generated tags and paste them into the <head> section of your HTML.',
+    ],
+    benefits: [
+      { title: 'Complete meta tag set', description: 'Generate title, description, keywords, viewport, charset, robots, author, and Open Graph tags in one operation. No need to manually write each tag — the tool produces the full set.' },
+      { title: 'Open Graph included', description: 'OG tags (og:title, og:description, og:image, og:url) are generated alongside standard meta tags. These control how your page appears when shared on Facebook, LinkedIn, and other social platforms.' },
+      { title: 'Copy-ready HTML', description: 'The output is valid HTML meta tags, ready to paste directly into your page head. No formatting required — the tool handles tag syntax, attribute quoting, and proper structure.' },
+      { title: 'No sign-up needed', description: 'Generate meta tags immediately without creating an account. Useful when you are publishing a page and need meta tags quickly.' },
+    ],
+    faqs: [
+      { q: 'How long should the title tag be?', a: 'Keep title tags under 60 characters. Google truncates longer titles in search results. Place your primary keyword near the beginning. Format: "Primary Keyword - Secondary Keyword | Brand Name".' },
+      { q: 'How long should the meta description be?', a: 'Keep meta descriptions between 150-160 characters. Google may truncate longer descriptions. Include your target keyword and a compelling reason to click. Meta descriptions do not affect rankings directly but influence click-through rate.' },
+      { q: 'Are meta keywords still useful?', a: 'Google has ignored the meta keywords tag since 2009. Bing and Yahoo also ignore it. Including it does not help rankings and can reveal your keyword strategy to competitors. The tool includes it optionally, but it is generally not recommended.' },
+      { q: 'What is the viewport meta tag?', a: 'The viewport tag (<meta name="viewport" content="width=device-width, initial-scale=1">) tells mobile browsers to render the page at the device width. Without it, mobile browsers render at 980px and zoom out, making text tiny. It is essential for responsive web design.' },
+      { q: 'How is this different from the Open Graph Generator?', a: 'The Meta Tag Generator produces all standard meta tags including basic Open Graph tags. The Open Graph Generator focuses specifically on og: tags with more detailed configuration options for social sharing. Use the Meta Tag Generator for a complete set, or the OG Generator for social-specific optimization.' },
+    ],
+  },
+  'open-graph-generator': {
+    whatIs: 'The Open Graph Generator creates og: meta tags that control how your web page appears when shared on Facebook, LinkedIn, Twitter, and other social platforms. Enter your title, description, image URL, and page URL to produce ready-to-paste Open Graph HTML tags.',
+    howTo: [
+      'Enter the title that should appear in social share cards (og:title).',
+      'Enter a description for the share preview (og:description).',
+      'Enter the URL of your share image (og:image) — use 1200x630 pixels.',
+      'Enter the canonical URL of your page (og:url).',
+      'Select the content type (website, article, product, etc.).',
+      'Click Generate and paste the tags into your HTML head.',
+    ],
+    benefits: [
+      { title: 'Controls social share appearance', description: 'Without og: tags, social platforms use your page title and the first image they find — which may not be ideal. OG tags let you control exactly what title, description, and image appear in share cards on Facebook, LinkedIn, and Twitter.' },
+      { title: 'Correct image dimensions guidance', description: 'The tool guides you to use 1200x630 pixel images, which is the recommended size for Facebook and LinkedIn Open Graph images. Images at this size display fully in share cards without cropping.' },
+      { title: 'Content type support', description: 'Generate og:type tags for different content types: website (homepage), article (blog post), product (e-commerce), or profile. Each type enables platform-specific features like article author or product price.' },
+      { title: 'Twitter Card compatible', description: 'While this tool focuses on Open Graph tags, Twitter falls back to og: tags when twitter:card tags are not present. For explicit Twitter Card optimization, use the Twitter Card Generator tool.' },
+    ],
+    faqs: [
+      { q: 'What image size should I use for Open Graph?', a: '1200x630 pixels is the recommended size for og:image. Facebook displays this at 470x246 in the feed, but the larger source image ensures high quality on retina displays. JPG or PNG, under 1MB. Use an absolute URL (including https://).' },
+      { q: 'Does Twitter use Open Graph tags?', a: 'Twitter supports og: tags as a fallback when twitter:card tags are not present. However, for best results on Twitter, use the Twitter Card Generator to create twitter:card specific tags that give you more control over Twitter-specific rendering.' },
+      { q: 'How do I test my Open Graph tags?', a: 'Use Facebook\'s Sharing Debugger (developers.facebook.com/tools/debug/) to see how your page will look when shared on Facebook. It also forces Facebook to re-scrape your page if you updated og: tags. For Twitter, use the Card Validator.' },
+      { q: 'Why is my social share image not updating?', a: 'Social platforms cache share previews for 24-72 hours. After updating og: tags, use Facebook\'s Sharing Debugger to force a re-scrape. Twitter may require tweeting the URL again to refresh the preview. LinkedIn has its own Post Inspector tool.' },
+    ],
+  },
+  'twitter-card-generator': {
+    whatIs: 'The Twitter Card Generator creates twitter: meta tags that control how your web page appears when shared on Twitter/X. Generate summary, summary_large_image, or player card tags with title, description, and image — producing ready-to-paste HTML for your page head.',
+    howTo: [
+      'Select the card type: summary (small image), summary_large_image (large image), or player (video).',
+      'Enter the title for the Twitter card (twitter:title).',
+      'Enter a description (twitter:description).',
+      'Enter the image URL (twitter:image) — use 1200x600 for large image cards.',
+      'Optionally enter your Twitter handle (twitter:site and twitter:creator).',
+      'Click Generate and paste the tags into your HTML head section.',
+    ],
+    benefits: [
+      { title: 'Card type selection', description: 'Choose summary (compact card with small thumbnail), summary_large_image (full-width image card), or player (video embed). summary_large_image gets the highest engagement on Twitter — use it when you have a compelling 1200x600 image.' },
+      { title: 'Twitter-specific formatting', description: 'Twitter has its own card rendering separate from Open Graph. While Twitter falls back to og: tags, explicit twitter: tags give you control over the title, description, and image specifically for Twitter — useful when Twitter and Facebook need different previews.' },
+      { title: 'Creator and site attribution', description: 'Include twitter:site (your brand handle) and twitter:creator (the author handle) so Twitter links the shared content to the relevant accounts. This improves discoverability and attribution.' },
+      { title: 'No sign-up required', description: 'Generate Twitter Card tags immediately without a Twitter developer account or API access. The tool produces standard HTML meta tags that work with any website.' },
+    ],
+    faqs: [
+      { q: 'What image size should I use for Twitter Cards?', a: 'For summary_large_image cards: 1200x600 pixels. For summary cards: 1200x600 or smaller (minimum 200x200). Use JPG or PNG under 5MB. The image must be at an absolute URL (including https://).' },
+      { q: 'Do I need Twitter Card tags if I have Open Graph tags?', a: 'Twitter uses og: tags as a fallback, but explicit twitter: tags give you more control. If your Twitter and Facebook previews should be identical, og: tags alone may suffice. If you want different images or titles for Twitter, use twitter: tags.' },
+      { q: 'How do I test my Twitter Card?', a: 'Use Twitter\'s Card Validator (cards-dev.twitter.com/validator) to preview how your card will look and force Twitter to re-scrape your page. Enter your URL and the tool shows the rendered card.' },
+      { q: 'What is the difference between summary and summary_large_image?', a: 'summary shows a small thumbnail (120x120) next to the title and description. summary_large_image shows a large image above the title — it takes up more space in the feed and gets higher engagement. Use summary_large_image when you have a compelling image.' },
+    ],
+  },
+  'robots-txt-generator': {
+    whatIs: 'The Robots.txt Generator creates robots.txt files that instruct search engine crawlers which pages to crawl and which to exclude. Configure User-agent directives, Disallow rules, Allow rules, and Sitemap references — then download a valid robots.txt file for your website root.',
+    howTo: [
+      'Choose whether to target all crawlers (User-agent: *) or a specific crawler.',
+      'Add Disallow rules for paths you want to exclude from crawling (e.g. /admin/, /private/).',
+      'Add Allow rules for paths you want to ensure are crawled within disallowed directories.',
+      'Enter your sitemap URL so crawlers can discover all your pages.',
+      'Click Generate and download or copy the robots.txt file to your website root.',
+    ],
+    benefits: [
+      { title: 'Valid robots.txt syntax', description: 'The tool produces robots.txt files that follow the robots exclusion protocol (RFC 9309). User-agent, Disallow, Allow, and Sitemap directives are correctly formatted for Google, Bing, and other major crawlers.' },
+      { title: 'Per-crawler targeting', description: 'Create rules for all crawlers (User-agent: *) or target specific bots like Googlebot, Bingbot, or GPTBot. This lets you allow search engines while blocking AI training crawlers, for example.' },
+      { title: 'Sitemap declaration', description: 'Include your sitemap URL in the robots.txt file so crawlers automatically discover it. This is the recommended way to point search engines to your XML sitemap without manual submission.' },
+      { title: 'No syntax errors', description: 'Manually writing robots.txt is error-prone — a misplaced slash or typo can accidentally block your entire site. The tool generates syntactically correct files, eliminating the risk of accidentally blocking important pages.' },
+    ],
+    faqs: [
+      { q: 'Where do I put my robots.txt file?', a: 'Place robots.txt in the root directory of your website: https://example.com/robots.txt. It must be at the root — subdirectory placements are ignored. Most web servers and CDNs serve it automatically when placed in the public root.' },
+      { q: 'What is the difference between Disallow and noindex?', a: 'robots.txt Disallow prevents crawlers from accessing a page, but it does not prevent the page from appearing in search results (Google may show URL-only listings for blocked pages). For pages you want fully removed from search, use the noindex meta tag instead. Use the Meta Robots Generator tool for meta tags.' },
+      { q: 'Can I block AI crawlers with robots.txt?', a: 'Yes. Add User-agent: GPTBot / Disallow: / to block OpenAI crawler, User-agent: CCBot / Disallow: / to block Common Crawl, and User-agent: anthropic-ai / Disallow: / to block Anthropic. Each AI company documents their crawler user-agent name.' },
+      { q: 'What happens if I have no robots.txt file?', a: 'Without a robots.txt file, crawlers assume all pages are allowed. This is fine for small sites with no pages to exclude. For sites with admin panels, staging environments, or private pages, a robots.txt file is essential to prevent crawlers from indexing them.' },
+    ],
+  },
+  'sitemap-generator': {
+    whatIs: 'The XML Sitemap Generator creates sitemap.xml files listing your website URLs for search engine crawlers. Enter your URLs with optional last modified dates, change frequency, and priority values — the tool produces a valid XML sitemap following the sitemaps.org protocol.',
+    howTo: [
+      'Enter your URLs one per line, or add them one at a time using the input field.',
+      'Optionally set a last modified date, change frequency (daily, weekly, monthly), and priority (0.0-1.0) for each URL.',
+      'Click Generate to produce the XML sitemap.',
+      'Download the sitemap.xml file and place it in your website root, or submit it via Google Search Console.',
+    ],
+    benefits: [
+      { title: 'Valid sitemaps.org protocol', description: 'The tool generates XML sitemaps that follow the sitemaps.org 0.9 protocol, accepted by Google, Bing, Yahoo, and other major search engines. The XML is well-formed and passes validation.' },
+      { title: 'Optional metadata per URL', description: 'Add lastmod (last modified date), changefreq (how often the page changes), and priority (relative importance 0.0-1.0) for each URL. Google primarily uses lastmod — the other fields are optional and Google may ignore them.' },
+      { title: 'Useful for new and large sites', description: 'New sites with few backlinks benefit from sitemap submission because it helps Google discover pages. Large sites (10,000+ pages) benefit because crawlers may miss deep pages without a sitemap.' },
+      { title: 'No limit on URL count', description: 'The tool generates sitemaps with as many URLs as you enter. For sites with more than 50,000 URLs, generate multiple sitemap files and create a sitemap index file. The sitemaps.org protocol limits each sitemap to 50,000 URLs and 50MB.' },
+    ],
+    faqs: [
+      { q: 'Do I need a sitemap if Google already crawls my site?', a: 'If Google crawls your site regularly and indexes your pages, a sitemap is less critical but still useful. It helps Google discover new pages faster, prioritize recently updated pages, and find pages with few internal links. Google recommends having one.' },
+      { q: 'What values should I use for priority and changefreq?', a: 'Google has stated it generally ignores priority and changefreq values. Set lastmod to the actual last modified date — Google does use this. Set priority to 1.0 for your most important page and 0.5-0.8 for others. Set changefreq to a reasonable value, but know it may not influence crawl behavior.' },
+      { q: 'How many URLs can one sitemap contain?', a: 'A single sitemap file can contain up to 50,000 URLs and be up to 50MB uncompressed. For larger sites, create multiple sitemap files and a sitemap index file that references them. Submit the index file to Google Search Console.' },
+      { q: 'Where do I put my sitemap and how do I submit it?', a: 'Place sitemap.xml in your website root (https://example.com/sitemap.xml). Reference it in robots.txt with the Sitemap directive. Submit it via Google Search Console (Sitemaps section) for faster discovery and to monitor indexing status.' },
+    ],
+  },
+  'slug-generator': {
+    whatIs: 'The Slug Generator converts text (page titles, headings, product names) into SEO-friendly URL slugs. The tool lowercases the text, replaces spaces with hyphens, removes special characters, and optionally strips stop words — producing clean URLs like "how-to-rank-on-google" from "How to Rank on Google".',
+    howTo: [
+      'Paste your page title or heading into the input field.',
+      'Optionally toggle stop word removal (removes "the", "a", "an", "in", "of", etc.).',
+      'The tool generates the URL slug instantly as you type.',
+      'Copy the slug and use it in your CMS, routing configuration, or markdown frontmatter.',
+    ],
+    benefits: [
+      { title: 'SEO-friendly format', description: 'Search engines prefer short, descriptive URLs with hyphens (not underscores or spaces). The tool produces slugs that follow Google URL best practices: lowercase, hyphen-separated, no special characters.' },
+      { title: 'Stop word removal', description: 'Words like "the", "a", "of", and "in" add URL length without SEO value. Toggle stop word removal to produce shorter slugs: "how-to-rank-on-google" becomes "how-rank-google". Keep stop words if they improve readability.' },
+      { title: 'Handles special characters', description: 'The tool removes or replaces non-ASCII characters, punctuation, and symbols. Accented characters (é, ñ, ü) are handled. Emoji and other Unicode symbols are removed, producing URL-safe output.' },
+      { title: 'Instant generation', description: 'The slug updates in real time as you type. No submit button — paste a title and the slug appears immediately. Test different title variations to find the best slug.' },
+    ],
+    faqs: [
+      { q: 'Should URL slugs include stop words?', a: 'It depends. Shorter URLs are slightly better for SEO, but readability matters too. "how-to-rank-on-google" is more readable than "how-rank-google". Google has stated that URL length is a minor factor. Test both and choose based on readability for your specific title.' },
+      { q: 'Should I use hyphens or underscores in URLs?', a: 'Always use hyphens. Google treats hyphens as word separators but treats underscores as word joiners. "how-to-rank" is parsed as three words, while "how_to_rank" is parsed as a single word "how_to_rank". This is a Google-specific recommendation.' },
+      { q: 'How long should a URL slug be?', a: '3-5 words (under 75 characters) is ideal. Shorter URLs rank slightly better and are easier to share. The tool can enforce a maximum length if you need to cap slug length for your CMS.' },
+      { q: 'How is this different from the AI Slug Generator Pro?', a: 'The Slug Generator does basic text-to-slug conversion with optional stop word removal. The AI Slug Generator Pro offers additional features like configurable max length, date prefixes, and more advanced stop word handling. Use the basic tool for quick conversion and the Pro tool for advanced configuration.' },
+      { q: 'Should I change existing URL slugs for SEO?', a: 'Only if they are clearly problematic (special characters, very long, keyword-stuffed). Changing URLs requires 301 redirects to preserve SEO equity. Do not change URLs for marginal improvements — the risk of losing rankings outweighs the benefit.' },
+    ],
+  },
+  'canonical-url-generator': {
+    whatIs: 'The Canonical URL Generator creates rel=canonical link tags that tell search engines which URL is the master version of a page. This prevents duplicate content issues when the same content is accessible through multiple URLs (tracking parameters, sort filters, print versions).',
+    howTo: [
+      'Enter the canonical (preferred) URL for your page.',
+      'Click Generate to produce the rel=canonical link tag.',
+      'Paste the tag into the <head> section of your HTML.',
+    ],
+    benefits: [
+      { title: 'Prevents duplicate content penalties', description: 'When the same content is accessible through multiple URLs (e.g. example.com/page and example.com/page?utm_source=email), Google may index the wrong version or split ranking signals. A canonical tag consolidates these signals to the preferred URL.' },
+      { title: 'Handles tracking parameters', description: 'UTM parameters, sort filters, and session IDs create duplicate URLs. A canonical tag on the page tells Google "this is the canonical version regardless of query parameters." This preserves your SEO equity when running email or ad campaigns.' },
+      { title: 'Simple one-tag output', description: 'The tool produces a single HTML link tag: <link rel="canonical" href="https://example.com/page" />. No configuration beyond the URL. Paste it into your page head and search engines handle the rest.' },
+      { title: 'Works with cross-domain canonical', description: 'If your content is published on multiple domains (e.g. syndicated articles), enter the URL of the original article. Google consolidates ranking signals to the canonical URL across domains.' },
+    ],
+    faqs: [
+      { q: 'What is a canonical URL?', a: 'A canonical URL is the preferred version of a web page when multiple URLs serve the same content. The rel=canonical tag tells search engines which URL to index and rank. It consolidates ranking signals (backlinks, social shares) to a single URL.' },
+      { q: 'Should I use canonical tags or 301 redirects?', a: 'Use 301 redirects when a page has permanently moved and you want users to be sent to the new URL. Use canonical tags when multiple URLs serve the same content but users need to access each URL (e.g. filtered product pages, tracking parameter versions).' },
+      { q: 'Can canonical tags hurt my SEO?', a: 'Incorrectly implemented canonical tags can cause problems. If you canonicalize to a URL that does not exist, or canonicalize non-duplicate pages, Google may ignore the tag or de-index your pages. Only use canonical tags on pages that are truly duplicates or near-duplicates.' },
+      { q: 'Does Google always respect canonical tags?', a: 'Google treats canonical tags as a strong hint, not a command. In most cases it follows the canonical tag. However, if Google determines the canonical URL is a redirect, returns a 404, or is less relevant than the current URL, it may choose a different canonical.' },
+    ],
+  },
+  'keyword-density-checker': {
+    whatIs: 'The Keyword Density Checker analyzes text content and reports the frequency and percentage of each word and phrase. Paste your content to see which keywords appear most often, their density percentage, and the total word count — useful for SEO content optimization.',
+    howTo: [
+      'Paste your article, blog post, or page content into the input area.',
+      'The tool analyzes the text and displays a table of words with their count and density percentage.',
+      'Review the results to see if your target keyword appears at a natural frequency.',
+      'Adjust your content if keywords are overstuffed (above 3%) or underrepresented.',
+    ],
+    benefits: [
+      { title: 'Word frequency analysis', description: 'See exactly how many times each word appears and what percentage of the total content it represents. This helps you verify your target keyword appears at a natural frequency without keyword stuffing.' },
+      { title: 'Identifies keyword stuffing', description: 'Google penalizes pages with unnaturally high keyword density (typically above 3-4% for a single keyword). The tool flags high-density words so you can reduce their frequency and write more naturally.' },
+      { title: 'Content optimization', description: 'Check if your secondary keywords and related terms (LSI keywords) appear in your content. A well-optimized page naturally includes related terms — if they are missing, your content may not cover the topic comprehensively.' },
+      { title: 'Instant analysis', description: 'Results appear immediately when you paste your text. No submit button, no waiting. Adjust your content in your editor and re-paste to see updated density.' },
+    ],
+    faqs: [
+      { q: 'What is the ideal keyword density?', a: 'There is no universally agreed-upon ideal density. Most SEO professionals recommend 1-2% for the primary keyword and 0.5-1% for secondary keywords. Google has become better at understanding synonyms and context, so exact keyword density matters less than natural, comprehensive coverage of the topic.' },
+      { q: 'Can keyword density be too high?', a: 'Yes. If a keyword appears more than 3-4% of the time, Google may flag it as keyword stuffing, which can hurt rankings. Write naturally for humans first. If a word feels repetitive when reading aloud, reduce its frequency.' },
+      { q: 'Does the tool analyze phrases or just single words?', a: 'The tool primarily analyzes single-word frequency. For phrase analysis (2-3 word phrases), check the results for co-occurring words. Dedicated SEO tools like Ahrefs and SEMrush offer phrase-level analysis.' },
+      { q: 'Is keyword density still important for SEO in 2025?', a: 'Keyword density has diminished in importance as Google\'s NLP and BERT algorithms understand context, synonyms, and topical coverage. However, ensuring your target keyword appears naturally and your content covers related terms is still good practice. Focus on comprehensive, helpful content rather than hitting a specific density.' },
+    ],
+  },
+  'search-snippet-preview': {
+    whatIs: 'The Search Snippet Preview shows how your page might appear in Google search results. Enter your title tag and meta description to see a simulated Google SERP listing — including title truncation, description truncation, and the display URL.',
+    howTo: [
+      'Enter your page title (the contents of your <title> tag).',
+      'Enter your meta description.',
+      'Enter your page URL to see how it displays in the search result.',
+      'The tool shows a simulated Google SERP snippet with truncation applied.',
+      'Adjust your title and description to fit within the display limits.',
+    ],
+    benefits: [
+      { title: 'Truncation visualization', description: 'Google truncates titles around 60 characters and descriptions around 155-160 characters on desktop (120 on mobile). The tool shows where your text gets cut off so you can rewrite to fit within the visible range.' },
+      { title: 'Click-through rate optimization', description: 'Seeing your snippet as a searcher would helps you write more compelling titles and descriptions. A snippet that reads well in context gets higher CTR, which indirectly improves rankings.' },
+      { title: 'Desktop and mobile preview', description: 'The tool shows how your snippet appears on different devices. Mobile truncation is more aggressive (titles ~78 chars, descriptions ~120 chars). Optimize for both by keeping titles under 60 characters and descriptions under 120.' },
+      { title: 'No sign-up needed', description: 'Preview your SERP snippet immediately without creating an account. Useful when you are writing meta tags and want to see how they will look before publishing.' },
+    ],
+    faqs: [
+      { q: 'How long should a title tag be for Google?', a: 'Google truncates titles at approximately 60 characters on desktop and 50-55 on mobile. However, Google measures by pixel width (approximately 600px), not strict character count. Use the preview tool to see if your title fits.' },
+      { q: 'How long should a meta description be?', a: 'Google truncates descriptions at approximately 155-160 characters on desktop and 120 characters on mobile. Write descriptions that convey your value proposition within the first 120 characters to ensure the most important text is visible on all devices.' },
+      { q: 'Does Google always show my title and description?', a: 'No. Google may rewrite your title or description based on the search query, pulling text from your page content instead. Writing clear, relevant titles and descriptions increases the chance Google uses them as-is, but it is not guaranteed.' },
+      { q: 'Is this the same as the SERP Pixel Checker?', a: 'The SERP Pixel Checker measures the exact pixel width of titles and descriptions against Google display limits. This tool provides a visual preview of how the snippet looks. Use both together for comprehensive SERP optimization.' },
+    ],
+  },
+  'redirect-checker': {
+    whatIs: 'The Redirect Checker traces the redirect chain for a URL, showing each hop (301, 302, 307, 308) and the final destination. Enter a URL and the tool follows redirects to display the full chain — useful for auditing redirects, finding redirect loops, and verifying SEO migration correctness.',
+    howTo: [
+      'Enter the URL you want to check into the input field.',
+      'Click Check to trace the redirect chain.',
+      'The tool displays each redirect hop with its HTTP status code and destination URL.',
+      'Review the chain for redirect loops, excessive hops, or incorrect status codes.',
+    ],
+    benefits: [
+      { title: 'Full redirect chain visibility', description: 'See every hop in a redirect chain, not just the final destination. A URL might redirect through 3-4 intermediate URLs before reaching the final page. Each hop adds load time and may dilute SEO equity.' },
+      { title: 'Identifies redirect type (301 vs 302)', description: '301 (permanent) passes full SEO equity to the destination. 302 (temporary) does not. The tool shows which type each hop uses, so you can verify that permanent redirects use 301 and temporary ones use 302.' },
+      { title: 'Detects redirect loops', description: 'A redirect loop (A redirects to B, B redirects to A) makes a page inaccessible. The tool detects loops and reports them, so you can fix the misconfiguration before it impacts users and search rankings.' },
+      { title: 'Useful for site migrations', description: 'When migrating a site or changing URL structure, verify that every old URL redirects correctly to its new destination with a 301. The tool helps you audit individual URLs to ensure no redirects are broken.' },
+    ],
+    faqs: [
+      { q: 'What is the difference between 301 and 302 redirects?', a: 'A 301 redirect is permanent — it passes 90-99% of SEO equity (PageRank) to the destination URL. A 302 redirect is temporary — Google does not pass SEO equity to the destination. For permanent URL changes, always use 301.' },
+      { q: 'How many redirects is too many?', a: 'Google follows up to 5 redirect hops. More than 5 hops may cause Google to stop following the chain. Each hop adds latency for users. Keep redirect chains as short as possible — ideally 1 hop from old URL to final destination.' },
+      { q: 'What is a redirect loop?', a: 'A redirect loop occurs when URL A redirects to URL B, which redirects back to URL A (or a longer cycle). The browser displays an error ("too many redirects"). The tool detects loops and reports them so you can fix the configuration.' },
+      { q: 'What are 307 and 308 redirects?', a: '307 is the HTTP 1.1 equivalent of 302 (temporary), preserving the HTTP method. 308 is the equivalent of 301 (permanent), also preserving the method. For SEO purposes, 301 and 308 are treated the same, as are 302 and 307.' },
+    ],
+  },
 };
 
 export function getToolSeoContent(slug: string): ContentEntry | undefined {
