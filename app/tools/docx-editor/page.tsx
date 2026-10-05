@@ -4,8 +4,8 @@ import { officeToolConfigs } from '@/lib/office-configs';
 
 export const metadata = buildToolMetadata(
   'docx-editor',
-  'DOCX Editor',
-  'Edit Word documents online without any software.'
+  'DOCX Text Editor',
+  'Edit text content of Word documents in your browser.'
 );
 
 const relatedSlugs = ['docx-viewer', 'csv-editor', 'word-to-pdf'];
@@ -17,25 +17,25 @@ export default function DocxEditorPage() {
       relatedSlugs={relatedSlugs}
       blurColor="bg-indigo-400/20"
       seo={{
-        whatIs: `The DOCX Editor is a free online tool that works entirely in your browser. ToolNest's DOCX Editor lets you edit word documents online without any software. All processing happens locally — no uploads, no registration, no paid APIs.`,
+        whatIs: `The DOCX Text Editor allows you to extract, edit, and save text content from Word (.docx, .doc) files in your browser. It does not preserve complex formatting, styles, or layout — it works with the text content only. For full document editing with formatting, you would need Microsoft Word or a compatible editor. All processing happens locally in your browser.`,
         howTo: [
-        'Upload your file or enter your input.',
-        'Adjust any settings if needed.',
-        'Click the action button to process.',
-        'Download or copy the result.',
-      ],
+          'Upload a .docx or .doc file.',
+          'Click Edit to extract and view the text content.',
+          'Modify the text as needed.',
+          'Download the edited text as a new .docx file.'
+        ],
         benefits: [
-        { title: 'Free and unlimited', description: 'Use this tool as many times as you want, completely free with no sign-up required.' },
-        { title: 'Privacy first', description: 'All processing happens in your browser. Your data never leaves your device.' },
-        { title: 'Fast and easy', description: 'No learning curve. Open the tool, use it, and get your result instantly.' },
-        { title: 'Works on any device', description: 'Fully responsive and works on desktop, tablet, and mobile browsers.' },
-      ],
+          { title: 'Free and unlimited', description: 'Use this tool as many times as you want, completely free with no sign-up required.' },
+          { title: 'Privacy first', description: 'All processing happens in your browser. Your data never leaves your device.' },
+          { title: 'Text editing', description: 'Edit the text content of documents.' },
+          { title: 'No software needed', description: 'Runs entirely in your browser with no downloads or plugins required.' },
+        ],
         faqs: [
-        { q: 'Is the DOCX Editor free to use?', a: 'Yes, it is completely free with no limits, no registration, and no API keys required.' },
-        { q: 'Does the DOCX Editor work on mobile?', a: 'Yes, the tool is fully responsive and works on any modern mobile browser.' },
-        { q: 'Is my data sent to a server?', a: 'No. All processing happens locally in your browser. Your input never leaves your device.' },
-        { q: 'Do I need to install any software?', a: 'No. The DOCX Editor runs entirely in your browser with no downloads or plugins required.' },
-      ],
+          { q: 'Is the DOCX Text Editor free to use?', a: 'Yes, it is completely free with no limits, no registration, and no API keys required.' },
+          { q: 'Does it preserve formatting and styles?', a: 'No. This tool works with text content only. Complex formatting, styles, images, tables, and layout are not preserved.' },
+          { q: 'Is my data sent to a server?', a: 'No. All processing happens locally in your browser. Your input never leaves your device.' },
+          { q: 'What file formats are supported?', a: 'Input: .docx, .doc. Output: .docx (text content only).' },
+        ],
       }}
     >
       <OfficeTool config={officeToolConfigs['docx-editor']} />

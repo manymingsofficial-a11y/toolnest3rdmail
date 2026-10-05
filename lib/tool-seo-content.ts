@@ -5845,7 +5845,7 @@ function coreAction(desc: string): string {
   return desc.split(' — ')[0].split('. ')[0].replace(/\.$/, '').toLowerCase();
 }
 
-function useCasePhrase(desc: string): string {
+function getCasePhrase(desc: string): string {
   const main = desc.split(' — ')[0];
   const parts = main.split('. ');
   if (parts.length > 1) return parts.slice(1).join('. ').replace(/\.$/, '');
@@ -5872,7 +5872,7 @@ type CategoryProfile = {
 const categoryProfiles: Record<string, CategoryProfile> = {
   'PDF Tools': {
     whatIs: (name, _desc, enhancedDesc) => {
-      const uc = useCasePhrase(enhancedDesc);
+      const uc = getCasePhrase(enhancedDesc);
       let r = `${name} ${coreAction(enhancedDesc)}. The tool uses the pdf-lib JavaScript library to process PDFs entirely in your browser — your documents are never uploaded to a server.`;
       if (uc) r += ` ${cap(uc)}.`;
       return r;
@@ -5925,7 +5925,7 @@ const categoryProfiles: Record<string, CategoryProfile> = {
       return steps;
     },
     benefits: (name, _desc, enhancedDesc) => {
-      const uc = useCasePhrase(enhancedDesc);
+      const uc = getCasePhrase(enhancedDesc);
       return [
         { title: 'Documents never leave your device', description: `${name} uses pdf-lib to process PDFs entirely in your browser. Your files are never uploaded to a server, which is critical for contracts, legal documents, and sensitive business files.` },
         { title: 'No registration or watermarks', description: `${name} is free with no account, no email, and no watermarks on output files. Use it as many times as you need.` },
@@ -5983,7 +5983,7 @@ const categoryProfiles: Record<string, CategoryProfile> = {
 
   'Image Tools': {
     whatIs: (name, _desc, enhancedDesc) => {
-      const uc = useCasePhrase(enhancedDesc);
+      const uc = getCasePhrase(enhancedDesc);
       let r = `${name} ${coreAction(enhancedDesc)}. The tool uses the HTML5 Canvas API to process images directly in your browser — no upload, no server processing, and no quality loss from re-compression on a remote server.`;
       if (uc) r += ` ${cap(uc)}.`;
       return r;
@@ -6051,7 +6051,7 @@ const categoryProfiles: Record<string, CategoryProfile> = {
       return steps;
     },
     benefits: (name, _desc, enhancedDesc) => {
-      const uc = useCasePhrase(enhancedDesc);
+      const uc = getCasePhrase(enhancedDesc);
       return [
         { title: 'Images never leave your device', description: `${name} processes images using the browser's Canvas API. No image data is transmitted to any server, which is important for personal photos, medical images, and confidential documents.` },
         { title: 'No watermarks or sign-up', description: 'The output image is clean — no watermarks, no logos, no required attribution. Download and use the result freely for any purpose.' },
@@ -6103,7 +6103,7 @@ const categoryProfiles: Record<string, CategoryProfile> = {
 
   'Audio Tools': {
     whatIs: (name, _desc, enhancedDesc) => {
-      const uc = useCasePhrase(enhancedDesc);
+      const uc = getCasePhrase(enhancedDesc);
       let r = `${name} ${coreAction(enhancedDesc)}. The tool uses the Web Audio API to process audio files entirely in your browser — no uploads, no server-side encoding, and no need to install audio editing software.`;
       if (uc) r += ` ${cap(uc)}.`;
       return r;
@@ -6165,7 +6165,7 @@ const categoryProfiles: Record<string, CategoryProfile> = {
       return steps;
     },
     benefits: (name, _desc, enhancedDesc) => {
-      const uc = useCasePhrase(enhancedDesc);
+      const uc = getCasePhrase(enhancedDesc);
       return [
         { title: 'Audio never uploaded to servers', description: `${name} processes audio through the Web Audio API in your browser. Your audio files are never transmitted to any server, protecting privacy for voice recordings, music demos, and confidential audio.` },
         { title: 'No software installation', description: 'Audio editing tools typically require installing DAWs like Audacity or Adobe Audition. This tool runs in your browser with no downloads.' },
@@ -6213,7 +6213,7 @@ const categoryProfiles: Record<string, CategoryProfile> = {
 
   'Video Tools': {
     whatIs: (name, _desc, enhancedDesc) => {
-      const uc = useCasePhrase(enhancedDesc);
+      const uc = getCasePhrase(enhancedDesc);
       let r = `${name} ${coreAction(enhancedDesc)}. The tool uses browser-native video processing — the HTML5 video element and Canvas API — to edit video files locally without uploading them to a cloud video editor.`;
       if (uc) r += ` ${cap(uc)}.`;
       return r;
@@ -6277,7 +6277,7 @@ const categoryProfiles: Record<string, CategoryProfile> = {
       return steps;
     },
     benefits: (name, _desc, enhancedDesc) => {
-      const uc = useCasePhrase(enhancedDesc);
+      const uc = getCasePhrase(enhancedDesc);
       return [
         { title: 'Videos never leave your device', description: `${name} processes video locally in your browser. Your raw footage stays private — important for client work, personal videos, and confidential content.` },
         { title: 'No expensive software needed', description: 'Video editing suites like Adobe Premiere or Final Cut Pro cost hundreds of dollars. This tool handles common video operations for free in your browser.' },
@@ -6319,7 +6319,7 @@ const categoryProfiles: Record<string, CategoryProfile> = {
 
   'Developer Tools': {
     whatIs: (name, _desc, enhancedDesc) => {
-      const uc = useCasePhrase(enhancedDesc);
+      const uc = getCasePhrase(enhancedDesc);
       let r = `${name} ${coreAction(enhancedDesc)}. The tool runs entirely in your browser using standard JavaScript APIs, making it useful for quick development tasks without installing CLI tools or reaching for an IDE.`;
       if (uc) r += ` ${cap(uc)}.`;
       return r;
@@ -6359,7 +6359,7 @@ const categoryProfiles: Record<string, CategoryProfile> = {
       return steps;
     },
     benefits: (name, _desc, enhancedDesc) => {
-      const uc = useCasePhrase(enhancedDesc);
+      const uc = getCasePhrase(enhancedDesc);
       return [
         { title: 'Instant results in your browser', description: `${name} runs instantly in a browser tab for quick formatting and encoding tasks — no need to open a terminal, install a package, or switch to your IDE.` },
         { title: 'Input never leaves your device', description: 'All processing is client-side JavaScript. Code, API keys, and data stay on your machine — important when working with sensitive configs or proprietary code.' },
@@ -6401,7 +6401,7 @@ const categoryProfiles: Record<string, CategoryProfile> = {
 
   'SEO Tools': {
     whatIs: (name, _desc, enhancedDesc) => {
-      const uc = useCasePhrase(enhancedDesc);
+      const uc = getCasePhrase(enhancedDesc);
       let r = `${name} ${coreAction(enhancedDesc)}. The tool helps you optimize your website for search engines by generating or analyzing structured data, meta tags, and other SEO elements directly in your browser.`;
       if (uc) r += ` ${cap(uc)}.`;
       return r;
@@ -6457,7 +6457,7 @@ const categoryProfiles: Record<string, CategoryProfile> = {
       return steps;
     },
     benefits: (name, _desc, enhancedDesc) => {
-      const uc = useCasePhrase(enhancedDesc);
+      const uc = getCasePhrase(enhancedDesc);
       return [
         { title: 'Valid structured data output', description: `${name} generates markup that follows Schema.org vocabulary and Google\'s structured data guidelines, helping you qualify for rich results in search.` },
         { title: 'No SEO platform subscription', description: 'These tools provide the same outputs as expensive SEO platforms for common tasks like schema generation and meta tag creation — without the monthly fee.' },
@@ -6493,7 +6493,7 @@ const categoryProfiles: Record<string, CategoryProfile> = {
 
   'Text Tools': {
     whatIs: (name, _desc, enhancedDesc) => {
-      const uc = useCasePhrase(enhancedDesc);
+      const uc = getCasePhrase(enhancedDesc);
       let r = `${name} ${coreAction(enhancedDesc)}. The tool processes text entirely in your browser using JavaScript string operations — no server round-trip, no data upload, and instant results.`;
       if (uc) r += ` ${cap(uc)}.`;
       return r;
@@ -6548,7 +6548,7 @@ const categoryProfiles: Record<string, CategoryProfile> = {
       return steps;
     },
     benefits: (name, _desc, enhancedDesc) => {
-      const uc = useCasePhrase(enhancedDesc);
+      const uc = getCasePhrase(enhancedDesc);
       return [
         { title: 'Instant text transformation', description: `${name} completes text operations in milliseconds. No waiting for server processing — everything happens in your browser.` },
         { title: 'Your text stays private', description: 'All text processing is client-side. Sensitive documents like legal drafts, contracts, and personal writing are never transmitted to a server.' },
@@ -6588,7 +6588,7 @@ const categoryProfiles: Record<string, CategoryProfile> = {
 
   'Converters': {
     whatIs: (name, _desc, enhancedDesc) => {
-      const uc = useCasePhrase(enhancedDesc);
+      const uc = getCasePhrase(enhancedDesc);
       let r = `${name} ${coreAction(enhancedDesc)}. The tool performs unit conversions using precise conversion factors defined in JavaScript — accurate to many decimal places and updated to current international standards.`;
       if (uc) r += ` ${cap(uc)}.`;
       return r;
@@ -6602,7 +6602,7 @@ const categoryProfiles: Record<string, CategoryProfile> = {
       ];
     },
     benefits: (_name, _desc, enhancedDesc) => {
-      const uc = useCasePhrase(enhancedDesc);
+      const uc = getCasePhrase(enhancedDesc);
       return [
         { title: 'Precise conversion factors', description: `Conversions use internationally recognized conversion factors (SI units, NIST standards) with full floating-point precision. Results are accurate to at least 10 significant figures.` },
         { title: 'Instant, bidirectional conversion', description: 'Change either the input or the unit selection and the result updates immediately. No submit button, no page reload.' },
@@ -6640,7 +6640,7 @@ const categoryProfiles: Record<string, CategoryProfile> = {
 
   'Calculators': {
     whatIs: (name, _desc, enhancedDesc) => {
-      const uc = useCasePhrase(enhancedDesc);
+      const uc = getCasePhrase(enhancedDesc);
       let r = `${name} ${coreAction(enhancedDesc)}. The tool performs calculations using JavaScript arithmetic with standard financial and mathematical formulas, giving you instant results without needing a spreadsheet or financial calculator.`;
       if (uc) r += ` ${cap(uc)}.`;
       return r;
@@ -6691,7 +6691,7 @@ const categoryProfiles: Record<string, CategoryProfile> = {
       return steps;
     },
     benefits: (name, _desc, enhancedDesc) => {
-      const uc = useCasePhrase(enhancedDesc);
+      const uc = getCasePhrase(enhancedDesc);
       return [
         { title: 'Transparent calculation breakdown', description: `${name} shows how the result is computed — not just a final number. This helps you understand the math and verify the calculation makes sense for your situation.` },
         { title: 'Instant scenario comparison', description: 'Change any input and see the result update immediately. This lets you quickly compare different loan amounts, interest rates, or time periods without re-entering all values.' },
@@ -6731,7 +6731,7 @@ const categoryProfiles: Record<string, CategoryProfile> = {
 
   'Design Tools': {
     whatIs: (name, _desc, enhancedDesc) => {
-      const uc = useCasePhrase(enhancedDesc);
+      const uc = getCasePhrase(enhancedDesc);
       let r = `${name} ${coreAction(enhancedDesc)}. The tool generates CSS code or visual assets using browser-native rendering — Canvas for image generation and live DOM updates for CSS previews.`;
       if (uc) r += ` ${cap(uc)}.`;
       return r;
@@ -6787,7 +6787,7 @@ const categoryProfiles: Record<string, CategoryProfile> = {
       return steps;
     },
     benefits: (name, _desc, enhancedDesc) => {
-      const uc = useCasePhrase(enhancedDesc);
+      const uc = getCasePhrase(enhancedDesc);
       return [
         { title: 'Live visual preview', description: `${name} shows changes in real-time as you adjust settings. No need to generate, copy, and test in a separate editor — the preview shows exactly what the output will look like.` },
         { title: 'Copy-ready CSS code', description: 'Generated CSS includes vendor prefixes where needed and is formatted for direct pasting into your stylesheet. No manual cleanup required.' },
@@ -6823,7 +6823,7 @@ const categoryProfiles: Record<string, CategoryProfile> = {
 
   'Office Tools': {
     whatIs: (name, _desc, enhancedDesc) => {
-      const uc = useCasePhrase(enhancedDesc);
+      const uc = getCasePhrase(enhancedDesc);
       let r = `${name} ${coreAction(enhancedDesc)}. The tool processes spreadsheet and document files in your browser using JavaScript libraries like SheetJS (for Excel/CSV) and client-side text processing — no Office installation or cloud upload required.`;
       if (uc) r += ` ${cap(uc)}.`;
       return r;
@@ -6882,7 +6882,7 @@ const categoryProfiles: Record<string, CategoryProfile> = {
       return steps;
     },
     benefits: (name, _desc, enhancedDesc) => {
-      const uc = useCasePhrase(enhancedDesc);
+      const uc = getCasePhrase(enhancedDesc);
       return [
         { title: 'No Office installation needed', description: `${name} lets you view, edit, and convert Office files without having Microsoft Office installed. The tools use JavaScript libraries like SheetJS to parse and generate documents in the browser.` },
         { title: 'Files stay on your device', description: 'All file processing is client-side. Your spreadsheets, documents, and presentations are never uploaded to a server — critical for business and confidential documents.' },
@@ -6918,7 +6918,7 @@ const categoryProfiles: Record<string, CategoryProfile> = {
 
   'Productivity': {
     whatIs: (name, _desc, enhancedDesc) => {
-      const uc = useCasePhrase(enhancedDesc);
+      const uc = getCasePhrase(enhancedDesc);
       let r = `${name} ${coreAction(enhancedDesc)}. The tool runs entirely in your browser with data stored locally in your browser\'s localStorage or IndexedDB — your notes, timers, and tasks persist between sessions but never leave your device.`;
       if (uc) r += ` ${cap(uc)}.`;
       return r;
@@ -6965,7 +6965,7 @@ const categoryProfiles: Record<string, CategoryProfile> = {
       return steps;
     },
     benefits: (name, _desc, enhancedDesc) => {
-      const uc = useCasePhrase(enhancedDesc);
+      const uc = getCasePhrase(enhancedDesc);
       return [
         { title: 'Data persists between sessions', description: `${name} saves your data to your browser\'s local storage. You can close the tab and return later to find your data intact — no account needed.` },
         { title: 'No account or sign-up', description: 'Productivity tools that require accounts create friction. These tools work immediately with zero setup, storing everything locally.' },
@@ -6999,7 +6999,7 @@ const categoryProfiles: Record<string, CategoryProfile> = {
 
   'Security Tools': {
     whatIs: (name, _desc, enhancedDesc) => {
-      const uc = useCasePhrase(enhancedDesc);
+      const uc = getCasePhrase(enhancedDesc);
       let r = `${name} ${coreAction(enhancedDesc)}. The tool uses the Web Crypto API (crypto.getRandomValues) or standard cryptographic algorithms implemented in JavaScript to generate or hash data securely in your browser.`;
       if (uc) r += ` ${cap(uc)}.`;
       return r;
@@ -7054,7 +7054,7 @@ const categoryProfiles: Record<string, CategoryProfile> = {
       return steps;
     },
     benefits: (name, _desc, enhancedDesc) => {
-      const uc = useCasePhrase(enhancedDesc);
+      const uc = getCasePhrase(enhancedDesc);
       return [
         { title: 'Cryptographically secure generation', description: `${name} uses crypto.getRandomValues for random value generation — the same cryptographically secure random number generator used by HTTPS connections, not Math.random which is predictable.` },
         { title: 'Hashes computed locally', description: 'All hash functions and cryptographic operations run in your browser. Your input text, passwords, and generated values are never transmitted to a server.' },
@@ -7094,7 +7094,7 @@ const categoryProfiles: Record<string, CategoryProfile> = {
 
   'Web Utilities': {
     whatIs: (name, _desc, enhancedDesc) => {
-      const uc = useCasePhrase(enhancedDesc);
+      const uc = getCasePhrase(enhancedDesc);
       let r = `${name} ${coreAction(enhancedDesc)}. The tool retrieves or displays technical information about web resources, network configurations, or browser capabilities using standard browser APIs and DNS lookups.`;
       if (uc) r += ` ${cap(uc)}.`;
       return r;
@@ -7149,7 +7149,7 @@ const categoryProfiles: Record<string, CategoryProfile> = {
       return steps;
     },
     benefits: (name, _desc, enhancedDesc) => {
-      const uc = useCasePhrase(enhancedDesc);
+      const uc = getCasePhrase(enhancedDesc);
       return [
         { title: 'Quick network diagnostics', description: `${name} provides instant results without installing dig, openssl, or network utilities. DNS lookups, SSL checks, and IP information are essential for troubleshooting web issues.` },
         { title: 'No command-line tools needed', description: 'Network and web diagnostics typically require CLI tools like dig, curl, or openssl. These browser-based tools provide equivalent information with a clean interface.' },
@@ -7187,7 +7187,7 @@ const categoryProfiles: Record<string, CategoryProfile> = {
 
   'QR & Barcode Tools': {
     whatIs: (name, _desc, enhancedDesc) => {
-      const uc = useCasePhrase(enhancedDesc);
+      const uc = getCasePhrase(enhancedDesc);
       let r = `${name} ${coreAction(enhancedDesc)}. The tool generates or scans QR codes and barcodes using JavaScript libraries (qrcode for generation, jsQR for scanning) — all processing happens in your browser with no server round-trip.`;
       if (uc) r += ` ${cap(uc)}.`;
       return r;
@@ -7211,7 +7211,7 @@ const categoryProfiles: Record<string, CategoryProfile> = {
       return steps;
     },
     benefits: (name, _desc, enhancedDesc) => {
-      const uc = useCasePhrase(enhancedDesc);
+      const uc = getCasePhrase(enhancedDesc);
       return [
         { title: 'No server-side generation', description: `${name} generates QR codes and barcodes entirely in your browser using the qrcode JavaScript library. Your data is never sent to a server — important for QR codes containing sensitive URLs or contact information.` },
         { title: 'High-resolution SVG output', description: 'Download QR codes as SVG for print-quality output at any size. SVG QR codes stay sharp when scaled, unlike PNG which becomes pixelated when enlarged.' },
@@ -7239,7 +7239,7 @@ const categoryProfiles: Record<string, CategoryProfile> = {
 
   'Social Media Tools': {
     whatIs: (name, _desc, enhancedDesc) => {
-      const uc = useCasePhrase(enhancedDesc);
+      const uc = getCasePhrase(enhancedDesc);
       let r = `${name} ${coreAction(enhancedDesc)}. The tool generates social media meta tags, previews, or content optimized for specific platforms using browser-based text processing and HTML generation.`;
       if (uc) r += ` ${cap(uc)}.`;
       return r;
@@ -7253,7 +7253,7 @@ const categoryProfiles: Record<string, CategoryProfile> = {
       ];
     },
     benefits: (name, _desc, enhancedDesc) => {
-      const uc = useCasePhrase(enhancedDesc);
+      const uc = getCasePhrase(enhancedDesc);
       return [
         { title: 'Platform-accurate meta tags', description: `${name} generates tags that follow each platform\'s current specifications — Open Graph for Facebook/LinkedIn, Twitter Card for X/Twitter, and platform-specific image dimensions.` },
         { title: 'Visual preview', description: 'Some tools show a preview of how your link will appear in social feeds, helping you optimize the title, description, and image before publishing.' },
@@ -7278,7 +7278,7 @@ const categoryProfiles: Record<string, CategoryProfile> = {
 // that uses the tool's own enhanced description to produce unique content.
 function generateFallbackContent(name: string, desc: string, slug: string, enhancedDesc: string): ContentEntry {
   const action = coreAction(enhancedDesc);
-  const uc = useCasePhrase(enhancedDesc);
+  const uc = getCasePhrase(enhancedDesc);
   return {
     whatIs: `${name} ${action}. The tool runs entirely in your browser with no server-side processing, meaning your data stays on your device throughout the operation.${uc ? ` ${cap(uc)}.` : ''}`,
     howTo: [

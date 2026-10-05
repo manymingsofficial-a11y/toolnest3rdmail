@@ -280,7 +280,7 @@ export function VideoCropper() {
     }
   }
 
-  function drawCropOverlay() {
+  const drawCropOverlay = React.useCallback(() => {
     if (!canvasRef.current || !videoRef.current || !cropArea || !showCropper) return;
     const canvas = canvasRef.current;
     const video = videoRef.current;
@@ -326,7 +326,7 @@ export function VideoCropper() {
       16 * scaleX,
       16 * scaleY
     );
-  }
+  }, [cropArea, showCropper, videoDimensions]);
 
   React.useEffect(() => {
     if (showCropper && videoRef.current && canvasRef.current) {
@@ -338,7 +338,7 @@ export function VideoCropper() {
       };
       drawLoop();
     }
-  }, [showCropper, cropArea, videoDimensions]);
+  }, [showCropper, cropArea, videoDimensions, drawCropOverlay]);
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_360px]">

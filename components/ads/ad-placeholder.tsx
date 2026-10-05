@@ -49,7 +49,7 @@ export function AdSlot({ slot, settings, className, minHeight }: AdSlotProps) {
     );
     observer.observe(el);
     return () => observer.disconnect();
-  }, [mounted]);
+  }, [mounted, slot]);
 
   // Gate: DB-driven enable/disable
   if (!isAdSlotEnabled(settings, slot)) return null;

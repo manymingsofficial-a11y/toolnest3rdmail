@@ -205,7 +205,7 @@ export function AudioReverser() {
             </div>
 
             <p className="text-xs text-muted-foreground">
-              The audio will be reversed using FFmpeg's areverse filter. This requires full re-encoding.
+              The audio will be reversed using FFmpeg&apos;s areverse filter. This requires full re-encoding.
             </p>
           </div>
         </div>

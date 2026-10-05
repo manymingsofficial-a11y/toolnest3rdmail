@@ -4,8 +4,8 @@ import { officeToolConfigs } from '@/lib/office-configs';
 
 export const metadata = buildToolMetadata(
   'ppt-viewer',
-  'PPT Viewer',
-  'View PowerPoint presentations in your browser.'
+  'PPT File Viewer',
+  'Extract text content from PowerPoint files in your browser.'
 );
 
 const relatedSlugs = ['docx-viewer', 'excel-viewer', 'powerpoint-to-pdf'];
@@ -17,25 +17,24 @@ export default function PptViewerPage() {
       relatedSlugs={relatedSlugs}
       blurColor="bg-orange-400/20"
       seo={{
-        whatIs: `The PPT Viewer is a free online tool that works entirely in your browser. ToolNest's PPT Viewer lets you view powerpoint presentations in your browser. All processing happens locally — no uploads, no registration, no paid APIs.`,
+        whatIs: `The PPT File Viewer extracts text content from PowerPoint (.pptx) files in your browser. It does not render slides visually — it extracts the text content for viewing and copying. For full slide rendering, you would need Microsoft PowerPoint or a compatible viewer. All processing happens locally in your browser.`,
         howTo: [
-        'Upload your file or enter your input.',
-        'Adjust any settings if needed.',
-        'Click the action button to process.',
-        'Download or copy the result.',
-      ],
+          'Upload a .pptx or .ppt file.',
+          'Click View to extract text content.',
+          'Copy or download the extracted text.'
+        ],
         benefits: [
-        { title: 'Free and unlimited', description: 'Use this tool as many times as you want, completely free with no sign-up required.' },
-        { title: 'Privacy first', description: 'All processing happens in your browser. Your data never leaves your device.' },
-        { title: 'Fast and easy', description: 'No learning curve. Open the tool, use it, and get your result instantly.' },
-        { title: 'Works on any device', description: 'Fully responsive and works on desktop, tablet, and mobile browsers.' },
-      ],
+          { title: 'Free and unlimited', description: 'Use this tool as many times as you want, completely free with no sign-up required.' },
+          { title: 'Privacy first', description: 'All processing happens in your browser. Your data never leaves your device.' },
+          { title: 'Text extraction', description: 'Extracts text content from slides for searching and copying.' },
+          { title: 'No software needed', description: 'Runs entirely in your browser with no downloads or plugins required.' },
+        ],
         faqs: [
-        { q: 'Is the PPT Viewer free to use?', a: 'Yes, it is completely free with no limits, no registration, and no API keys required.' },
-        { q: 'Does the PPT Viewer work on mobile?', a: 'Yes, the tool is fully responsive and works on any modern mobile browser.' },
-        { q: 'Is my data sent to a server?', a: 'No. All processing happens locally in your browser. Your input never leaves your device.' },
-        { q: 'Do I need to install any software?', a: 'No. The PPT Viewer runs entirely in your browser with no downloads or plugins required.' },
-      ],
+          { q: 'Is the PPT File Viewer free to use?', a: 'Yes, it is completely free with no limits, no registration, and no API keys required.' },
+          { q: 'Does it render slides visually?', a: 'No. This tool extracts text content only. It does not render slide layouts, images, or formatting visually.' },
+          { q: 'Is my data sent to a server?', a: 'No. All processing happens locally in your browser. Your input never leaves your device.' },
+          { q: 'What file formats are supported?', a: 'Input: .pptx, .ppt. Output: Plain text (.txt).' },
+        ],
       }}
     >
       <OfficeTool config={officeToolConfigs['ppt-viewer']} />

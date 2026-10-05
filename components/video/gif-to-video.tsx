@@ -228,7 +228,7 @@ export function GifToVideo() {
               </div>
 
               <p className="text-xs text-muted-foreground">
-                Note: GIFs don't have a native frame rate. FFmpeg will extract frames at the specified FPS.
+                Note: GIFs don&apos;t have a native frame rate. FFmpeg will extract frames at the specified FPS.
                 Higher FPS = smoother playback but larger file.
               </p>
             </div>

@@ -372,6 +372,7 @@ export function VideoToGif() {
           <div className="mt-4 grid place-items-center rounded-xl border border-dashed border-border/60 bg-muted/30 p-6">
             {resultUrl ? (
               <>
+                {/* eslint-disable-next-line @next/next/no-img-element -- blob URLs not supported by Next.js Image */}
                 <img
                   src={resultUrl}
                   alt="Generated GIF"

@@ -318,7 +318,7 @@ export function OtpGenerator() {
     return new Uint8Array(bytes);
   }
 
-  async function generateHOTP(counter: number): Promise<string> {
+  const generateHOTP = React.useCallback(async (counter: number): Promise<string> => {
     const key = base32Decode(secret);
     const buf = new ArrayBuffer(8);
     const view = new DataView(buf);
@@ -329,7 +329,7 @@ export function OtpGenerator() {
     const offset = sig[sig.length - 1] & 0xf;
     const num = ((sig[offset] & 0x7f) << 24) | (sig[offset + 1] << 16) | (sig[offset + 2] << 8) | sig[offset + 3];
     return (num % 1000000).toString().padStart(6, '0');
-  }
+  }, [secret]);
 
   React.useEffect(() => {
     if (!secret) {
@@ -356,7 +356,7 @@ export function OtpGenerator() {
       active = false;
       clearInterval(interval);
     };
-  }, [secret]);
+  }, [secret, generateHOTP]);
 
   return (
     <ToolCard title="OTP Generator (TOTP)">

@@ -157,8 +157,8 @@ export function OgPreview() {
                 <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
                 <p>
                   Browser JavaScript cannot fetch HTML from external URLs due to CORS (Cross-Origin
-                  Resource Sharing) restrictions. To preview a page's Open Graph tags, either paste
-                  its HTML above or use Facebook's{' '}
+                  Resource Sharing) restrictions. To preview a page&apos;s Open Graph tags, either paste
+                  its HTML above or use Facebook&apos;s{' '}
                   <a
                     href="https://developers.facebook.com/tools/debug/"
                     target="_blank"

@@ -151,7 +151,7 @@ export function SslChecker() {
           <p className="text-xs text-muted-foreground">
             This tool checks whether a website is reachable via HTTPS. Browser security prevents
             JavaScript from reading SSL certificate details (issuer, expiry, chain, cipher). For
-            full certificate inspection, click the padlock icon in your browser's address bar or use{' '}
+            full certificate inspection, click the padlock icon in your browser&apos;s address bar or use{' '}
             <code className="rounded bg-muted px-1">openssl s_client</code> in a terminal.
           </p>
         </div>

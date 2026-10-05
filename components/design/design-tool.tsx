@@ -95,11 +95,7 @@ export function DesignTool({ config }: { config: DesignToolConfig }) {
   const [processing, setProcessing] = React.useState(false);
   const inputRef = React.useRef<HTMLInputElement>(null);
 
-  React.useEffect(() => {
-    if (config.showPaletteGenerator) generatePalette();
-  }, [baseColor]);
-
-  function generatePalette() {
+  const generatePalette = React.useCallback(() => {
     const [h, s, l] = hexToHsl(baseColor);
     const colors = [
       hslToHex(h, s, Math.max(10, l - 30)),
@@ -109,7 +105,11 @@ export function DesignTool({ config }: { config: DesignToolConfig }) {
       hslToHex(h, Math.max(15, s - 20), Math.min(95, l + 30)),
     ];
     setPalette(colors);
-  }
+  }, [baseColor]);
+
+  React.useEffect(() => {
+    if (config.showPaletteGenerator) generatePalette();
+  }, [config.showPaletteGenerator, generatePalette]);
 
   function getGradientCSS(): string {
     return `linear-gradient(${angle}deg, ${baseColor}, ${color2})`;

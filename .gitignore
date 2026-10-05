@@ -34,3 +34,20 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local debug/build artifacts (root only)
+/*.txt
+!/public/*.txt
+/*.mjs
+/*.ps1
+/test-*.js
+/test-*.mjs
+/build_*.txt
+/build-*.txt
+/lint-*.txt
+/tsc-*.txt
+/check*.txt
+/output.txt
+/csso-test.txt
+/svgo-test.txt
+/test-*.txt

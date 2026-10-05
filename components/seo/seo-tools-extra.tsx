@@ -9,6 +9,44 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 
+const SCHEMAS: Record<string, () => object> = {
+  Article: () => ({
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Article Title',
+    author: { '@type': 'Person', name: 'Author Name' },
+    datePublished: new Date().toISOString().slice(0, 10),
+    image: 'https://example.com/image.jpg',
+  }),
+  Product: () => ({
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: 'Product Name',
+    description: 'Product description',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  }),
+  FAQPage: () => ({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'Question 1?', acceptedAnswer: { '@type': 'Answer', text: 'Answer 1' } },
+    ],
+  }),
+  BreadcrumbList: () => ({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://example.com/' },
+    ],
+  }),
+  WebSite: () => ({
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Website Name',
+    url: 'https://example.com/',
+  }),
+};
+
 function CopyButton({ text, label = 'Copy' }: { text: string; label?: string }) {
   const [copied, setCopied] = React.useState(false);
   return (
@@ -96,46 +134,8 @@ export function SchemaMarkupGenerator() {
   const [type, setType] = React.useState<'Article' | 'Product' | 'FAQPage' | 'BreadcrumbList' | 'WebSite'>('Article');
   const [output, setOutput] = React.useState('');
 
-  const schemas: Record<string, () => object> = {
-    Article: () => ({
-      '@context': 'https://schema.org',
-      '@type': 'Article',
-      headline: 'Article Title',
-      author: { '@type': 'Person', name: 'Author Name' },
-      datePublished: new Date().toISOString().slice(0, 10),
-      image: 'https://example.com/image.jpg',
-    }),
-    Product: () => ({
-      '@context': 'https://schema.org',
-      '@type': 'Product',
-      name: 'Product Name',
-      description: 'Product description',
-      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    }),
-    FAQPage: () => ({
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: [
-        { '@type': 'Question', name: 'Question 1?', acceptedAnswer: { '@type': 'Answer', text: 'Answer 1' } },
-      ],
-    }),
-    BreadcrumbList: () => ({
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://example.com/' },
-      ],
-    }),
-    WebSite: () => ({
-      '@context': 'https://schema.org',
-      '@type': 'WebSite',
-      name: 'Website Name',
-      url: 'https://example.com/',
-    }),
-  };
-
   React.useEffect(() => {
-    setOutput(JSON.stringify(schemas[type](), null, 2));
+    setOutput(JSON.stringify(SCHEMAS[type](), null, 2));
   }, [type]);
 
   return (

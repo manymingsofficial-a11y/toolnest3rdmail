@@ -44,9 +44,6 @@
     "@radix-ui/react-toggle-group": "^1.1.0",
     "@radix-ui/react-tooltip": "^1.1.2",
     "@supabase/supabase-js": "^2.58.0",
-    "@types/node": "20.6.2",
-    "@types/react": "18.2.22",
-    "@types/react-dom": "18.2.7",
     "@vercel/speed-insights": "^2.0.0",
     "autoprefixer": "10.4.15",
     "class-variance-authority": "^0.7.0",
@@ -54,8 +51,6 @@
     "cmdk": "^1.0.0",
     "csso": "^5.0.2",
     "date-fns": "^3.6.0",
-    "eslint": "8.49.0",
-    "eslint-config-next": "13.5.1",
     "input-otp": "^1.2.4",
     "js-yaml": "^4.1.0",
     "jsbarcode": "^3.12.3",
@@ -81,7 +76,6 @@
     "tailwindcss": "3.3.3",
     "tailwindcss-animate": "^1.0.7",
     "terser": "^5.51.2",
-    "typescript": "5.2.2",
     "vaul": "^0.9.9",
     "zod": "^3.23.8"
   },
@@ -89,6 +83,12 @@
     "@types/csso": "^5.0.5",
     "@types/js-yaml": "^4.0.9",
     "@types/jsbarcode": "^3.11.4",
-    "@types/qrcode": "^1.5.6"
+    "@types/node": "20.6.2",
+    "@types/qrcode": "^1.5.6",
+    "@types/react": "18.2.22",
+    "@types/react-dom": "18.2.7",
+    "eslint": "8.49.0",
+    "eslint-config-next": "13.5.1",
+    "typescript": "5.2.2"
   }
 }

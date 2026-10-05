@@ -650,6 +650,8 @@ export function ImageMetadataRemover() {
   const [done, setDone] = React.useState(false);
   const [resultUrl, setResultUrl] = React.useState<string | null>(null);
   const [resultSize, setResultSize] = React.useState(0);
+  const resultUrlRef = React.useRef<string | null>(null);
+  resultUrlRef.current = resultUrl;
 
   React.useEffect(() => {
     if (!image) {
@@ -668,7 +670,7 @@ export function ImageMetadataRemover() {
       (blob) => {
         if (!blob) return;
         setResultSize(blob.size);
-        if (resultUrl) URL.revokeObjectURL(resultUrl);
+        if (resultUrlRef.current) URL.revokeObjectURL(resultUrlRef.current);
         setResultUrl(URL.createObjectURL(blob));
         setDone(true);
       },

@@ -369,11 +369,14 @@ export function VideoWatermark() {
                       onChange={(e) => { if (e.target.files) handleImageFiles(e.target.files); e.target.value = ''; }}
                     />
                     {watermarkImage ? (
-                      <img
-                        src={URL.createObjectURL(watermarkImage)}
-                        alt="Watermark preview"
-                        className="mx-auto max-h-32 max-w-full rounded"
-                      />
+                      <>
+                        {/* eslint-disable-next-line @next/next/no-img-element -- blob URLs not supported by Next.js Image */}
+                        <img
+                          src={URL.createObjectURL(watermarkImage)}
+                          alt="Watermark preview"
+                          className="mx-auto max-h-32 max-w-full rounded"
+                        />
+                      </>
                     ) : (
                       <>
                         <ImageIcon className="mx-auto h-8 w-8 text-muted-foreground/50" />

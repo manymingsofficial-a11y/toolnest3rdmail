@@ -4,8 +4,8 @@ import { officeToolConfigs } from '@/lib/office-configs';
 
 export const metadata = buildToolMetadata(
   'docx-viewer',
-  'DOCX Viewer',
-  'View Word documents directly in your browser.'
+  'DOCX Text Extractor',
+  'Extract text content from Word documents in your browser.'
 );
 
 const relatedSlugs = ['docx-editor', 'excel-viewer', 'csv-viewer'];
@@ -17,25 +17,24 @@ export default function DocxViewerPage() {
       relatedSlugs={relatedSlugs}
       blurColor="bg-blue-400/20"
       seo={{
-        whatIs: `The DOCX Viewer is a free online tool that works entirely in your browser. ToolNest's DOCX Viewer lets you view word documents directly in your browser. All processing happens locally — no uploads, no registration, no paid APIs.`,
+        whatIs: `The DOCX Text Extractor extracts text content from Word (.docx, .doc) files in your browser. It does not render the document with formatting — it extracts the text content for viewing and copying. For full document rendering with formatting, you would need Microsoft Word or a compatible viewer. All processing happens locally in your browser.`,
         howTo: [
-        'Upload your file or enter your input.',
-        'Adjust any settings if needed.',
-        'Click the action button to process.',
-        'Download or copy the result.',
-      ],
+          'Upload a .docx or .doc file.',
+          'Click View to extract text content.',
+          'Copy or download the extracted text.'
+        ],
         benefits: [
-        { title: 'Free and unlimited', description: 'Use this tool as many times as you want, completely free with no sign-up required.' },
-        { title: 'Privacy first', description: 'All processing happens in your browser. Your data never leaves your device.' },
-        { title: 'Fast and easy', description: 'No learning curve. Open the tool, use it, and get your result instantly.' },
-        { title: 'Works on any device', description: 'Fully responsive and works on desktop, tablet, and mobile browsers.' },
-      ],
+          { title: 'Free and unlimited', description: 'Use this tool as many times as you want, completely free with no sign-up required.' },
+          { title: 'Privacy first', description: 'All processing happens in your browser. Your data never leaves your device.' },
+          { title: 'Text extraction', description: 'Extracts text content from documents for searching and copying.' },
+          { title: 'No software needed', description: 'Runs entirely in your browser with no downloads or plugins required.' },
+        ],
         faqs: [
-        { q: 'Is the DOCX Viewer free to use?', a: 'Yes, it is completely free with no limits, no registration, and no API keys required.' },
-        { q: 'Does the DOCX Viewer work on mobile?', a: 'Yes, the tool is fully responsive and works on any modern mobile browser.' },
-        { q: 'Is my data sent to a server?', a: 'No. All processing happens locally in your browser. Your input never leaves your device.' },
-        { q: 'Do I need to install any software?', a: 'No. The DOCX Viewer runs entirely in your browser with no downloads or plugins required.' },
-      ],
+          { q: 'Is the DOCX Text Extractor free to use?', a: 'Yes, it is completely free with no limits, no registration, and no API keys required.' },
+          { q: 'Does it render documents with formatting?', a: 'No. This tool extracts text content only. It does not render document layouts, images, tables, or formatting visually.' },
+          { q: 'Is my data sent to a server?', a: 'No. All processing happens locally in your browser. Your input never leaves your device.' },
+          { q: 'What file formats are supported?', a: 'Input: .docx, .doc. Output: Plain text (.txt).' },
+        ],
       }}
     >
       <OfficeTool config={officeToolConfigs['docx-viewer']} />

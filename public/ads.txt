@@ -1,0 +1,4 @@
+# AdSense publisher ID must be configured in production
+# Replace 'ca-pub-XXXXXXXXXXXXXXXX' with your actual AdSense publisher ID
+# Get your publisher ID from https://www.google.com/adsense/
+# ca-pub-XXXXXXXXXXXXXXXX

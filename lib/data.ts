@@ -216,11 +216,11 @@ export const categories: Category[] = [
   },
   {
     slug: 'ai-tools',
-    name: 'AI Tools',
+    name: 'Content Generators',
     count: 18,
     icon: 'Sparkles',
     gradient: 'from-sky-400 to-blue-600',
-    description: 'Generate text, images and ideas with AI.',
+    description: 'Generate text, titles, outlines and ideas using template-based generators.',
   },
   {
     slug: 'text-tools',
