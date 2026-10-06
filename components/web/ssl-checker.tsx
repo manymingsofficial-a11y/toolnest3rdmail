@@ -1,11 +1,13 @@
 'use client';
 
 import * as React from 'react';
-import { ShieldCheck, ShieldAlert, ShieldX, Loader2, Info } from 'lucide-react';
+import { ShieldCheck, ShieldAlert, ShieldX, Loader2, Info, AlertCircle } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import { toast } from 'sonner';
+import { validateUrlForFetch } from '@/lib/url-validator';
 
 type SslResult = {
   status: 'reachable' | 'failed' | 'invalid-url' | 'cors-blocked';
@@ -44,6 +46,24 @@ export function SslChecker() {
         message: 'Invalid URL',
         details: 'The entered URL is not valid. Please enter a full URL like https://example.com or a domain like example.com.',
       });
+      return;
+    }
+
+    // Validate URL for SSRF protection
+    const validation = validateUrlForFetch(normalized, {
+      allowHttp: false,
+      allowedProtocols: ['https:'],
+    });
+    if (!validation.valid) {
+      toast.error(`Cannot check this URL: ${validation.error}`);
+      setResult({
+        status: 'invalid-url',
+        url: normalized,
+        httpsUrl: '',
+        message: 'Invalid URL',
+        details: `This URL cannot be checked: ${validation.error}. For security, we block access to private IP ranges, localhost, and internal networks.`,
+      });
+      setChecking(false);
       return;
     }
 

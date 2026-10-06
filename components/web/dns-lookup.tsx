@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import { validateUrlForFetch } from '@/lib/url-validator';
 
 const RECORD_TYPES = ['A', 'AAAA', 'MX', 'TXT', 'NS', 'CNAME', 'SOA'] as const;
 type RecordType = (typeof RECORD_TYPES)[number];
@@ -71,6 +72,20 @@ export function DnsLookup() {
     domain: string,
     type: RecordType
   ): Promise<RecordResult> {
+    // Validate domain for SSRF protection
+    const validation = validateUrlForFetch(`https://${domain}`, {
+      allowHttp: false,
+      allowedProtocols: ['https:'],
+    });
+    if (!validation.valid) {
+      return {
+        type,
+        records: [],
+        status: -1,
+        error: `Invalid domain: ${validation.error}`,
+      };
+    }
+
     const apiUrl = `https://dns.google/resolve?name=${encodeURIComponent(domain)}&type=${type}`;
 
     try {

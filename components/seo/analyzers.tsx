@@ -2,12 +2,14 @@
 
 import * as React from 'react';
 import { Globe, ArrowRight, AlertCircle } from 'lucide-react';
+import { toast } from 'sonner';
 
 import { CopyButton, DownloadButton } from '@/components/dev/dev-ui';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
+import { validateUrlForFetch } from '@/lib/url-validator';
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -216,11 +218,23 @@ export function RedirectChecker() {
 
   async function check() {
     if (!url.trim()) return;
+    
+    const cleanUrl = url.startsWith('http') ? url : `https://${url}`;
+    
+    // Validate URL for SSRF protection
+    const validation = validateUrlForFetch(cleanUrl, {
+      allowHttp: false,
+      allowedProtocols: ['https:'],
+    });
+    if (!validation.valid) {
+      setError(`Invalid URL: ${validation.error}. For security, we block access to private IP ranges, localhost, and internal networks.`);
+      return;
+    }
+
     setLoading(true);
     setError('');
     setResult(null);
     try {
-      const cleanUrl = url.startsWith('http') ? url : `https://${url}`;
       const res = await fetch(cleanUrl, { redirect: 'follow', method: 'GET' });
       setResult({
         status: res.status,
