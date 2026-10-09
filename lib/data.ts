@@ -2450,6 +2450,36 @@ export const tools: Tool[] = [
     popularity: 62,
   },
   {
+    slug: 'audio-cutter',
+    name: 'Audio Cutter',
+    description: 'Cut out unwanted sections from audio files and keep multiple segments.',
+    category: 'Audio Tools',
+    icon: 'Scissors',
+    gradient: 'from-amber-400 to-orange-600',
+    isNew: true,
+    popularity: 82,
+  },
+  {
+    slug: 'audio-merger',
+    name: 'Audio Merger',
+    description: 'Combine multiple audio files into one track with reordering.',
+    category: 'Audio Tools',
+    icon: 'FilePlus',
+    gradient: 'from-emerald-400 to-green-600',
+    isNew: true,
+    popularity: 78,
+  },
+  {
+    slug: 'audio-reverser',
+    name: 'Audio Reverser',
+    description: 'Play any audio file backwards with FFmpeg in your browser.',
+    category: 'Audio Tools',
+    icon: 'Repeat',
+    gradient: 'from-purple-400 to-violet-600',
+    isNew: true,
+    popularity: 68,
+  },
+  {
     slug: 'word-to-pdf',
     name: 'Word to PDF',
     description: 'Convert DOCX documents to PDF in your browser.',
@@ -2976,17 +3006,6 @@ categories.forEach((c) => {
 });
 
 export const latestTools: Tool[] = [
-  {
-    slug: 'color-picker',
-    name: 'Color Picker',
-    description: 'Grab colors and copy HEX, RGB and HSL values.',
-    category: 'Image Tools',
-    icon: 'Image',
-    gradient: 'from-fuchsia-400 to-pink-600',
-    isNew: true,
-    popularity: 64,
-    addedDaysAgo: 1,
-  },
   {
     slug: 'markdown-preview',
     name: 'Markdown Preview',

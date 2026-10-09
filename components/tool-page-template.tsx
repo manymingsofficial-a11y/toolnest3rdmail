@@ -69,7 +69,7 @@ export function ToolPageTemplate({
   const breadcrumbJsonLd = generateBreadcrumbJsonLd([
     { name: 'Home', url: '/' },
     { name: 'Tools', url: '/tools' },
-    ...(toolCategory ? [{ name: toolCategory.name, url: '/categories' }] : []),
+    ...(toolCategory ? [{ name: toolCategory.name, url: `/categories?cat=${toolCategory.slug}` }] : []),
     { name: tool.name, url: `/tools/${tool.slug}` },
   ]);
   // Detect boilerplate content and replace with generated tool-specific content

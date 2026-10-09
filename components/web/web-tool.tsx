@@ -69,8 +69,7 @@ export function WebTool({ config }: { config: WebToolConfig }) {
     setProcessing(true);
     setResult(null);
 
-    setTimeout(() => {
-      try {
+    try {
         if (config.slug === 'user-agent-parser') {
           const ua = navigator.userAgent;
           const browser = ua.match(/(Chrome|Firefox|Safari|Edge|Opera|OPR|MSIE|Trident)\/[\d.]+/)?.[0] || 'Unknown';
@@ -193,11 +192,10 @@ export function WebTool({ config }: { config: WebToolConfig }) {
         }
 
         setProcessing(false);
-      } catch {
-        setProcessing(false);
-        toast.error('Processing failed. Please check the URL.');
-      }
-    }, 800);
+    } catch {
+      setProcessing(false);
+      toast.error('Processing failed. Please check the URL.');
+    }
   }
 
   function handleCopy() {

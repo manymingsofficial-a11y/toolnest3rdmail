@@ -59,7 +59,7 @@ export function generateCategoryJsonLd(slug: string) {
     '@type': 'CollectionPage',
     name: cat.name,
     description: cat.description,
-    url: `${SITE_URL}/categories`,
+    url: `${SITE_URL}/categories?cat=${slug}`,
     mainEntity: {
       '@type': 'ItemList',
       numberOfItems: catTools.length,
@@ -260,12 +260,12 @@ export function generateCategoryMetadata(slug: string): Metadata {
     title,
     description,
     keywords: [cat.name, cat.name.toLowerCase(), 'free online tools', 'toolnest', ...catTools.slice(0, 10).map((t) => t.name)],
-    alternates: { canonical: '/categories' },
+    alternates: { canonical: `/categories?cat=${slug}` },
     openGraph: {
       title: `${title} | ${SITE_NAME}`,
       description,
       type: 'website',
-      url: `${SITE_URL}/categories`,
+      url: `${SITE_URL}/categories?cat=${slug}`,
       siteName: SITE_NAME,
       locale: 'en_US',
       images: [{ url: SITE_LOGO, width: 1200, height: 630, alt: `${title} — ${SITE_NAME}` }],
