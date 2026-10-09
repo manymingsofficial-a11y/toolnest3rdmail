@@ -61,7 +61,7 @@ export function WebTool({ config }: { config: WebToolConfig }) {
     }
   }, [config.showBrowserInfo, config.showCookieViewer]);
 
-  function handleProcess() {
+  async function handleProcess() {
     if (config.showUrlInput && !url) {
       toast.error('Please enter a URL first.');
       return;
@@ -84,22 +84,57 @@ export function WebTool({ config }: { config: WebToolConfig }) {
         }
 
         if (config.slug === 'http-header-viewer') {
-          setResult(JSON.stringify({
-            note: 'Due to CORS restrictions, HTTP headers cannot be fetched directly from the browser for arbitrary URLs. In production, this would use a server-side proxy.',
-            url: url,
-          }, null, 2));
+          try {
+            const parsedUrl = new URL(url);
+            const response = await fetch(parsedUrl.origin, {
+              method: 'GET',
+              mode: 'no-cors',
+              signal: AbortSignal.timeout(8000),
+            });
+            const headers: Record<string, string> = {};
+            response.headers.forEach((value, key) => {
+              headers[key] = value;
+            });
+            if (Object.keys(headers).length === 0) {
+              setResult(JSON.stringify({
+                url: url,
+                note: 'The browser blocked access to response headers due to CORS policy. For complete HTTP header inspection, use a server-side tool like curl or a dedicated API.',
+                reachable: true,
+              }, null, 2));
+              toast.info('Site is reachable, but CORS blocked header access.');
+            } else {
+              setResult(JSON.stringify({ url, headers }, null, 2));
+              toast.success('Headers retrieved!');
+            }
+          } catch {
+            setResult(JSON.stringify({
+              url: url,
+              error: 'Could not reach the URL. The site may be down, or the browser blocked the request.',
+            }, null, 2));
+            toast.error('Could not fetch headers.');
+          }
           setProcessing(false);
-          toast.success('Headers checked!');
           return;
         }
 
         if (config.slug === 'website-screenshot') {
-          setResult(JSON.stringify({
-            note: 'Website screenshots require a server-side rendering service. In production, this would use a headless browser to capture the page.',
-            url: url,
-          }, null, 2));
+          try {
+            const parsedUrl = new URL(url);
+            setResult(JSON.stringify({
+              url: url,
+              note: 'Browser security prevents capturing screenshots of external websites directly. To capture a screenshot, you can use your browser\'s built-in screenshot tool, or a browser extension. Alternatively, open the URL in a new tab and use your operating system\'s screenshot feature.',
+              domain: parsedUrl.hostname,
+              suggestedTools: [
+                'Browser DevTools (F12) → Run command → Capture screenshot',
+                'Chrome extension: GoFullPage',
+                'Firefox: right-click → Take Screenshot',
+              ],
+            }, null, 2));
+            toast.info('Screenshot guidance provided.');
+          } catch {
+            toast.error('Invalid URL. Please enter a full URL like https://example.com');
+          }
           setProcessing(false);
-          toast.success('Screenshot info ready!');
           return;
         }
 
@@ -137,9 +172,23 @@ export function WebTool({ config }: { config: WebToolConfig }) {
         }
 
         if (config.slug === 'qr-label-generator') {
-          setResult(JSON.stringify({ label: labelText, url: labelUrl, note: 'QR code would be generated here using the QR Code Generator engine.' }, null, 2));
+          try {
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(labelUrl)}`;
+            const response = await fetch(qrUrl);
+            if (!response.ok) throw new Error('QR API error');
+            const blob = await response.blob();
+            const qrImageUrl = URL.createObjectURL(blob);
+            setResult(qrImageUrl);
+            toast.success('QR label generated!');
+          } catch {
+            setResult(JSON.stringify({
+              label: labelText,
+              url: labelUrl,
+              error: 'Could not generate QR code. Please check your connection and try again.',
+            }, null, 2));
+            toast.error('QR generation failed. Please try again.');
+          }
           setProcessing(false);
-          toast.success('QR label ready!');
           return;
         }
 
@@ -162,6 +211,14 @@ export function WebTool({ config }: { config: WebToolConfig }) {
 
   function handleDownload() {
     if (!result) return;
+    if (result.startsWith('blob:')) {
+      const a = document.createElement('a');
+      a.href = result;
+      a.download = `${config.slug}-result.png`;
+      a.click();
+      toast.success('Downloaded!');
+      return;
+    }
     const ext = config.slug === 'website-manifest-generator' ? 'json' : 'txt';
     const blob = new Blob([result], { type: 'text/plain' });
     const a = document.createElement('a');
@@ -210,7 +267,7 @@ export function WebTool({ config }: { config: WebToolConfig }) {
               {processing ? <><Loader2 className="mr-1.5 h-4 w-4 animate-spin" />Processing...</> : config.actionLabel}
             </Button>
           )}
-          {result && <Button onClick={handleCopy} variant="outline" size="sm" className="rounded-xl">{copied ? <><Check className="mr-1.5 h-4 w-4 text-green-500" />Copied</> : <><Copy className="mr-1.5 h-4 w-4" />Copy</>}</Button>}
+          {result && !result.startsWith('blob:') && <Button onClick={handleCopy} variant="outline" size="sm" className="rounded-xl">{copied ? <><Check className="mr-1.5 h-4 w-4 text-green-500" />Copied</> : <><Copy className="mr-1.5 h-4 w-4" />Copy</>}</Button>}
           {result && <Button onClick={handleDownload} variant="outline" size="sm" className="rounded-xl"><Download className="mr-1.5 h-4 w-4" />Download</Button>}
         </div>
 
@@ -218,7 +275,16 @@ export function WebTool({ config }: { config: WebToolConfig }) {
         {result && (
           <div className="mt-6 space-y-3">
             <Label className="text-sm font-medium">Result</Label>
-            <div className="overflow-auto rounded-xl border border-border/60 bg-muted/30 p-4 text-sm whitespace-pre-wrap max-h-[500px]">{result}</div>
+            {result.startsWith('blob:') ? (
+              <div className="flex flex-col items-center gap-4">
+                <img src={result} alt="Generated QR code" className="rounded-xl border border-border/60 max-w-[300px]" />
+                {config.showQrLabel && labelText && (
+                  <p className="text-sm font-medium text-center">{labelText}</p>
+                )}
+              </div>
+            ) : (
+              <div className="overflow-auto rounded-xl border border-border/60 bg-muted/30 p-4 text-sm whitespace-pre-wrap max-h-[500px]">{result}</div>
+            )}
           </div>
         )}
       </div>

@@ -422,7 +422,6 @@ export const aiConfigs: Record<string, GenConfig> = {
         name: name.trim(),
         description: desc,
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-        aggregateRating: { '@type': 'AggregateRating', ratingValue: '4.5', reviewCount: '100' },
       }, null, 2);
     },
   },
