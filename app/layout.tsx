@@ -1,7 +1,6 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import Script from 'next/script';
-import { Inter, Space_Grotesk } from 'next/font/google';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
 import { ThemeProvider } from '@/components/theme-provider';
@@ -10,12 +9,6 @@ import { AnalyticsHead, AnalyticsBody } from '@/components/analytics';
 import { generateWebsiteJsonLd, generateOrganizationJsonLd } from '@/lib/seo';
 import { fetchSiteSettings, fetchSeoSettings, fetchTools, fetchSearchIndex } from '@/lib/public-data';
 import { tools as staticTools, categories as staticCategories } from '@/lib/data';
-
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
-const spaceGrotesk = Space_Grotesk({
-  subsets: ['latin'],
-  variable: '--font-display',
-});
 
 export async function generateMetadata(): Promise<Metadata> {
   const [siteSettings, seoSettings, tools] = await Promise.all([
@@ -108,9 +101,6 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <meta name="google-adsense-account" content="ca-pub-4962794944464816" />
         <AnalyticsHead />
         <Script
@@ -133,9 +123,7 @@ export default async function RootLayout({
           }}
         />
       </head>
-      <body
-        className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased`}
-      >
+      <body className="font-sans antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
