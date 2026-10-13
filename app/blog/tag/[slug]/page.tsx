@@ -6,6 +6,7 @@ import { Calendar, Clock, ArrowUpRight } from 'lucide-react';
 import { PageHeader } from '@/components/page-header';
 import { generateBreadcrumbJsonLd, SITE_URL } from '@/lib/seo';
 import { fetchBlogPosts } from '@/lib/public-data';
+import { getIndexPolicy } from '@/lib/tool-classification';
 
 export async function generateStaticParams() {
   const posts = await fetchBlogPosts();
@@ -27,6 +28,8 @@ export async function generateMetadata({
   );
   if (!tag) return {};
 
+  const indexPolicy = getIndexPolicy(`blog-tag-${tag.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`);
+  
   return {
     title: `#${tag} — Blog | ToolNest`,
     description: `Articles tagged with "${tag}" on the ToolNest blog.`,
@@ -38,7 +41,7 @@ export async function generateMetadata({
       siteName: 'ToolNest',
       locale: 'en_US',
     },
-    robots: { index: false, follow: true },
+    robots: { index: indexPolicy.index, follow: indexPolicy.follow },
   };
 }
 
