@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next';
 import { tools as staticTools } from '@/lib/data';
 import { blogPosts as staticBlogPosts, SITE_URL } from '@/lib/seo';
 import { fetchTools, fetchBlogPosts } from '@/lib/public-data';
+import { getIndexPolicy } from '@/lib/tool-classification';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
@@ -23,7 +24,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const tools = dbTools.length > 0 ? dbTools : staticTools;
   const blogPosts = dbBlogPosts.length > 0 ? dbBlogPosts : staticBlogPosts;
 
-  const toolPages: MetadataRoute.Sitemap = tools.map((t) => ({
+  // Filter out tools that should not be indexed
+  const indexableTools = tools.filter((t) => getIndexPolicy(t.slug).index);
+
+  const toolPages: MetadataRoute.Sitemap = indexableTools.map((t) => ({
     url: `${SITE_URL}/tools/${t.slug}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
