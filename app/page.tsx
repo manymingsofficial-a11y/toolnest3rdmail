@@ -56,7 +56,7 @@ export default async function Home() {
         categoryCount={categories.length}
         heroTitle={homepageSettings?.heroTitle}
         heroSubtitle={homepageSettings?.heroSubtitle}
-        heroBadge={homepageSettings?.heroBadge}
+        heroBadge={`${tools.length} free online tools — no registration required`}
         siteName={siteName}
       />
       <StatsBanner toolCount={tools.length} categoryCount={categories.length} />
