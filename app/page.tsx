@@ -45,6 +45,9 @@ export default async function Home() {
   const latestTools = newestTools.length > 0 ? newestTools : tools.slice(0, 8);
   const latestBlogPosts = blogPosts.slice(0, 3);
 
+  // Compute actual category count from tools (exclude categories with no tools)
+  const actualCategoryCount = new Set(tools.map(t => t.category)).size;
+
   return (
     <>
       <script
@@ -53,13 +56,13 @@ export default async function Home() {
       />
       <Hero
         toolCount={tools.length}
-        categoryCount={categories.length}
+        categoryCount={actualCategoryCount}
         heroTitle={homepageSettings?.heroTitle}
         heroSubtitle={homepageSettings?.heroSubtitle}
         heroBadge={`${tools.length} free online tools — no registration required`}
         siteName={siteName}
       />
-      <StatsBanner toolCount={tools.length} categoryCount={categories.length} />
+      <StatsBanner toolCount={tools.length} categoryCount={actualCategoryCount} />
       <TrendingTools
         trendingTools={trendingTools}
         newestTools={latestTools}
