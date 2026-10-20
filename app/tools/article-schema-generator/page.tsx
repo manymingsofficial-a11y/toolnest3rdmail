@@ -7,7 +7,7 @@ export const metadata = buildToolMetadata(
   'Generate article schema markup for blog posts.'
 );
 
-const relatedSlugs = ['schema-markup-generator', 'faq-schema-generator', 'product-schema-generator', 'ai-product-schema-writer'];
+const relatedSlugs = ['schema-markup-generator', 'faq-schema-generator', 'product-schema-generator', 'ai-seo-tools'];
 
 export default function ArticleSchemaGeneratorPage() {
   return (

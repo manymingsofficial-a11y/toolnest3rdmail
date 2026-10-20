@@ -7,7 +7,7 @@ export const metadata = buildToolMetadata(
   'Generate breadcrumb schema markup for SEO.'
 );
 
-const relatedSlugs = ['schema-markup-generator', 'website-schema-generator', 'meta-tag-generator', 'ai-product-schema-writer'];
+const relatedSlugs = ['schema-markup-generator', 'website-schema-generator', 'meta-tag-generator', 'ai-seo-tools'];
 
 export default function BreadcrumbSchemaGeneratorPage() {
   return (

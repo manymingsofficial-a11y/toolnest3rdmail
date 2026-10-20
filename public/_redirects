@@ -1,0 +1,69 @@
+# AI Tool Redirects - 51 removed tools mapped to 8 consolidated tools with mode preservation
+# Generated for AdSense remediation: consolidated replicated template-based AI tools
+
+# ai-writing-assistant (10 tools)
+/tools/ai-blog-title-generator          /tools/ai-writing-assistant?mode=blog-title          301
+/tools/ai-blog-outline-generator        /tools/ai-writing-assistant?mode=blog-outline        301
+/tools/ai-article-idea-generator        /tools/ai-writing-assistant?mode=article-idea        301
+/tools/ai-paragraph-generator           /tools/ai-writing-assistant?mode=paragraph           301
+/tools/ai-sentence-rewriter             /tools/ai-writing-assistant?mode=sentence-rewriter   301
+/tools/ai-grammar-improver              /tools/ai-writing-assistant?mode=grammar-improver    301
+/tools/ai-summarizer                    /tools/ai-writing-assistant?mode=summarizer          301
+/tools/ai-expand-text                   /tools/ai-writing-assistant?mode=expand-text         301
+/tools/ai-simplify-text                 /tools/ai-writing-assistant?mode=simplify-text       301
+/tools/ai-humanize-text                 /tools/ai-writing-assistant?mode=humanize-text       301
+
+# ai-seo-tools (8 tools)
+/tools/ai-meta-title-generator          /tools/ai-seo-tools?mode=meta-title          301
+/tools/ai-meta-description-generator    /tools/ai-seo-tools?mode=meta-description    301
+/tools/ai-keyword-generator             /tools/ai-seo-tools?mode=keywords             301
+/tools/ai-faq-generator                 /tools/ai-seo-tools?mode=faq                  301
+/tools/ai-seo-outline-generator         /tools/ai-seo-tools?mode=seo-outline         301
+/tools/ai-slug-generator-pro            /tools/ai-seo-tools?mode=slug                 301
+/tools/ai-product-schema-writer         /tools/ai-seo-tools?mode=product-schema       301
+/tools/ai-alt-text-generator            /tools/ai-seo-tools?mode=alt-text             301
+
+# ai-social-media (8 tools)
+/tools/ai-instagram-caption-generator   /tools/ai-social-media?mode=instagram-caption   301
+/tools/ai-facebook-caption-generator    /tools/ai-social-media?mode=facebook-caption    301
+/tools/ai-linkedin-post-generator       /tools/ai-social-media?mode=linkedin-post       301
+/tools/ai-tweet-generator               /tools/ai-social-media?mode=tweet               301
+/tools/ai-pinterest-pin-title-generator /tools/ai-social-media?mode=pinterest-title     301
+/tools/ai-pinterest-description-generator /tools/ai-social-media?mode=pinterest-description 301
+/tools/ai-hashtag-generator             /tools/ai-social-media?mode=hashtags             301
+/tools/ai-social-bio-generator          /tools/ai-social-media?mode=social-bio          301
+
+# ai-youtube (6 tools)
+/tools/ai-youtube-title-generator       /tools/ai-youtube?mode=youtube-title       301
+/tools/ai-youtube-description-generator /tools/ai-youtube?mode=youtube-description 301
+/tools/ai-video-hook-generator          /tools/ai-youtube?mode=video-hook          301
+/tools/ai-video-script-generator        /tools/ai-youtube?mode=video-script        301
+/tools/ai-shorts-caption-generator      /tools/ai-youtube?mode=shorts-caption      301
+/tools/ai-thumbnail-text-generator      /tools/ai-youtube?mode=thumbnail-text      301
+
+# ai-business (7 tools)
+/tools/ai-business-name-generator       /tools/ai-business?mode=business-name       301
+/tools/ai-startup-name-generator        /tools/ai-business?mode=startup-name        301
+/tools/ai-brand-name-generator          /tools/ai-business?mode=brand-name          301
+/tools/ai-slogan-generator              /tools/ai-business?mode=slogan              301
+/tools/ai-tagline-generator             /tools/ai-business?mode=tagline             301
+/tools/ai-product-description-generator /tools/ai-business?mode=product-description 301
+/tools/ai-marketing-copy-generator      /tools/ai-business?mode=marketing-copy      301
+
+# ai-email (4 tools)
+/tools/ai-email-writer                  /tools/ai-email?mode=email-writer                  301
+/tools/ai-cold-email-generator          /tools/ai-email?mode=cold-email          301
+/tools/ai-follow-up-email-generator     /tools/ai-email?mode=follow-up           301
+/tools/ai-professional-reply-generator  /tools/ai-email?mode=professional-reply  301
+
+# ai-career (4 tools)
+/tools/ai-resume-summary-generator      /tools/ai-career?mode=resume-summary      301
+/tools/ai-cover-letter-generator        /tools/ai-career?mode=cover-letter        301
+/tools/ai-job-description-generator     /tools/ai-career?mode=job-description     301
+/tools/ai-interview-questions-generator /tools/ai-career?mode=interview-questions 301
+
+# ai-ecommerce (4 tools)
+/tools/ai-amazon-listing-generator      /tools/ai-ecommerce?mode=amazon-listing      301
+/tools/ai-shopify-product-description-generator /tools/ai-ecommerce?mode=shopify-description 301
+/tools/ai-etsy-product-description-generator    /tools/ai-ecommerce?mode=etsy-description    301
+/tools/ai-ebay-listing-generator                /tools/ai-ecommerce?mode=ebay-listing                301
