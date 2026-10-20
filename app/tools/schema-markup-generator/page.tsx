@@ -7,7 +7,7 @@ export const metadata = buildToolMetadata(
   'Generate schema.org JSON-LD structured data.'
 );
 
-const relatedSlugs = ['faq-schema-generator', 'article-schema-generator', 'product-schema-generator', 'ai-product-schema-writer'];
+const relatedSlugs = ['faq-schema-generator', 'article-schema-generator', 'product-schema-generator', 'ai-seo-tools'];
 
 export default function SchemaMarkupGeneratorPage() {
   return (

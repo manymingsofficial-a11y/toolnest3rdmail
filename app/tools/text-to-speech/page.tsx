@@ -8,7 +8,7 @@ export const metadata = buildToolMetadata(
   'Convert written text into natural-sounding speech.'
 );
 
-const relatedSlugs = ['speech-to-text', 'voice-recorder', 'ai-paragraph-generator'];
+const relatedSlugs = ['speech-to-text', 'voice-recorder', 'ai-writing-assistant'];
 
 export default function TextToSpeechPage() {
   return (

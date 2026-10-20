@@ -24,7 +24,7 @@ const PREMIUM_TOOLS: string[] = [
   // PDF tools with real processing
   'pdf-merge', 'pdf-split', 'pdf-compress', 'pdf-rotate', 'pdf-page-number',
   'pdf-watermark', 'pdf-metadata-editor', 'pdf-delete-pages', 'pdf-extract-pages',
-  'pdf-reorder-pages', 'pdf-unlock', 'pdf-protect', 'pdf-to-word', 'pdf-to-excel',
+  'pdf-reorder-pages', 'pdf-unlock', 'pdf-to-word', 'pdf-to-excel',
   'pdf-to-powerpoint', 'word-to-pdf', 'excel-to-pdf', 'powerpoint-to-pdf',
   'pdf-viewer', 'pdf-to-word', 'pdf-to-excel', 'pdf-to-powerpoint',
   
@@ -35,7 +35,7 @@ const PREMIUM_TOOLS: string[] = [
   'image-color-picker', 'image-metadata-viewer', 'image-metadata-remover',
   'image-border-creator', 'image-rounded-corners', 'image-brightness-adjuster',
   'image-contrast-adjuster', 'image-placeholder-generator', 'favicon-generator',
-  'svg-optimizer', 'svg-to-png', 'png-to-svg', 'svg-viewer',
+  'svg-optimizer', 'svg-to-png', 'svg-viewer',
   
   // Video tools with real processing
   'video-compressor', 'video-converter', 'video-trimmer', 'video-cutter',
@@ -75,7 +75,7 @@ const PREMIUM_TOOLS: string[] = [
   
   // Web tools with real network operations
   'ssl-checker', 'dns-lookup', 'http-header-viewer', 'redirect-checker',
-  'url-preview', 'open-graph-preview', 'ip-address-checker', 'browser-information',
+  'url-preview', 'open-graph-preview', 'browser-information',
   'user-agent-parser', 'cookie-viewer', 'website-screenshot', 'website-manifest-generator',
 ];
 
@@ -105,7 +105,7 @@ const STANDARD_TOOLS: string[] = [
   'json-validator', 'xml-formatter', 'xml-validator', 'yaml-formatter',
   'yaml-validator', 'sql-formatter', 'regex-tester',
   'ssl-checker', 'dns-lookup', 'http-header-viewer', 'redirect-checker',
-  'url-preview', 'open-graph-preview', 'ip-address-checker',
+  'url-preview', 'open-graph-preview',
   'browser-information', 'user-agent-parser', 'cookie-viewer',
   'website-screenshot', 'website-manifest-generator',
   'color-converter', 'hex-to-rgb', 'rgb-to-hex',
@@ -122,49 +122,59 @@ const STANDARD_TOOLS: string[] = [
   'calendar', 'age-timeline', 'countdown-timer', 'stopwatch', 'pomodoro-timer',
   'meeting-planner', 'notes', 'to-do-list',
   'website-schema-generator',
-  'svg-optimizer', 'svg-to-png', 'png-to-svg', 'svg-viewer',
+  'svg-optimizer', 'svg-to-png', 'svg-viewer',
 ];
 
 // Template-based AI tools - LOW VALUE, should NOT have ads, should NOT be indexed as unique content
+// CONSOLIDATED: 51 old tools merged into 8 consolidated tools with mode selection
 const TEMPLATE_AI_TOOLS: string[] = [
-  // Content & Writing
+  // Consolidated AI Tools (8 tools replacing 51)
+  'ai-writing-assistant',      // Replaces 10 writing tools
+  'ai-seo-tools',              // Replaces 8 SEO tools
+  'ai-social-media',           // Replaces 8 social media tools
+  'ai-youtube',                // Replaces 6 YouTube tools
+  'ai-business',               // Replaces 7 business tools
+  'ai-email',                  // Replaces 4 email tools
+  'ai-career',                 // Replaces 4 career tools
+  'ai-ecommerce',              // Replaces 4 e-commerce tools
+];
+
+// Redirected/Deleted AI tools - 51 old tools merged into 8 consolidated tools
+// These should NOT be indexed as they redirect to consolidated tools
+const REDIRECTED_AI_TOOLS: string[] = [
+  // Writing tools (10)
   'ai-blog-title-generator', 'ai-blog-outline-generator', 'ai-article-idea-generator',
   'ai-paragraph-generator', 'ai-sentence-rewriter', 'ai-grammar-improver',
   'ai-summarizer', 'ai-expand-text', 'ai-simplify-text', 'ai-humanize-text',
+  // SEO tools (8)
   'ai-meta-title-generator', 'ai-meta-description-generator', 'ai-keyword-generator',
   'ai-faq-generator', 'ai-seo-outline-generator', 'ai-slug-generator-pro',
   'ai-product-schema-writer', 'ai-alt-text-generator',
-  
-  // Social Media
+  // Social Media tools (8)
   'ai-instagram-caption-generator', 'ai-facebook-caption-generator',
   'ai-linkedin-post-generator', 'ai-tweet-generator',
   'ai-pinterest-pin-title-generator', 'ai-pinterest-description-generator',
   'ai-hashtag-generator', 'ai-social-bio-generator',
-  
-  // YouTube
+  // YouTube tools (6)
   'ai-youtube-title-generator', 'ai-youtube-description-generator',
   'ai-video-hook-generator', 'ai-video-script-generator', 'ai-shorts-caption-generator',
   'ai-thumbnail-text-generator',
-  
-  // Business
+  // Business tools (7)
   'ai-business-name-generator', 'ai-startup-name-generator', 'ai-brand-name-generator',
   'ai-slogan-generator', 'ai-tagline-generator', 'ai-product-description-generator',
   'ai-marketing-copy-generator',
-  
-  // Email
+  // Email tools (4)
   'ai-email-writer', 'ai-cold-email-generator', 'ai-follow-up-email-generator',
   'ai-professional-reply-generator',
-  
-  // Career
+  // Career tools (4)
   'ai-resume-summary-generator', 'ai-cover-letter-generator',
   'ai-job-description-generator', 'ai-interview-questions-generator',
-  
-  // E-commerce
+  // E-commerce tools (4)
   'ai-amazon-listing-generator', 'ai-shopify-product-description-generator',
   'ai-etsy-product-description-generator', 'ai-ebay-listing-generator',
 ];
 
-// Utility/Reference tools - minimal unique value, no ads
+// Utility/Reference tools - minimal unique value, no ads, noindex
 const UTILITY_TOOLS: string[] = [
   'base64-encoder', 'url-encoder', 'html-to-text', 'markdown-preview',
   'csv-to-json', 'json-to-csv', 'csv-to-excel', 'excel-to-csv',
@@ -181,6 +191,8 @@ const UTILITY_TOOLS: string[] = [
   'scientific-calculator',
   'calendar', 'age-timeline', 'countdown-timer', 'stopwatch', 'pomodoro-timer',
   'meeting-planner', 'notes', 'to-do-list',
+  // Misleading/limited tools - no real encryption, no vectorization, no public IP
+  'pdf-protect', 'png-to-svg', 'ip-address-checker',
 ];
 
 // Reference pages - no ads, noindex
@@ -196,9 +208,22 @@ export function classifyTool(slug: string): ToolClassification {
       tier: 'template',
       category: 'AI Template',
       hasAds: false,
-      index: true, // Keep indexed but with canonical
+      index: false, // noindex - template-based generators are low-value replicated content
       follow: true,
-      reason: 'Template-based generator using rule-based logic, not actual AI. Low unique value. No ads.',
+      reason: 'Template-based generator using rule-based logic, not actual AI. Low unique value. No ads, noindex.',
+    };
+  }
+
+  // Check redirected/deleted AI tools (old 51 tools merged into 8 consolidated)
+  if (REDIRECTED_AI_TOOLS.includes(slug)) {
+    return {
+      slug,
+      tier: 'template',
+      category: 'AI Template',
+      hasAds: false,
+      index: false, // noindex - redirected to consolidated tools
+      follow: true,
+      reason: 'Redirected to consolidated AI tool with mode selection. No ads, noindex.',
     };
   }
 
@@ -209,9 +234,9 @@ export function classifyTool(slug: string): ToolClassification {
       tier: 'utility',
       category: 'Utility',
       hasAds: false,
-      index: true,
+      index: false, // noindex - simple utilities have minimal unique content
       follow: true,
-      reason: 'Simple utility/converter tool with minimal unique content. No ads.',
+      reason: 'Simple utility/converter tool with minimal unique content. No ads, noindex.',
     };
   }
 
@@ -280,6 +305,7 @@ export function getAllToolClassifications(): ToolClassification[] {
     ...PREMIUM_TOOLS,
     ...STANDARD_TOOLS,
     ...TEMPLATE_AI_TOOLS,
+    ...REDIRECTED_AI_TOOLS,
     ...UTILITY_TOOLS,
     ...REFERENCE_PAGES,
   ];

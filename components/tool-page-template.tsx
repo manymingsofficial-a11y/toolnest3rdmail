@@ -10,7 +10,7 @@ import { Newsletter } from '@/components/ads/newsletter';
 import { getIcon } from '@/lib/icon-map';
 import { getRelatedTools, tools, categories } from '@/lib/data';
 import { generateToolSeoContent, isBoilerplateSeo } from '@/lib/tool-seo-content';
-import { getAdEligibility } from '@/lib/tool-classification';
+import { getAdEligibility, getIndexPolicy } from '@/lib/tool-classification';
 import {
   generateBreadcrumbJsonLd,
   generateHowToJsonLd,
@@ -59,6 +59,10 @@ export function ToolPageTemplate({
   const ToolIcon = getIcon(tool.icon);
   const gradient = tool.gradient;
 
+  // Check index policy and ad eligibility
+  const indexPolicy = getIndexPolicy(slug);
+  const adEligible = getAdEligibility(slug);
+
   const relatedTools = relatedSlugs
     ? relatedSlugs
         .map((s) => tools.find((t) => t.slug === s))
@@ -81,6 +85,9 @@ export function ToolPageTemplate({
 
   return (
     <>
+      {(!indexPolicy.index) && (
+        <meta name="robots" content="noindex, follow" />
+      )}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
@@ -148,7 +155,7 @@ export function ToolPageTemplate({
       </section>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <AdSlot slot="tool-top" className="my-6" toolSlug={slug} />
+        {adEligible && <AdSlot slot="tool-top" className="my-6" toolSlug={slug} />}
       </div>
 
       <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
@@ -158,14 +165,14 @@ export function ToolPageTemplate({
           </div>
           <aside className="hidden lg:block">
             <div className="sticky top-24 space-y-6">
-              <AdSlot slot="tool-sidebar" minHeight={250} toolSlug={slug} />
+              {adEligible && <AdSlot slot="tool-sidebar" minHeight={250} toolSlug={slug} />}
             </div>
           </aside>
         </div>
       </section>
 
       <div className="mx-auto max-w-3xl px-4 sm:px-6">
-        <AdSlot slot="tool-after" className="my-8" toolSlug={slug} />
+        {adEligible && <AdSlot slot="tool-after" className="my-8" toolSlug={slug} />}
       </div>
 
       <section className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
@@ -173,7 +180,7 @@ export function ToolPageTemplate({
       </section>
 
       <div className="mx-auto max-w-3xl px-4 sm:px-6">
-        <AdSlot slot="tool-bottom" className="my-8" toolSlug={slug} />
+        {adEligible && <AdSlot slot="tool-bottom" className="my-8" toolSlug={slug} />}
       </div>
 
       <ToolActions slug={slug} />
