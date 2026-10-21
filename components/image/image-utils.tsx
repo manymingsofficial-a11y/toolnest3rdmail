@@ -108,7 +108,7 @@ export function UploadZone({
   label = 'Drop an image here or click to upload',
   hint = 'JPG, PNG and WEBP supported',
 }: {
-  inputRef: React.RefObject<HTMLInputElement>;
+  inputRef: React.RefObject<HTMLInputElement | null>;
   onFiles: (file: File) => void;
   dragging: boolean;
   setDragging: (v: boolean) => void;

@@ -133,13 +133,13 @@ function FilterLayout({
   children?: React.ReactNode;
   controls: React.ReactNode;
   image: ReturnType<typeof useImageUpload>['image'];
-  canvasRef: React.RefObject<HTMLCanvasElement>;
+  canvasRef: React.RefObject<HTMLCanvasElement | null>;
   onDownload: () => void;
   onClear: () => void;
   onIngest: (f: File) => void;
   dragging: boolean;
   setDragging: (v: boolean) => void;
-  inputRef: React.RefObject<HTMLInputElement>;
+  inputRef: React.RefObject<HTMLInputElement | null>;
   error: string | null;
 }) {
   return (

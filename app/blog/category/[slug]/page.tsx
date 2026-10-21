@@ -19,12 +19,13 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
+  const resolvedParams = await params;
   const posts = await fetchBlogPosts();
   const categories = Array.from(new Set(posts.map((p) => p.category)));
   const cat = categories.find(
-    (c) => c.toLowerCase().replace(/[^a-z0-9]+/g, '-') === params.slug
+    (c) => c.toLowerCase().replace(/[^a-z0-9]+/g, '-') === resolvedParams.slug
   );
   if (!cat) return {};
 
@@ -33,11 +34,11 @@ export async function generateMetadata({
   return {
     title: `${cat} — Blog | ToolNest`,
     description: `Articles about ${cat.toLowerCase()} on the ToolNest blog.`,
-    alternates: { canonical: `/blog/category/${params.slug}` },
+    alternates: { canonical: `/blog/category/${resolvedParams.slug}` },
     openGraph: {
       title: `${cat} — Blog | ToolNest`,
       description: `Articles about ${cat.toLowerCase()} on the ToolNest blog.`,
-      url: `${SITE_URL}/blog/category/${params.slug}`,
+      url: `${SITE_URL}/blog/category/${resolvedParams.slug}`,
       siteName: 'ToolNest',
       locale: 'en_US',
     },
@@ -48,12 +49,13 @@ export async function generateMetadata({
 export default async function BlogCategoryPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
+  const resolvedParams = await params;
   const allPosts = await fetchBlogPosts();
   const categories = Array.from(new Set(allPosts.map((p) => p.category)));
   const cat = categories.find(
-    (c) => c.toLowerCase().replace(/[^a-z0-9]+/g, '-') === params.slug
+    (c) => c.toLowerCase().replace(/[^a-z0-9]+/g, '-') === resolvedParams.slug
   );
   if (!cat) notFound();
 
@@ -61,7 +63,7 @@ export default async function BlogCategoryPage({
   const breadcrumbJsonLd = generateBreadcrumbJsonLd([
     { name: 'Home', url: '/' },
     { name: 'Blog', url: '/blog' },
-    { name: cat, url: `/blog/category/${params.slug}` },
+    { name: cat, url: `/blog/category/${resolvedParams.slug}` },
   ]);
 
   return (

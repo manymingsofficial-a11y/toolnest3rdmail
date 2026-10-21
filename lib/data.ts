@@ -185,7 +185,7 @@ export const categories: Category[] = [
   {
     slug: 'pdf-tools',
     name: 'PDF Tools',
-    count: 24,
+    count: 13,
     icon: 'FileText',
     gradient: 'from-rose-400 to-red-600',
     description: 'Merge, split, convert and optimize PDF files.',
@@ -193,7 +193,7 @@ export const categories: Category[] = [
   {
     slug: 'image-tools',
     name: 'Image Tools',
-    count: 38,
+    count: 19,
     icon: 'ImageIcon',
     gradient: 'from-fuchsia-400 to-purple-600',
     description: 'Compress, resize and convert images instantly.',
@@ -201,7 +201,7 @@ export const categories: Category[] = [
   {
     slug: 'qr-tools',
     name: 'QR & Barcode Tools',
-    count: 12,
+    count: 4,
     icon: 'QrCode',
     gradient: 'from-emerald-400 to-teal-600',
     description: 'Generate QR codes and barcodes for anything.',
@@ -209,7 +209,7 @@ export const categories: Category[] = [
   {
     slug: 'seo-tools',
     name: 'SEO Tools',
-    count: 21,
+    count: 20,
     icon: 'Search',
     gradient: 'from-orange-400 to-amber-600',
     description: 'Analyze and improve your search visibility.',
@@ -225,7 +225,7 @@ export const categories: Category[] = [
   {
     slug: 'text-tools',
     name: 'Text Tools',
-    count: 30,
+    count: 16,
     icon: 'Type',
     gradient: 'from-cyan-400 to-blue-500',
     description: 'Count, convert, format and transform text.',
@@ -233,7 +233,7 @@ export const categories: Category[] = [
   {
     slug: 'developer-tools',
     name: 'Developer Tools',
-    count: 27,
+    count: 25,
     icon: 'Code2',
     gradient: 'from-violet-400 to-indigo-600',
     description: 'Format, encode and debug code faster.',
@@ -241,7 +241,7 @@ export const categories: Category[] = [
   {
     slug: 'calculators',
     name: 'Calculators',
-    count: 19,
+    count: 10,
     icon: 'Calculator',
     gradient: 'from-blue-400 to-purple-500',
     description: 'Financial, health and everyday calculators.',
@@ -249,7 +249,7 @@ export const categories: Category[] = [
   {
     slug: 'converters',
     name: 'Converters',
-    count: 16,
+    count: 13,
     icon: 'ArrowLeftRight',
     gradient: 'from-indigo-400 to-blue-600',
     description: 'Convert units, files and formats with ease.',
@@ -258,7 +258,7 @@ export const categories: Category[] = [
   {
     slug: 'security-tools',
     name: 'Security Tools',
-    count: 4,
+    count: 14,
     icon: 'ShieldCheck',
     gradient: 'from-cyan-400 to-blue-500',
     description: 'Generate passwords, UUIDs and check password strength.',
@@ -274,7 +274,7 @@ export const categories: Category[] = [
   {
     slug: 'audio-tools',
     name: 'Audio Tools',
-    count: 14,
+    count: 17,
     icon: 'AudioLines',
     gradient: 'from-green-400 to-emerald-600',
     description: 'Convert, trim, record and edit audio files instantly.',

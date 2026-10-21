@@ -1,5 +1,6 @@
 import { supabaseServer } from '@/lib/supabase-server';
 import type { Tool, Category } from '@/lib/data';
+import { categories as staticCategories, tools as staticTools } from '@/lib/data';
 
 export type PublicTool = Tool;
 export type PublicCategory = Category;
@@ -130,18 +131,40 @@ export async function fetchTools(): Promise<PublicTool[]> {
     .is('deleted_at', null)
     .order('popularity', { ascending: false });
 
-  if (error || !data) return [];
+  if (error || !data || data.length === 0) {
+    return staticTools;
+  }
   return (data as ToolRow[]).map(mapTool);
 }
 
 export async function fetchCategories(): Promise<PublicCategory[]> {
+  // First try to get categories from Supabase
   const { data, error } = await supabaseServer
     .from('admin_categories')
     .select('slug, name, count, icon_name, gradient, description, sort_order')
     .order('sort_order', { ascending: true });
 
-  if (error || !data) return [];
-  return (data as CategoryRow[]).map(mapCategory);
+  // If Supabase fails or returns no data, fall back to static categories
+  if (error || !data || data.length === 0) {
+    return staticCategories;
+  }
+
+  // Map Supabase categories but compute actual tool counts from tools
+  // This ensures counts are accurate even if Supabase has stale data
+  const dbCategories = (data as CategoryRow[]).map(mapCategory);
+
+  // Try to fetch tools to compute actual counts
+  const tools = await fetchTools();
+  const toolCategoryCounts = new Map<string, number>();
+  tools.forEach(t => {
+    toolCategoryCounts.set(t.category, (toolCategoryCounts.get(t.category) || 0) + 1);
+  });
+
+  // Merge: use Supabase category metadata but with computed tool counts
+  return dbCategories.map(cat => ({
+    ...cat,
+    count: toolCategoryCounts.get(cat.name) ?? cat.count,
+  }));
 }
 
 export async function fetchBlogPosts(): Promise<PublicBlogPost[]> {
@@ -151,7 +174,11 @@ export async function fetchBlogPosts(): Promise<PublicBlogPost[]> {
     .eq('status', 'published')
     .order('published_at', { ascending: false });
 
-  if (error || !data) return [];
+  if (error || !data || data.length === 0) {
+    // Fallback to static blog posts from seo.ts
+    const { blogPosts } = await import('@/lib/seo');
+    return blogPosts;
+  }
   return (data as BlogRow[]).map(mapBlogPost);
 }
 

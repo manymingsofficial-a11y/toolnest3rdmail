@@ -3,13 +3,23 @@ import { Globe, FileText, Zap, Shield } from 'lucide-react';
 
 import { PageHeader } from '@/components/page-header';
 import { AdSlot } from '@/components/ads/ad-slot';
-import { tools, categories } from '@/lib/data';
+import { fetchTools, fetchCategories } from '@/lib/public-data';
 
-export const metadata = {
-  title: 'About ToolNest',
-  description: `ToolNest offers ${tools.length} free online tools across ${categories.length} categories — PDF, image, QR, SEO, AI, text, developer and more. No registration required.`,
-  alternates: { canonical: '/about' },
-};
+export async function generateMetadata() {
+  const [tools, categories] = await Promise.all([
+    fetchTools(),
+    fetchCategories(),
+  ]);
+
+  const toolCount = tools.length;
+  const categoryCount = categories.length;
+
+  return {
+    title: 'About ToolNest',
+    description: `ToolNest offers ${toolCount} free online tools across ${categoryCount} categories — PDF, image, QR, SEO, AI, text, developer and more. No registration required.`,
+    alternates: { canonical: '/about' },
+  };
+}
 
 const features = [
   {
@@ -32,13 +42,20 @@ const features = [
   },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const [tools, categories] = await Promise.all([
+    fetchTools(),
+    fetchCategories(),
+  ]);
+
+  const toolCount = tools.length;
+  const categoryCount = categories.length;
   return (
     <>
       <PageHeader
         eyebrow="About"
         title="Free online tools for everyone"
-        description={`ToolNest brings ${tools.length} practical online tools together in one clean, fast, secure place — across ${categories.length} categories including PDF, image, QR & barcode, SEO, AI, text, developer, calculators, and converters.`}
+        description={`ToolNest brings ${toolCount} practical online tools together in one clean, fast, secure place — across ${categoryCount} categories including PDF, image, QR & barcode, SEO, AI, text, developer, calculators, and converters.`}
       />
       <section className="mx-auto max-w-3xl px-4 pb-24 sm:px-6">
         <AdSlot slot="homepage-top" className="mb-8" />
@@ -82,10 +99,10 @@ export default function AboutPage() {
 
           <div className="rounded-2xl glass-card p-8 text-center">
             <h2 className="text-xl font-semibold tracking-tight">
-              {tools.length} tools and growing
+              {toolCount} tools and growing
             </h2>
             <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
-              ToolNest launched with {tools.length} tools across {categories.length}{' '}
+              ToolNest launched with {toolCount} tools across {categoryCount}{' '}
               categories, and new tools are added regularly. If there is a tool
               you need that we do not have yet, let us know through the contact
               page — we build what our users ask for.

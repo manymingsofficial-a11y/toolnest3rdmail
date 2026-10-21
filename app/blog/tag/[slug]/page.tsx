@@ -19,12 +19,13 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
+  const resolvedParams = await params;
   const posts = await fetchBlogPosts();
   const tags = Array.from(new Set(posts.flatMap((p) => p.tags)));
   const tag = tags.find(
-    (t) => t.toLowerCase().replace(/[^a-z0-9]+/g, '-') === params.slug
+    (t) => t.toLowerCase().replace(/[^a-z0-9]+/g, '-') === resolvedParams.slug
   );
   if (!tag) return {};
 
@@ -33,11 +34,11 @@ export async function generateMetadata({
   return {
     title: `#${tag} — Blog | ToolNest`,
     description: `Articles tagged with "${tag}" on the ToolNest blog.`,
-    alternates: { canonical: `/blog/tag/${params.slug}` },
+    alternates: { canonical: `/blog/tag/${resolvedParams.slug}` },
     openGraph: {
       title: `#${tag} — Blog | ToolNest`,
       description: `Articles tagged with "${tag}" on the ToolNest blog.`,
-      url: `${SITE_URL}/blog/tag/${params.slug}`,
+      url: `${SITE_URL}/blog/tag/${resolvedParams.slug}`,
       siteName: 'ToolNest',
       locale: 'en_US',
     },
@@ -48,12 +49,13 @@ export async function generateMetadata({
 export default async function BlogTagPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
+  const resolvedParams = await params;
   const allPosts = await fetchBlogPosts();
   const tags = Array.from(new Set(allPosts.flatMap((p) => p.tags)));
   const tag = tags.find(
-    (t) => t.toLowerCase().replace(/[^a-z0-9]+/g, '-') === params.slug
+    (t) => t.toLowerCase().replace(/[^a-z0-9]+/g, '-') === resolvedParams.slug
   );
   if (!tag) notFound();
 
@@ -63,7 +65,7 @@ export default async function BlogTagPage({
   const breadcrumbJsonLd = generateBreadcrumbJsonLd([
     { name: 'Home', url: '/' },
     { name: 'Blog', url: '/blog' },
-    { name: `#${tag}`, url: `/blog/tag/${params.slug}` },
+    { name: `#${tag}`, url: `/blog/tag/${resolvedParams.slug}` },
   ]);
 
   return (

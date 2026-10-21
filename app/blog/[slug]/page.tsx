@@ -18,21 +18,22 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const post = await fetchBlogPost(params.slug);
+  const resolvedParams = await params;
+  const post = await fetchBlogPost(resolvedParams.slug);
   if (!post) return {};
 
   return {
     title: post.title,
     description: post.description,
     keywords: post.tags,
-    alternates: { canonical: `/blog/${params.slug}` },
+    alternates: { canonical: `/blog/${resolvedParams.slug}` },
     openGraph: {
       title: `${post.title} | ToolNest Blog`,
       description: post.description,
       type: 'article',
-      url: `${SITE_URL}/blog/${params.slug}`,
+      url: `${SITE_URL}/blog/${resolvedParams.slug}`,
       siteName: 'ToolNest',
       locale: 'en_US',
       images: [{ url: '/logo.png', width: 1200, height: 630, alt: post.title }],
@@ -50,8 +51,9 @@ export async function generateMetadata({
   };
 }
 
-export default async function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = await fetchBlogPost(params.slug);
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const resolvedParams = await params;
+  const post = await fetchBlogPost(resolvedParams.slug);
   if (!post) notFound();
 
   const [allPosts, dbTools] = await Promise.all([
@@ -59,7 +61,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
     fetchTools(),
   ]);
   const relatedPosts = allPosts
-    .filter((p) => p.slug !== params.slug)
+    .filter((p) => p.slug !== resolvedParams.slug)
     .filter(
       (p) =>
         p.category === post.category ||
