@@ -12,6 +12,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 import { consolidatedAiTools, getConsolidatedGenerator, getDefaultMode, type ConsolidatedToolMode } from '@/lib/consolidated-ai-tools';
+import { aiConfigs } from '@/lib/ai-generators';
 
 interface ConsolidatedAiGeneratorProps {
   slug: string;
@@ -65,8 +66,7 @@ export function ConsolidatedAiGenerator({ slug }: ConsolidatedAiGeneratorProps) 
   function handleExample() {
     if (currentMode) {
       const modeConfig = currentMode.configSlug;
-      // Use the original config's example
-      const originalConfig = require('@/lib/ai-generators').aiConfigs[modeConfig];
+      const originalConfig = aiConfigs[modeConfig];
       if (originalConfig?.example) {
         setInput(originalConfig.example);
       } else {
