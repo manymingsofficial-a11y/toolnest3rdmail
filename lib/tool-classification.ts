@@ -174,24 +174,9 @@ const REDIRECTED_AI_TOOLS: string[] = [
   'ai-etsy-product-description-generator', 'ai-ebay-listing-generator',
 ];
 
-// Utility/Reference tools - minimal unique value, no ads, noindex
-const UTILITY_TOOLS: string[] = [
-  'base64-encoder', 'url-encoder', 'html-to-text', 'markdown-preview',
-  'csv-to-json', 'json-to-csv', 'csv-to-excel', 'excel-to-csv',
-  'color-converter', 'hex-to-rgb', 'rgb-to-hex',
-  'length-converter', 'weight-converter', 'temperature-converter',
-  'area-converter', 'volume-converter', 'speed-converter',
-  'pressure-converter', 'energy-converter', 'power-converter',
-  'fuel-converter', 'data-storage-converter', 'timezone-converter',
-  'timestamp-converter', 'unix-time-converter', 'time-converter',
-  'business-day-calculator', 'age-calculator', 'bmi-calculator',
-  'percentage-calculator', 'compound-interest-calculator',
-  'simple-interest-calculator', 'loan-emi-calculator',
-  'discount-calculator', 'tip-calculator', 'gst-calculator',
-  'scientific-calculator',
-  'calendar', 'age-timeline', 'countdown-timer', 'stopwatch', 'pomodoro-timer',
-  'meeting-planner', 'notes', 'to-do-list',
-  // Misleading/limited tools - no real encryption, no vectorization, no public IP
+// Tools with limited functionality — still useful and indexable, but no ads
+// (these have honest descriptions of their limitations)
+const LIMITED_TOOLS: string[] = [
   'pdf-protect', 'png-to-svg', 'ip-address-checker',
 ];
 
@@ -227,16 +212,16 @@ export function classifyTool(slug: string): ToolClassification {
     };
   }
 
-  // Check utility tools
-  if (UTILITY_TOOLS.includes(slug)) {
+  // Check limited tools (indexable but no ads)
+  if (LIMITED_TOOLS.includes(slug)) {
     return {
       slug,
-      tier: 'utility',
-      category: 'Utility',
+      tier: 'standard',
+      category: 'Standard',
       hasAds: false,
-      index: false, // noindex - simple utilities have minimal unique content
+      index: true,
       follow: true,
-      reason: 'Simple utility/converter tool with minimal unique content. No ads, noindex.',
+      reason: 'Tool with limited functionality but genuine use case. Indexed, no ads.',
     };
   }
 
@@ -306,7 +291,7 @@ export function getAllToolClassifications(): ToolClassification[] {
     ...STANDARD_TOOLS,
     ...TEMPLATE_AI_TOOLS,
     ...REDIRECTED_AI_TOOLS,
-    ...UTILITY_TOOLS,
+    ...LIMITED_TOOLS,
     ...REFERENCE_PAGES,
   ];
   return allSlugs.map(classifyTool);
