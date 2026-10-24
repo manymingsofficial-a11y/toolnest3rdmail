@@ -203,7 +203,7 @@ export function generateToolMetadata(slug: string, customTitle?: string, customD
     title: { absolute: `${title} | ${SITE_NAME}` },
     description,
     keywords,
-    alternates: { canonical: `/tools/${slug}` },
+    alternates: { canonical: url },
     openGraph: {
       title: `${title} | ${SITE_NAME}`,
       description,
