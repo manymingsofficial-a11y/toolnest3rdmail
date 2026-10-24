@@ -55,7 +55,7 @@ const PREMIUM_TOOLS: string[] = [
   'csv-merge', 'csv-split', 'excel-to-csv', 'csv-to-excel', 'ppt-viewer',
   
   // Converter tools with real processing
-  'color-converter', 'hex-to-rgb', 'rgb-to-hex', 'unit-converter', 'currency-converter',
+  'color-converter', 'hex-to-rgb', 'rgb-to-hex', 'currency-converter',
   'base64-encoder', 'url-encoder', 'html-to-text', 'markdown-preview',
   'json-formatter', 'json-validator', 'xml-formatter', 'xml-validator',
   'yaml-formatter', 'yaml-validator', 'csv-to-json', 'json-to-csv',
