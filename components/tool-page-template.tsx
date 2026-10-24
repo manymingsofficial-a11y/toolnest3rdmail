@@ -10,7 +10,7 @@ import { Newsletter } from '@/components/ads/newsletter';
 import { getIcon } from '@/lib/icon-map';
 import { getRelatedTools, tools, categories } from '@/lib/data';
 import { generateToolSeoContent, isBoilerplateSeo } from '@/lib/tool-seo-content';
-import { getAdEligibility, getIndexPolicy } from '@/lib/tool-classification';
+import { getAdEligibility } from '@/lib/tool-classification';
 import {
   generateBreadcrumbJsonLd,
   generateHowToJsonLd,
@@ -60,7 +60,6 @@ export function ToolPageTemplate({
   const gradient = tool.gradient;
 
   // Check index policy and ad eligibility
-  const indexPolicy = getIndexPolicy(slug);
   const adEligible = getAdEligibility(slug);
 
   const relatedTools = relatedSlugs
@@ -85,9 +84,6 @@ export function ToolPageTemplate({
 
   return (
     <>
-      {(!indexPolicy.index) && (
-        <meta name="robots" content="noindex, follow" />
-      )}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}

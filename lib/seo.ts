@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { categories, tools } from '@/lib/data';
 import type { Tool } from '@/lib/data';
 import { getToolEnhancement } from '@/lib/tool-metadata-enhancements';
+import { getIndexPolicy } from '@/lib/tool-classification';
 
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://freetoolnest.vercel.app';
 export const SITE_NAME = 'ToolNest';
@@ -196,6 +197,7 @@ export function generateToolMetadata(slug: string, customTitle?: string, customD
   }
   const url = `${SITE_URL}/tools/${slug}`;
   const keywords = generateToolKeywords(tool);
+  const indexPolicy = getIndexPolicy(slug);
 
   return {
     title: { absolute: `${title} | ${SITE_NAME}` },
@@ -219,14 +221,16 @@ export function generateToolMetadata(slug: string, customTitle?: string, customD
       images: [SITE_LOGO],
     },
     robots: {
-      index: true,
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        'max-image-preview': 'large',
-        'max-snippet': -1,
-      },
+      index: indexPolicy.index,
+      follow: indexPolicy.follow,
+      ...(indexPolicy.index && {
+        googleBot: {
+          index: true,
+          follow: true,
+          'max-image-preview': 'large',
+          'max-snippet': -1,
+        },
+      }),
     },
   };
 }
