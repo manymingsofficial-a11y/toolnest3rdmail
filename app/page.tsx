@@ -7,6 +7,7 @@ import { WhyChooseUs } from '@/components/sections/why-choose-us';
 import { LatestTools } from '@/components/sections/latest-tools';
 import { FAQ } from '@/components/sections/faq';
 import { TrendingTools } from '@/components/sections/trending-tools';
+import { MostPopularTools } from '@/components/sections/most-popular-tools';
 import { BlogTeaser } from '@/components/sections/blog-teaser';
 import { AdSlot } from '@/components/ads/ad-slot';
 import { Newsletter } from '@/components/ads/newsletter';
@@ -70,13 +71,14 @@ export default async function Home() {
         <AdSlot slot="homepage-top" className="my-8" />
       </div>
 
-      <Categories categories={categories} />
+      <Categories categories={categories} tools={tools} />
       <FeaturedTools categories={categories} featuredTools={featuredTools} />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <AdSlot slot="homepage-middle" className="my-8" />
       </div>
 
+      <MostPopularTools />
       <WhyChooseUs />
       <LatestTools latestTools={latestTools} totalTools={tools.length} />
 

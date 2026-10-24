@@ -5,12 +5,6 @@ import { PageHeader } from '@/components/page-header';
 import { AdSlot } from '@/components/ads/ad-slot';
 import { tools, categories } from '@/lib/data';
 
-export const metadata = {
-  title: 'About ToolNest',
-  description: `ToolNest offers ${tools.length} free online tools across ${categories.length} categories — PDF, image, QR, SEO, AI, text, developer and more. No registration required.`,
-  alternates: { canonical: '/about' },
-};
-
 const features = [
   {
     icon: Globe,

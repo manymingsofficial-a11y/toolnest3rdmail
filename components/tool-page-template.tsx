@@ -74,7 +74,7 @@ export function ToolPageTemplate({
   const breadcrumbJsonLd = generateBreadcrumbJsonLd([
     { name: 'Home', url: '/' },
     { name: 'Tools', url: '/tools' },
-    ...(toolCategory ? [{ name: toolCategory.name, url: `/categories?cat=${toolCategory.slug}` }] : []),
+    ...(toolCategory ? [{ name: toolCategory.name, url: '/categories' }] : []),
     { name: tool.name, url: `/tools/${tool.slug}` },
   ]);
   // Detect boilerplate content and replace with generated tool-specific content
@@ -127,7 +127,7 @@ export function ToolPageTemplate({
             {toolCategory && (
               <>
                 <Link
-                  href={`/categories?cat=${toolCategory.slug}`}
+                  href="/categories"
                   className="transition-colors hover:text-foreground"
                 >
                   {toolCategory.name}

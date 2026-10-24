@@ -5,13 +5,6 @@ import { PageHeader } from '@/components/page-header';
 import { ContactForm } from '@/components/contact-form';
 import { tools, categories } from '@/lib/data';
 
-export const metadata = {
-  title: 'Contact ToolNest',
-  description:
-    'Get in touch with the ToolNest team to request a new tool, report a bug, or share feedback. We read every message and build what our users ask for.',
-  alternates: { canonical: '/contact' },
-};
-
 const contactReasons = [
   {
     icon: Wrench,
