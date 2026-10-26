@@ -10,6 +10,8 @@ import { RelatedTools } from '@/components/related-tools';
 import { fetchBlogPost, fetchBlogPosts, fetchTools } from '@/lib/public-data';
 import { tools as allStaticTools, getRelatedTools } from '@/lib/data';
 
+export const revalidate = 300;
+
 export async function generateStaticParams() {
   const posts = await fetchBlogPosts();
   return posts.map((post) => ({ slug: post.slug }));
