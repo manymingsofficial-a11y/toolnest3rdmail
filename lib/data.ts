@@ -925,7 +925,7 @@ export const tools: Tool[] = [
   {
     slug: 'image-grayscale',
     name: 'Image Grayscale',
-    description: 'Convert images to grayscale instantly.',
+    description: 'Convert images to grayscale instantly — no upload required.',
     category: 'Image Tools',
     icon: 'Contrast',
     gradient: 'from-gray-400 to-slate-600',
@@ -1005,7 +1005,7 @@ export const tools: Tool[] = [
   {
     slug: 'pdf-protect',
     name: 'PDF Protect',
-    description: 'Add password protection to your PDF documents.',
+    description: 'Store a password hint in PDF metadata for basic access tracking.',
     category: 'PDF Tools',
     icon: 'Lock',
     gradient: 'from-red-400 to-rose-600',
@@ -1025,7 +1025,7 @@ export const tools: Tool[] = [
   {
     slug: 'pdf-delete-pages',
     name: 'PDF Delete Pages',
-    description: 'Remove unwanted pages from PDF files.',
+    description: 'Remove unwanted pages from PDF files and keep the rest.',
     category: 'PDF Tools',
     icon: 'Scissors',
     gradient: 'from-red-400 to-orange-600',
@@ -1055,7 +1055,7 @@ export const tools: Tool[] = [
   {
     slug: 'pdf-watermark',
     name: 'PDF Watermark',
-    description: 'Add text watermarks to PDF documents.',
+    description: 'Add text watermarks to PDF documents with custom opacity.',
     category: 'PDF Tools',
     icon: 'Droplets',
     gradient: 'from-rose-400 to-red-600',
@@ -1265,7 +1265,7 @@ export const tools: Tool[] = [
   {
     slug: 'base32-encoder',
     name: 'Base32 Encoder',
-    description: 'Encode text to Base32 format instantly.',
+    description: 'Encode text to Base32 format instantly — no server upload.',
     category: 'Security Tools',
     icon: 'Braces',
     gradient: 'from-cyan-400 to-teal-600',
@@ -1325,7 +1325,7 @@ export const tools: Tool[] = [
   {
     slug: 'xml-formatter',
     name: 'XML Formatter',
-    description: 'Beautify and format XML documents.',
+    description: 'Beautify and format XML documents with syntax validation.',
     category: 'Developer Tools',
     icon: 'FileCode2',
     gradient: 'from-emerald-400 to-teal-600',
@@ -1365,7 +1365,7 @@ export const tools: Tool[] = [
   {
     slug: 'yaml-formatter',
     name: 'YAML Formatter',
-    description: 'Format and beautify YAML documents.',
+    description: 'Format and beautify YAML documents with error detection.',
     category: 'Developer Tools',
     icon: 'Braces',
     gradient: 'from-rose-400 to-pink-600',
@@ -1395,7 +1395,7 @@ export const tools: Tool[] = [
   {
     slug: 'hex-to-rgb',
     name: 'HEX to RGB',
-    description: 'Convert HEX color codes to RGB values.',
+    description: 'Convert HEX color codes to RGB and HSL values.',
     category: 'Developer Tools',
     icon: 'Palette',
     gradient: 'from-violet-400 to-fuchsia-600',
@@ -1405,7 +1405,7 @@ export const tools: Tool[] = [
   {
     slug: 'rgb-to-hex',
     name: 'RGB to HEX',
-    description: 'Convert RGB color values to HEX codes.',
+    description: 'Convert RGB color values to HEX and HSL codes.',
     category: 'Developer Tools',
     icon: 'Palette',
     gradient: 'from-fuchsia-400 to-pink-600',
@@ -2065,7 +2065,7 @@ export const tools: Tool[] = [
   {
     slug: 'powerpoint-to-pdf',
     name: 'PowerPoint to PDF',
-    description: 'Convert PPTX presentations to PDF.',
+    description: 'Convert PPTX presentations to PDF without PowerPoint installed.',
     category: 'Office Tools',
     icon: 'Presentation',
     gradient: 'from-orange-400 to-red-600',
@@ -2125,7 +2125,7 @@ export const tools: Tool[] = [
   {
     slug: 'excel-viewer',
     name: 'Excel Viewer',
-    description: 'View XLSX spreadsheets in your browser.',
+    description: 'View XLSX spreadsheets in your browser without Excel installed.',
     category: 'Office Tools',
     icon: 'FileSpreadsheet',
     gradient: 'from-green-400 to-emerald-600',
@@ -2175,7 +2175,7 @@ export const tools: Tool[] = [
   {
     slug: 'excel-to-csv',
     name: 'Excel to CSV',
-    description: 'Convert XLSX spreadsheets to CSV format.',
+    description: 'Convert XLSX spreadsheets to CSV format locally.',
     category: 'Office Tools',
     icon: 'FileSpreadsheet',
     gradient: 'from-green-400 to-teal-600',
@@ -2315,7 +2315,7 @@ export const tools: Tool[] = [
   {
     slug: 'png-to-svg',
     name: 'PNG to SVG',
-    description: 'Convert PNG images to SVG vector format.',
+    description: 'Wrap PNG images inside an SVG container (not vector tracing).',
     category: 'Design Tools',
     icon: 'FileImage',
     gradient: 'from-violet-400 to-fuchsia-600',
@@ -2355,7 +2355,7 @@ export const tools: Tool[] = [
   {
     slug: 'user-agent-parser',
     name: 'User Agent Parser',
-    description: 'Parse and decode any user agent string.',
+    description: 'Parse and decode any user agent string into browser, OS and device.',
     category: 'Web Utilities',
     icon: 'Info',
     gradient: 'from-teal-400 to-cyan-600',
@@ -2365,7 +2365,7 @@ export const tools: Tool[] = [
   {
     slug: 'ip-address-checker',
     name: 'IP Address Checker',
-    description: 'Check your IP address and network details.',
+    description: 'View browser network info — public IP needs a server-side API.',
     category: 'Web Utilities',
     icon: 'Server',
     gradient: 'from-blue-400 to-cyan-600',
@@ -2385,7 +2385,7 @@ export const tools: Tool[] = [
   {
     slug: 'cookie-viewer',
     name: 'Cookie Viewer',
-    description: 'Inspect cookies stored by your browser.',
+    description: 'Inspect cookies stored by your browser for any site.',
     category: 'Web Utilities',
     icon: 'Eye',
     gradient: 'from-teal-400 to-emerald-600',
@@ -2395,7 +2395,7 @@ export const tools: Tool[] = [
   {
     slug: 'dns-lookup',
     name: 'DNS Lookup',
-    description: 'Look up DNS records for any domain.',
+    description: 'Look up DNS records for any domain (A, AAAA, MX, CNAME, TXT).',
     category: 'Web Utilities',
     icon: 'Network',
     gradient: 'from-blue-400 to-teal-600',
@@ -2495,7 +2495,7 @@ export const tools: Tool[] = [
   {
     slug: 'countdown-timer',
     name: 'Countdown Timer',
-    description: 'Set a countdown to any date or event.',
+    description: 'Set a countdown to any date or event with alerts.',
     category: 'Productivity',
     icon: 'Clock',
     gradient: 'from-amber-400 to-red-600',
@@ -2515,7 +2515,7 @@ export const tools: Tool[] = [
   {
     slug: 'calendar',
     name: 'Calendar',
-    description: 'View and navigate a monthly calendar.',
+    description: 'View and navigate a monthly calendar with date highlights.',
     category: 'Productivity',
     icon: 'Calendar',
     gradient: 'from-amber-400 to-orange-600',
@@ -2595,7 +2595,7 @@ export const mostPopularTools: Tool[] = [
   {
     slug: 'json-formatter',
     name: 'JSON Formatter',
-    description: 'Beautify, minify and validate JSON instantly.',
+    description: 'Beautify, minify and validate JSON with syntax highlighting.',
     category: 'Developer Tools',
     icon: 'Braces',
     gradient: 'from-violet-400 to-indigo-600',
@@ -2604,7 +2604,7 @@ export const mostPopularTools: Tool[] = [
   {
     slug: 'pdf-merge',
     name: 'PDF Merge',
-    description: 'Combine multiple PDF files into one document.',
+    description: 'Combine multiple PDF files into a single document.',
     category: 'PDF Tools',
     icon: 'FilePlus',
     gradient: 'from-rose-400 to-red-600',
@@ -2613,7 +2613,7 @@ export const mostPopularTools: Tool[] = [
   {
     slug: 'qr-code-generator',
     name: 'QR Code Generator',
-    description: 'Create custom QR codes for links and text.',
+    description: 'Create custom QR codes for links, text and more in seconds.',
     category: 'QR & Barcode Tools',
     icon: 'QrCode',
     gradient: 'from-emerald-400 to-teal-600',
@@ -2622,7 +2622,7 @@ export const mostPopularTools: Tool[] = [
   {
     slug: 'password-generator',
     name: 'Password Generator',
-    description: 'Create strong, secure passwords instantly.',
+    description: 'Create strong, secure and random passwords instantly.',
     category: 'Security Tools',
     icon: 'KeyRound',
     gradient: 'from-cyan-400 to-blue-500',
@@ -2631,7 +2631,7 @@ export const mostPopularTools: Tool[] = [
   {
     slug: 'word-counter',
     name: 'Word Counter',
-    description: 'Count words, characters and reading time.',
+    description: 'Count words, characters, sentences and reading time.',
     category: 'Text Tools',
     icon: 'AlignLeft',
     gradient: 'from-sky-400 to-cyan-500',
