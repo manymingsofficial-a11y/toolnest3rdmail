@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { Calendar, Clock, ArrowUpRight } from 'lucide-react';
 
 import { PageHeader } from '@/components/page-header';
-import { generateBreadcrumbJsonLd, SITE_URL } from '@/lib/seo';
+import { generateBreadcrumbJsonLd, SITE_URL, SITE_LOGO } from '@/lib/seo';
 import { fetchBlogPosts } from '@/lib/public-data';
 import { getIndexPolicy } from '@/lib/tool-classification';
 
@@ -32,14 +32,22 @@ export async function generateMetadata({
   
   return {
     title: `#${tag} — Blog | ToolNest`,
-    description: `Articles tagged with "${tag}" on the ToolNest blog.`,
-    alternates: { canonical: `/blog/tag/${params.slug}` },
+    description: `Browse all articles tagged with "${tag}" on the ToolNest blog — tips, tutorials, and guides for free online tools.`,
+    alternates: { canonical: `${SITE_URL}/blog/tag/${params.slug}` },
     openGraph: {
       title: `#${tag} — Blog | ToolNest`,
-      description: `Articles tagged with "${tag}" on the ToolNest blog.`,
+      description: `Browse all articles tagged with "${tag}" on the ToolNest blog — tips, tutorials, and guides.`,
       url: `${SITE_URL}/blog/tag/${params.slug}`,
       siteName: 'ToolNest',
       locale: 'en_US',
+      type: 'website',
+      images: [{ url: SITE_LOGO, width: 1200, height: 630, alt: `#${tag} — ToolNest Blog` }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `#${tag} — ToolNest Blog`,
+      description: `Articles tagged with "${tag}" on the ToolNest blog.`,
+      creator: '@toolnest',
     },
     robots: { index: indexPolicy.index, follow: indexPolicy.follow },
   };

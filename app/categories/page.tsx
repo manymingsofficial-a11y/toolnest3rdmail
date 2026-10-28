@@ -5,6 +5,7 @@ import { CategoriesPageClient } from '@/components/categories-page-client';
 import { getIcon } from '@/lib/icon-map';
 import { cn } from '@/lib/utils';
 import { isIndexableTool } from '@/lib/tool-classification';
+import { SITE_URL } from '@/lib/seo';
 import type { Tool, Category } from '@/lib/data';
 
 export async function generateMetadata({ searchParams }: { searchParams: Promise<{ cat?: string }> }): Promise<Metadata> {
@@ -22,7 +23,7 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
     description:
       'Browse all tool categories on ToolNest — PDF, image, QR & barcode, SEO, AI, text, developer, calculators, converters and more.',
     alternates: {
-      canonical: '/categories',
+      canonical: `${SITE_URL}/categories`,
     },
     openGraph: {
       title: 'Categories — Browse Tools by Category | ToolNest',
@@ -32,7 +33,7 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
       url: 'https://freetoolnest.vercel.app/categories',
       siteName: 'ToolNest',
       locale: 'en_US',
-      images: [{ url: '/logo.png', width: 1200, height: 630, alt: 'Browse Tool Categories — ToolNest' }],
+      images: [{ url: '/logo.svg', width: 1200, height: 630, alt: 'Browse Tool Categories — ToolNest' }],
     },
     twitter: {
       card: 'summary_large_image',
@@ -63,6 +64,7 @@ export default async function CategoriesPage() {
 function ServerRenderedCategoryLinks({ tools, categories }: { tools: Tool[]; categories: Category[] }) {
   return (
     <section className="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8">
+      <h1 className="sr-only">Browse Tools by Category</h1>
       <h2 className="sr-only">All categories and tools</h2>
       {categories.map((cat) => {
         const catTools = tools.filter((t) => t.category === cat.name);

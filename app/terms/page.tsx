@@ -1,29 +1,4 @@
-import type { Metadata } from 'next';
 import { PageHeader } from '@/components/page-header';
-import { SITE_URL } from '@/lib/seo';
-
-export const metadata: Metadata = {
-  title: 'Terms of Service',
-  description:
-    'Read the ToolNest terms of service — the rules and conditions for using our free online tools.',
-  alternates: { canonical: '/terms' },
-  openGraph: {
-    title: 'Terms of Service — ToolNest',
-    description: 'The rules and conditions for using ToolNest free online tools.',
-    type: 'website',
-    url: `${SITE_URL}/terms`,
-    siteName: 'ToolNest',
-    locale: 'en_US',
-    images: [{ url: '/logo.png', width: 1200, height: 630, alt: 'Terms of Service — ToolNest' }],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Terms of Service — ToolNest',
-    description: 'The rules and conditions for using ToolNest free online tools.',
-    creator: '@toolnest',
-  },
-  robots: { index: true, follow: true },
-};
 
 export default function TermsPage() {
   return (

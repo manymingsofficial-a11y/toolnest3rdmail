@@ -37,7 +37,7 @@ export async function generateMetadata({
       url: `${SITE_URL}/blog/${params.slug}`,
       siteName: 'ToolNest',
       locale: 'en_US',
-      images: [{ url: '/logo.png', width: 1200, height: 630, alt: post.title }],
+      images: [{ url: '/logo.svg', width: 1200, height: 630, alt: post.title }],
       publishedTime: post.publishedAt,
       modifiedTime: post.updatedAt ?? post.publishedAt,
       authors: [post.author],
@@ -168,7 +168,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           {post.tags.map((tag) => (
             <Link
               key={tag}
-              href="/blog"
+              href={`/blog/tag/${tag.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
               className="rounded-lg border border-border/60 bg-background/40 px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
               #{tag}

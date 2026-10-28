@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { Calendar, Clock, ArrowUpRight } from 'lucide-react';
 
 import { PageHeader } from '@/components/page-header';
-import { generateBreadcrumbJsonLd, SITE_URL } from '@/lib/seo';
+import { generateBreadcrumbJsonLd, SITE_URL, SITE_LOGO } from '@/lib/seo';
 import { fetchBlogPosts } from '@/lib/public-data';
 import { getIndexPolicy } from '@/lib/tool-classification';
 
@@ -32,14 +32,22 @@ export async function generateMetadata({
   
   return {
     title: `${cat} — Blog | ToolNest`,
-    description: `Articles about ${cat.toLowerCase()} on the ToolNest blog.`,
-    alternates: { canonical: `/blog/category/${params.slug}` },
+    description: `Browse all articles about ${cat.toLowerCase()} on the ToolNest blog — practical guides, tutorials, and tips for using free online tools.`,
+    alternates: { canonical: `${SITE_URL}/blog/category/${params.slug}` },
     openGraph: {
       title: `${cat} — Blog | ToolNest`,
-      description: `Articles about ${cat.toLowerCase()} on the ToolNest blog.`,
+      description: `Browse all articles about ${cat.toLowerCase()} on the ToolNest blog — practical guides, tutorials, and tips.`,
       url: `${SITE_URL}/blog/category/${params.slug}`,
       siteName: 'ToolNest',
       locale: 'en_US',
+      type: 'website',
+      images: [{ url: SITE_LOGO, width: 1200, height: 630, alt: `${cat} — ToolNest Blog` }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${cat} — ToolNest Blog`,
+      description: `Articles about ${cat.toLowerCase()} on the ToolNest blog.`,
+      creator: '@toolnest',
     },
     robots: { index: indexPolicy.index, follow: indexPolicy.follow },
   };

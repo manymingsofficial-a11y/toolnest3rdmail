@@ -6,7 +6,7 @@ import { getIndexPolicy } from '@/lib/tool-classification';
 
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://freetoolnest.vercel.app';
 export const SITE_NAME = 'ToolNest';
-export const SITE_LOGO = `${SITE_URL}/logo.png`;
+export const SITE_LOGO = `${SITE_URL}/logo.svg`;
 export const SITE_DESCRIPTION = `${tools.length} free online tools — PDF, image, QR & barcode, SEO, AI, text, developer, calculators, converters and more. Fast, secure, no registration required.`;
 
 /* ── JSON-LD generators ─────────────────────────────────────── */
