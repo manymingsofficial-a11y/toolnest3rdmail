@@ -9,6 +9,7 @@ import { AnalyticsHead, AnalyticsBody } from '@/components/analytics';
 import { generateWebsiteJsonLd, generateOrganizationJsonLd } from '@/lib/seo';
 import { fetchSiteSettings, fetchSeoSettings, fetchTools, fetchSearchIndex } from '@/lib/public-data';
 import { tools as staticTools, categories as staticCategories } from '@/lib/data';
+import { isIndexableTool } from '@/lib/tool-classification';
 
 export async function generateMetadata(): Promise<Metadata> {
   const [siteSettings, seoSettings, tools] = await Promise.all([
@@ -97,6 +98,11 @@ export default async function RootLayout({
   } catch {
     searchIndex = { tools: staticTools, categories: staticCategories };
   }
+
+  searchIndex = {
+    ...searchIndex,
+    tools: searchIndex.tools.filter((t) => isIndexableTool(t.slug)),
+  };
 
   return (
     <html lang="en" suppressHydrationWarning>

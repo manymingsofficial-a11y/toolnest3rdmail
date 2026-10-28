@@ -285,6 +285,10 @@ export function getIndexPolicy(slug: string): { index: boolean; follow: boolean 
   return { index: c.index, follow: c.follow };
 }
 
+export function isIndexableTool(slug: string): boolean {
+  return getIndexPolicy(slug).index;
+}
+
 export function getAllToolClassifications(): ToolClassification[] {
   const allSlugs = [
     ...PREMIUM_TOOLS,

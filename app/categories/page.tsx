@@ -4,6 +4,7 @@ import { fetchTools, fetchCategories } from '@/lib/public-data';
 import { CategoriesPageClient } from '@/components/categories-page-client';
 import { getIcon } from '@/lib/icon-map';
 import { cn } from '@/lib/utils';
+import { isIndexableTool } from '@/lib/tool-classification';
 import type { Tool, Category } from '@/lib/data';
 
 export async function generateMetadata({ searchParams }: { searchParams: Promise<{ cat?: string }> }): Promise<Metadata> {
@@ -49,10 +50,12 @@ export default async function CategoriesPage() {
     fetchCategories(),
   ]);
 
+  const indexableTools = tools.filter((t) => isIndexableTool(t.slug));
+
   return (
     <>
-      <CategoriesPageClient tools={tools} categories={categories} />
-      <ServerRenderedCategoryLinks tools={tools} categories={categories} />
+      <CategoriesPageClient tools={indexableTools} categories={categories} />
+      <ServerRenderedCategoryLinks tools={indexableTools} categories={categories} />
     </>
   );
 }

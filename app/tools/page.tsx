@@ -3,7 +3,7 @@ import { fetchTools, fetchCategories } from '@/lib/public-data';
 import { ToolsPageClient } from '@/components/tools-page-client';
 import { getIcon } from '@/lib/icon-map';
 import { cn } from '@/lib/utils';
-import { getIndexPolicy } from '@/lib/tool-classification';
+import { isIndexableTool } from '@/lib/tool-classification';
 import type { Tool, Category } from '@/lib/data';
 
 export default async function ToolsPage() {
@@ -12,11 +12,11 @@ export default async function ToolsPage() {
     fetchCategories(),
   ]);
 
-  const indexableTools = tools.filter((t) => getIndexPolicy(t.slug).index);
+  const indexableTools = tools.filter((t) => isIndexableTool(t.slug));
 
   return (
     <>
-      <ToolsPageClient tools={tools} categories={categories} />
+      <ToolsPageClient tools={indexableTools} categories={categories} />
       <ServerRenderedToolLinks tools={indexableTools} categories={categories} />
     </>
   );

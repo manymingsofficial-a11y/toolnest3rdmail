@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { fetchSearchIndex } from '@/lib/public-data';
 import { tools as staticTools, categories as staticCategories } from '@/lib/data';
 import { SearchPageClient } from '@/components/search-page-client';
+import { isIndexableTool } from '@/lib/tool-classification';
 
 export default async function SearchPage() {
   let tools = staticTools;
@@ -17,9 +18,11 @@ export default async function SearchPage() {
     // fall back to static data
   }
 
+  const indexableTools = tools.filter((t) => isIndexableTool(t.slug));
+
   return (
     <Suspense fallback={null}>
-      <SearchPageClient tools={tools} categories={categories} />
+      <SearchPageClient tools={indexableTools} categories={categories} />
     </Suspense>
   );
 }

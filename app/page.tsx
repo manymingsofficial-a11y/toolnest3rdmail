@@ -14,6 +14,7 @@ import { Newsletter } from '@/components/ads/newsletter';
 import { generateFaqJsonLd } from '@/lib/seo';
 import { faqs } from '@/lib/faqs';
 import { fetchTools, fetchCategories, fetchHomepageSettings, fetchSiteSettings, fetchBlogPosts } from '@/lib/public-data';
+import { isIndexableTool } from '@/lib/tool-classification';
 import type { Tool, Category } from '@/lib/data';
 
 export const metadata: Metadata = {
@@ -24,13 +25,15 @@ export const metadata: Metadata = {
 export default async function Home() {
   const faqJsonLd = generateFaqJsonLd(faqs);
 
-  const [tools, categories, homepageSettings, siteSettings, blogPosts] = await Promise.all([
+  const [allTools, categories, homepageSettings, siteSettings, blogPosts] = await Promise.all([
     fetchTools(),
     fetchCategories(),
     fetchHomepageSettings(),
     fetchSiteSettings(),
     fetchBlogPosts(),
   ]);
+
+  const tools = allTools.filter((t) => isIndexableTool(t.slug));
 
   const getToolsBySlugs = (slugs: string[]): Tool[] =>
     slugs.map((slug) => tools.find((t) => t.slug === slug)).filter(Boolean) as Tool[];
