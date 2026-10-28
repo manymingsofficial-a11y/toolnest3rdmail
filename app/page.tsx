@@ -19,7 +19,7 @@ import type { Tool, Category } from '@/lib/data';
 
 export const metadata: Metadata = {
   description:
-    'ToolNest offers 269+ free online tools across 21 categories — PDF, image, QR & barcode, SEO, AI, text, developer, calculators, converters and more. Fast, secure, no registration required.',
+    'ToolNest offers free online tools across 21 categories — PDF, image, QR & barcode, SEO, AI, text, developer, calculators, converters and more. Fast, secure, no registration required.',
 };
 
 export default async function Home() {
