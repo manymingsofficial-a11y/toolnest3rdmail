@@ -180,10 +180,11 @@ const LIMITED_TOOLS: string[] = [
   'pdf-protect', 'png-to-svg', 'ip-address-checker',
 ];
 
-// Reference pages - no ads, noindex
-const REFERENCE_PAGES: string[] = [
-  'about', 'contact', 'privacy-policy', 'terms', 'favorites', 'recent', 'search',
-];
+// Public site pages - no ads, indexed (listed in sitemap, metadata index: true)
+const INDEXED_REFERENCE_PAGES: string[] = ['about', 'contact', 'privacy-policy', 'terms'];
+
+// Private or utility pages - no ads, noindex
+const NOINDEX_REFERENCE_PAGES: string[] = ['favorites', 'recent', 'search'];
 
 export function classifyTool(slug: string): ToolClassification {
   // Check template AI tools first (most restrictive)
@@ -225,8 +226,19 @@ export function classifyTool(slug: string): ToolClassification {
     };
   }
 
-  // Check reference pages
-  if (REFERENCE_PAGES.includes(slug)) {
+  if (INDEXED_REFERENCE_PAGES.includes(slug)) {
+    return {
+      slug,
+      tier: 'reference',
+      category: 'Reference',
+      hasAds: false,
+      index: true,
+      follow: true,
+      reason: 'Public site page. No ads, indexed.',
+    };
+  }
+
+  if (NOINDEX_REFERENCE_PAGES.includes(slug)) {
     return {
       slug,
       tier: 'reference',
@@ -234,7 +246,7 @@ export function classifyTool(slug: string): ToolClassification {
       hasAds: false,
       index: false,
       follow: true,
-      reason: 'Reference/navigation page. No ads, noindex.',
+      reason: 'Private or utility page. No ads, noindex.',
     };
   }
 
@@ -296,7 +308,8 @@ export function getAllToolClassifications(): ToolClassification[] {
     ...TEMPLATE_AI_TOOLS,
     ...REDIRECTED_AI_TOOLS,
     ...LIMITED_TOOLS,
-    ...REFERENCE_PAGES,
+    ...INDEXED_REFERENCE_PAGES,
+    ...NOINDEX_REFERENCE_PAGES,
   ];
   return allSlugs.map(classifyTool);
 }
