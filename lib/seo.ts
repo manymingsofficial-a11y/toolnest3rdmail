@@ -183,15 +183,21 @@ export function generateToolMetadata(slug: string, customTitle?: string, customD
   if (!tool) return {};
 
   const enh = getToolEnhancement(slug);
-  const title = customTitle ?? (enh?.titleSuffix ? `${tool.name} — ${enh!.titleSuffix}` : tool.name);
+  const fullTitle = customTitle ?? (enh?.titleSuffix ? `${tool.name} — ${enh!.titleSuffix}` : tool.name);
+  const maxTitleLen = 60 - ` | ${SITE_NAME}`.length;
+  let title = fullTitle;
+  if (title.length > maxTitleLen) {
+    title = title.slice(0, maxTitleLen).replace(/[,;—-]\s*$/, '').replace(/\s+\S*$/, '').trim();
+    if (!title) title = fullTitle.slice(0, maxTitleLen);
+  }
   const rawDescription = customDescription ?? enh?.description ?? tool.description;
   let description: string;
   if (rawDescription.length >= 120) {
-    description = rawDescription.length > 160 ? rawDescription.slice(0, 157).replace(/\s+\S*$/, '') + '...' : rawDescription;
+    description = rawDescription.length > 155 ? rawDescription.slice(0, 152).replace(/\s+\S*$/, '').replace(/[,;—-]\s*$/, '') + '...' : rawDescription;
   } else {
     const suffix = ` — a free online ${tool.category.toLowerCase().replace(/ & /g, ' ')} tool that runs entirely in your browser. No sign-up, no upload required.`;
-    description = (rawDescription + suffix).slice(0, 160);
-    if (description.length === 160 && !description.endsWith('.')) {
+    description = (rawDescription + suffix).slice(0, 157);
+    if (description.length > 155 && !description.endsWith('.')) {
       description = description.replace(/\s+\S*$/, '').replace(/[,;—-]\s*$/, '') + '...';
     }
   }

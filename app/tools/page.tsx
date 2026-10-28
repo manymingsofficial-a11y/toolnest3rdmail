@@ -25,7 +25,6 @@ export default async function ToolsPage() {
 function ServerRenderedToolLinks({ tools, categories }: { tools: Tool[]; categories: Category[] }) {
   return (
     <section className="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8">
-      <h1 className="sr-only">All Tools — Browse {tools.length} Free Online Tools</h1>
       <h2 className="sr-only">All tools by category</h2>
       {categories.map((cat) => {
         const catTools = tools.filter((t) => t.category === cat.name);
