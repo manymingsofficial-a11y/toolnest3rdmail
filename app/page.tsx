@@ -18,8 +18,27 @@ import { isIndexableTool } from '@/lib/tool-classification';
 import type { Tool, Category } from '@/lib/data';
 
 export const metadata: Metadata = {
+  title: 'ToolNest — Free Online Tools for Everyone',
   description:
-    'ToolNest offers free online tools across 21 categories — PDF, image, QR & barcode, SEO, AI, text, developer, calculators, converters and more. Fast, secure, no registration required.',
+    'ToolNest offers free online tools across multiple categories — PDF, image, QR & barcode, SEO, AI, text, developer, calculators, converters and more. Fast, secure, no registration required.',
+  alternates: { canonical: '/' },
+  openGraph: {
+    title: 'ToolNest — Free Online Tools for Everyone',
+    description:
+      'Free online tools across multiple categories — PDF, image, QR, SEO, AI, text, developer, calculators, converters and more. No registration required.',
+    type: 'website',
+    url: 'https://freetoolnest.vercel.app',
+    siteName: 'ToolNest',
+    locale: 'en_US',
+    images: [{ url: '/logo.svg', width: 1200, height: 630, alt: 'ToolNest — Free Online Tools' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'ToolNest — Free Online Tools',
+    description: 'Free online tools — PDF, image, QR, SEO, AI, text, developer, calculators and more.',
+    creator: '@toolnest',
+    images: ['/logo.svg'],
+  },
 };
 
 export default async function Home() {
