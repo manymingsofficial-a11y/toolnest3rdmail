@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { tools } from '@/lib/data';
 import { generateItemListJsonLd, SITE_URL } from '@/lib/seo';
+import { isIndexableTool } from '@/lib/tool-classification';
 
 export const metadata: Metadata = {
   title: `All Tools — Browse ${tools.length} Free Online Tools`,
@@ -37,7 +38,8 @@ export default function ToolsLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const itemListJsonLd = generateItemListJsonLd(tools.slice(0, 50), '/tools');
+  const indexableTools = tools.filter((t) => isIndexableTool(t.slug));
+  const itemListJsonLd = generateItemListJsonLd(indexableTools.slice(0, 50), '/tools');
   return (
     <>
       <script
